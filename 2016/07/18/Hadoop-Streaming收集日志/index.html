@@ -1,0 +1,618 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Hadoop Streaming收集日志 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="公司的日志一般会有专门的日志收集系统，但是上传到hdfs上目录太多，一般都是按机房，按小时分割日志文件的。路径类似于下面这样:1234/user/xxx/l-xxxx1.pay.cn1/20160717/log.20160717-18.gz/user/xxx/l-xxxx1.pay.cn1/20160717/log.20160717-19.gz/user/xxx/l-xxxx2.pay.cn1/2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop Streaming收集日志">
+<meta property="og:url" content="http://sjq597.github.io/2016/07/18/Hadoop-Streaming收集日志/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="公司的日志一般会有专门的日志收集系统，但是上传到hdfs上目录太多，一般都是按机房，按小时分割日志文件的。路径类似于下面这样:1234/user/xxx/l-xxxx1.pay.cn1/20160717/log.20160717-18.gz/user/xxx/l-xxxx1.pay.cn1/20160717/log.20160717-19.gz/user/xxx/l-xxxx2.pay.cn1/2">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop Streaming收集日志">
+<meta name="twitter:description" content="公司的日志一般会有专门的日志收集系统，但是上传到hdfs上目录太多，一般都是按机房，按小时分割日志文件的。路径类似于下面这样:1234/user/xxx/l-xxxx1.pay.cn1/20160717/log.20160717-18.gz/user/xxx/l-xxxx1.pay.cn1/20160717/log.20160717-19.gz/user/xxx/l-xxxx2.pay.cn1/2">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/18/Hadoop-Streaming收集日志/" title="Hadoop Streaming收集日志" itemprop="url">Hadoop Streaming收集日志</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T07:58:11.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hadoop-Streaming"><span class="toc-number">1.</span> <span class="toc-text">Hadoop Streaming</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用操作"><span class="toc-number">2.</span> <span class="toc-text">常用操作</span></a></li></ol>
+		
+		</div>
+		
+		<p>公司的日志一般会有专门的日志收集系统，但是上传到hdfs上目录太多，一般都是按机房，按小时分割日志文件的。路径类似于下面这样:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/user/xxx/l-xxxx1<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">18</span><span class="selector-class">.gz</span></div><div class="line">/user/xxx/l-xxxx1<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">19</span><span class="selector-class">.gz</span></div><div class="line">/user/xxx/l-xxxx2<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">18</span><span class="selector-class">.gz</span></div><div class="line">/user/xxx/l-xxxx3<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">19</span>.gz</div></pre></td></tr></table></figure></p>
+<p>即日志文件会按小时打包<code>log.20160717-xx.gz</code>,另外日志可能会标注机房<code>l-xxxx[1-9].pay.cn[1-9]</code>不同机器,这样会对应很多个目录，这样就无法通过在Hive里面建一个表指向一个固定的hdfs路径来分析日志数据。我们必须通过一个方法把这些日志转化到一个路径，然后把数据<code>load</code>到Hive表中，然后就可以对日志的数据做一些分析，或者使用了。</p>
+<h3 id="Hadoop-Streaming"><a href="#Hadoop-Streaming" class="headerlink" title="Hadoop Streaming"></a>Hadoop Streaming</h3><p>这里使用到的是Hadoop原生的<code>Streaming</code>，毕竟我们的目的也不是很负复杂，就是一个数据收集汇总的过程，当然这中间也可以做一些简单的处理，例如过滤掉不需要的日志，毕竟日志不比MySQL里面的结构化数据，日志的量级一般都很大，都装到Hive表里面数据量大分析的时候也需要更多的计算资源，也更慢</p>
+<p>由于服务器上的<code>hadoop</code>是2.2.0版本的，所以我这里使用的是<code>hadoop-streaming-2.2.0.jar</code>。主要使用<code>shell</code>,<code>python</code>简单介绍一下如何使用这个。<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$HADOOP_HOME/bin/hadoop  jar $HADOOP_HOME/hadoop-streaming.jar \</div><div class="line">    -<span class="ruby">input myInputDirs \</span></div><div class="line">    -<span class="ruby">output myOutputDir \</span></div><div class="line">    -<span class="ruby">mapper /bin/cat \</span></div><div class="line">    -<span class="ruby">reducer /bin/wc</span></div></pre></td></tr></table></figure></p>
+<p>上面是具体的在shell里面执行的时候参数的指定，这里最简单的用法就是执行输入目录或者输入文件，以我上面的例子为例，涉及到多个机房，日志还按小时分割打包，可以写成<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-<span class="selector-tag">input</span> /user/xxx/l-xxxx*<span class="selector-class">.pay</span><span class="selector-class">.cn</span>*/<span class="number">20160717</span>/log.<span class="number">20160717</span>-*.gz</div></pre></td></tr></table></figure></p>
+<p>即路径可以使用通配符<code>*</code>指定,然后还要指定一个汇总日志输出路径:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-output <span class="regexp">/user/</span>xxx<span class="regexp">/logs/</span>xxxx<span class="regexp">/output/</span><span class="number">20160717</span><span class="regexp">/log_parse</span></div></pre></td></tr></table></figure></p>
+<p>这里主要是想讲一下<code>mapper</code>和<code>reducer</code>文件的编写，采用python实现:<br>先看一下<code>mapper.py</code>文件的实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">reg_pattern = <span class="string">r'(\d+-\d+-\d+ \d+:\d+:\d+.\d+).*GwRouteBizImpl\s*-\s*(\w*)\&#123;(.*)\&#125;.*'</span></div><div class="line">re_gx = re.compile(reg_pattern)</div><div class="line"></div><div class="line"><span class="keyword">for</span> line <span class="keyword">in</span> sys.stdin:</div><div class="line">    line = line.strip().replace(<span class="string">'\t'</span>, <span class="string">' '</span>).replace(<span class="string">'\r'</span>, <span class="string">' '</span>)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> re_gx.match(line):</div><div class="line">        <span class="keyword">print</span> <span class="string">'%s'</span> % re.sub(reg_pattern, <span class="string">r'\1\t\2\t\3'</span>, line)</div></pre></td></tr></table></figure></p>
+<p>这就是一个最简单的过滤日志，并简单做一些字段的提取，因为我们采用<code>\t</code>分割，所以需要把每一行的特殊字符去掉，然后用正则匹配满足格式的日志，如果不满足，这条日志就直接过滤掉了。<br><strong>注意:</strong>使用Hadoop原生的<code>Streaming</code>程序，只能处理标准输入输出,另外如果对输入不做任何处理，可以直接使用系统自带的<code>/bin/cat</code>，不用单独写<code>mapper</code>或者<code>reducer</code>，当然你也可以使用python写一个,什么也不干，原样输出<code>reducer.py</code>:<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="built_in">for</span> <span class="built_in">line</span> in sys.stdin:</div><div class="line">    <span class="built_in">line</span> = <span class="built_in">line</span>.strip()</div><div class="line">    <span class="built_in">print</span> <span class="string">'%s\t'</span> % <span class="built_in">line</span></div></pre></td></tr></table></figure></p>
+<p>具体使用就很简单了，在shell里面调用:</p>
+<blockquote>
+<p>sudo -u${HADOOP_USER} ${HADOOP_HOME}/bin/hadoop jar ${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-streaming-2.2.0.jar -D stream.non.zero.exit.is.failure=false -mapper “python mapper.py” -reducer “python reducer.py” -input ${HADOOP_LOG_FILE} -output ${HADOOP_OUTPUT_DIR} -file reducer.py -file mapper.py</p>
+</blockquote>
+<p><strong>备注:</strong>如果<code>mapper</code>,<code>reducer</code>不是使用系统的shell命令,那么就需要加上<code>-file</code>参数来把我们用其他程序写的代码分发到所有节点。另外还有一个地方需要注意，要确保<code>-output output_dir</code>路径不存在，你需要在调用之前调用删除命令:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u<span class="variable">$&#123;HADOOP_USER&#125;</span> <span class="variable">$&#123;HADOOP_HOME&#125;</span><span class="regexp">/bin/</span>hadoop fs -rm -r output_dir</div></pre></td></tr></table></figure></p>
+<p>还有一些常用的参数设置:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-jobconf <span class="tag">&lt;<span class="name">key</span>&gt;</span>=<span class="tag">&lt;<span class="name">value</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>例如:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-jobconf mapreduce<span class="selector-class">.job</span><span class="selector-class">.queue</span><span class="selector-class">.name</span>=xxx -jobconf mapreduce<span class="selector-class">.job</span><span class="selector-class">.name</span>=xxx</div></pre></td></tr></table></figure></p>
+<h3 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h3><p>对于日志这种，其实是多路输入，合并到一路输出，中间只是把一行内容变成一行内容，用特定字符分隔开来而已，所以并没有<code>reduce</code>过程，如果我们用了上面那个参数，最后会又有一个<code>reducer</code>，特别慢，关键是有可能内存不够，所以可以取消掉<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-jobconf mapred<span class="selector-class">.reduce</span><span class="selector-class">.tasks</span>=<span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>这样就不会有<code>reducer</code>了，会快很多。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/数据挖掘/">数据挖掘</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Hadoop/">Hadoop</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2016/07/18/Hadoop-Streaming收集日志/" data-title="Hadoop Streaming收集日志 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/19/Ubuntu-16-04-Hadoop本地安装配置/" title="Ubuntu 16.04 Hadoop本地安装配置">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Ubuntu 16.04 Hadoop本地安装配置</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/14/D3-js-笔记02/"  title="D3 js 笔记02">
+ <strong>下一篇：</strong><br/> 
+ <span>D3 js 笔记02
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hadoop-Streaming"><span class="toc-number">1.</span> <span class="toc-text">Hadoop Streaming</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用操作"><span class="toc-number">2.</span> <span class="toc-text">常用操作</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

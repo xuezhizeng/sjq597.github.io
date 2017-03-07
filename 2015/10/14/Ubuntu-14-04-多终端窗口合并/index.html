@@ -1,0 +1,620 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Ubuntu 14.04 多终端窗口合并 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="最近刚接触数据处理，线上的服务器有大概10台，并且hadoop和Hive的数据非常多，有些数据需要迁移，首先要登陆跳板机，然后跳板机再登陆线上的机器，这样切换非常麻烦，多个终端窗口切换非常乱，所以找了一下如何使用一款多窗口终端软件
+Terminator(终结者)终端安装12345sudo apt-get install terminatorcd ~/.config/sudo mkdir termi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 14.04 多终端窗口合并">
+<meta property="og:url" content="http://sjq597.github.io/2015/10/14/Ubuntu-14-04-多终端窗口合并/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="最近刚接触数据处理，线上的服务器有大概10台，并且hadoop和Hive的数据非常多，有些数据需要迁移，首先要登陆跳板机，然后跳板机再登陆线上的机器，这样切换非常麻烦，多个终端窗口切换非常乱，所以找了一下如何使用一款多窗口终端软件
+Terminator(终结者)终端安装12345sudo apt-get install terminatorcd ~/.config/sudo mkdir termi">
+<meta property="og:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并01.png">
+<meta property="og:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并02.png">
+<meta property="og:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并03.png">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 14.04 多终端窗口合并">
+<meta name="twitter:description" content="最近刚接触数据处理，线上的服务器有大概10台，并且hadoop和Hive的数据非常多，有些数据需要迁移，首先要登陆跳板机，然后跳板机再登陆线上的机器，这样切换非常麻烦，多个终端窗口切换非常乱，所以找了一下如何使用一款多窗口终端软件
+Terminator(终结者)终端安装12345sudo apt-get install terminatorcd ~/.config/sudo mkdir termi">
+<meta name="twitter:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并01.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/14/Ubuntu-14-04-多终端窗口合并/" title="Ubuntu 14.04 多终端窗口合并" itemprop="url">Ubuntu 14.04 多终端窗口合并</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-14T07:16:42.000Z" itemprop="datePublished"> 发表于 2015-10-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminator-终结者"><span class="toc-number">1.</span> <span class="toc-text">Terminator(终结者)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#终端安装"><span class="toc-number">1.1.</span> <span class="toc-text">终端安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改默认配置"><span class="toc-number">1.2.</span> <span class="toc-text">修改默认配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更换目录配色方案"><span class="toc-number">1.3.</span> <span class="toc-text">更换目录配色方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分屏操作"><span class="toc-number">1.4.</span> <span class="toc-text">分屏操作</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>最近刚接触数据处理，线上的服务器有大概10台，并且<code>hadoop</code>和<code>Hive</code>的数据非常多，有些数据需要迁移，首先要登陆跳板机，然后跳板机再登陆线上的机器，这样切换非常麻烦，多个终端窗口切换非常乱，所以找了一下如何使用一款多窗口终端软件</p>
+<h3 id="Terminator-终结者"><a href="#Terminator-终结者" class="headerlink" title="Terminator(终结者)"></a>Terminator(终结者)</h3><h4 id="终端安装"><a href="#终端安装" class="headerlink" title="终端安装"></a>终端安装</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install terminator</div><div class="line">cd ~/.<span class="built_in">config</span>/</div><div class="line">sudo <span class="built_in">mkdir</span> terminator</div><div class="line">cd terminator</div><div class="line">sudo touch <span class="built_in">config</span></div></pre></td></tr></table></figure>
+<p>安装完了之后，打开一个窗口，类似于下面：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并01.png" alt="Terminator 窗口"></p>
+<h4 id="修改默认配置"><a href="#修改默认配置" class="headerlink" title="修改默认配置"></a>修改默认配置</h4><p>下面配置一下这个终端的颜色，我使用<code>solarized</code>配色,修改配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo subl ~/.config/terminator/config</div></pre></td></tr></table></figure></p>
+<p><code>subl</code>是<code>Sublime Text 3</code>编辑器，用你有的工具修改即可，把文件内容替换成如下：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">[global_config]</div><div class="line">  title_transmit_bg_color = <span class="string">"#d30102"</span></div><div class="line">  focus = system</div><div class="line">[keybindings]</div><div class="line">[profiles]</div><div class="line">  <span class="string">[[default]]</span></div><div class="line">    # solarized-dark</div><div class="line">    #palette = <span class="string">"#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"</span></div><div class="line">    #foreground_color = <span class="string">"#eee8d5"</span></div><div class="line">    #background_color = <span class="string">"#002b36"</span></div><div class="line">    #cursor_color = <span class="string">"#eee8d5"</span></div><div class="line"></div><div class="line">  <span class="string">[[solarized-dark]]</span></div><div class="line">    palette = <span class="string">"#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"</span></div><div class="line">    foreground_color = <span class="string">"#eee8d5"</span></div><div class="line">    background_color = <span class="string">"#002b36"</span></div><div class="line">    cursor_color = <span class="string">"#eee8d5"</span></div><div class="line"></div><div class="line">  <span class="string">[[solarized-light]]</span></div><div class="line">    palette = <span class="string">"#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"</span></div><div class="line">    background_color = <span class="string">"#eee8d5"</span></div><div class="line">    foreground_color = <span class="string">"#002b36"</span></div><div class="line">    cursor_color = <span class="string">"#002b36"</span></div><div class="line"></div><div class="line">[layouts]</div><div class="line">  <span class="string">[[default]]</span></div><div class="line">    <span class="string">[[[child1]]</span>]</div><div class="line">      <span class="built_in">type</span> = Terminal</div><div class="line">      parent = window0</div><div class="line">      profile = solarized-dark</div><div class="line">    <span class="string">[[[window0]]</span>]</div><div class="line">      <span class="built_in">type</span> = Window</div><div class="line">      parent = <span class="string">""</span></div><div class="line">[plugins]</div></pre></td></tr></table></figure></p>
+<p>或者还可以直接导入配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install curl</div><div class="line">curl https://raw.githubusercontent.com/ghuntley/terminator-solarized/master/config &gt; ~/.config/terminator/config</div></pre></td></tr></table></figure></p>
+<p><strong>NOTE:</strong> 这个配置项目的<a href="https://github.com/ghuntley/terminator-solarized" target="_blank" rel="external">github 地址</a>有可能会变动，如果不行可以复制我的配置文件内容，按前一种方式修改即可,，我的配置文件如下：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">[global_config]</div><div class="line">    title_transmit_bg_color = <span class="string">"#d30102"</span></div><div class="line">    focus = system</div><div class="line">    suppress_multiple_term_dialog = True</div><div class="line">[keybindings]</div><div class="line">[profiles]</div><div class="line">    <span class="string">[[default]]</span></div><div class="line">        palette = <span class="string">"#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"</span></div><div class="line">        copy_on_selection = True</div><div class="line">        background_image = None</div><div class="line">        background_darkness = <span class="number">0.95</span></div><div class="line">        background_type = transparent</div><div class="line">        use_system_font = False</div><div class="line">        cursor_color = <span class="string">"#eee8d5"</span></div><div class="line">        foreground_color = <span class="string">"#839496"</span></div><div class="line">        show_titlebar = False</div><div class="line">        font = Monospace <span class="number">11</span></div><div class="line">        background_color = <span class="string">"#002b36"</span></div><div class="line">    <span class="string">[[solarized-dark]]</span></div><div class="line">        palette = <span class="string">"#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"</span></div><div class="line">        background_color = <span class="string">"#002b36"</span></div><div class="line">        background_image = None</div><div class="line">        cursor_color = <span class="string">"#eee8d5"</span></div><div class="line">        foreground_color = <span class="string">"#839496"</span></div><div class="line">    <span class="string">[[solarized-light]]</span></div><div class="line">        palette = <span class="string">"#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"</span></div><div class="line">        background_color = <span class="string">"#fdf6e3"</span></div><div class="line">        background_image = None</div><div class="line">        cursor_color = <span class="string">"#002b36"</span></div><div class="line">        foreground_color = <span class="string">"#657b83"</span></div><div class="line">[layouts]</div><div class="line">    <span class="string">[[default]]</span></div><div class="line">        <span class="string">[[[child1]]</span>]</div><div class="line">            <span class="built_in">type</span> = Terminal</div><div class="line">            parent = window0</div><div class="line">            profile = default</div><div class="line">        <span class="string">[[[window0]]</span>]</div><div class="line">            <span class="built_in">type</span> = Window</div><div class="line">            parent = <span class="string">""</span></div><div class="line">[plugins]</div></pre></td></tr></table></figure></p>
+<h4 id="更换目录配色方案"><a href="#更换目录配色方案" class="headerlink" title="更换目录配色方案"></a>更换目录配色方案</h4><p>不过这个主题在文件和文件夹的颜色上区分不明显，都是灰色的，配置目录的颜色,修改目录配色：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark &gt; ~/.dircolors</div></pre></td></tr></table></figure></p>
+<p>吐过下载不下来,同样可以自己建一个文件叫<code>.dircolors</code>,内容如下:<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div></pre></td><td class="code"><pre><div class="line"># Below, there should be one TERM entry for each termtype that is colorizable</div><div class="line">TERM ansi</div><div class="line">TERM color_xterm</div><div class="line">TERM color-xterm</div><div class="line">TERM con132x25</div><div class="line">TERM con132x30</div><div class="line">TERM con132x43</div><div class="line">TERM con132x60</div><div class="line">TERM con80x25</div><div class="line">TERM con80x28</div><div class="line">TERM con80x30</div><div class="line">TERM con80x43</div><div class="line">TERM con80x50</div><div class="line">TERM con80x60</div><div class="line">TERM cons25</div><div class="line">TERM console</div><div class="line">TERM cygwin</div><div class="line">TERM dtterm</div><div class="line">TERM dvtm</div><div class="line">TERM dvtm<span class="number">-256</span>color</div><div class="line">TERM Eterm</div><div class="line">TERM eterm-color</div><div class="line">TERM fbterm</div><div class="line">TERM gnome</div><div class="line">TERM gnome<span class="number">-256</span>color</div><div class="line">TERM jfbterm</div><div class="line">TERM konsole</div><div class="line">TERM konsole<span class="number">-256</span>color</div><div class="line">TERM kterm</div><div class="line">TERM linux</div><div class="line">TERM linux-c</div><div class="line">TERM mach-color</div><div class="line">TERM mlterm</div><div class="line">TERM nxterm</div><div class="line">TERM putty</div><div class="line">TERM putty<span class="number">-256</span>color</div><div class="line">TERM rxvt</div><div class="line">TERM rxvt<span class="number">-256</span>color</div><div class="line">TERM rxvt-cygwin</div><div class="line">TERM rxvt-cygwin-native</div><div class="line">TERM rxvt-unicode</div><div class="line">TERM rxvt-unicode256</div><div class="line">TERM rxvt-unicode<span class="number">-256</span>color</div><div class="line">TERM screen</div><div class="line">TERM screen<span class="number">-16</span>color</div><div class="line">TERM screen<span class="number">-16</span>color-bce</div><div class="line">TERM screen<span class="number">-16</span>color-s</div><div class="line">TERM screen<span class="number">-16</span>color-bce-s</div><div class="line">TERM screen<span class="number">-256</span>color</div><div class="line">TERM screen<span class="number">-256</span>color-bce</div><div class="line">TERM screen<span class="number">-256</span>color-s</div><div class="line">TERM screen<span class="number">-256</span>color-bce-s</div><div class="line">TERM screen<span class="number">-256</span>color-italic</div><div class="line">TERM screen-bce</div><div class="line">TERM screen-w</div><div class="line">TERM screen.linux</div><div class="line">TERM screen.xterm<span class="number">-256</span>color</div><div class="line">TERM screen.xterm-new</div><div class="line">TERM st</div><div class="line">TERM st-meta</div><div class="line">TERM st<span class="number">-256</span>color</div><div class="line">TERM st-meta<span class="number">-256</span>color</div><div class="line">TERM vt100</div><div class="line">TERM xterm</div><div class="line">TERM xterm-new</div><div class="line">TERM xterm<span class="number">-16</span>color</div><div class="line">TERM xterm<span class="number">-256</span>color</div><div class="line">TERM xterm<span class="number">-256</span>color-italic</div><div class="line">TERM xterm<span class="number">-88</span>color</div><div class="line">TERM xterm-color</div><div class="line">TERM xterm-debian</div><div class="line">TERM xterm-termite</div><div class="line"></div><div class="line"># EIGHTBIT, followed by <span class="string">'1'</span> for on, <span class="string">'0'</span> for off. (<span class="number">8</span>-bit output)</div><div class="line">EIGHTBIT <span class="number">1</span></div><div class="line"></div><div class="line">#############################################################################</div><div class="line"># Below are the color init strings for the basic file types. A color init</div><div class="line"># string consists <span class="keyword">of</span> one or more <span class="keyword">of</span> the following numeric codes:</div><div class="line">#</div><div class="line"># Attribute codes:</div><div class="line">#   <span class="number">00</span>=none <span class="number">01</span>=bold <span class="number">04</span>=underscore <span class="number">05</span>=blink <span class="number">07</span>=reverse <span class="number">08</span>=concealed</div><div class="line"># Text color codes:</div><div class="line">#   <span class="number">30</span>=black <span class="number">31</span>=red <span class="number">32</span>=green <span class="number">33</span>=yellow <span class="number">34</span>=blue <span class="number">35</span>=magenta <span class="number">36</span>=cyan <span class="number">37</span>=white</div><div class="line"># Background color codes:</div><div class="line">#   <span class="number">40</span>=black <span class="number">41</span>=red <span class="number">42</span>=green <span class="number">43</span>=yellow <span class="number">44</span>=blue <span class="number">45</span>=magenta <span class="number">46</span>=cyan <span class="number">47</span>=white</div><div class="line">#</div><div class="line"># NOTES:</div><div class="line"># - See http:<span class="comment">//www.oreilly.com/catalog/wdnut/excerpt/color_names.html</span></div><div class="line"># - Color combinations</div><div class="line">#   ANSI Color <span class="keyword">code</span>       Solarized  Notes                Universal             SolDark              SolLight</div><div class="line">#   ~~~~~~~~~~~~~~~       ~~~~~~~~~  ~~~~~                ~~~~~~~~~             ~~~~~~~              ~~~~~~~~</div><div class="line">#   <span class="number">00</span>    none                                            NORMAL, FILE          &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">30</span>    black           base02</div><div class="line">#   <span class="number">01</span>;<span class="number">30</span> bright black    base03     bg <span class="keyword">of</span> SolDark</div><div class="line">#   <span class="number">31</span>    red             red                             docs &amp; mm src         &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">01</span>;<span class="number">31</span> bright red      orange                          EXEC                  &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">32</span>    green           green                           editable text         &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">01</span>;<span class="number">32</span> bright green    base01                          unimportant text      &lt;SAME&gt;</div><div class="line">#   <span class="number">33</span>    yellow          yellow     unclear <span class="keyword">in</span> light bg  multimedia            &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">01</span>;<span class="number">33</span> bright yellow   base00     fg <span class="keyword">of</span> SolLight                             unimportant non-text</div><div class="line">#   <span class="number">34</span>    blue            blue       unclear <span class="keyword">in</span> dark bg   user customized       &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">01</span>;<span class="number">34</span> bright blue     base0      fg <span class="keyword">in</span> SolDark                                                   unimportant text</div><div class="line">#   <span class="number">35</span>    magenta         magenta                         LINK                  &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">01</span>;<span class="number">35</span> bright magenta  violet                          archive/compressed    &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">36</span>    cyan            cyan                            DIR                   &lt;SAME&gt;               &lt;SAME&gt;</div><div class="line">#   <span class="number">01</span>;<span class="number">36</span> bright cyan     base1                           unimportant non-text                       &lt;SAME&gt;</div><div class="line">#   <span class="number">37</span>    white           base2</div><div class="line">#   <span class="number">01</span>;<span class="number">37</span> bright white    base3      bg <span class="keyword">in</span> SolLight</div><div class="line">#   <span class="number">05</span>;<span class="number">37</span>;<span class="number">41</span>                         unclear <span class="keyword">in</span> Putty dark</div><div class="line"></div><div class="line"></div><div class="line">### By file type</div><div class="line"></div><div class="line"># global default</div><div class="line">NORMAL <span class="number">00</span></div><div class="line"># normal file</div><div class="line">FILE <span class="number">00</span></div><div class="line"># directory</div><div class="line">DIR <span class="number">34</span></div><div class="line"># <span class="number">777</span> directory</div><div class="line">OTHER_WRITABLE <span class="number">34</span>;<span class="number">40</span></div><div class="line"># symbolic link</div><div class="line">LINK <span class="number">35</span></div><div class="line"></div><div class="line"># pipe, socket, block device, character device (blue bg)</div><div class="line">FIFO <span class="number">30</span>;<span class="number">44</span></div><div class="line">SOCK <span class="number">35</span>;<span class="number">44</span></div><div class="line">DOOR <span class="number">35</span>;<span class="number">44</span> # Solaris <span class="number">2.5</span> and later</div><div class="line">BLK  <span class="number">33</span>;<span class="number">44</span></div><div class="line">CHR  <span class="number">37</span>;<span class="number">44</span></div><div class="line"></div><div class="line"></div><div class="line">#############################################################################</div><div class="line">### By file attributes</div><div class="line"></div><div class="line"># Orphaned symlinks (blinking white on red)</div><div class="line"># Blink may or may not work (works on iTerm dark or light, and Putty dark)</div><div class="line">ORPHAN  <span class="number">05</span>;<span class="number">37</span>;<span class="number">41</span></div><div class="line"># ... and the files that orphaned symlinks point to (blinking white on red)</div><div class="line">MISSING <span class="number">05</span>;<span class="number">37</span>;<span class="number">41</span></div><div class="line"></div><div class="line"># files <span class="keyword">with</span> execute permission</div><div class="line">EXEC <span class="number">01</span>;<span class="number">31</span>  # Unix</div><div class="line">.cmd <span class="number">01</span>;<span class="number">31</span>  # Win</div><div class="line">.exe <span class="number">01</span>;<span class="number">31</span>  # Win</div><div class="line">.com <span class="number">01</span>;<span class="number">31</span>  # Win</div><div class="line">.bat <span class="number">01</span>;<span class="number">31</span>  # Win</div><div class="line">.reg <span class="number">01</span>;<span class="number">31</span>  # Win</div><div class="line">.app <span class="number">01</span>;<span class="number">31</span>  # OSX</div><div class="line"></div><div class="line">#############################################################################</div><div class="line">### By extension</div><div class="line"></div><div class="line"># List any file extensions like <span class="string">'.gz'</span> or <span class="string">'.tar'</span> that you would like ls</div><div class="line"># to colorize below. Put the extension, a space, and the color init string.</div><div class="line"># (and any comments you want to add after a <span class="string">'#'</span>)</div><div class="line"></div><div class="line">### Text formats</div><div class="line"></div><div class="line"># Text that we can edit <span class="keyword">with</span> a regular editor</div><div class="line">.txt <span class="number">32</span></div><div class="line">.org <span class="number">32</span></div><div class="line">.md <span class="number">32</span></div><div class="line">.mkd <span class="number">32</span></div><div class="line"></div><div class="line"># Source text</div><div class="line">.h <span class="number">32</span></div><div class="line">.c <span class="number">32</span></div><div class="line">.C <span class="number">32</span></div><div class="line">.cc <span class="number">32</span></div><div class="line">.cpp <span class="number">32</span></div><div class="line">.cxx <span class="number">32</span></div><div class="line">.objc <span class="number">32</span></div><div class="line">.sh <span class="number">32</span></div><div class="line">.bash <span class="number">32</span></div><div class="line">.csh <span class="number">32</span></div><div class="line">.zsh <span class="number">32</span></div><div class="line">.el <span class="number">32</span></div><div class="line">.vim <span class="number">32</span></div><div class="line">.java <span class="number">32</span></div><div class="line">.pl <span class="number">32</span></div><div class="line">.pm <span class="number">32</span></div><div class="line">.py <span class="number">32</span></div><div class="line">.rb <span class="number">32</span></div><div class="line">.hs <span class="number">32</span></div><div class="line">.php <span class="number">32</span></div><div class="line">.htm <span class="number">32</span></div><div class="line">.html <span class="number">32</span></div><div class="line">.shtml <span class="number">32</span></div><div class="line">.erb <span class="number">32</span></div><div class="line">.haml <span class="number">32</span></div><div class="line">.xml <span class="number">32</span></div><div class="line">.rdf <span class="number">32</span></div><div class="line">.css <span class="number">32</span></div><div class="line">.sass <span class="number">32</span></div><div class="line">.scss <span class="number">32</span></div><div class="line">.less <span class="number">32</span></div><div class="line">.js <span class="number">32</span></div><div class="line">.coffee <span class="number">32</span></div><div class="line">.man <span class="number">32</span></div><div class="line"><span class="number">.0</span> <span class="number">32</span></div><div class="line"><span class="number">.1</span> <span class="number">32</span></div><div class="line"><span class="number">.2</span> <span class="number">32</span></div><div class="line"><span class="number">.3</span> <span class="number">32</span></div><div class="line"><span class="number">.4</span> <span class="number">32</span></div><div class="line"><span class="number">.5</span> <span class="number">32</span></div><div class="line"><span class="number">.6</span> <span class="number">32</span></div><div class="line"><span class="number">.7</span> <span class="number">32</span></div><div class="line"><span class="number">.8</span> <span class="number">32</span></div><div class="line"><span class="number">.9</span> <span class="number">32</span></div><div class="line">.l <span class="number">32</span></div><div class="line">.n <span class="number">32</span></div><div class="line">.p <span class="number">32</span></div><div class="line">.pod <span class="number">32</span></div><div class="line">.tex <span class="number">32</span></div><div class="line">.go <span class="number">32</span></div><div class="line">.sql <span class="number">32</span></div><div class="line"></div><div class="line">### Multimedia formats</div><div class="line"></div><div class="line"># Image</div><div class="line">.bmp <span class="number">33</span></div><div class="line">.cgm <span class="number">33</span></div><div class="line">.dl <span class="number">33</span></div><div class="line">.dvi <span class="number">33</span></div><div class="line">.emf <span class="number">33</span></div><div class="line">.eps <span class="number">33</span></div><div class="line">.gif <span class="number">33</span></div><div class="line">.jpeg <span class="number">33</span></div><div class="line">.jpg <span class="number">33</span></div><div class="line">.JPG <span class="number">33</span></div><div class="line">.mng <span class="number">33</span></div><div class="line">.pbm <span class="number">33</span></div><div class="line">.pcx <span class="number">33</span></div><div class="line">.pdf <span class="number">33</span></div><div class="line">.pgm <span class="number">33</span></div><div class="line">.png <span class="number">33</span></div><div class="line">.PNG <span class="number">33</span></div><div class="line">.ppm <span class="number">33</span></div><div class="line">.pps <span class="number">33</span></div><div class="line">.ppsx <span class="number">33</span></div><div class="line">.ps <span class="number">33</span></div><div class="line">.svg <span class="number">33</span></div><div class="line">.svgz <span class="number">33</span></div><div class="line">.tga <span class="number">33</span></div><div class="line">.tif <span class="number">33</span></div><div class="line">.tiff <span class="number">33</span></div><div class="line">.xbm <span class="number">33</span></div><div class="line">.xcf <span class="number">33</span></div><div class="line">.xpm <span class="number">33</span></div><div class="line">.xwd <span class="number">33</span></div><div class="line">.xwd <span class="number">33</span></div><div class="line">.yuv <span class="number">33</span></div><div class="line"></div><div class="line"># Audio</div><div class="line">.aac <span class="number">33</span></div><div class="line">.au  <span class="number">33</span></div><div class="line">.flac <span class="number">33</span></div><div class="line">.m4a <span class="number">33</span></div><div class="line">.mid <span class="number">33</span></div><div class="line">.midi <span class="number">33</span></div><div class="line">.mka <span class="number">33</span></div><div class="line">.mp3 <span class="number">33</span></div><div class="line">.mpa <span class="number">33</span></div><div class="line">.mpeg <span class="number">33</span></div><div class="line">.mpg <span class="number">33</span></div><div class="line">.ogg  <span class="number">33</span></div><div class="line">.ra <span class="number">33</span></div><div class="line">.wav <span class="number">33</span></div><div class="line"></div><div class="line"># Video</div><div class="line">.anx <span class="number">33</span></div><div class="line">.asf <span class="number">33</span></div><div class="line">.avi <span class="number">33</span></div><div class="line">.axv <span class="number">33</span></div><div class="line">.flc <span class="number">33</span></div><div class="line">.fli <span class="number">33</span></div><div class="line">.flv <span class="number">33</span></div><div class="line">.gl <span class="number">33</span></div><div class="line">.m2v <span class="number">33</span></div><div class="line">.m4v <span class="number">33</span></div><div class="line">.mkv <span class="number">33</span></div><div class="line">.mov <span class="number">33</span></div><div class="line">.MOV <span class="number">33</span></div><div class="line">.mp4 <span class="number">33</span></div><div class="line">.mp4v <span class="number">33</span></div><div class="line">.mpeg <span class="number">33</span></div><div class="line">.mpg <span class="number">33</span></div><div class="line">.nuv <span class="number">33</span></div><div class="line">.ogm <span class="number">33</span></div><div class="line">.ogv <span class="number">33</span></div><div class="line">.ogx <span class="number">33</span></div><div class="line">.qt <span class="number">33</span></div><div class="line">.rm <span class="number">33</span></div><div class="line">.rmvb <span class="number">33</span></div><div class="line">.swf <span class="number">33</span></div><div class="line">.vob <span class="number">33</span></div><div class="line">.webm <span class="number">33</span></div><div class="line">.wmv <span class="number">33</span></div><div class="line"></div><div class="line">### Misc</div><div class="line"></div><div class="line"># Binary document formats and multimedia source</div><div class="line">.doc <span class="number">31</span></div><div class="line">.docx <span class="number">31</span></div><div class="line">.rtf <span class="number">31</span></div><div class="line">.odt <span class="number">31</span></div><div class="line">.dot <span class="number">31</span></div><div class="line">.dotx <span class="number">31</span></div><div class="line">.ott <span class="number">31</span></div><div class="line">.xls <span class="number">31</span></div><div class="line">.xlsx <span class="number">31</span></div><div class="line">.ods <span class="number">31</span></div><div class="line">.ots <span class="number">31</span></div><div class="line">.ppt <span class="number">31</span></div><div class="line">.pptx <span class="number">31</span></div><div class="line">.odp <span class="number">31</span></div><div class="line">.otp <span class="number">31</span></div><div class="line">.fla <span class="number">31</span></div><div class="line">.psd <span class="number">31</span></div><div class="line"></div><div class="line"># Archives, compressed</div><div class="line"><span class="number">.7</span>z   <span class="number">1</span>;<span class="number">35</span></div><div class="line">.apk  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.arj  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.bin  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.bz   <span class="number">1</span>;<span class="number">35</span></div><div class="line">.bz2  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.cab  <span class="number">1</span>;<span class="number">35</span>  # Win</div><div class="line">.deb  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.dmg  <span class="number">1</span>;<span class="number">35</span>  # OSX</div><div class="line">.gem  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.gz   <span class="number">1</span>;<span class="number">35</span></div><div class="line">.iso  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.jar  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.msi  <span class="number">1</span>;<span class="number">35</span>  # Win</div><div class="line">.rar  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.rpm  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.tar  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.tbz  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.tbz2 <span class="number">1</span>;<span class="number">35</span></div><div class="line">.tgz  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.tx   <span class="number">1</span>;<span class="number">35</span></div><div class="line">.war  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.xpi  <span class="number">1</span>;<span class="number">35</span></div><div class="line">.xz   <span class="number">1</span>;<span class="number">35</span></div><div class="line">.z    <span class="number">1</span>;<span class="number">35</span></div><div class="line">.Z    <span class="number">1</span>;<span class="number">35</span></div><div class="line">.zip  <span class="number">1</span>;<span class="number">35</span></div><div class="line"></div><div class="line"># For testing</div><div class="line">.ANSI<span class="number">-30</span>-black <span class="number">30</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">30</span>-brblack <span class="number">01</span>;<span class="number">30</span></div><div class="line">.ANSI<span class="number">-31</span>-red <span class="number">31</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">31</span>-brred <span class="number">01</span>;<span class="number">31</span></div><div class="line">.ANSI<span class="number">-32</span>-green <span class="number">32</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">32</span>-brgreen <span class="number">01</span>;<span class="number">32</span></div><div class="line">.ANSI<span class="number">-33</span>-yellow <span class="number">33</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">33</span>-bryellow <span class="number">01</span>;<span class="number">33</span></div><div class="line">.ANSI<span class="number">-34</span>-blue <span class="number">34</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">34</span>-brblue <span class="number">01</span>;<span class="number">34</span></div><div class="line">.ANSI<span class="number">-35</span>-magenta <span class="number">35</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">35</span>-brmagenta <span class="number">01</span>;<span class="number">35</span></div><div class="line">.ANSI<span class="number">-36</span>-cyan <span class="number">36</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">36</span>-brcyan <span class="number">01</span>;<span class="number">36</span></div><div class="line">.ANSI<span class="number">-37</span>-white <span class="number">37</span></div><div class="line">.ANSI<span class="number">-01</span>;<span class="number">37</span>-brwhite <span class="number">01</span>;<span class="number">37</span></div><div class="line"></div><div class="line">#############################################################################</div><div class="line"># Your customizations</div><div class="line"></div><div class="line"># Unimportant text files</div><div class="line"># For universal scheme, use brightgreen <span class="number">01</span>;<span class="number">32</span></div><div class="line"># For optimal on light bg (but too prominent on dark bg), use white <span class="number">01</span>;<span class="number">34</span></div><div class="line">.log <span class="number">01</span>;<span class="number">32</span></div><div class="line">*~ <span class="number">01</span>;<span class="number">32</span></div><div class="line">*# <span class="number">01</span>;<span class="number">32</span></div><div class="line">#.log <span class="number">01</span>;<span class="number">34</span></div><div class="line">#*~ <span class="number">01</span>;<span class="number">34</span></div><div class="line">#*# <span class="number">01</span>;<span class="number">34</span></div><div class="line"></div><div class="line"># Unimportant non-text files</div><div class="line"># For universal scheme, use brightcyan <span class="number">01</span>;<span class="number">36</span></div><div class="line"># For optimal on dark bg (but too prominent on light bg), change to <span class="number">01</span>;<span class="number">33</span></div><div class="line">#.bak <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.BAK <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.old <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.OLD <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.org_archive <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.off <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.OFF <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.dist <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.DIST <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.orig <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.ORIG <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.swp <span class="number">01</span>;<span class="number">36</span></div><div class="line">#.swo <span class="number">01</span>;<span class="number">36</span></div><div class="line">#*,v <span class="number">01</span>;<span class="number">36</span></div><div class="line">.bak <span class="number">01</span>;<span class="number">33</span></div><div class="line">.BAK <span class="number">01</span>;<span class="number">33</span></div><div class="line">.old <span class="number">01</span>;<span class="number">33</span></div><div class="line">.OLD <span class="number">01</span>;<span class="number">33</span></div><div class="line">.org_archive <span class="number">01</span>;<span class="number">33</span></div><div class="line">.off <span class="number">01</span>;<span class="number">33</span></div><div class="line">.OFF <span class="number">01</span>;<span class="number">33</span></div><div class="line">.dist <span class="number">01</span>;<span class="number">33</span></div><div class="line">.DIST <span class="number">01</span>;<span class="number">33</span></div><div class="line">.orig <span class="number">01</span>;<span class="number">33</span></div><div class="line">.ORIG <span class="number">01</span>;<span class="number">33</span></div><div class="line">.swp <span class="number">01</span>;<span class="number">33</span></div><div class="line">.swo <span class="number">01</span>;<span class="number">33</span></div><div class="line">*,v <span class="number">01</span>;<span class="number">33</span></div><div class="line"></div><div class="line"># The brightmagenta (Solarized: purple) color is free for you to use for your</div><div class="line"># custom file type</div><div class="line">.gpg <span class="number">34</span></div><div class="line">.gpg <span class="number">34</span></div><div class="line">.pgp <span class="number">34</span></div><div class="line">.asc <span class="number">34</span></div><div class="line"><span class="number">.3</span>des <span class="number">34</span></div><div class="line">.aes <span class="number">34</span></div><div class="line">.enc <span class="number">34</span></div><div class="line">.sqlite <span class="number">34</span></div></pre></td></tr></table></figure></p>
+<p>修改<code>~/.bashrc</code>配置，我安装了<code>oh-my-zsh</code>，所以我修改的文件是<code>~/.zshrc</code>。加入如下配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># enable color support of ls and also add handy aliases</span></div><div class="line"><span class="keyword">if</span> [ -x /usr/bin/dircolors ]; <span class="keyword">then</span></div><div class="line">    <span class="built_in">test</span> -r ~/.dircolors &amp;&amp; <span class="built_in">eval</span> <span class="string">"<span class="variable">$(dircolors -b ~/.dircolors)</span>"</span> || <span class="built_in">eval</span> <span class="string">"<span class="variable">$(dircolors -b)</span>"</span></div><div class="line">    <span class="built_in">alias</span> ls=<span class="string">'ls --color=auto'</span></div><div class="line">    <span class="comment">#alias dir='dir --color=auto'</span></div><div class="line">    <span class="comment">#alias vdir='vdir --color=auto'</span></div><div class="line"> </div><div class="line">    <span class="built_in">alias</span> grep=<span class="string">'grep --color=auto'</span></div><div class="line">    <span class="built_in">alias</span> fgrep=<span class="string">'fgrep --color=auto'</span></div><div class="line">    <span class="built_in">alias</span> egrep=<span class="string">'egrep --color=auto'</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"> </div><div class="line"><span class="comment"># some more ls aliases</span></div><div class="line"><span class="built_in">alias</span> ll=<span class="string">'ls -alF'</span></div><div class="line"><span class="built_in">alias</span> la=<span class="string">'ls -A'</span></div><div class="line"><span class="built_in">alias</span> l=<span class="string">'ls -CF'</span></div></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/seebi/dircolors-solarized" target="_blank" rel="external">dircolors-solarized github地址</a>最后效果如下：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并02.png" alt="dircolors-solarized配色"></p>
+<h4 id="分屏操作"><a href="#分屏操作" class="headerlink" title="分屏操作"></a>分屏操作</h4><p>在终端上的某个终端窗口右键，就可以<code>Split Horizontally</code>以及<code>Split Vertically</code>进行屏幕分割，这个操作可以类推，效果类似于：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu%2014.04%20多终端窗口合并03.png" alt="最终分屏效果"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/10/14/Ubuntu-14-04-多终端窗口合并/" data-title="Ubuntu 14.04 多终端窗口合并 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/10/19/Vim-常用命令总结/" title="Vim 常用命令总结">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Vim 常用命令总结</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/10/14/Ubuntu-14-04-安装Python-Mysqldb/"  title="Ubuntu 14.04 安装Python Mysqldb">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu 14.04 安装Python Mysqldb
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminator-终结者"><span class="toc-number">1.</span> <span class="toc-text">Terminator(终结者)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#终端安装"><span class="toc-number">1.1.</span> <span class="toc-text">终端安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改默认配置"><span class="toc-number">1.2.</span> <span class="toc-text">修改默认配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更换目录配色方案"><span class="toc-number">1.3.</span> <span class="toc-text">更换目录配色方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分屏操作"><span class="toc-number">1.4.</span> <span class="toc-text">分屏操作</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

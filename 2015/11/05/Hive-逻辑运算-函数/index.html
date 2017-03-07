@@ -1,0 +1,1005 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Hive 逻辑运算,函数 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="Hive自身提供了逻辑运算以及数学上的一些函数,基本和mysql里差不多.简单的不再多说了，只记录一些常用的
+函数Hive自带的函数非常多,大致分为一下几块介绍,详细信息在Hive Wiki官网
+数学函数
+
+
+返回类型
+函数
+说明
+
+
+
+
+bigint
+round(double a)
+四舍五入
+
+
+double
+round(double a, int d)
+小数部分d位之后数字四舍五入
+
+
+big">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive 逻辑运算,函数">
+<meta property="og:url" content="http://sjq597.github.io/2015/11/05/Hive-逻辑运算-函数/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="Hive自身提供了逻辑运算以及数学上的一些函数,基本和mysql里差不多.简单的不再多说了，只记录一些常用的
+函数Hive自带的函数非常多,大致分为一下几块介绍,详细信息在Hive Wiki官网
+数学函数
+
+
+返回类型
+函数
+说明
+
+
+
+
+bigint
+round(double a)
+四舍五入
+
+
+double
+round(double a, int d)
+小数部分d位之后数字四舍五入
+
+
+big">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hive 逻辑运算,函数">
+<meta name="twitter:description" content="Hive自身提供了逻辑运算以及数学上的一些函数,基本和mysql里差不多.简单的不再多说了，只记录一些常用的
+函数Hive自带的函数非常多,大致分为一下几块介绍,详细信息在Hive Wiki官网
+数学函数
+
+
+返回类型
+函数
+说明
+
+
+
+
+bigint
+round(double a)
+四舍五入
+
+
+double
+round(double a, int d)
+小数部分d位之后数字四舍五入
+
+
+big">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/05/Hive-逻辑运算-函数/" title="Hive 逻辑运算,函数" itemprop="url">Hive 逻辑运算,函数</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-05T06:05:57.000Z" itemprop="datePublished"> 发表于 2015-11-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">1.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数学函数"><span class="toc-number">1.1.</span> <span class="toc-text">数学函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日期函数"><span class="toc-number">1.2.</span> <span class="toc-text">日期函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符函数"><span class="toc-number">1.3.</span> <span class="toc-text">字符函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内置聚合函数"><span class="toc-number">1.4.</span> <span class="toc-text">内置聚合函数</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>Hive自身提供了逻辑运算以及数学上的一些函数,基本和mysql<br>里差不多.简单的不再多说了，只记录一些常用的</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>Hive自带的函数非常多,大致分为一下几块介绍,详细信息在<a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF" target="_blank" rel="external">Hive Wiki官网</a></p>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bigint</td>
+<td>round(double a)</td>
+<td>四舍五入</td>
+</tr>
+<tr>
+<td>double</td>
+<td>round(double a, int d)</td>
+<td>小数部分d位之后数字四舍五入</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>floor(double a)</td>
+<td>对给定数据进行向下舍入最接近的整数</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>ceil(double a)<br>ceiling(double a)</td>
+<td>将参数向上舍入为最接近的整数</td>
+</tr>
+<tr>
+<td>double</td>
+<td>rand()<br>rand(int seed)</td>
+<td>返回大于或等于0且小于1的平均分布随机数（依重新计算而变）</td>
+</tr>
+<tr>
+<td>double</td>
+<td>pow(double a, double p)<br>power(double a, double p)</td>
+<td>返回某数的乘幂</td>
+</tr>
+<tr>
+<td>double</td>
+<td>sqrt(double a)</td>
+<td>返回数值的平方根</td>
+</tr>
+<tr>
+<td>int<br>double</td>
+<td>positive(int a)<br>positive(double a)</td>
+<td>返回A的值</td>
+</tr>
+<tr>
+<td>int<br>double</td>
+<td>negative(int a)<br>negative(double a)</td>
+<td>返回A的相反数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h3><table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>from_unixtime(bigint unixtime[, string format])</td>
+<td>UNIX_TIMESTAMP参数表示返回一个值’YYYY- MM – DD HH：MM：SS’或YYYYMMDDHHMMSS.uuuuuu格式，这取决于是否是在一个字符串或数字语境中使用的功能。该值表示在当前的时区。</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>unix_timestamp()</td>
+<td>如果不带参数的调用，返回一个Unix时间戳（从’1970-01–0100:00:00′到现在的UTC秒数）为无符号整数。</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>unix_timestamp(string date)</td>
+<td>指定日期参数调用UNIX_TIMESTAMP（），它返回参数值’1970- 01 – 0100:00:00′到指定日期的秒数。</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>unix_timestamp(string date, string pattern)</td>
+<td>指定时间输入格式，返回到1970年秒数：unix_timestamp(’2009-03-20′, ‘yyyy-MM-dd’) = 1237532400</td>
+</tr>
+<tr>
+<td>string</td>
+<td>to_date(string timestamp)</td>
+<td>返回时间中的年月日： to_date(“1970-01-01 00:00:00″) = “1970-01-01″</td>
+</tr>
+<tr>
+<td>string</td>
+<td>to_dates(string date)</td>
+<td>给定一个日期date，返回一个天数（0年以来的天数）</td>
+</tr>
+<tr>
+<td>int</td>
+<td>year(string date)</td>
+<td>返回指定时间的年份</td>
+</tr>
+<tr>
+<td>int</td>
+<td>month(string date)</td>
+<td>返回指定时间的月份</td>
+</tr>
+<tr>
+<td>int</td>
+<td>day(string date)</td>
+<td>dayofmonth(date) 返回指定时间的日期</td>
+</tr>
+<tr>
+<td>int</td>
+<td>hour(string date)</td>
+<td>返回指定时间的小时，范围为0到23。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>minute(string date)</td>
+<td>返回指定时间的分钟，范围为0到59。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>second(string date)</td>
+<td>返回指定时间的秒，范围为0到59。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>weekofyear(string date)</td>
+<td>返回指定日期所在一年中的星期号，范围为0到53。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>datediff(string enddate, string startdate)</td>
+<td>两个时间参数的日期之差。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>date_add(string startdate, int days)</td>
+<td>给定时间，在此基础上加上指定的时间段。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>date_sub(string startdate, int days)</td>
+<td>给定时间，在此基础上减去指定的时间段。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong>所以想把一个<strong>20160302</strong>转换成<strong>2016-03-02</strong>这种时间格式，要么用<strong>strsub()</strong>配合<strong>concat()</strong>来实现，或者就使用<code>from_unixtime(unix_timestamp(create_time, &#39;yyyyMMdd&#39;), &#39;yyyy-MM-dd)</code></p>
+<h3 id="字符函数"><a href="#字符函数" class="headerlink" title="字符函数"></a>字符函数</h3><table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>length(string A)</td>
+<td>返回字符串的长度</td>
+</tr>
+<tr>
+<td>string</td>
+<td>reverse(string A)</td>
+<td>返回倒序字符串</td>
+</tr>
+<tr>
+<td>string</td>
+<td>concat(string A, string B…)</td>
+<td>连接多个字符串，合并为一个字符串，可以接受任意数量的输入字符串</td>
+</tr>
+<tr>
+<td>string</td>
+<td>concat_ws(string SEP, string A, string B…)</td>
+<td>链接多个字符串，字符串之间以指定的分隔符分开。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>substr(string A, int start, int len)<br>substring(string A, int start, int len)</td>
+<td>从文本字符串中指定的位置指定长度的字符。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>upper(string A)<br>ucase(string A)</td>
+<td>将文本字符串转换成字母全部大写形式</td>
+</tr>
+<tr>
+<td>string</td>
+<td>lower(string A)<br>lcase(string A)</td>
+<td>将文本字符串转换成字母全部小写形式</td>
+</tr>
+<tr>
+<td>string</td>
+<td>trim(string A)</td>
+<td>删除字符串两端的空格，字符之间的空格保留</td>
+</tr>
+<tr>
+<td>string</td>
+<td>ltrim(string A)</td>
+<td>删除字符串左边的空格，其他的空格保留</td>
+</tr>
+<tr>
+<td>string</td>
+<td>rtrim(string A)</td>
+<td>删除字符串右边的空格，其他的空格保留</td>
+</tr>
+<tr>
+<td>string</td>
+<td>regexp_replace(string A, string B, string C)</td>
+<td>字符串A中的B字符被C字符替代</td>
+</tr>
+<tr>
+<td>string</td>
+<td>regexp_extract(string subject, string pattern, int index)</td>
+<td>通过下标返回正则表达式指定的部分。需要注意的是：原来的<code>\</code> 转义，这里变成了双斜杠了<code>\\</code>,所以对于<code>[,{</code>这些特殊字符，需要注意使用两个斜杠，包括原来的正则表达式，如果是<code>\d</code>匹配数字，就需要使用<code>\\d</code></td>
+</tr>
+<tr>
+<td>string</td>
+<td>parse_url(string urlString, string partToExtract [, string keyToExtract])</td>
+<td>返回URL指定的部分。parse_url(‘<a href="http://facebook.com/path1/p.php?k1=v1&amp;k2=v2#Ref1′" target="_blank" rel="external">http://facebook.com/path1/p.php?k1=v1&amp;k2=v2#Ref1′</a>, ‘HOST’) 返回：’facebook.com’,key处理指定为host,还可以指定为path,[query,key]</td>
+</tr>
+<tr>
+<td>string</td>
+<td>get_json_object(string json_string, string path)</td>
+<td>select a.timestamp, get_json_object(a.appevents, ‘$.eventid’), get_json_object(a.appenvets, ‘$.eventname’) from log a;</td>
+</tr>
+<tr>
+<td>string</td>
+<td>space(int n)</td>
+<td>返回指定数量的空格</td>
+</tr>
+<tr>
+<td>string</td>
+<td>repeat(string str, int n)</td>
+<td>重复N次字符串</td>
+</tr>
+<tr>
+<td>int</td>
+<td>ascii(string str)</td>
+<td>返回字符串中首字符的数字值</td>
+</tr>
+<tr>
+<td>string</td>
+<td>lpad(string str, int len, string pad)</td>
+<td>返回指定长度的字符串，给定字符串长度小于指定长度时，由指定字符从左侧填补。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>rpad(string str, int len, string pad)</td>
+<td>返回指定长度的字符串，给定字符串长度小于指定长度时，由指定字符从右侧填补。</td>
+</tr>
+<tr>
+<td>array</td>
+<td>split(string str, string pat)</td>
+<td>将字符串转换为数组。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>find_in_set(string str, string strList)</td>
+<td>返回字符串str第一次在strlist出现的位置。如果任一参数为NULL,返回NULL；如果第一个参数包含逗号，返回0。</td>
+</tr>
+<tr>
+<td>array<array<string>&gt;</array<string></td>
+<td>sentences(string str, string lang, string locale)</td>
+<td>将字符串中内容按语句分组，每个单词间以逗号分隔，最后返回数组。 例如sentences(‘Hello there! How are you?’) 返回：( (“Hello”, “there”), (“How”, “are”, “you”) )</td>
+</tr>
+</tbody>
+</table>
+<h3 id="内置聚合函数"><a href="#内置聚合函数" class="headerlink" title="内置聚合函数"></a>内置聚合函数</h3><p>还有一些是内置的统计函数,可以免去不少计算的步骤</p>
+<table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bigint</td>
+<td>count(*)<br>count(expr)<br>count(DISTINCT expr[, expr<em>., expr</em>.])</td>
+<td>返回记录条数。</td>
+</tr>
+<tr>
+<td>double</td>
+<td>sum(col)<br>sum(DISTINCT col)</td>
+<td>求和</td>
+</tr>
+<tr>
+<td>double</td>
+<td>avg(col)<br>avg(DISTINCT col)</td>
+<td>求平均值</td>
+</tr>
+<tr>
+<td>double</td>
+<td>var_pop(col)</td>
+<td>返回指定列的方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>var_samp(col)</td>
+<td>返回指定列的样本方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>stddev_pop(col)</td>
+<td>返回指定列的偏差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>stddev_samp(col)</td>
+<td>返回指定列的样本偏差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>covar_pop(col1, col2)</td>
+<td>两列数值协方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>covar_samp(col1, col2)</td>
+<td>两列数值样本协方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>corr(col1, col2)</td>
+<td>返回两列数值的相关系数</td>
+</tr>
+<tr>
+<td>double</td>
+<td>percentile(col, p)</td>
+<td>返回数值区域的百分比数值点。0&lt;=P&lt;=1,否则返回NULL,不支持浮点型数值。</td>
+</tr>
+</tbody>
+</table>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/11/05/Hive-逻辑运算-函数/" data-title="Hive 逻辑运算,函数 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/11/05/Hive-get-json-object用法/" title="Hive get_json_object用法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hive get_json_object用法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/03/Shell-按日期循环执行/"  title="Shell 按日期循环执行">
+ <strong>下一篇：</strong><br/> 
+ <span>Shell 按日期循环执行
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">1.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数学函数"><span class="toc-number">1.1.</span> <span class="toc-text">数学函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日期函数"><span class="toc-number">1.2.</span> <span class="toc-text">日期函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符函数"><span class="toc-number">1.3.</span> <span class="toc-text">字符函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内置聚合函数"><span class="toc-number">1.4.</span> <span class="toc-text">内置聚合函数</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

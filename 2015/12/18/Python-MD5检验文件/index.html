@@ -1,0 +1,624 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Python MD5校验文件 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="今天看到了一个用Python校验文件md5的代码,但是本人Python不是很熟,所以里面有很多语法看的不是很懂,大概讲讲吧.首先要想校验一个文件的md5值在Linux下很方便,命令行就可以校验:12➜  ~  md5sum 订单数据.xls 933ed658af57a9aec4d1ba9800fe5460  订单数据.xls
+虽然你也可以调用Python来校验文件的md5,但是这样很不方便,也不能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python MD5校验文件">
+<meta property="og:url" content="http://sjq597.github.io/2015/12/18/Python-MD5检验文件/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="今天看到了一个用Python校验文件md5的代码,但是本人Python不是很熟,所以里面有很多语法看的不是很懂,大概讲讲吧.首先要想校验一个文件的md5值在Linux下很方便,命令行就可以校验:12➜  ~  md5sum 订单数据.xls 933ed658af57a9aec4d1ba9800fe5460  订单数据.xls
+虽然你也可以调用Python来校验文件的md5,但是这样很不方便,也不能">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python MD5校验文件">
+<meta name="twitter:description" content="今天看到了一个用Python校验文件md5的代码,但是本人Python不是很熟,所以里面有很多语法看的不是很懂,大概讲讲吧.首先要想校验一个文件的md5值在Linux下很方便,命令行就可以校验:12➜  ~  md5sum 订单数据.xls 933ed658af57a9aec4d1ba9800fe5460  订单数据.xls
+虽然你也可以调用Python来校验文件的md5,但是这样很不方便,也不能">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/18/Python-MD5检验文件/" title="Python MD5校验文件" itemprop="url">Python MD5校验文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-18T12:32:38.000Z" itemprop="datePublished"> 发表于 2015-12-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单的MD5校验"><span class="toc-number">1.</span> <span class="toc-text">简单的MD5校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改进的MD5校验"><span class="toc-number">2.</span> <span class="toc-text">改进的MD5校验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#加密字符串"><span class="toc-number">2.1.</span> <span class="toc-text">加密字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加密文件"><span class="toc-number">2.2.</span> <span class="toc-text">加密文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<p>今天看到了一个用Python校验文件md5的代码,但是本人Python不是很熟,所以里面有很多语法看的不是很懂,大概讲讲吧.<br>首先要想校验一个文件的md5值在Linux下很方便,命令行就可以校验:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  md5sum 订单数据.xls </div><div class="line">933ed658af57a9aec4d1ba9800fe5460  订单数据.xls</div></pre></td></tr></table></figure></p>
+<p>虽然你也可以调用Python来校验文件的md5,但是这样很不方便,也不能保证windows下也可以运行吧,Python中也md5校验的函数,Python 2.5之后推荐使用<code>hashlib</code>来代替<code>md5</code>模块来做校验.</p>
+<h3 id="简单的MD5校验"><a href="#简单的MD5校验" class="headerlink" title="简单的MD5校验"></a>简单的MD5校验</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">import</span> hashlib</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5sum</span><span class="params">(file_name)</span>:</span></div><div class="line">    fp = open(file_name, <span class="string">'rb'</span>)</div><div class="line">    content = fp.read()</div><div class="line">    fp.close()</div><div class="line">    m = hashlib.md5(content)</div><div class="line">    file_md5 = m.hexdigest()</div><div class="line"></div><div class="line">    <span class="keyword">return</span> file_md5</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">print</span> md5sum(<span class="string">'TCPServer.py'</span>)</div></pre></td></tr></table></figure>
+<p> <strong>注意:</strong><code>hashlib.md5()</code>返回的是一个对象,要想得到md5值,还需要调用一下<code>hexdigest()</code>方法.还有一个地方需要注意一下,这个校验方法有个很大的缺陷,由于是要校验文件里面的内容,所以每次是把文件读到内存的,试想一下,如果这个文件很大,先不说慢,更有可能程序就直接卡死了.</p>
+<h3 id="改进的MD5校验"><a href="#改进的MD5校验" class="headerlink" title="改进的MD5校验"></a>改进的MD5校验</h3><p>下面的代码确实写的很牛逼,对于我这种刚学Python的渣渣来说,很多地方都看的不太明白,先把程序贴出来,后面有一些程序中不懂的地方的一些详尽的解释.优化之后的代码:</p>
+<h4 id="加密字符串"><a href="#加密字符串" class="headerlink" title="加密字符串"></a>加密字符串</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5hex</span><span class="params">(word)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    MD5加密算法,返回32为小写16进制符号</div><div class="line">    :param word: 需要加密的字符串</div><div class="line">    :return: 返回32为小写16进制符号</div><div class="line">    """</div><div class="line">    <span class="keyword">if</span> isinstance(word, unicode):</div><div class="line">        word = word.encode(<span class="string">'utf-8'</span>)</div><div class="line">    <span class="keyword">elif</span> <span class="keyword">not</span> isinstance(word, str):</div><div class="line">        word = str(word)</div><div class="line"></div><div class="line">    m = hashlib.md5()</div><div class="line">    m.update(word)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> m.hexdigest()</div></pre></td></tr></table></figure>
+<p><strong>解释:</strong>查了一下Python里关于<code>str</code>和<code>unicode</code>的区别,简单来说就是<code>str</code>类似于<code>byte[]</code>,即字节字符串.而<code>unicode</code>类似于<code>char[]</code>.说白了就是Python内部存储用<code>unicode</code>,而在和人交互的时候用<code>str</code>,str是字节串，由unicode经过编码(encode)后的字节组成的,所以它们的关系就是<code>unicode.encode()--&gt;str</code>或者<code>str.decode()--&gt;unicode()</code>.时刻记住:</p>
+<blockquote>
+<p><strong>unicode</strong>才是真正的字符串.</p>
+</blockquote>
+<h4 id="加密文件"><a href="#加密文件" class="headerlink" title="加密文件"></a>加密文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5sum</span><span class="params">(file_name)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    根据给定文件名计算文件MD5值</div><div class="line">    :param file_name: 文件的路径</div><div class="line">    :return: 返回文件MD5校验值</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read_chunks</span><span class="params">(fp)</span>:</span></div><div class="line">        fp.seek(<span class="number">0</span>)</div><div class="line">        chunk = fp.read(<span class="number">8</span> * <span class="number">1024</span>)</div><div class="line">        <span class="keyword">while</span> chunk:</div><div class="line">            <span class="keyword">yield</span> chunk</div><div class="line">            chunk = fp.read(<span class="number">8</span> * <span class="number">1024</span>)</div><div class="line">        <span class="keyword">else</span>:	<span class="comment"># 最后要将游标放回文件开头</span></div><div class="line">            fp.seek(<span class="number">0</span>)</div><div class="line"></div><div class="line">    m = hashlib.md5()</div><div class="line">    <span class="keyword">if</span> isinstance(file_name, basestring) \</div><div class="line">            <span class="keyword">and</span> os.path.exists(file_name):</div><div class="line">        <span class="keyword">with</span> open(file_name, <span class="string">'rb'</span>) <span class="keyword">as</span> fp:</div><div class="line">            <span class="keyword">for</span> chunk <span class="keyword">in</span> read_chunks(fp):</div><div class="line">                m.update(chunk)</div><div class="line">    <span class="keyword">elif</span> file_name.__class__.name__ <span class="keyword">in</span> [<span class="string">"StringIO"</span>, <span class="string">"cStringIO"</span>] \</div><div class="line">            <span class="keyword">or</span> isinstance(file_name, file):</div><div class="line">        <span class="keyword">for</span> chunk <span class="keyword">in</span> read_chunks(file_name):</div><div class="line">            m.update(chunk)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">""</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> m.hexdigest()</div></pre></td></tr></table></figure>
+<p>这段程序写的确实很牛逼,我稍微解释一下:</p>
+<ol>
+<li><code>8~15</code>行:的意思就是每次返回读取的文件的8k的内容,下次从上次读取的地方继续读取,如果读完了,就把游标重新放到文件开头.注意这里面用到了<code>yield</code>,对这个关键字不熟的可以简单把他理解为关键字<code>return</code>.但是它和<code>return</code>不同的地方在于,再次调用函数的时候,上次调用的变量还是有效的,也就是说它不是从文件的开头重新读,而是接着上回读的地方再读8k的内容</li>
+<li><code>18</code>行:<code>isinstance(file_name, basestring)</code>这个是判断文件名是不是一个<code>basestring</code>类型,<code>basestring</code>是<code>str</code>和<code>unicode</code>的父类,这个类是个抽象类,不能被实例化,不过可以被用来判断一个对象是不是字符串.<code>with</code>关键字,简单理解为<code>try/catch</code>就可以了,即使发生了异常,文件也可以正常关闭.</li>
+<li><code>23</code>行:<code>StringIO</code>和<code>cStringIO</code>与<code>file</code>对象非常像,指内存里的文件,例如上传的文件缓存或者已经打开的文件流,那么就不用打开文件,直接读就行</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个程序其实就是每次读取8k的内容,然后更新已经读取的内容的<code>md5</code>值,核心代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> chunk <span class="keyword">in</span> read_chunks(fp):</div><div class="line">	m.update(chunk)</div></pre></td></tr></table></figure></p>
+<p>如果不明白<code>update()</code>的用法,可以测试一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import hashlib</div><div class="line">&gt;&gt;&gt; x = hashlib.md5()</div><div class="line">&gt;&gt;&gt; x.update(<span class="string">'hello, '</span>)</div><div class="line">&gt;&gt;&gt; x.update(<span class="string">'python'</span>)</div><div class="line">&gt;&gt;&gt; x.hexdigest()</div><div class="line"><span class="string">'fb42758282ecd4646426112d0cbab865'</span></div><div class="line">&gt;&gt;&gt; hashlib.md5(<span class="string">'hello, python'</span>).hexdigest()</div><div class="line"><span class="string">'fb42758282ecd4646426112d0cbab865'</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>所以可以看到,<code>update()</code>方法其实并不会丢弃上一次校验的结果,就是在不停的累加,尤其适合处理大文件.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/12/18/Python-MD5检验文件/" data-title="Python MD5校验文件 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/12/20/Python-yield剖析/" title="Python yield剖析">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Python yield剖析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/12/17/Python-file-argument-1-must-be-encoded-string-without-NULL-bytes-not-str/"  title="Python file() argument 1 must be encoded string without NULL bytes, not str">
+ <strong>下一篇：</strong><br/> 
+ <span>Python file() argument 1 must be encoded string without NULL bytes, not str
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单的MD5校验"><span class="toc-number">1.</span> <span class="toc-text">简单的MD5校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改进的MD5校验"><span class="toc-number">2.</span> <span class="toc-text">改进的MD5校验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#加密字符串"><span class="toc-number">2.1.</span> <span class="toc-text">加密字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加密文件"><span class="toc-number">2.2.</span> <span class="toc-text">加密文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

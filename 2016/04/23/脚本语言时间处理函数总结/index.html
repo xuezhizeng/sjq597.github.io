@@ -1,0 +1,630 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>脚本语言时间处理函数总结 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="平时做数据分析统计跑程序脚本需呀经常用到各种时间的转化和传入，日期的格式化，日期的相减，字符串时间互转。每次都是现查，比较浪费时间，这里把平时常用到的总结一下，因为涉及到好几个脚本语言的时间函数，我也记不住，干脆整理出一个查表更方便。主要涉及到Shell,Python,MySQL,Hive这几个脚本
+ShellShell感觉是最生涩的，最恶心的就是空格不能多也不能少，也没个IDE命令提示啥的，用的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脚本语言时间处理函数总结">
+<meta property="og:url" content="http://sjq597.github.io/2016/04/23/脚本语言时间处理函数总结/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="平时做数据分析统计跑程序脚本需呀经常用到各种时间的转化和传入，日期的格式化，日期的相减，字符串时间互转。每次都是现查，比较浪费时间，这里把平时常用到的总结一下，因为涉及到好几个脚本语言的时间函数，我也记不住，干脆整理出一个查表更方便。主要涉及到Shell,Python,MySQL,Hive这几个脚本
+ShellShell感觉是最生涩的，最恶心的就是空格不能多也不能少，也没个IDE命令提示啥的，用的">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="脚本语言时间处理函数总结">
+<meta name="twitter:description" content="平时做数据分析统计跑程序脚本需呀经常用到各种时间的转化和传入，日期的格式化，日期的相减，字符串时间互转。每次都是现查，比较浪费时间，这里把平时常用到的总结一下，因为涉及到好几个脚本语言的时间函数，我也记不住，干脆整理出一个查表更方便。主要涉及到Shell,Python,MySQL,Hive这几个脚本
+ShellShell感觉是最生涩的，最恶心的就是空格不能多也不能少，也没个IDE命令提示啥的，用的">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/23/脚本语言时间处理函数总结/" title="脚本语言时间处理函数总结" itemprop="url">脚本语言时间处理函数总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-23T05:55:58.000Z" itemprop="datePublished"> 发表于 2016-04-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell"><span class="toc-number">1.</span> <span class="toc-text">Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">2.</span> <span class="toc-text">Python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL"><span class="toc-number">3.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hive"><span class="toc-number">4.</span> <span class="toc-text">Hive</span></a></li></ol>
+		
+		</div>
+		
+		<p>平时做数据分析统计跑程序脚本需呀经常用到各种时间的转化和传入，日期的格式化，日期的相减，字符串时间互转。每次都是现查，比较浪费时间，这里把平时常用到的总结一下，因为涉及到好几个脚本语言的时间函数，我也记不住，干脆整理出一个查表更方便。主要涉及到Shell,Python,MySQL,Hive这几个脚本</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>Shell感觉是最生涩的，最恶心的就是空格不能多也不能少，也没个IDE命令提示啥的，用的也最少，所以老容易忘</p>
+<ul>
+<li>常用的几种用法</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">date</span>	以默认格式显示当前日期(Fri Nov <span class="number">18</span> <span class="number">10</span>:<span class="number">38</span>:<span class="number">07</span> CST <span class="number">2011</span>)</div><div class="line">$ <span class="keyword">date</span> +%Y%m%d             以yyyymmdd格式输出(<span class="number">20160423</span>)</div><div class="line">$ <span class="keyword">date</span> +<span class="string">"%Y%m%d %A"</span>		以<span class="string">"yyyymmdd 星期"</span>格式输出(<span class="number">20160423</span> Friday)  </div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1 day"</span> +%Y%m%d	显示一天后的日期(<span class="number">20160424</span>)</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"3 day ago"</span> +%Y-%m-%d	以指定格式显示<span class="number">3</span>天前的日期(<span class="number">2016</span><span class="number">-04</span><span class="number">-26</span>)</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1 month"</span> +%Y-%m-%d	以指定格式显示一个月后的日期</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1 month"</span> +%s	以指定格式显示一个月后的日期的秒数，%S为当前的秒数(<span class="number">0</span>～<span class="number">59</span>)</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1970-01-01 CST 1 second"</span> +%s	显示从<span class="number">1970</span><span class="number">-01</span><span class="number">-01</span> CST起<span class="number">1</span>秒后的秒数</div></pre></td></tr></table></figure>
+<ul>
+<li>用<code>-d</code>这个参数可以产生各种时间组合</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">date</span> -d <span class="string">"-2 day 20160423"</span> +%Y%m%d</div><div class="line"><span class="number">20160421</span></div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"+7 day 20160423"</span> +%Y%m%d</div><div class="line"><span class="number">20160430</span></div></pre></td></tr></table></figure>
+<ul>
+<li>日期循环</li>
+</ul>
+<p>这个场景还是很常用的，一般脚本都是默认跑当天或者前一天的数据，如果要一次重跑每一天的数据，可能就需要用到Shell日期循环：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">begin_date=<span class="string">'20160401'</span></div><div class="line">end_date=<span class="string">'20160423'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> [ <span class="string">"<span class="variable">$begin_date</span>"</span> != <span class="string">"<span class="variable">$end_date</span>"</span> ]</div><div class="line"><span class="keyword">do</span></div><div class="line">	<span class="built_in">echo</span> <span class="variable">$begin_date</span></div><div class="line">	begin_date=`date <span class="_">-d</span> <span class="string">"1 day <span class="variable">$begin_date</span>"</span> +%Y%m%d`</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>一定要用<code>&quot;&quot;</code>把条件扩起来，<code>!=</code>史比较字符串的。</p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>Python里用的比较多的就是两个包<code>datetime</code>,<code>time</code></p>
+<ul>
+<li>datetime</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">datetime.datetime.now().strftime(<span class="string">'%Y-%m-%d'</span>)	<span class="comment"># 2016-04-23</span></div><div class="line">str(datetime.datetime.now())[:<span class="number">10</span>]	<span class="comment"># 2016-04-23</span></div><div class="line">(datetime.datetime.now() + datetime.timedelta(days=<span class="number">-1</span>)).strftime(<span class="string">'%Y-%m-%d'</span>)	<span class="comment"># 2016-04-22</span></div><div class="line">datetime.datetime.strptime(<span class="string">'2016-04-23'</span>, <span class="string">'%Y-%m-%d'</span>)	<span class="comment"># 将字符串格式为datetime对象</span></div><div class="line">(d1 - d2 ).days	<span class="comment"># d1,d2 为datetime对象，计算连个日期之间相差多少天</span></div><div class="line">(d1 - d2 ).seconds	<span class="comment"># d1,d2 为datetime对象，计算连个日期之间相差多少秒</span></div><div class="line">datetime.weekday()	<span class="comment"># 返回weekday，如果是星期一，返回0；如果是星期2，返回1，以此类推；</span></div><div class="line">datatime.isoweekday()	<span class="comment"># 返回weekday，如果是星期一，返回1；如果是星期2，返回2，以此类推；</span></div><div class="line">datetime.fromtimestamp(timestamp)	<span class="comment"># 根据给定的时间戮，返回一个datetime对象；</span></div></pre></td></tr></table></figure>
+<ul>
+<li>time<figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">time.strftime('<span class="built_in">%Y</span>-<span class="built_in">%m</span>-<span class="built_in">%d</span> <span class="built_in">%H</span>:<span class="built_in">%M</span>:<span class="built_in">%S</span>') # 格式化输出当前时间</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>主要是一些时间转换函数<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="section">mysql&gt; select unix_timestamp('2016-01-01 10:10:10');</span></div><div class="line">+---------------------------------------+</div><div class="line"><span class="section">| unix_timestamp('2016-01-01 10:10:10') |</span></div><div class="line">+---------------------------------------+</div><div class="line"><span class="section">|                            1451614210 |</span></div><div class="line">+---------------------------------------+</div><div class="line">1 row in set (0.01 sec)</div><div class="line"></div><div class="line"><span class="section">mysql&gt; select from_unixtime(unix_timestamp());</span></div><div class="line">+---------------------------------+</div><div class="line"><span class="section">| from_unixtime(unix_timestamp()) |</span></div><div class="line">+---------------------------------+</div><div class="line"><span class="section">| 2016-06-18 13:07:53             |</span></div><div class="line">+---------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h3 id="Hive"><a href="#Hive" class="headerlink" title="Hive"></a>Hive</h3><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">to_date('2016<span class="string">-04</span><span class="string">-23</span>')	# 2016<span class="string">-04</span><span class="string">-23</span></div><div class="line">to_date('2016<span class="string">-04</span><span class="string">-23</span> 12:21:10')	# 2016<span class="string">-04</span><span class="string">-23</span></div><div class="line">datediff(end_time, start_time)	# 返回日期相隔天数</div></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/Hive/">Hive</a><a href="/tags/Shell/">Shell</a><a href="/tags/MySQL/">MySQL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2016/04/23/脚本语言时间处理函数总结/" data-title="脚本语言时间处理函数总结 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/04/24/SSH-免密码登陆/" title="SSH 免密码登陆">
+  <strong>上一篇：</strong><br/>
+  <span>
+  SSH 免密码登陆</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/04/23/Ubuntu-your-firefox-profile-cannot-be-loaded/"  title="Ubuntu your firefox profile cannot be loaded">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu your firefox profile cannot be loaded
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell"><span class="toc-number">1.</span> <span class="toc-text">Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python"><span class="toc-number">2.</span> <span class="toc-text">Python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL"><span class="toc-number">3.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hive"><span class="toc-number">4.</span> <span class="toc-text">Hive</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,641 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Ubuntu 14.04 Sublime Text 3 手动安装插件 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="Ubuntu 14.04 Sublime Text 3 手动安装插件首先声明，这种方式只针对于在线安装失败的情况下，例如公司封端口，或者远端仓库不稳定的情况，github在国内有时候确实不太稳定。
+先安装Package Control
+Sublime Text 3 终端安装先按ctrl+`调出终端，或者直接 View &amp;gt; Show Console然后在终端中输入下面的代码：123456789">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 14.04 Sublime Text 3 手动安装插件">
+<meta property="og:url" content="http://sjq597.github.io/2015/10/02/Ubuntu-14-04-Sublime-Text-3-手动安装插件/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="Ubuntu 14.04 Sublime Text 3 手动安装插件首先声明，这种方式只针对于在线安装失败的情况下，例如公司封端口，或者远端仓库不稳定的情况，github在国内有时候确实不太稳定。
+先安装Package Control
+Sublime Text 3 终端安装先按ctrl+`调出终端，或者直接 View &amp;gt; Show Console然后在终端中输入下面的代码：123456789">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 14.04 Sublime Text 3 手动安装插件">
+<meta name="twitter:description" content="Ubuntu 14.04 Sublime Text 3 手动安装插件首先声明，这种方式只针对于在线安装失败的情况下，例如公司封端口，或者远端仓库不稳定的情况，github在国内有时候确实不太稳定。
+先安装Package Control
+Sublime Text 3 终端安装先按ctrl+`调出终端，或者直接 View &amp;gt; Show Console然后在终端中输入下面的代码：123456789">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/02/Ubuntu-14-04-Sublime-Text-3-手动安装插件/" title="Ubuntu 14.04 Sublime Text 3 手动安装插件" itemprop="url">Ubuntu 14.04 Sublime Text 3 手动安装插件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-01T16:15:57.000Z" itemprop="datePublished"> 发表于 2015-10-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-14-04-Sublime-Text-3-手动安装插件"><span class="toc-number">1.</span> <span class="toc-text">Ubuntu 14.04 Sublime Text 3 手动安装插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#先安装Package-Control"><span class="toc-number">1.1.</span> <span class="toc-text">先安装Package Control</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装MarkdownEditing插件"><span class="toc-number">1.2.</span> <span class="toc-text">安装MarkdownEditing插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装Markdown-Preview插件"><span class="toc-number">1.3.</span> <span class="toc-text">安装Markdown Preview插件</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h3 id="Ubuntu-14-04-Sublime-Text-3-手动安装插件"><a href="#Ubuntu-14-04-Sublime-Text-3-手动安装插件" class="headerlink" title="Ubuntu 14.04 Sublime Text 3 手动安装插件"></a>Ubuntu 14.04 Sublime Text 3 手动安装插件</h3><p>首先声明，这种方式只针对于在线安装失败的情况下，例如公司封端口，或者远端仓库不稳定的情况，<code>github</code>在国内有时候确实不太稳定。</p>
+<h4 id="先安装Package-Control"><a href="#先安装Package-Control" class="headerlink" title="先安装Package Control"></a>先安装Package Control</h4><ul>
+<li>Sublime Text 3 终端安装<br>先按ctrl+`调出终端，或者直接 <code>View &gt; Show Console</code><br>然后在终端中输入下面的代码：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib.request,os,hashlib; </div><div class="line">h = <span class="string">'2915d1851351e5ee549c20394736b442'</span> + <span class="string">'8bc59f460fa1548d1514676163dafc88'</span>; </div><div class="line">pf = <span class="string">'Package Control.sublime-package'</span>; </div><div class="line">ipp = sublime.installed_packages_path(); </div><div class="line">urllib.request.install_opener( </div><div class="line">urllib.request.build_opener( </div><div class="line">urllib.request.ProxyHandler()</div><div class="line">) </div><div class="line">); </div><div class="line">by = urllib.request.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.replace(<span class="string">' '</span>, <span class="string">'%20'</span>)).read(); </div><div class="line">dh = hashlib.sha256(by).hexdigest(); </div><div class="line">print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h)) <span class="keyword">if</span> dh != h <span class="keyword">else</span> open(os.path.join( ipp, pf), <span class="string">'wb'</span> ).write(by)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>NOTE:</strong> 如果在线安装失败，可以离线安装，具体方法是：</p>
+<ul>
+<li>下载<code>Package Control</code>安装包<a href="https://packagecontrol.io/Package%20Control.sublime-package" target="_blank" rel="external">Package Control.sublime-package</a></li>
+<li><p>找到<code>Preferences &gt; Browse Packages</code>,打开的主目录为<code>Packages</code>，到上一级目录<code>sublime-text-3</code>，目录结构如下：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  <span class="keyword">sublime-text-3 </span> tree -L <span class="number">1</span></div><div class="line">.</div><div class="line">├── <span class="keyword">Cache</span></div><div class="line">├── <span class="keyword">Installed </span>Packages</div><div class="line">├── Local</div><div class="line">└── Packages</div></pre></td></tr></table></figure>
+</li>
+<li><p>把下载的<code>Package Control.sublime-package</code>离线压缩包拷到<code>Installed Packages</code>目录下(不用解压)，然后重启<code>sublime text 3</code>，然后在<code>Preferences</code>菜单下就可以看到多了两个选项<code>Package Settings</code>和<code>Package Control</code>，这就说明安装成功了。</p>
+</li>
+</ul>
+<h4 id="安装MarkdownEditing插件"><a href="#安装MarkdownEditing插件" class="headerlink" title="安装MarkdownEditing插件"></a>安装M<code>arkdownEditing</code>插件</h4><ul>
+<li>首先下载插件安装包,并将安装包拷贝到<code>Sublime Text 3</code>的安装目录下对应的目录<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/SublimeText-Markdown/</span>MarkdownEditing.git</div><div class="line">sudo cp -r MarkdownEditing<span class="regexp">/ ~/</span>.config<span class="regexp">/sublime-text-3/</span>Packages</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>打开一个<code>.md</code>文件就可以看到效果了。</p>
+<h4 id="安装Markdown-Preview插件"><a href="#安装Markdown-Preview插件" class="headerlink" title="安装Markdown Preview插件"></a>安装<code>Markdown Preview</code>插件</h4><p>安装上面的插件看到的当然看到的不是最终效果，如果需要预览，还可以装一个<code>Markdown Preview</code>的插件，同样的我的还是不能通过包控制器安装，还是说说如何手动安装吧。<br><strong>NOTE:</strong> 以下方法来自<code>Markdown Preview</code>的<a href="https://github.com/revolunet/sublimetext-markdown-preview" target="_blank" rel="external">github官方地址</a></p>
+<ul>
+<li><p>首先下载插件安装包,并将安装包拷贝到<code>Sublime Text 3</code>的安装目录下对应的目录</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone git@github<span class="selector-class">.com</span>:revolunet/sublimetext-markdown-preview<span class="selector-class">.git</span></div><div class="line">sudo cp -r sublimetext-markdown-preview ~/.config/sublime-text-<span class="number">3</span>/Packages</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果需要预览，可以按输入<code>Shift+Ctrl+p</code>，输入<code>Markdown Preview</code>，可以选择以下几个选项</p>
+<ul>
+<li>Markdown Preview: Preview in Browser</li>
+<li>Markdown Preview: Export HTML in Sublime Text</li>
+<li>Markdown Preview: Copy to Clipboard</li>
+<li>Markdown Preview: Open Markdown Cheat sheet</li>
+</ul>
+</li>
+</ul>
+<p>默认就选第一个了，最后选<code>github</code>或者<code>markdown</code>然后就可以在浏览器中查看预览内容了。<br><strong>NOTE:</strong> 但是这样太麻烦，可以设置一个快捷键,点击<code>Preferences-&gt;</code>选择<code>Key Bindings User</code>，将其内容改为如下代码，以后直接按<code>alt+m</code>就可以在浏览器中预览了。<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;<span class="attr">"keys"</span>:[<span class="string">"alt+m"</span>], <span class="attr">"command"</span>: <span class="string">"markdown_preview"</span>, <span class="attr">"args"</span>: &#123; <span class="attr">"target"</span>: <span class="string">"browser"</span>&#125; &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Sublime-Text/">Sublime Text</a><a href="/tags/插件/">插件</a><a href="/tags/Markdown/">Markdown</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/10/02/Ubuntu-14-04-Sublime-Text-3-手动安装插件/" data-title="Ubuntu 14.04 Sublime Text 3 手动安装插件 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/10/05/Linxu下安装Hexo/" title="Linxu下安装Hexo">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linxu下安装Hexo</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/10/02/Ubuntu-14-04-Sublime-Text-3-不能输入中文/"  title="Ubuntu 14.04 Sublime Text 3 不能输入中文">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu 14.04 Sublime Text 3 不能输入中文
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-14-04-Sublime-Text-3-手动安装插件"><span class="toc-number">1.</span> <span class="toc-text">Ubuntu 14.04 Sublime Text 3 手动安装插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#先安装Package-Control"><span class="toc-number">1.1.</span> <span class="toc-text">先安装Package Control</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装MarkdownEditing插件"><span class="toc-number">1.2.</span> <span class="toc-text">安装MarkdownEditing插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装Markdown-Preview插件"><span class="toc-number">1.3.</span> <span class="toc-text">安装Markdown Preview插件</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

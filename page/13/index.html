@@ -1,0 +1,787 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="数据开发工程师的成长历程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LittleQ">
+<meta property="og:url" content="http://sjq597.github.io/page/13/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="数据开发工程师的成长历程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LittleQ">
+<meta name="twitter:description" content="数据开发工程师的成长历程">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/05/Linxu下安装Hexo/" title="Linxu下安装Hexo" itemprop="url">Linxu下安装Hexo</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-05T15:28:05.000Z" itemprop="datePublished"> 发表于 2015-10-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>为了搭建博客，需要安装hexo，但是在Ubuntu 14.04下怎么都装不上，最后改用了淘宝的源</p>
+<p>首先确保你安装了node.js</p>
+<h4 id="开始安装："><a href="#开始安装：" class="headerlink" title="开始安装："></a>开始安装：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo -g</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> 不过这样一直装不上，最后没办法改用了<a href="https://npm.taobao.org/" target="_blank" rel="external">taobao的npm源</a><br>使用教程也很简单，有介绍：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</div><div class="line">cnpm install [name]</div></pre></td></tr></table></figure>
+<p>所以如果安不上，试试上面的命令，然后接着安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo -g  <span class="comment">#-g表示全局安装, npm默认为当前项目安装</span></div><div class="line">cnpm install hexo-cli -g</div><div class="line">cnpm install hexo --save</div></pre></td></tr></table></figure>
+<h4 id="创建Hexo文件夹"><a href="#创建Hexo文件夹" class="headerlink" title="创建Hexo文件夹"></a>创建Hexo文件夹</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。</span></div><div class="line">hexo init &lt;folder&gt;</div><div class="line"><span class="built_in">cd</span> &lt;folder&gt;</div><div class="line">cnpm install</div></pre></td></tr></table></figure>
+<p>最后的目录结构如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">➜  hexo  tree -L <span class="number">2</span></div><div class="line">.</div><div class="line">├── _config<span class="selector-class">.yml</span></div><div class="line">├── node_modules</div><div class="line">│   ├── hexo</div><div class="line">│   ├── hexo-generator-archive</div><div class="line">│   ├── hexo-generator-category</div><div class="line">│   ├── hexo-generator-index</div><div class="line">│   ├── hexo-generator-tag</div><div class="line">│   ├── hexo-renderer-ejs</div><div class="line">│   ├── hexo-renderer-marked</div><div class="line">│   ├── hexo-renderer-stylus</div><div class="line">│   └── hexo-server</div><div class="line">├── package<span class="selector-class">.json</span></div><div class="line">├── scaffolds</div><div class="line">│   ├── draft<span class="selector-class">.md</span></div><div class="line">│   ├── page<span class="selector-class">.md</span></div><div class="line">│   └── post<span class="selector-class">.md</span></div><div class="line">├── source</div><div class="line">│   └── _posts</div><div class="line">└── themes</div><div class="line">    └── landscape</div><div class="line"></div><div class="line"><span class="number">15</span> directories, <span class="number">5</span> files</div></pre></td></tr></table></figure>
+<h4 id="启动服务看效果"><a href="#启动服务看效果" class="headerlink" title="启动服务看效果"></a>启动服务看效果</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo server</div></pre></td></tr></table></figure>
+<p>然后访问<code>http://localhost:4000/</code>就可以打开网站了。</p>
+<h4 id="将Hexo发布到github上"><a href="#将Hexo发布到github上" class="headerlink" title="将Hexo发布到github上"></a>将<code>Hexo</code>发布到<code>github</code>上</h4><p>这里踩了很多坑，特别注意一下，因为大多数教程都是以2.x.x版本为例的，问题就在这里，3.x.<br>x的版本很不一样。所以很多教程根本不对，先看看我的环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">➜  $  hexo -v</div><div class="line">hexo: 3.1.1</div><div class="line">os: Linux 3.13.0-32-generic linux x64</div><div class="line">http_parser: 2.5.0</div><div class="line">node: 4.1.1</div><div class="line">v8: 4.5.103.33</div><div class="line">uv: 1.7.4</div><div class="line">zlib: 1.2.8</div><div class="line">ares: 1.10.1-DEV</div><div class="line">modules: 46</div><div class="line">openssl: 1.0.2d</div></pre></td></tr></table></figure>
+<p>现在我们来重新看看如何发布一个项目到之前你的<code>github</code>博客仓库里，并且直接在<code>github</code>上显示</p>
+<ul>
+<li>初始化一个项目</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">➜  hexo init note    <span class="comment"># 初始化一个文件夹</span></div><div class="line">➜  <span class="built_in">cd</span> note            <span class="comment"># 进入到note文件夹执行生成命令</span></div><div class="line">➜  note  hexo generate</div><div class="line">ERROR Local hexo not found <span class="keyword">in</span> ~/docments/note</div><div class="line">ERROR Try running: <span class="string">'npm install hexo --save'</span></div></pre></td></tr></table></figure>
+<p>忘了执行install命令了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">➜  note  npm install</div><div class="line">npm WARN optional dep failed, continuing fsevents@1.0.0</div><div class="line">npm WARN optional dep failed, continuing fsevents@0.3.8</div><div class="line"> </div><div class="line">&gt; dtrace-provider@0.6.0 install /home/junqiangshen/docments/note/node_modules/hexo/node_modules/bunyan/node_modules/dtrace-provider</div><div class="line">&gt; node scripts/install.js</div><div class="line"></div><div class="line">hexo-renderer-ejs@0.1.0 node_modules/hexo-renderer-ejs</div><div class="line">├── lodash@2.4.2</div><div class="line">└── ejs@1.0.0</div><div class="line"></div><div class="line">hexo-generator-index@0.1.3 node_modules/hexo-generator-index</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-generator-tag@0.1.2 node_modules/hexo-generator-tag</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-generator-category@0.1.3 node_modules/hexo-generator-category</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-generator-archive@0.1.3 node_modules/hexo-generator-archive</div><div class="line">├── object-assign@2.1.1</div><div class="line">└── hexo-pagination@0.0.2 (utils-merge@1.0.0)</div><div class="line"></div><div class="line">hexo-renderer-marked@0.2.5 node_modules/hexo-renderer-marked</div><div class="line">├── object-assign@2.1.1</div><div class="line">├── marked@0.3.5</div><div class="line">├── strip-indent@1.0.1 (get-stdin@4.0.1)</div><div class="line">└── hexo-util@0.1.7 (ent@2.2.0, bluebird@2.10.1, highlight.js@8.8.0)</div><div class="line"></div><div class="line">hexo-renderer-stylus@0.3.0 node_modules/hexo-renderer-stylus</div><div class="line">├── stylus@0.52.4 (css-parse@1.7.0, debug@2.2.0, sax@0.5.8, <span class="built_in">source</span>-map@0.1.43, mkdirp@0.5.1, glob@3.2.11)</div><div class="line">└── nib@1.1.0 (stylus@0.49.3)</div><div class="line"></div><div class="line">hexo-server@0.1.2 node_modules/hexo-server</div><div class="line">├── object-assign@2.1.1</div><div class="line">├── open@0.0.5</div><div class="line">├── mime@1.3.4</div><div class="line">├── bluebird@2.10.1</div><div class="line">├── morgan@1.6.1 (basic-auth@1.0.3, on-headers@1.0.0, depd@1.0.1, on-finished@2.3.0, debug@2.2.0)</div><div class="line">├── connect@3.4.0 (utils-merge@1.0.0, parseurl@1.3.0, debug@2.2.0, finalhandler@0.4.0)</div><div class="line">├── serve-static@1.10.0 (escape-html@1.0.2, parseurl@1.3.0, send@0.13.0)</div><div class="line">├── compression@1.5.2 (vary@1.0.1, bytes@2.1.0, on-headers@1.0.0, debug@2.2.0, compressible@2.0.5, accepts@1.2.13)</div><div class="line">└── chalk@0.5.1 (ansi-styles@1.1.0, escape-string-regexp@1.0.3, supports-color@0.2.0, strip-ansi@0.3.0, has-ansi@0.1.0)</div><div class="line"></div><div class="line">hexo@3.1.1 node_modules/hexo</div><div class="line">├── hexo-front-matter@0.2.2</div><div class="line">├── pretty-hrtime@1.0.0</div><div class="line">├── abbrev@1.0.7</div><div class="line">├── titlecase@1.0.2</div><div class="line">├── archy@1.0.0</div><div class="line">├── text-table@0.2.0</div><div class="line">├── tildify@1.1.1 (os-homedir@1.0.1)</div><div class="line">├── strip-indent@1.0.1 (get-stdin@4.0.1)</div><div class="line">├── hexo-i18n@0.2.1 (sprintf-js@1.0.3)</div><div class="line">├── moment-timezone@0.3.1</div><div class="line">├── bluebird@2.10.1</div><div class="line">├── minimatch@2.0.10 (brace-expansion@1.1.1)</div><div class="line">├── through2@1.1.1 (xtend@4.0.0, readable-stream@1.1.13)</div><div class="line">├── swig-extras@0.0.1 (markdown@0.5.0)</div><div class="line">├── chalk@1.1.1 (escape-string-regexp@1.0.3, ansi-styles@2.1.0, supports-color@2.0.0, has-ansi@2.0.0, strip-ansi@3.0.0)</div><div class="line">├── warehouse@1.0.3 (graceful-fs@4.1.2, cuid@1.2.5, JSONStream@1.0.6)</div><div class="line">├── js-yaml@3.4.2 (esprima@2.2.0, argparse@1.0.2)</div><div class="line">├── hexo-cli@0.1.8 (minimist@1.2.0)</div><div class="line">├── moment@2.10.6</div><div class="line">├── nunjucks@1.3.4 (optimist@0.6.1, chokidar@0.12.6)</div><div class="line">├── cheerio@0.19.0 (entities@1.1.1, dom-serializer@0.1.0, css-select@1.0.0, htmlparser2@3.8.3)</div><div class="line">├── bunyan@1.5.1 (safe-json-stringify@1.0.3, mv@2.1.1, dtrace-provider@0.6.0)</div><div class="line">├── swig@1.4.2 (optimist@0.6.1, uglify-js@2.4.24)</div><div class="line">├── hexo-util@0.1.7 (ent@2.2.0, highlight.js@8.8.0)</div><div class="line">├── hexo-fs@0.1.4 (escape-string-regexp@1.0.3, graceful-fs@4.1.2, chokidar@1.1.0)</div><div class="line">└── lodash@3.10.1</div></pre></td></tr></table></figure>
+<p>再来执行一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">➜  note  hexo g            </div><div class="line">INFO  Files loaded <span class="keyword">in</span> 325 ms</div><div class="line">INFO  Generated: js/script.js</div><div class="line">INFO  Generated: fancybox/jquery.fancybox.pack.js</div><div class="line">INFO  Generated: fancybox/jquery.fancybox.js</div><div class="line">INFO  Generated: fancybox/jquery.fancybox.css</div><div class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-thumbs.js</div><div class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-thumbs.css</div><div class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-media.js</div><div class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-buttons.js</div><div class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-buttons.css</div><div class="line">INFO  Generated: fancybox/helpers/fancybox_buttons.png</div><div class="line">INFO  Generated: fancybox/fancybox_sprite@2x.png</div><div class="line">INFO  Generated: fancybox/fancybox_sprite.png</div><div class="line">INFO  Generated: fancybox/fancybox_overlay.png</div><div class="line">INFO  Generated: fancybox/fancybox_loading@2x.gif</div><div class="line">INFO  Generated: fancybox/fancybox_loading.gif</div><div class="line">INFO  Generated: fancybox/blank.gif</div><div class="line">INFO  Generated: css/style.css</div><div class="line">INFO  Generated: css/images/banner.jpg</div><div class="line">INFO  Generated: css/fonts/fontawesome-webfont.woff</div><div class="line">INFO  Generated: css/fonts/fontawesome-webfont.ttf</div><div class="line">INFO  Generated: css/fonts/fontawesome-webfont.svg</div><div class="line">INFO  Generated: css/fonts/fontawesome-webfont.eot</div><div class="line">INFO  Generated: css/fonts/FontAwesome.otf</div><div class="line">INFO  Generated: 2015/09/29/hello-world/index.html</div><div class="line">INFO  Generated: archives/index.html</div><div class="line">INFO  Generated: archives/2015/index.html</div><div class="line">INFO  Generated: archives/2015/09/index.html</div><div class="line">INFO  Generated: index.html</div><div class="line">INFO  28 files generated <span class="keyword">in</span> 1.01 s</div></pre></td></tr></table></figure>
+<p>看一下文件目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  note  ls</div><div class="line">_config.yml  node_modules  public     <span class="built_in">source</span></div><div class="line">db.json      package.json  scaffolds  themes</div></pre></td></tr></table></figure>
+<ul>
+<li>修改配置文件_config.yml</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Hexo Configuration</span></div><div class="line"><span class="comment">## Docs: http://hexo.io/docs/configuration.html</span></div><div class="line"><span class="comment">## Source: https://github.com/hexojs/hexo/</span></div><div class="line"></div><div class="line"><span class="comment"># Site</span></div><div class="line">title: LittleQ</div><div class="line">subtitle: 笔记分类整理</div><div class="line">description: Java Web</div><div class="line">author: LittleQ</div><div class="line">language: zh-CN</div><div class="line">timezone: Asia/Chongqing</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> 主要解释一下这个时区<code>timezone</code>,我选的是重庆，具体想选择可以去这里<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="external">维基百科时区列表</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># URL</span></div><div class="line"><span class="comment">## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'</span></div><div class="line">url: http://sjq597.github.io/ </div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> <code>url</code>就填你的<code>github</code>博客地址就行，其他的不要改。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Deployment</span></div><div class="line"><span class="comment">## Docs: http://hexo.io/docs/deployment.html</span></div><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repository: http://github.com/sjq597/sjq597.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> <code>type</code>填<code>git</code>，不要填<code>github</code>，网上的教程都是填<code>github</code>，但是这是<code>hexo 2.x.x</code>的方法，对于<code>3.x.x</code>的版本，必须填<code>git</code>。<code>repository</code>也不要填<code>ssh</code>地址，要填<code>https</code>地址，并且把<code>https</code>改为<code>http</code>，分支都是<code>master</code>。</p>
+<h4 id="发布到github"><a href="#发布到github" class="headerlink" title="发布到github"></a>发布到<code>github</code></h4><p>发布到<code>github</code>之前还必须要安装一个东西：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">➜  note  npm install hexo-deployer-git --save</div><div class="line">npm WARN optional dep failed, continuing fsevents@1.0.0</div><div class="line">hexo-deployer-git@0.0.4 node_modules/hexo-deployer-git</div><div class="line">├── moment@2.10.6</div><div class="line">├── chalk@0.5.1 (ansi-styles@1.1.0, escape-string-regexp@1.0.3, supports-color@0.2.0, strip-ansi@0.3.0, has-ansi@0.1.0)</div><div class="line">├── hexo-util@0.1.7 (ent@2.2.0, bluebird@2.10.1, highlight.js@8.8.0)</div><div class="line">├── swig@1.4.2 (optimist@0.6.1, uglify-js@2.4.24)</div><div class="line">└── hexo-fs@0.1.4 (escape-string-regexp@1.0.3, graceful-fs@4.1.2, bluebird@2.10.1, chokidar@1.1.0)</div></pre></td></tr></table></figure>
+<p>然后就可已发布了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  note  hexo d                              </div><div class="line">INFO  Deploying: git</div><div class="line">INFO  Clearing .deploy folder...</div><div class="line">INFO  Copying files from public folder...</div><div class="line">On branch master</div><div class="line">nothing to commit, working directory clean</div><div class="line">Username <span class="keyword">for</span> <span class="string">'https://github.com'</span>: sjq597</div><div class="line">Password <span class="keyword">for</span> <span class="string">'https://sjq597@github.com'</span>: </div><div class="line">To http://github.com/sjq597/sjq597.github.io.git</div><div class="line"> + 5183f8b...aef1a55 master -&gt; master (forced update)</div><div class="line">Branch master <span class="built_in">set</span> up to track remote branch master from http://github.com/sjq597/sjq597.github.io.git.</div><div class="line">INFO  Deploy <span class="keyword">done</span>: git</div></pre></td></tr></table></figure></p>
+<h4 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h4><ul>
+<li>YAMLException</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FATAL Something\<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></div><div class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 13, column 1:</div><div class="line">    # URL</div><div class="line">    ^</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> YML语法校验比较严格，冒号后面必须要有个空格，切记。配置文件里所有的修改地方都要记得在冒号后空格一下。</p>
+<ul>
+<li>Deployer not found: github</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  note  hexo d           </div><div class="line">ERROR Deployer not found: github</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> 参见前面说的，<code>3.x.x</code>版本需要把<code>type</code>设置为<code>git</code>而不是<code>github</code>,并且仓库地址要写<code>git</code>的<code>https</code>地址，并且要改为<code>http</code>开头。</p>
+<p>然后再去访问你在<code>github</code>上的博客地址，就会发现变成了<code>hexo</code>的<code>index.html</code>。</p>
+<ul>
+<li>Error: watch ENOSPC</li>
+</ul>
+<p>在终端输入:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">➜  <span class="built_in">npm</span> dedupe</div></pre></td></tr></table></figure></p>
+<p>如果还不管用,试试下面的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">➜  <span class="built_in">echo</span> fs.inotify.max_user_watches=524288 | sudo tee <span class="_">-a</span> /etc/sysctl.conf &amp;&amp; sudo sysctl -p</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/博客搭建/">博客搭建</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Hexo/">Hexo</a><a href="/tags/开发环境/">开发环境</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/02/Ubuntu-14-04-Sublime-Text-3-手动安装插件/" title="Ubuntu 14.04 Sublime Text 3 手动安装插件" itemprop="url">Ubuntu 14.04 Sublime Text 3 手动安装插件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-01T16:15:57.000Z" itemprop="datePublished"> 发表于 2015-10-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Ubuntu-14-04-Sublime-Text-3-手动安装插件"><a href="#Ubuntu-14-04-Sublime-Text-3-手动安装插件" class="headerlink" title="Ubuntu 14.04 Sublime Text 3 手动安装插件"></a>Ubuntu 14.04 Sublime Text 3 手动安装插件</h3><p>首先声明，这种方式只针对于在线安装失败的情况下，例如公司封端口，或者远端仓库不稳定的情况，<code>github</code>在国内有时候确实不太稳定。</p>
+<h4 id="先安装Package-Control"><a href="#先安装Package-Control" class="headerlink" title="先安装Package Control"></a>先安装Package Control</h4><ul>
+<li>Sublime Text 3 终端安装<br>先按ctrl+`调出终端，或者直接 <code>View &gt; Show Console</code><br>然后在终端中输入下面的代码：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib.request,os,hashlib; </div><div class="line">h = <span class="string">'2915d1851351e5ee549c20394736b442'</span> + <span class="string">'8bc59f460fa1548d1514676163dafc88'</span>; </div><div class="line">pf = <span class="string">'Package Control.sublime-package'</span>; </div><div class="line">ipp = sublime.installed_packages_path(); </div><div class="line">urllib.request.install_opener( </div><div class="line">urllib.request.build_opener( </div><div class="line">urllib.request.ProxyHandler()</div><div class="line">) </div><div class="line">); </div><div class="line">by = urllib.request.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.replace(<span class="string">' '</span>, <span class="string">'%20'</span>)).read(); </div><div class="line">dh = hashlib.sha256(by).hexdigest(); </div><div class="line">print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h)) <span class="keyword">if</span> dh != h <span class="keyword">else</span> open(os.path.join( ipp, pf), <span class="string">'wb'</span> ).write(by)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>NOTE:</strong> 如果在线安装失败，可以离线安装，具体方法是：</p>
+<ul>
+<li>下载<code>Package Control</code>安装包<a href="https://packagecontrol.io/Package%20Control.sublime-package" target="_blank" rel="external">Package Control.sublime-package</a></li>
+<li><p>找到<code>Preferences &gt; Browse Packages</code>,打开的主目录为<code>Packages</code>，到上一级目录<code>sublime-text-3</code>，目录结构如下：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  <span class="keyword">sublime-text-3 </span> tree -L <span class="number">1</span></div><div class="line">.</div><div class="line">├── <span class="keyword">Cache</span></div><div class="line">├── <span class="keyword">Installed </span>Packages</div><div class="line">├── Local</div><div class="line">└── Packages</div></pre></td></tr></table></figure>
+</li>
+<li><p>把下载的<code>Package Control.sublime-package</code>离线压缩包拷到<code>Installed Packages</code>目录下(不用解压)，然后重启<code>sublime text 3</code>，然后在<code>Preferences</code>菜单下就可以看到多了两个选项<code>Package Settings</code>和<code>Package Control</code>，这就说明安装成功了。</p>
+</li>
+</ul>
+<h4 id="安装MarkdownEditing插件"><a href="#安装MarkdownEditing插件" class="headerlink" title="安装MarkdownEditing插件"></a>安装M<code>arkdownEditing</code>插件</h4><ul>
+<li>首先下载插件安装包,并将安装包拷贝到<code>Sublime Text 3</code>的安装目录下对应的目录<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/SublimeText-Markdown/</span>MarkdownEditing.git</div><div class="line">sudo cp -r MarkdownEditing<span class="regexp">/ ~/</span>.config<span class="regexp">/sublime-text-3/</span>Packages</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>打开一个<code>.md</code>文件就可以看到效果了。</p>
+<h4 id="安装Markdown-Preview插件"><a href="#安装Markdown-Preview插件" class="headerlink" title="安装Markdown Preview插件"></a>安装<code>Markdown Preview</code>插件</h4><p>安装上面的插件看到的当然看到的不是最终效果，如果需要预览，还可以装一个<code>Markdown Preview</code>的插件，同样的我的还是不能通过包控制器安装，还是说说如何手动安装吧。<br><strong>NOTE:</strong> 以下方法来自<code>Markdown Preview</code>的<a href="https://github.com/revolunet/sublimetext-markdown-preview" target="_blank" rel="external">github官方地址</a></p>
+<ul>
+<li><p>首先下载插件安装包,并将安装包拷贝到<code>Sublime Text 3</code>的安装目录下对应的目录</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone git@github<span class="selector-class">.com</span>:revolunet/sublimetext-markdown-preview<span class="selector-class">.git</span></div><div class="line">sudo cp -r sublimetext-markdown-preview ~/.config/sublime-text-<span class="number">3</span>/Packages</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果需要预览，可以按输入<code>Shift+Ctrl+p</code>，输入<code>Markdown Preview</code>，可以选择以下几个选项</p>
+<ul>
+<li>Markdown Preview: Preview in Browser</li>
+<li>Markdown Preview: Export HTML in Sublime Text</li>
+<li>Markdown Preview: Copy to Clipboard</li>
+<li>Markdown Preview: Open Markdown Cheat sheet</li>
+</ul>
+</li>
+</ul>
+<p>默认就选第一个了，最后选<code>github</code>或者<code>markdown</code>然后就可以在浏览器中查看预览内容了。<br><strong>NOTE:</strong> 但是这样太麻烦，可以设置一个快捷键,点击<code>Preferences-&gt;</code>选择<code>Key Bindings User</code>，将其内容改为如下代码，以后直接按<code>alt+m</code>就可以在浏览器中预览了。<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;<span class="attr">"keys"</span>:[<span class="string">"alt+m"</span>], <span class="attr">"command"</span>: <span class="string">"markdown_preview"</span>, <span class="attr">"args"</span>: &#123; <span class="attr">"target"</span>: <span class="string">"browser"</span>&#125; &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Sublime-Text/">Sublime Text</a><a href="/tags/插件/">插件</a><a href="/tags/Markdown/">Markdown</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/02/Ubuntu-14-04-Sublime-Text-3-不能输入中文/" title="Ubuntu 14.04 Sublime Text 3 不能输入中文" itemprop="url">Ubuntu 14.04 Sublime Text 3 不能输入中文</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-01T16:09:30.000Z" itemprop="datePublished"> 发表于 2015-10-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Ubuntu-14-04-Sublime-Text-3-不能输入中文"><a href="#Ubuntu-14-04-Sublime-Text-3-不能输入中文" class="headerlink" title="Ubuntu 14.04 Sublime Text 3 不能输入中文"></a>Ubuntu 14.04 Sublime Text 3 不能输入中文</h3><p><code>sublime</code>这个编辑器很好用，小巧，比<code>IDE</code>要轻，主要是想用来写<code>markdown</code>。但是<code>ubuntu</code>下不能输入中文，这是一个很大的问题。</p>
+<h4 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h4><blockquote>
+<p>Ubuntu 14.04 64bits<br>sougou pingyin v1.2.0.0056<br>Sublime Text 3</p>
+</blockquote>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ul>
+<li>1.打开终端，下载所需要的库</li>
+</ul>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">➜  ~  git <span class="keyword">clone</span> <span class="title">git</span>@github.com:lyfeyaj/sublime-text-imfix.git</div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> 如果你没有装<code>git</code>，直接去<a href="https://github.com/lyfeyaj/sublime-text-imfix" target="_blank" rel="external">项目github</a>地址下载也行。下载下来的项目的目录结构如下：<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">➜  sublime-text-imfix <span class="symbol">git:</span>(master) tree -L <span class="number">3</span></div><div class="line">.</div><div class="line">├── image</div><div class="line">│   └── fcitx.png</div><div class="line">├── <span class="class"><span class="keyword">lib</span></span></div><div class="line">│   └── libsublime-imfix.so</div><div class="line">├── README.md</div><div class="line">├── src</div><div class="line">│   ├── anran.tar.gz</div><div class="line">│   ├── subl</div><div class="line">│   └── sublime-imfix.c</div><div class="line">└── sublime-imfix</div><div class="line"></div><div class="line"><span class="number">3</span> directories, <span class="number">7</span> files</div></pre></td></tr></table></figure></p>
+<ul>
+<li>2.将subl移动到/usr/bin/，并且将sublime-imfix.so移动到/opt/sublime_text/（sublime的安装目录）</li>
+</ul>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~  cd sublime-text-imfix</div><div class="line">➜  ~  sudo cp ./<span class="class"><span class="keyword">lib</span>/<span class="title">libsublime</span>-<span class="title">imfix</span>.<span class="title">so</span> /<span class="title">opt</span>/<span class="title">sublime_text</span> </span></div><div class="line">➜  ~  sudo cp ./src/subl /usr/bin/</div></pre></td></tr></table></figure>
+<ul>
+<li>3.用subl命令试试能不能启动sublime，如果成功启动的话，应该就可以输入中文了。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">➜  ~  subl</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Web/">Web</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/Sublime-Text/">Sublime Text</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/09/29/Linux下Node-js安装/" title="Linux下Node.js安装" itemprop="url">Linux下Node.js安装</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-09-29T15:29:33.000Z" itemprop="datePublished"> 发表于 2015-09-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="首先去官网下载Node-js"><a href="#首先去官网下载Node-js" class="headerlink" title="首先去官网下载Node.js"></a>首先去官网下载Node.js</h3><p>我的是<code>Ubuntu 14.04</code>,所以下载的是node-v4.1.1-linux-x64.tar.gz</p>
+<h4 id="解压缩："><a href="#解压缩：" class="headerlink" title="解压缩："></a>解压缩：</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">tar -xvf <span class="keyword">node</span><span class="title">-v4</span>.<span class="number">1.1</span>-linux-x64.tar.gz -C /usr/qunar/</div><div class="line">cd /usr/qunar</div><div class="line">sudo mv <span class="keyword">node</span><span class="title">-v4</span>.<span class="number">1.1</span>-linux-x64 <span class="keyword">node</span></div><div class="line"><span class="title">export</span> <span class="attr">PATH=</span>/usr/qunar/<span class="keyword">node</span><span class="title">/bin</span>/:$PATH</div><div class="line"><span class="keyword">node</span> <span class="title">-v</span></div></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong> 记住<code>$PATH</code>前面是冒号，不是分号，之前搞错了，结果环境变量都被搞坏了，害得我又得去重新恢复环境变量，恢复方式：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">export PATH=<span class="regexp">/usr/local</span><span class="regexp">/sbin:/usr</span><span class="regexp">/local/bin</span>:<span class="regexp">/sbin:/bin</span>:<span class="regexp">/usr/sbin</span>:<span class="regexp">/usr/bin</span>:<span class="regexp">/root/bin</span></div><div class="line">export JAVA_HOME=<span class="regexp">/usr/java</span><span class="regexp">/jdk1.7.0_40</span></div><div class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</div><div class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/<span class="class"><span class="keyword">lib</span>:$&#123;<span class="title">JRE_HOME</span>&#125;/<span class="title">lib</span></span></div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/<span class="symbol">bin:</span>$PATH</div></pre></td></tr></table></figure>
+<h4 id="测试运行："><a href="#测试运行：" class="headerlink" title="测试运行："></a>测试运行：</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#--------------------测试----------------------------</span></div><div class="line"><span class="comment">#创建nodejs项目目录</span></div><div class="line">mkdir -p <span class="regexp">/usr/</span>qunar<span class="regexp">/nodejs/</span></div><div class="line"><span class="comment">#创建hello.js文件</span></div><div class="line">vi <span class="regexp">/usr/</span>qunar<span class="regexp">/nodejs/</span>hello.js</div><div class="line"><span class="comment">#内容如下：</span></div><div class="line">var http = require(<span class="string">"http"</span>);</div><div class="line">http.createServer(<span class="keyword">function</span>(request, response) &#123;	</div><div class="line">    response.writeHead(<span class="number">200</span>, &#123;		</div><div class="line">        <span class="string">"Content-Type"</span> : <span class="string">"text/plain"</span> <span class="regexp">//</span> 输出类型	</div><div class="line">    &#125;);	</div><div class="line">response.write(<span class="string">"Hello World"</span>);<span class="regexp">//</span> 页面输出	</div><div class="line">response.end();&#125;).listen(<span class="number">8100</span>); <span class="regexp">//</span> 监听端口号</div><div class="line">console.log(<span class="string">"nodejs start listen 8100 port!"</span>);</div><div class="line"><span class="comment">#后台运行</span></div><div class="line">node <span class="regexp">/usr/</span>local<span class="regexp">/nodejs/</span>hello.js &amp;</div><div class="line"><span class="comment">#浏览器访问</span></div><div class="line">http:<span class="regexp">//</span>localhost:<span class="number">8100</span><span class="regexp">/</span></div></pre></td></tr></table></figure>
+<p>如果看到浏览器界面输出Hello World!就表示成功了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/博客搭建/">博客搭建</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Web/">Web</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/Node-js/">Node.js</a><a href="/tags/前端/">前端</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/12/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

@@ -1,0 +1,617 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Shell 反引号，单引号，双引号 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="最近碰到个坑,在写shell脚本查询Hive数据的时候,有一个脚本在Shell里怎么都执行不出结果,但是拷贝到Hive界面里却能正常执行出结果,因为Hive表是按日期分区的,有两种格式:一种是%Y%m%d,另一种是%Y-%m-%d.dw_source的表是第一种格式,而dw_transform层的表是第二种格式:
+错误样例1234567# sql用单引号 执行成功,可以返回正常结果sql1=&apos;se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell 反引号，单引号，双引号">
+<meta property="og:url" content="http://sjq597.github.io/2015/11/06/Shell-反引号，单引号，双引号/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="最近碰到个坑,在写shell脚本查询Hive数据的时候,有一个脚本在Shell里怎么都执行不出结果,但是拷贝到Hive界面里却能正常执行出结果,因为Hive表是按日期分区的,有两种格式:一种是%Y%m%d,另一种是%Y-%m-%d.dw_source的表是第一种格式,而dw_transform层的表是第二种格式:
+错误样例1234567# sql用单引号 执行成功,可以返回正常结果sql1=&apos;se">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shell 反引号，单引号，双引号">
+<meta name="twitter:description" content="最近碰到个坑,在写shell脚本查询Hive数据的时候,有一个脚本在Shell里怎么都执行不出结果,但是拷贝到Hive界面里却能正常执行出结果,因为Hive表是按日期分区的,有两种格式:一种是%Y%m%d,另一种是%Y-%m-%d.dw_source的表是第一种格式,而dw_transform层的表是第二种格式:
+错误样例1234567# sql用单引号 执行成功,可以返回正常结果sql1=&apos;se">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/06/Shell-反引号，单引号，双引号/" title="Shell 反引号，单引号，双引号" itemprop="url">Shell 反引号，单引号，双引号</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-06T05:22:53.000Z" itemprop="datePublished"> 发表于 2015-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#错误样例"><span class="toc-number">1.</span> <span class="toc-text">错误样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反引号-双引号-单引号用法"><span class="toc-number">2.</span> <span class="toc-text">反引号 双引号 单引号用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#反引号"><span class="toc-number">2.1.</span> <span class="toc-text">反引号(`)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双引号-“"><span class="toc-number">2.2.</span> <span class="toc-text">双引号(“)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单引号-‘"><span class="toc-number">2.3.</span> <span class="toc-text">单引号(‘)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用"><span class="toc-number">3.</span> <span class="toc-text">应用</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近碰到个坑,在写shell脚本查询Hive数据的时候,有一个脚本在Shell里怎么都执行不出结果,但是拷贝到Hive界面里却能正常执行出结果,因为Hive表是按日期分区的,有两种格式:<br>一种是<code>%Y%m%d</code>,另一种是<code>%Y-%m-%d</code>.dw_source的表是第一种格式,而dw_transform层的表是第二种格式:</p>
+<h3 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># sql用单引号 执行成功,可以返回正常结果</span></div><div class="line">sql1=<span class="string">'select uid,first_ip,first_date from dw_source.user_ext where dt='</span>20151104<span class="string">';'</span></div><div class="line">sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql1</span>"</span> &gt; source.txt</div><div class="line"></div><div class="line"><span class="comment"># sql用单引号 执行成功,但是没有返回值</span></div><div class="line">sql2=<span class="string">'select uid,first_ip,first_date from dw_transform.user_ext where dt='</span>2015-11-04<span class="string">';'</span></div><div class="line">sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql2</span>"</span> &gt; transform.txt</div></pre></td></tr></table></figure>
+<p>我们可以用<code>echo</code>命令来看看具体执行的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sql1=<span class="string">'select uid,first_ip,first_date from dw_source.user_ext where dt='</span>20151104<span class="string">';'</span></div><div class="line">sql2=<span class="string">'select uid,first_ip,first_date from dw_transform.user_ext where dt='</span>2015-11-04<span class="string">';'</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql1</span>"</span></div><div class="line"><span class="built_in">echo</span> sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql2</span>"</span></div></pre></td></tr></table></figure></p>
+<p>看看返回结果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo -uhive_user hive <span class="_">-e</span> select uid,first_ip,first_date from dw_source.user_ext <span class="built_in">where</span> dt=20151104;</div><div class="line">sudo -uhive_user hive <span class="_">-e</span> select uid,first_ip,first_date from dw_transform.user_ext <span class="built_in">where</span> dt=2015-11-04;</div></pre></td></tr></table></figure></p>
+<p>看到这里发现了一个问题,本来在日期上应该有的单引号消失了,因为第一种时间格式没有分隔符,可以被正常的识别,但是第二种就比较悲催了,应该是被<code>-</code>分隔了,导致日期不对,解决办法就是最外面用双引号,即改成如下内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sql1=<span class="string">"select uid,first_ip,first_date from dw_source.user_ext where dt='20151104';"</span></div><div class="line">sql2=<span class="string">"select uid,first_ip,first_date from dw_transform.user_ext where dt='2015-11-04';"</span></div></pre></td></tr></table></figure></p>
+<h3 id="反引号-双引号-单引号用法"><a href="#反引号-双引号-单引号用法" class="headerlink" title="反引号 双引号 单引号用法"></a>反引号 双引号 单引号用法</h3><p>这几个符号长得比较像，但是功能还是有很大区别的。</p>
+<h4 id="反引号"><a href="#反引号" class="headerlink" title="反引号(`)"></a>反引号(`)</h4><p>起着命令替换的作用。命令替换是指shell能够将一个命令的标准输出插在一个命令行中任何位置。,举个简单的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  <span class="built_in">echo</span> The date is `date`</div><div class="line">The date is 2015年 11月 06日 星期五 16:27:46 CST</div></pre></td></tr></table></figure></p>
+<h4 id="双引号-“"><a href="#双引号-“" class="headerlink" title="双引号(“)"></a>双引号(“)</h4><p>双引号是字符串的界定符,而不是字符的界定符,取消除[`,$,”,]以外,其他的都变成字符串的内容了.双引号是弱引用，引号里的值若再包含变量，那在赋值的时候，所有这些变量就被立即替换了。<br>用双引号的时候:<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$加变量名可以取变量的值</div><div class="line">反引号仍表示命令替换</div><div class="line">\$表示$的字面值</div><div class="line">\<span class="string">`表示`</span>的字面值</div><div class="line">\<span class="string">"表示"</span>的字面值</div><div class="line">\\表示\的字面值</div></pre></td></tr></table></figure></p>
+<p>看个简单的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  ~  name=World</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="variable">$name</span></div><div class="line">World</div><div class="line">➜  ~  sayHello=<span class="string">"Hello <span class="variable">$name</span>"</span></div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="variable">$sayHello</span></div><div class="line">Hello World</div></pre></td></tr></table></figure></p>
+<h4 id="单引号-‘"><a href="#单引号-‘" class="headerlink" title="单引号(‘)"></a>单引号(‘)</h4><p>单引号告诉shell忽略所有特殊字符,保持引号内所有字符的字面值，即使引号内的\和回车也不例外,单引号是强引用,但是字符串中不能出现单引号。之前的问题就是犯了这个错,两个单引号嵌套了.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">"`date`"</span></div><div class="line">2015年 11月 06日 星期五 16:42:29 CST</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">'`date`'</span></div><div class="line">`date`</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">"'`date`'"</span></div><div class="line"><span class="string">'2015年 11月 06日 星期五 16:42:29 CST'</span></div><div class="line">➜  ~</div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>如果<code>&#39;</code>出现在<code>&quot;</code>里面，<code>&#39;</code>就退化为一个单纯的字符了，而不再有强引用一说。换句话说，只有最外层的<code>&#39;</code>才具有强引用效果。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>这个对我们有啥影响呢？基本在我们使用Shell的时候都会碰到这个坑，尤其是正则表达式，有时候匹配数字用<code>\d</code>就可以了，但是像Hive这种用Java写的，内部会有转义，所以需要传入两个<code>\\</code>的时候，就容易踩坑，以Hive中的正则为例,看下面:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">reg_str1</span>=<span class="string">'.*id=(\\d).*'</span></div><div class="line"><span class="attr">reg_str2</span>=<span class="string">".*id=(\\\\d).*"</span></div></pre></td></tr></table></figure></p>
+<p>这两种写法都是正确的写法，效果是一样的，其他的写法都是不对的</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/11/06/Shell-反引号，单引号，双引号/" data-title="Shell 反引号，单引号，双引号 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/11/07/PyCharm:Error-running-xx-Cannot-start-process-the-working-directory-home-xx-does-not-exist/" title="Error running xx: Cannot start process, the working directory /home/xx does not exist">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Error running xx: Cannot start process, the working directory /home/xx does not exist</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/05/Vim-常用配置技巧/"  title="Vim 常用配置技巧">
+ <strong>下一篇：</strong><br/> 
+ <span>Vim 常用配置技巧
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#错误样例"><span class="toc-number">1.</span> <span class="toc-text">错误样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反引号-双引号-单引号用法"><span class="toc-number">2.</span> <span class="toc-text">反引号 双引号 单引号用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#反引号"><span class="toc-number">2.1.</span> <span class="toc-text">反引号(`)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双引号-“"><span class="toc-number">2.2.</span> <span class="toc-text">双引号(“)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单引号-‘"><span class="toc-number">2.3.</span> <span class="toc-text">单引号(‘)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用"><span class="toc-number">3.</span> <span class="toc-text">应用</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

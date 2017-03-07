@@ -1,0 +1,622 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Ubuntu 16.04 安装Apache Kylin | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="最近貌似用Kylin来搭建OLAP数据分析已经成为了大多数公司采取的做法了，这个东西搭建起来还有些=麻烦,因为它需要你先配置好Hadoop,Hive,Hbase这三个东西，任何一个配置的不对的话可能会出问题，下面介绍一下我的安装和配置过程
+环境准备主要是依赖的环境的一些版本123456OS: Ubuntu 16.04 64bitJava: 1.7.0_40Hive: 2.1.0Hadoop: 2.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 16.04 安装Apache Kylin">
+<meta property="og:url" content="http://sjq597.github.io/2016/10/23/Ubuntu-16-04-安装Apache-Kylin/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="最近貌似用Kylin来搭建OLAP数据分析已经成为了大多数公司采取的做法了，这个东西搭建起来还有些=麻烦,因为它需要你先配置好Hadoop,Hive,Hbase这三个东西，任何一个配置的不对的话可能会出问题，下面介绍一下我的安装和配置过程
+环境准备主要是依赖的环境的一些版本123456OS: Ubuntu 16.04 64bitJava: 1.7.0_40Hive: 2.1.0Hadoop: 2.">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 16.04 安装Apache Kylin">
+<meta name="twitter:description" content="最近貌似用Kylin来搭建OLAP数据分析已经成为了大多数公司采取的做法了，这个东西搭建起来还有些=麻烦,因为它需要你先配置好Hadoop,Hive,Hbase这三个东西，任何一个配置的不对的话可能会出问题，下面介绍一下我的安装和配置过程
+环境准备主要是依赖的环境的一些版本123456OS: Ubuntu 16.04 64bitJava: 1.7.0_40Hive: 2.1.0Hadoop: 2.">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/10/23/Ubuntu-16-04-安装Apache-Kylin/" title="Ubuntu 16.04 安装Apache Kylin" itemprop="url">Ubuntu 16.04 安装Apache Kylin</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-10-23T07:57:27.000Z" itemprop="datePublished"> 发表于 2016-10-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境准备"><span class="toc-number">1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装步骤"><span class="toc-number">2.</span> <span class="toc-text">安装步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置Kylin"><span class="toc-number">3.</span> <span class="toc-text">配置Kylin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试运行"><span class="toc-number">4.</span> <span class="toc-text">测试运行</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近貌似用Kylin来搭建OLAP数据分析已经成为了大多数公司采取的做法了，这个东西搭建起来还有些=麻烦,因为它需要你先配置好Hadoop,Hive,Hbase这三个东西，任何一个配置的不对的话可能会出问题，下面介绍一下我的安装和配置过程</p>
+<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>主要是依赖的环境的一些版本<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">OS</span>: <span class="selector-tag">Ubuntu</span> 16<span class="selector-class">.04</span> 64<span class="selector-tag">bit</span></div><div class="line"><span class="selector-tag">Java</span>: 1<span class="selector-class">.7</span><span class="selector-class">.0_40</span></div><div class="line"><span class="selector-tag">Hive</span>: 2<span class="selector-class">.1</span><span class="selector-class">.0</span></div><div class="line"><span class="selector-tag">Hadoop</span>: 2<span class="selector-class">.6</span><span class="selector-class">.4</span></div><div class="line"><span class="selector-tag">Hbase</span>: 0<span class="selector-class">.98</span><span class="selector-class">.22-hadoop2</span></div><div class="line"><span class="selector-tag">Kylin</span>: 1<span class="selector-class">.5</span><span class="selector-class">.4</span><span class="selector-class">.1</span></div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>这里Hbase并没有用官方的1.x版本，而是采用了Kylin官方建议的0.98版本，因为我第一次安装的时候由于hbase的问题而失败了，所以就换了一个低版本的，你在安装的时候也可以使用最新版，但是如果安装不成功，可以考虑采纳官方建议的组合版本</p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>Hadoop,Hive,Hbase的安装这里就不讲了，可以参考我以前的文章，我采用的都是本地为分布式运行模式,去<a href="http://kylin.apache.org/download/" target="_blank" rel="external">Kylin官方下载</a>最新版本:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar -xvf apache-kylin<span class="number">-1.5</span><span class="number">.4</span><span class="number">.1</span>-bin.tar.gz -C /usr/dev</div></pre></td></tr></table></figure></p>
+<p>解压好了，然后就是配置环境变量了，注意我都配置在<code>/etc/profile</code>这个文件里面了，主要是有些时候环境变量读取不到，所以干脆来个最狠的，直接全局配置了:<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">### 大数据相关</div><div class="line">## Hbase</div><div class="line"><span class="keyword">export</span> HBASE_HOME=/usr/dev/hbase<span class="number">-1.2</span><span class="number">.3</span></div><div class="line"><span class="keyword">export</span> HBASE_CONF_DIR=$&#123;HBASE_HOME&#125;/conf</div><div class="line"></div><div class="line">## Hadoop</div><div class="line"><span class="keyword">export</span> HADOOP_HOME=/usr/dev/hadoop<span class="number">-2.6</span><span class="number">.4</span></div><div class="line"><span class="keyword">export</span> HADOOP_CONF_DIR=$&#123;HADOOP_HOME&#125;/etc/hadoop</div><div class="line"><span class="keyword">export</span> YARN_CONF_DIR=$&#123;HADOOP_HOME&#125;/etc/hadoop</div><div class="line"></div><div class="line">## Hive</div><div class="line"><span class="keyword">export</span> HIVE_HOME=/usr/dev/apache-hive<span class="number">-2.1</span><span class="number">.0</span>-bin</div><div class="line"><span class="keyword">export</span> HCAT_HOME=$&#123;HIVE_HOME&#125;/hcatalog</div><div class="line"><span class="keyword">export</span> HIVE_CONF=$&#123;HIVE_HOME&#125;/conf</div><div class="line"></div><div class="line">## Kylin</div><div class="line"><span class="keyword">export</span> KYLIN_HOME=/usr/dev/apache-kylin<span class="number">-1.5</span><span class="number">.4</span><span class="number">.1</span>-bin</div></pre></td></tr></table></figure></p>
+<p>上面的目录如果不一致，改成你自己对应的目录,然后<code>source /etc/profile</code>使配置生效。</p>
+<h3 id="配置Kylin"><a href="#配置Kylin" class="headerlink" title="配置Kylin"></a>配置Kylin</h3><p>配置Kylin使用Hive的数据库名<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd $&#123;KYLIN_HOME&#125;/conf</div><div class="line">vim kylin<span class="selector-class">.properties</span></div><div class="line">kylin<span class="selector-class">.job</span><span class="selector-class">.hive</span><span class="selector-class">.database</span><span class="selector-class">.for</span><span class="selector-class">.intermediatetable</span>=kylin_middle</div></pre></td></tr></table></figure></p>
+<p>然后记得要手动在Hive中创建数据库<code>kylin_middle</code>.</p>
+<p>然后创建一个目录并赋给当前用户权限,假设当前用户为<code>anonymous</code>:<br><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hadoop <span class="built_in">fs</span> -<span class="built_in">mkdir</span> /kylin</div><div class="line">hadoop <span class="built_in">fs</span> -chown -R anonymous:anonymous /kylin</div></pre></td></tr></table></figure></p>
+<p>然后检测一下Kylin的环境变量:<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> <span class="variable">$&#123;KYLIN_HOME&#125;</span>/bin</div><div class="line">./check-env.<span class="keyword">sh</span></div></pre></td></tr></table></figure></p>
+<p>如果你的系统也报错:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">KYLIN_HOME <span class="keyword">is</span> <span class="keyword">set</span> <span class="keyword">to</span> /usr/dev/apache-kylin-<span class="number">1.5</span>.<span class="number">4.1</span>-bin</div><div class="line"><span class="keyword">cat</span>：无效选项 -- <span class="number">1</span></div><div class="line">Try <span class="string">'cat --help'</span> <span class="keyword">for</span> more information.</div><div class="line">-<span class="built_in">mkdir</span>: Not enough <span class="keyword">argument</span><span class="variable">s:</span> expected <span class="number">1</span> but got <span class="number">0</span></div><div class="line">Usage: hadoop fs [generic <span class="keyword">options</span>] -<span class="built_in">mkdir</span> [-<span class="keyword">p</span>] <span class="symbol">&lt;path&gt;</span> ...</div><div class="line">failed <span class="keyword">to</span> create , Please <span class="keyword">make</span> sure the user <span class="built_in">has</span> <span class="keyword">right</span> <span class="keyword">to</span> access</div></pre></td></tr></table></figure></p>
+<p>那可能也是由于sh调用的问题，需要把所有sh脚本里面的<code>sh</code>替换成<code>bash</code>，我这里用<code>sed</code>命令来替换:<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sed</span> -i <span class="string">'s/`sh /`bash /g'</span> <span class="regexp">*.sh</span></div></pre></td></tr></table></figure></p>
+<p>这样就把所有的替换了，并且替换结果也直接写回文件了.然后运行环境检测脚本<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./check-<span class="keyword">env</span>.sh</div></pre></td></tr></table></figure></p>
+<p>如果没报什么错误，就可以正式运行了，记得先把hadoop hbase服务启动<br>然后再启动kylin<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./kylin<span class="selector-class">.sh</span> start</div></pre></td></tr></table></figure></p>
+<p>然后访问<a href="127.0.0.1:7070/kylin" target="_blank" rel="external">127.0.0.1:7070/kylin</a><br>第一次会有点儿慢，需要在hbase中创建表，稍微等大概10s就会弹出登陆界面<br>ADMIN/KYLIN登陆就可以了</p>
+<h3 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h3><p>官方也提供了官方测试例子，如果你可以顺利登入系统，那么在<code>${KYLIN_HOME}/bin</code>下面有个测试脚本<code>sample.sh</code>,运行这个脚本<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> <span class="variable">$&#123;KYLIN_HOME&#125;</span>/bin</div><div class="line">./<span class="keyword">sample</span>.<span class="keyword">sh</span></div><div class="line">./kylin.<span class="keyword">sh</span> stop</div><div class="line">./kylin.<span class="keyword">sh</span> start</div></pre></td></tr></table></figure></p>
+<p>一次执行上面三个命令，运行成功之后重新进入系统或者刷新即可，会有一个<code>learn_kylin</code>工程，你只需要在<code>Model</code>里面<code>Actions</code>里面<code>Build</code>这个Cube即可，然后在Monitor里面可以看编译的进度，只有到100%才说明你编译成功，双击可以查看每一步的编译具体步骤，可以查看具体的日志，如果你编译失败了，可以查看具体的日志，直到编译成功为止，然后在Insight里面可以写sql查询:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> part_dt,<span class="keyword">sum</span>(price) <span class="keyword">from</span> kylin_sales <span class="keyword">group</span> <span class="keyword">by</span> part_dt;</div></pre></td></tr></table></figure></p>
+<p>可以看看这句，这个放到hive里面起码要30s,但是这个在Kylin里面基本就秒出结果了,Kylin提供的是sql接口,下一节讲一讲怎么集成上层的多维分析工具。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2016/10/23/Ubuntu-16-04-安装Apache-Kylin/" data-title="Ubuntu 16.04 安装Apache Kylin | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/11/04/DataTables-改变列渲染/" title="DataTables 常用操作">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DataTables 常用操作</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/10/09/Ubuntu-16-04-Hbase-本地安装配置/"  title="Ubuntu 16.04 Hbase 本地安装配置">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu 16.04 Hbase 本地安装配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境准备"><span class="toc-number">1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装步骤"><span class="toc-number">2.</span> <span class="toc-text">安装步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置Kylin"><span class="toc-number">3.</span> <span class="toc-text">配置Kylin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试运行"><span class="toc-number">4.</span> <span class="toc-text">测试运行</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

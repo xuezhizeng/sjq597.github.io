@@ -1,0 +1,638 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Flask Blueprint笔记 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="最近开始用Flask做一个报表系统，为了方便组织代码，网上了解了一下Flask Blueprint这个东西，算是一个入门，新手容易碰到的问题。关于蓝图的介绍网上也很多了，我也不多讲，主要是上代码，然后有常见的问题
+项目结构123456789101112131415161718192021➜  script git:(3a429f0) tree -L 4.├── my_site│   ├── app">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask Blueprint笔记">
+<meta property="og:url" content="http://sjq597.github.io/2016/08/07/Flask-Blueprint笔记/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="最近开始用Flask做一个报表系统，为了方便组织代码，网上了解了一下Flask Blueprint这个东西，算是一个入门，新手容易碰到的问题。关于蓝图的介绍网上也很多了，我也不多讲，主要是上代码，然后有常见的问题
+项目结构123456789101112131415161718192021➜  script git:(3a429f0) tree -L 4.├── my_site│   ├── app">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask Blueprint笔记">
+<meta name="twitter:description" content="最近开始用Flask做一个报表系统，为了方便组织代码，网上了解了一下Flask Blueprint这个东西，算是一个入门，新手容易碰到的问题。关于蓝图的介绍网上也很多了，我也不多讲，主要是上代码，然后有常见的问题
+项目结构123456789101112131415161718192021➜  script git:(3a429f0) tree -L 4.├── my_site│   ├── app">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/07/Flask-Blueprint笔记/" title="Flask Blueprint笔记" itemprop="url">Flask Blueprint笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-07T14:48:19.000Z" itemprop="datePublished"> 发表于 2016-08-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-number">1.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块"><span class="toc-number">3.</span> <span class="toc-text">模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行"><span class="toc-number">4.</span> <span class="toc-text">运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#访问"><span class="toc-number">5.</span> <span class="toc-text">访问</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近开始用Flask做一个报表系统，为了方便组织代码，网上了解了一下<code>Flask Blueprint</code>这个东西，算是一个入门，新手容易碰到的问题。<br>关于蓝图的介绍网上也很多了，我也不多讲，主要是上代码，然后有常见的问题</p>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">➜  script git:(<span class="number">3</span>a429f0) tree -L <span class="number">4</span></div><div class="line">.</div><div class="line">├── my_site</div><div class="line">│   ├── app1</div><div class="line">│   │   ├── __init__<span class="selector-class">.py</span></div><div class="line">│   │   ├── templates</div><div class="line">│   │   │   └── index<span class="selector-class">.html</span></div><div class="line">│   │   └── views<span class="selector-class">.py</span></div><div class="line">│   ├── app2</div><div class="line">│   │   ├── __init__<span class="selector-class">.py</span></div><div class="line">│   │   ├── templates</div><div class="line">│   │   │   └── index<span class="selector-class">.html</span></div><div class="line">│   │   └── views<span class="selector-class">.py</span></div><div class="line">│   ├── app3</div><div class="line">│   │   ├── __init__<span class="selector-class">.py</span></div><div class="line">│   │   ├── templates</div><div class="line">│   │   │   └── index<span class="selector-class">.html</span></div><div class="line">│   │   └── views<span class="selector-class">.py</span></div><div class="line">│   └── __init__<span class="selector-class">.py</span></div><div class="line">├── README<span class="selector-class">.md</span></div><div class="line">└── run.py</div></pre></td></tr></table></figure>
+<p>项目的目录结构如上面所示，项目根目录为<code>scirpt</code>,真正的项目为<code>my_site</code>目录,<code>app1</code>,<code>app2</code>,<code>app3</code>为三个不同的应用，对应为3个不同模块.<br><code>env</code>文件夹为<code>virtualenv</code>虚拟<code>python</code>环境安装目录.</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>安装虚拟Python环境，这个不多说，网上教程一堆，因为我用的Pycharm IDE,所以在Pycharm里面设置成我的安装环境就行。具体方法:<code>File--&gt;Settings--&gt;Project--&gt;Project Interpreter</code>,选你安装虚拟环境的地址即可。</p>
+<h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>一般自己写着玩或者写个小网站，就几个访问URL，都写在一个<code>views.py</code>里面当然没啥问题，但是项目大了，越来越复杂的话，肯定不可能都写在一个文件里面，极难维护，所以一般会按功能分成不同模块，下面以<code>app1</code>模块为例讲解一下:</p>
+<ul>
+<li><code>my_site/app1/views.py</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Blueprint, render_template</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line">app1 = Blueprint(<span class="string">'app1'</span>, __name__, template_folder=<span class="string">'templates'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@app1.route('/index')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'访问app1'</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</div></pre></td></tr></table></figure>
+<p>这就相当于完成了一个模块了，模块里访问的<code>index.html</code>模板文件为:</p>
+<ul>
+<li><code>my_site/app1/templates/index.html</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>应用1<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    测试1</div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>完成了模块之后还需要注册模块.</p>
+<ul>
+<li><code>my_site/__init__.py</code></li>
+</ul>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env python</div><div class="line"># -*- coding: utf<span class="number">-8</span> -*-</div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line">app = Flask(__name__, instance_relative_config=<span class="literal">True</span>)</div><div class="line"></div><div class="line">app.config.from_object(<span class="string">'config'</span>)</div><div class="line"></div><div class="line"><span class="keyword">from</span> my_site.app1.views <span class="keyword">import</span> app1</div><div class="line"><span class="keyword">from</span> my_site.app2.views <span class="keyword">import</span> app2</div><div class="line"><span class="keyword">from</span> my_site.app3.views <span class="keyword">import</span> app3</div><div class="line"></div><div class="line">app.register_blueprint(app1, url_prefix=<span class="string">'/app1'</span>)</div><div class="line">app.register_blueprint(app2, url_prefix=<span class="string">'/app2'</span>)</div><div class="line">app.register_blueprint(app3, url_prefix=<span class="string">'/app3'</span>)</div></pre></td></tr></table></figure>
+<p>这里注册了三个模块，为了演示，有三个模块，内容就不多虽说了，<code>views.py</code>的内容都是一样的，但是<code>index.html</code>稍作区分，以标志我们访问的是哪一个页面.</p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>然后在项目的根目录下创建一个<code>run.py</code>文件作为主启动文件:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">from</span> my_site <span class="keyword">import</span> app</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    app.run(host=<span class="string">'localhost'</span>, debug=<span class="keyword">True</span>)</div><div class="line"></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>然后直接用IDE运行<code>run.py</code>文件就行。</p>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>然后通过浏览器访问<code>http://localhost:5000/app1/index.html</code>，结果返回的值为:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">测试<span class="number">3</span></div></pre></td></tr></table></figure></p>
+<p>问题有点儿奇怪，通过设置断点,请求确实进入了<code>app1/views.py</code>文件，但是返回的却是<code>app3/index.html</code>的内容，上网查了一下，发现这个问题好像还挺常见的，官方也没把这个问题定义成bug,这个就涉及到<code>Flask</code>的<code>render_template()</code>函数在查找模板的时候是如何处理模板的了，默认是在项目的目录下查找<code>template</code>文件夹,如果没找到，就去模块下找，最后会把所有模块下找到的模板文件的路径加到一个字典文件里面，因为字典是无序的，所以具体会返回哪个页面得看字典的<code>hash</code>算法了,核心模块代码如下:</p>
+<ul>
+<li><code>python2.7/site-packages/flask/templating.py</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span><span class="params">(self, environment, template)</span>:</span></div><div class="line">    <span class="keyword">if</span> self.app.config[<span class="string">'EXPLAIN_TEMPLATE_LOADING'</span>]:</div><div class="line">        <span class="keyword">return</span> self._get_source_explained(environment, template)</div><div class="line">    <span class="keyword">return</span> self._get_source_fast(environment, template)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">render_template</span><span class="params">(template_name_or_list, **context)</span>:</span></div><div class="line">    <span class="string">"""Renders a template from the template folder with the given</span></div><div class="line">    context.</div><div class="line"></div><div class="line">    :param template_name_or_list: the name of the template to be</div><div class="line">                                  rendered, or an iterable with template names</div><div class="line">                                  the first one existing will be rendered</div><div class="line">    :param context: the variables that should be available in the</div><div class="line">                    context of the template.</div><div class="line">    """</div><div class="line">    ctx = _app_ctx_stack.top</div><div class="line">    ctx.app.update_template_context(context)</div><div class="line">    <span class="keyword">return</span> _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),</div><div class="line">                   context, ctx.app)</div></pre></td></tr></table></figure>
+<p>针对这个情况，有两种解决办法:</p>
+<ul>
+<li>官方解决方案:</li>
+</ul>
+<p>在每个模块的<code>template</code>文件夹下面的模板文件不要重名，怎么做呢？很简单，就是以模块名再建一个文件夹，把所有的模板文件放到这个文件夹下面，最后的结构可能就变成了:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">├── config<span class="selector-class">.py</span></div><div class="line">└─── my_site</div><div class="line">    ├── app1</div><div class="line">    │   ├── __init__<span class="selector-class">.py</span></div><div class="line">    │   ├── templates</div><div class="line">    │   │   └── app1</div><div class="line">    │   │       └── index<span class="selector-class">.html</span></div><div class="line">    │   └── views<span class="selector-class">.py</span></div><div class="line">    └── app2</div><div class="line">        ├── __init__<span class="selector-class">.py</span></div><div class="line">        ├── templates</div><div class="line">        │   └── app2</div><div class="line">        │       └── index<span class="selector-class">.html</span></div><div class="line">        └── views.py</div></pre></td></tr></table></figure></p>
+<p>所以对应的<code>views.py</code>文件中需要改成:<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> render_template(<span class="string">'app1/index.html'</span>)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>第三方解决方案</li>
+</ul>
+<p>既然已经知道问题出在处理模板的文件<code>templating.py</code>文件中，所以在对应额地方加上处理逻辑即可，github上的一位道友给出的解决方案,修改<code>python2.7/site-packages/flask/templating.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">render_template</span><span class="params">(template_name_or_list, **context)</span>:</span></div><div class="line">    <span class="string">"""Renders a template from the template folder with the given</span></div><div class="line">    context.</div><div class="line">    :param template_name_or_list: the name of the template to be</div><div class="line">                                  rendered, or an iterable with template names</div><div class="line">                                  the first one existing will be rendered</div><div class="line">    :param context: the variables that should be available in the</div><div class="line">                    context of the template.</div><div class="line">    """</div><div class="line">    ctx = _app_ctx_stack.top</div><div class="line">    ctx.app.update_template_context(context)</div><div class="line"></div><div class="line">    template = <span class="keyword">None</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> _request_ctx_stack.top <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> \</div><div class="line">            _request_ctx_stack.top.request.blueprint <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> \</div><div class="line">            isinstance(template_name_or_list, string_types):</div><div class="line">        bp = ctx.app.blueprints[_request_ctx_stack.top.request.blueprint]</div><div class="line">        <span class="keyword">if</span> bp.jinja_loader <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">try</span>:</div><div class="line">                template = bp.jinja_loader.load(ctx.app.jinja_env,</div><div class="line">                                                template_name_or_list,</div><div class="line">                                                ctx.app.jinja_env.globals)</div><div class="line">            <span class="keyword">except</span> TemplateNotFound:</div><div class="line">                <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> template <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        template = ctx.app.jinja_env\</div><div class="line">            .get_or_select_template(template_name_or_list)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _render(template, context, ctx.app)</div></pre></td></tr></table></figure></p>
+<p>然后再访问就可以了。<br><strong>注意:</strong>两种方式都可以，但是推荐使用第一种官方的方案，因为如果改源码，虽然可以正常运行，但是换个环境，或者项目重新给别人部署，如果不加说明，不知道的人不会去改<code>Flask</code>代码,那么这个项目则会出错。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Flask/">Flask</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2016/08/07/Flask-Blueprint笔记/" data-title="Flask Blueprint笔记 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/08/20/Python-SQLALchemy理解/" title="Python SQLALchemy理解">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Python SQLALchemy理解</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/20/Ubuntu-16-04-Hive-本地安装配置/"  title="Ubuntu 16.04 Hive 本地安装配置">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu 16.04 Hive 本地安装配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构"><span class="toc-number">1.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块"><span class="toc-number">3.</span> <span class="toc-text">模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行"><span class="toc-number">4.</span> <span class="toc-text">运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#访问"><span class="toc-number">5.</span> <span class="toc-text">访问</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

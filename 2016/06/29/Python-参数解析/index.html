@@ -1,0 +1,682 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Python 参数解析 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="有时需要用到外部传入的参数，虽然简单的使用*arg数组可以获取到每个参数的值，但是有一个局限性就是参数必须按顺序传入，不能多也不能少。但是考虑到有时候我们需要制定特定的参数的值，参数的个数，顺序都是不定的，这个时候单纯的靠*args显然无法满足我们的需求,这个时候就轮到argparse模块上场了，基本上一般的参数解析都可以胜任，下面看看怎么用：
+参数的几种解析方式主要有四种方式，简单介绍一下,先介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 参数解析">
+<meta property="og:url" content="http://sjq597.github.io/2016/06/29/Python-参数解析/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="有时需要用到外部传入的参数，虽然简单的使用*arg数组可以获取到每个参数的值，但是有一个局限性就是参数必须按顺序传入，不能多也不能少。但是考虑到有时候我们需要制定特定的参数的值，参数的个数，顺序都是不定的，这个时候单纯的靠*args显然无法满足我们的需求,这个时候就轮到argparse模块上场了，基本上一般的参数解析都可以胜任，下面看看怎么用：
+参数的几种解析方式主要有四种方式，简单介绍一下,先介">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 参数解析">
+<meta name="twitter:description" content="有时需要用到外部传入的参数，虽然简单的使用*arg数组可以获取到每个参数的值，但是有一个局限性就是参数必须按顺序传入，不能多也不能少。但是考虑到有时候我们需要制定特定的参数的值，参数的个数，顺序都是不定的，这个时候单纯的靠*args显然无法满足我们的需求,这个时候就轮到argparse模块上场了，基本上一般的参数解析都可以胜任，下面看看怎么用：
+参数的几种解析方式主要有四种方式，简单介绍一下,先介">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/29/Python-参数解析/" title="Python 参数解析" itemprop="url">Python 参数解析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-29T15:21:52.000Z" itemprop="datePublished"> 发表于 2016-06-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数的几种解析方式"><span class="toc-number">1.</span> <span class="toc-text">参数的几种解析方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不带key按顺序解析"><span class="toc-number">1.1.</span> <span class="toc-text">不带key按顺序解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不带-参数"><span class="toc-number">1.2.</span> <span class="toc-text">不带-参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带-的参数"><span class="toc-number">1.3.</span> <span class="toc-text">带-的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带-参数"><span class="toc-number">1.4.</span> <span class="toc-text">带--参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析参数的其他属性"><span class="toc-number">2.</span> <span class="toc-text">解析参数的其他属性</span></a></li></ol>
+		
+		</div>
+		
+		<p>有时需要用到外部传入的参数，虽然简单的使用<code>*arg</code>数组可以获取到每个参数的值，但是有一个局限性就是参数必须按顺序传入，不能多也不能少。<br>但是考虑到有时候我们需要制定特定的参数的值，参数的个数，顺序都是不定的，这个时候单纯的靠<code>*args</code>显然无法满足我们的需求,这个时候就轮到<code>argparse</code>模块上场了，基本上一般的参数解析都可以胜任，下面看看怎么用：</p>
+<h3 id="参数的几种解析方式"><a href="#参数的几种解析方式" class="headerlink" title="参数的几种解析方式"></a>参数的几种解析方式</h3><p>主要有四种方式，简单介绍一下,先介绍一下最简单的按顺序解析不带<code>key</code>指定参数形式:</p>
+<h4 id="不带key按顺序解析"><a href="#不带key按顺序解析" class="headerlink" title="不带key按顺序解析"></a>不带key按顺序解析</h4><p>这种方式可以获取脚本运行时后面的所有参数，但是顺序由输入的顺序决定的，<br>先看看测试代码,假设文件名叫<code>args.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! /usr/bin/python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">for</span> arg <span class="keyword">in</span> sys.argv:</div><div class="line">        <span class="keyword">print</span> arg</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>来一段测试代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ python args.py 12 34 56 78                                                                                                </div><div class="line">args.py</div><div class="line">12</div><div class="line">34</div><div class="line">56</div><div class="line">78</div></pre></td></tr></table></figure></p>
+<p>第一个参数就是python脚本的名字,后面四个就是四个参数了.但这个有时候我们希望我们传入参数的顺序可以是随意的，只要我们指定每个参数的<code>key</code>,程序就能解析到对应的参数值，那应该怎么做呢？下面介绍一下带<code>key</code>的参数解析。</p>
+<h4 id="不带-参数"><a href="#不带-参数" class="headerlink" title="不带-参数"></a>不带<code>-</code>参数</h4><p>新建一个脚本<code>arg_demo.py</code>,然后输入以下代码:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env <span class="keyword">python</span></div><div class="line"># -*- codin<span class="variable">g:</span> utf-<span class="number">8</span> -*-</div><div class="line">import argparse</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    parse = argparse.ArgumentParser()</div><div class="line">    parse.add_argument(<span class="string">'a'</span>, <span class="keyword">help</span>=<span class="string">'必填参数'</span>)</div><div class="line">    <span class="keyword">args</span> = parse.parse_args()</div><div class="line">    </div><div class="line">    <span class="keyword">print</span> <span class="keyword">args</span>.<span class="keyword">a</span>  </div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<p>终端运行:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span>                    </div><div class="line">usage: arg_demo.<span class="keyword">py</span> [-h] <span class="keyword">a</span></div><div class="line">arg_demo.<span class="keyword">py</span>: error: too few arguments</div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span> 我是参数           </div><div class="line">我是参数</div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span> 我是参数<span class="number">1</span> 我是参数<span class="number">2</span></div><div class="line">usage: arg_demo.<span class="keyword">py</span> [-h] <span class="keyword">a</span></div><div class="line">arg_demo.<span class="keyword">py</span>: error: unrecognized <span class="keyword">argument</span><span class="variable">s:</span> 我是参数<span class="number">2</span></div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗</div></pre></td></tr></table></figure></p>
+<p>可以看出不带<code>-</code>的参数在调用脚本时必须输入值，并且输入的顺序必须和程序定义的一直，而且个数也得一致</p>
+<h4 id="带-的参数"><a href="#带-的参数" class="headerlink" title="带-的参数"></a>带<code>-</code>的参数</h4><p>同样的文件，改动以下代码<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env <span class="keyword">python</span></div><div class="line"># -*- codin<span class="variable">g:</span> utf-<span class="number">8</span> -*-</div><div class="line">import argparse</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    parse = argparse.ArgumentParser()</div><div class="line">    parse.add_argument(<span class="string">'-a'</span>)</div><div class="line">    <span class="keyword">args</span> = parse.parse_args()</div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="keyword">args</span>.<span class="keyword">a</span></div></pre></td></tr></table></figure></p>
+<p>同样，我们在终端中输入不同值运行一下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span>                          </div><div class="line">None</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> 我是参数                 </div><div class="line">usage: arg_demo<span class="selector-class">.py</span> [-h] [-<span class="selector-tag">a</span> A]</div><div class="line">arg_demo<span class="selector-class">.py</span>: error: unrecognized arguments: 我是参数</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -<span class="selector-tag">a</span> 我是参数              </div><div class="line">我是参数</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -a我是参数 </div><div class="line">我是参数</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -<span class="selector-tag">a</span> 我是参数<span class="number">1</span> -<span class="selector-tag">a</span> 我是参数<span class="number">2</span></div><div class="line">我是参数<span class="number">2</span></div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -<span class="selector-tag">a</span> 我是参数<span class="number">2</span> -<span class="selector-tag">a</span> 我是参数<span class="number">1</span> </div><div class="line">我是参数<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>可以看出，带<code>-</code>的参数,可以输入也可以不输入，但是不能输入的时候不指定key,并且输入的key可以和参数分开或者连在一起，多次对一个key输入值，后面的会覆盖前面的输入。</p>
+<h4 id="带-参数"><a href="#带-参数" class="headerlink" title="带--参数"></a>带<code>--</code>参数</h4><p><code>-</code>参数还可以指定<code>shorname</code>,即<code>--shortname</code>这种格式，表示变量的别名，改动一下代码:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> argparse</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    parse = argparse.ArgumentParser()</div><div class="line">    parse.add_argument(<span class="string">'-a'</span>, <span class="string">'--another_name'</span>, <span class="keyword">default</span>=<span class="string">'我是默认参数'</span>)</div><div class="line">    args = parse.parse_args()</div><div class="line"></div><div class="line">    <span class="built_in">print</span> args.another_name</div></pre></td></tr></table></figure></p>
+<p>同理在终端中运行:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span>                          </div><div class="line">我是默认参数</div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span> -<span class="keyword">a</span>输入参数</div><div class="line">输入参数</div></pre></td></tr></table></figure></p>
+<p>可以看到如果不输入就输入默认值，输入了我们引用别名<code>another_name</code>也可以输出<code>-a</code>的值</p>
+<h3 id="解析参数的其他属性"><a href="#解析参数的其他属性" class="headerlink" title="解析参数的其他属性"></a>解析参数的其他属性</h3><p><code>argparse</code>还有很多可选参数，用来设置我们解析参数的具体操作，例如:</p>
+<ul>
+<li>dest<br>这个参数表示绑定参数在程序中对应的变量名称<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">add_argument</span><span class="params">(<span class="string">"a"</span>,dest=<span class="string">'code_name'</span>)</span></span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>表示<code>a</code>参数直接绑定到程序中的变量值<code>code_name</code></p>
+<ul>
+<li><p>default<br>为参数提供默认值，如果没有输入这个参数，就用默认值代替,注意不带<code>-</code>的参数不能制定默认值，因为不带<code>-</code>必须输入参数值，也就没有不输入而采用默认值的场景</p>
+</li>
+<li><p>help<br>参数的帮助文档，一般用来告诉用户这个参数是什么意思，起提示和指导作用</p>
+</li>
+<li><p>type<br>为参数指定一个类型，一般不指定的时候，默认会把输入的参数解析成字符串类型</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">add_argument</span><span class="params">(<span class="string">"c"</span>, type=int)</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>action<br>指对参数的具体操作</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td>默认就是这个模式，存储值到制定变量</td>
+</tr>
+<tr>
+<td>store_const</td>
+<td>存储值在参数的const部分指定，多用于实现非布尔的命令行flag</td>
+</tr>
+<tr>
+<td>store_true/store_falst</td>
+<td>布尔开关，store_true默认为False,输入则为True,store_false则相反</td>
+</tr>
+<tr>
+<td>append</td>
+<td>存储值到列表，该参数可以重复使用</td>
+</tr>
+<tr>
+<td>append_const</td>
+<td>存储值到列表，存储值在参数的const部分指定</td>
+</tr>
+<tr>
+<td>count</td>
+<td>统计参数简写输入的个数</td>
+</tr>
+<tr>
+<td>version</td>
+<td>输出版本信息然后退出</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>const<br>配合<code>action＝&quot;store_const|append_const&quot;</code>使用,默认值</p>
+</li>
+<li><p>choices<br>输入值的范围</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">add_argument</span><span class="params">(<span class="string">"--gb"</span>, choices=[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="number">0</span>])</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>required<br>默认为<code>False</code>，若为<code>True</code>，则必须输入该参数.</p>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2016/06/29/Python-参数解析/" data-title="Python 参数解析 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/06/Hexo-主题同步/" title="Hexo 主题同步">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hexo 主题同步</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/06/26/Linux-标准输出重定向到文件/"  title="Linux 标准输出重定向到文件">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux 标准输出重定向到文件
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数的几种解析方式"><span class="toc-number">1.</span> <span class="toc-text">参数的几种解析方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不带key按顺序解析"><span class="toc-number">1.1.</span> <span class="toc-text">不带key按顺序解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不带-参数"><span class="toc-number">1.2.</span> <span class="toc-text">不带-参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带-的参数"><span class="toc-number">1.3.</span> <span class="toc-text">带-的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#带-参数"><span class="toc-number">1.4.</span> <span class="toc-text">带--参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析参数的其他属性"><span class="toc-number">2.</span> <span class="toc-text">解析参数的其他属性</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

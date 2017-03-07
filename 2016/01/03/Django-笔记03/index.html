@@ -1,0 +1,656 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Django 笔记03 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="上一篇文章讲了数据库如何存储在数据库中，以及模块如何显示在网页中，利用管理模块添加管理模块。现在我们来做一个简单的投票网站，大概有以下几个页面：
+整体框架
+indexPage:展示最近最新的问题
+detailPage:展示一个问题的具体描述
+resultsPage:展示具体的结果
+votePage:具体投票的界面
+
+增加几个视图编辑polls.views.py文件，内容如下：12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django 笔记03">
+<meta property="og:url" content="http://sjq597.github.io/2016/01/03/Django-笔记03/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="上一篇文章讲了数据库如何存储在数据库中，以及模块如何显示在网页中，利用管理模块添加管理模块。现在我们来做一个简单的投票网站，大概有以下几个页面：
+整体框架
+indexPage:展示最近最新的问题
+detailPage:展示一个问题的具体描述
+resultsPage:展示具体的结果
+votePage:具体投票的界面
+
+增加几个视图编辑polls.views.py文件，内容如下：12345678910">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django 笔记03">
+<meta name="twitter:description" content="上一篇文章讲了数据库如何存储在数据库中，以及模块如何显示在网页中，利用管理模块添加管理模块。现在我们来做一个简单的投票网站，大概有以下几个页面：
+整体框架
+indexPage:展示最近最新的问题
+detailPage:展示一个问题的具体描述
+resultsPage:展示具体的结果
+votePage:具体投票的界面
+
+增加几个视图编辑polls.views.py文件，内容如下：12345678910">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/01/03/Django-笔记03/" title="Django 笔记03" itemprop="url">Django 笔记03</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-01-03T10:59:05.000Z" itemprop="datePublished"> 发表于 2016-01-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#整体框架"><span class="toc-number">1.</span> <span class="toc-text">整体框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加几个视图"><span class="toc-number">2.</span> <span class="toc-text">增加几个视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视图"><span class="toc-number">3.</span> <span class="toc-text">视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网页模板"><span class="toc-number">4.</span> <span class="toc-text">网页模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#返回404错误"><span class="toc-number">5.</span> <span class="toc-text">返回404错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-object-or-404"><span class="toc-number">6.</span> <span class="toc-text">get_object_or_404()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用模板系统"><span class="toc-number">7.</span> <span class="toc-text">使用模板系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL命名空间"><span class="toc-number">8.</span> <span class="toc-text">URL命名空间</span></a></li></ol>
+		
+		</div>
+		
+		<p>上一篇文章讲了数据库如何存储在数据库中，以及模块如何显示在网页中，利用管理模块添加管理模块。现在我们来做一个简单的投票网站，大概有以下几个页面：</p>
+<h3 id="整体框架"><a href="#整体框架" class="headerlink" title="整体框架"></a>整体框架</h3><ol>
+<li><code>index</code>Page:展示最近最新的问题</li>
+<li><code>detail</code>Page:展示一个问题的具体描述</li>
+<li><code>results</code>Page:展示具体的结果</li>
+<li><code>vote</code>Page:具体投票的界面</li>
+</ol>
+<h3 id="增加几个视图"><a href="#增加几个视图" class="headerlink" title="增加几个视图"></a>增加几个视图</h3><p>编辑<code>polls.views.py</code>文件，内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">detail</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">"You're looking at question %s."</span> % question_id)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">results</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    response = <span class="string">"You're looking at the result of question %s."</span></div><div class="line">    <span class="keyword">return</span> HttpResponse(response % question_id)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">vote</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">"You're voting on question %s."</span> % question_id)</div></pre></td></tr></table></figure></p>
+<p>增加了视图，还要把视图的<code>url</code>写到<code>polls.urls</code>中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">urlpatterns = [</div><div class="line">    url(<span class="string">r'^$'</span>, views.index, name=<span class="string">'index'</span>),</div><div class="line">    <span class="comment"># ex: /polls/5/</span></div><div class="line">    url(<span class="string">r'(?P&lt;question_id&gt;[0-9]+)/$'</span>, views.detail, name=<span class="string">'detail'</span>),</div><div class="line">    <span class="comment"># ex: /polls/5/results/</span></div><div class="line">    url(<span class="string">r'(?P&lt;question_id&gt;[0-9]+)/results/$'</span>, views.results, name=<span class="string">'results'</span>),</div><div class="line">    <span class="comment"># ex:/polls/5/vote/</span></div><div class="line">    url(<span class="string">r'(?P&lt;question_id&gt;[0-9]+)/vote/$'</span>, views.vote, name=<span class="string">'vote'</span>),</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p><strong>Tips</strong>分别访问<a href="http://127.0.0.1:8000/polls/3/" target="_blank" rel="external">/pools/3/</a>,<a href="http://127.0.0.1:8000/polls/3/results/" target="_blank" rel="external">polls/3/results/</a>,<a href="http://127.0.0.1:8000/polls/3/vote/" target="_blank" rel="external">polls/3/vote/</a>会分别调用这几个模块视图,返回对应的结果.<br>稍微解释一下这个访问过程:当有个人访问<a href="http://127.0.0.1:8000/polls/3/" target="_blank" rel="external">127.0.0.1:8000/polls/3/</a>这个链接的时候,Django会加载<code>mysite.urls</code>这个模块,因为这个文件是项目的根配置链接模块,然后在这个模块里找到了对应的匹配项<code>^polls/</code>,然后把<code>3/</code>根据<code>include()</code>函数找到对应的模块的<code>urls</code>配置文件<code>polls.urls</code>,最终调用对应的视图<code>r&#39;^P&lt;question_id&gt;[0-9]+)/$</code>.调用视图的参数传递像下面这样:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">detail(request=&lt;HttpRequest object&gt;, question_id=<span class="string">'3'</span>)</div></pre></td></tr></table></figure></p>
+<p>这里的<code>question_id=&#39;34&#39;</code>是从正则表达式<code>(?P&lt;question_id&gt;[0-9]+)</code>中来的,这个就是正则表达式里的一种用法,用括号括起来可以捕获正则匹配到的值,并且把他们作为参数传递给视图函数.其中<code>?P&lt;question_id&gt;</code>定义了这个匹配到的值的使用名,<code>[0-9]+</code>意思是匹配任意数字1次或者多次.</p>
+<h3 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h3><p>上面的是一个简单的示例,其实这个视图根本没做什么事情,一般一个视图会做两件事:返回一个<code>HttpResponse</code>包含请求页面的内容,或者返回一个异常,例如<code>Http404</code>,这个取决于你.<br>为了让视图有内容,我们从数据库里读数据,将这些数据展示在网页上,例如显示最近的5条记录,修改<code>polls/views.py</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create your views here.</span></div><div class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Question</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></div><div class="line">    latest_question_list = Question.objects.order_by(<span class="string">'-pub_date'</span>)[:<span class="number">5</span>]</div><div class="line">    output = <span class="string">', '</span>.join([q.quetion_text <span class="keyword">for</span> q <span class="keyword">in</span> latest_question_list])</div><div class="line">    <span class="keyword">return</span> HttpResponse(output)</div></pre></td></tr></table></figure></p>
+<p>这里又有一个问题了,一般的网页设计都是写死的,如果你想改变网页的展示方式,你就要取改对应的Python代码,所以Django采用了设计和数据分离的模板模式,下面讲一讲如何使用模板来展示数据.</p>
+<h3 id="网页模板"><a href="#网页模板" class="headerlink" title="网页模板"></a>网页模板</h3><p>首先在<code>polls</code>目录下创建一个<code>templates</code>目录,Django会到这个目录里找模板.在<code>mysite/settings.py</code>文件里,有如下内容:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">TEMPLATES = [</div><div class="line">    &#123;</div><div class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.template.backends.django.DjangoTemplates'</span>,</div><div class="line">        <span class="string">'DIRS'</span>: [],</div><div class="line">        <span class="string">'APP_DIRS'</span>: <span class="keyword">True</span>,</div><div class="line">        <span class="string">'OPTIONS'</span>: &#123;</div><div class="line">            <span class="string">'context_processors'</span>: [</div><div class="line">                <span class="string">'django.template.context_processors.debug'</span>,</div><div class="line">                <span class="string">'django.template.context_processors.request'</span>,</div><div class="line">                <span class="string">'django.contrib.auth.context_processors.auth'</span>,</div><div class="line">                <span class="string">'django.contrib.messages.context_processors.messages'</span>,</div><div class="line">            ],</div><div class="line">        &#125;,</div><div class="line">    &#125;,</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>看到<code>&#39;APP_DIRS&#39;: True</code>,这个会在我们刚创建的<code>templates</code>目录下扫描你已经安装的<code>APP</code>的目录里的模板.以我们这个例子为例,我们创建的模板的相对路径为:<code>polls/templates/polls/index.html</code>.当你使用的时候,直接就是<code>polls/index.html</code>.不要觉得这个麻烦,为什么要多创建一个<code>polls</code>的子目录而不是把模板文件直接放在<code>templates</code>下,这个就涉及到一个模板的查找个加载,Django默认从<code>templates</code>下查找,如果找到了就匹配第一个,所以不要省略子目录<code>polls</code>,你可以把这个看成是Java里的包的路径或者C++里的命名空间.<br>编辑<code>polls/templates/pools/index.html</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;% if latest_question_list %&#125;</div><div class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">        &#123;% for question in latest_question_list %&#125;</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/polls/&#123;&#123; question.id&#125;&#125;"</span>&gt;</span></div><div class="line">                &#123;&#123; question.question_text&#125;&#125;</div><div class="line">                <span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        &#123;% endfor %&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">&#123;% else %&#125;</div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>No polls are available.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure></p>
+<p>然后更新视图文件<code>polls/views.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create your views here.</span></div><div class="line"><span class="keyword">from</span> django.template <span class="keyword">import</span> loader</div><div class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Question</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></div><div class="line">    latest_question_list = Question.objects.order_by(<span class="string">'-pub_date'</span>)[:<span class="number">5</span>]</div><div class="line">    template = loader.get_template(<span class="string">'polls/index.html'</span>)</div><div class="line">    context = &#123;</div><div class="line">        <span class="string">'latest_question_list'</span>: latest_question_list,</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> HttpResponse(template.render(context, request))</div></pre></td></tr></table></figure></p>
+<p>这段代码加载了一个模板<code>polls/index.html</code>,并且给模板传递了一个上下文,这是个字典.启动服务器,访问对应的网址<code>127.0.0.1:8000/polls/</code>默认会调用<code>index()</code>视图函数,返回一个列表,就是数据库里查询出来的几条记录.<br><code>Django</code>对于这种常用的模板操作,也提供了一个简便的用法,我们来重写一下<code>index()</code>方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create your views here.</span></div><div class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</div><div class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Question</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></div><div class="line">    latest_question_list = Question.objects.order_by(<span class="string">'-pub_date'</span>)[:<span class="number">5</span>]</div><div class="line">    context = &#123;</div><div class="line">        <span class="string">'latest_question_list'</span>: latest_question_list,</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> render(request, <span class="string">'polls/index.html'</span>, context)</div></pre></td></tr></table></figure></p>
+<p><strong>render()</strong>函数接收三个参数,第一个是一个<code>request</code>对象,第二个是一个模板,第三个是一个可选参数,字典内容.它返回一个渲染过的模板过后的<code>HttpResponse</code>对象以及字典内容</p>
+<h3 id="返回404错误"><a href="#返回404错误" class="headerlink" title="返回404错误"></a>返回404错误</h3><p>现在我们来处理一下详情<code>detail()</code>函数,编辑<code>polls/views.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">detail</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        question = Question.objects.get(pk=question_id)</div><div class="line">    <span class="keyword">except</span> Question.DoseNotExists:</div><div class="line">        <span class="keyword">raise</span> Http404(<span class="string">"Question does not exist"</span>)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> render(request, <span class="string">'polls/detail.html'</span>, &#123;<span class="string">'question'</span>: question&#125;)</div></pre></td></tr></table></figure></p>
+<p>然后在<code>polls/detail.html</code>中添加简单的内容<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">&#123;&#123; question &#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>同理,调用对应的方法,如果数据有,则会调用模板,没有则会跑出异常.</p>
+<h3 id="get-object-or-404"><a href="#get-object-or-404" class="headerlink" title="get_object_or_404()"></a>get_object_or_404()</h3><p>由于我们经常使用这个用法,即有就获取内容,没有就抛出异常,所以Django也有一个简单的用法,重写<code>detail()</code>方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">detail</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    question = get_object_or_404(Question, pk=question_id)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> render(request, <span class="string">'polls/detail.html'</span>, &#123;<span class="string">'question'</span>: question&#125;)</div></pre></td></tr></table></figure></p>
+<p>这个会自动捕获<code>object doesn&#39;t exist</code>这个异常,还有个类似的方法<code>get_list_or_404()</code>,在列表是空的时候会抛异常.</p>
+<h3 id="使用模板系统"><a href="#使用模板系统" class="headerlink" title="使用模板系统"></a>使用模板系统</h3><p>编辑模板文件夹下的<code>polls/detail.html</code>文件:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    &#123;% for choice in question.choice_set.all %&#125;</div><div class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>&#123;&#123; choice.choice_text &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    &#123;% endfor %&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>移除模板里的硬编码,让模板可以动态的显示内容,编辑<code>polls/index.html</code>:<br>把如下的内容:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/polls/&#123;&#123; question.id &#125;&#125;/"</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>改为:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'detail' question.id %&#125;"</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>先说一下为什么要这么改,上面一种写法为什么不好,其实可以想象,如果连接都写死,一旦我们的模板多起来了,改链接会很麻烦.其实有个简单的方法,在前面<code>urls.py</code>里,我们在写正则匹配url的时候,还定义了模板的名字,所以你可以使用<code>{% url %}</code>这个模板标签,这个是根据下面的定义来的:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="comment"># the 'name' value as called by the &#123;% url %&#125; template tag</span></div><div class="line">url(<span class="string">r'^(?P&lt;question_id&gt;[0-9]+)/$'</span>, views.detail, name=<span class="string">'detail'</span>),</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>这样当你改了外部访问链接,例如<code>127.0.0.1:8000/polls/specifics/12/</code>,你只用在<code>polls/url.py</code>里改对应的正则规则就行,模板里的代码不用改.</p>
+<h3 id="URL命名空间"><a href="#URL命名空间" class="headerlink" title="URL命名空间"></a>URL命名空间</h3><p>虽然上面的方法可以让我们少改代码,但是试想一下,一个真正的工程不可能只有一个<code>APP</code>模块,Django怎么知道在找到多个的时候用那个,答案是命名空间,是的,就是C++里的那个命名空间,我们来修改<code>polls/urls.py</code>文件:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">app_name = <span class="string">'polls'</span></div><div class="line">urlpatterns = [</div><div class="line">	......</div><div class="line">    ]</div></pre></td></tr></table></figure></p>
+<p>然后修改<code>polls/index.html</code>文件,将<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'detail' question.id %&#125;"</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>修改为:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'polls:detail' question.id %&#125;"</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>如果这样直接运行,然后访问<code>127.0.0.1:8000/polls/</code>会报错:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">u'polls'</span> <span class="keyword">is</span> <span class="keyword">not</span> a registered namespace</div></pre></td></tr></table></figure></p>
+<p>解决办法是在project的<code>urls.py</code>中<code>include()</code>的时候加上<code>namespace</code>属性,编辑<code>mysite/urls.py</code>文件:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">urlpatterns = [</div><div class="line">    url(<span class="string">r'^polls/'</span>, include(<span class="string">'polls.urls'</span>, namespace=<span class="string">'polls'</span>)),</div><div class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>然后就可以访问了.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Django/">Django</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/Web/">Web</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2016/01/03/Django-笔记03/" data-title="Django 笔记03 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/01/07/Django-笔记04/" title="Django 笔记04">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Django 笔记04</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/01/03/Django-笔记02/"  title="Django 笔记02">
+ <strong>下一篇：</strong><br/> 
+ <span>Django 笔记02
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#整体框架"><span class="toc-number">1.</span> <span class="toc-text">整体框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加几个视图"><span class="toc-number">2.</span> <span class="toc-text">增加几个视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视图"><span class="toc-number">3.</span> <span class="toc-text">视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网页模板"><span class="toc-number">4.</span> <span class="toc-text">网页模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#返回404错误"><span class="toc-number">5.</span> <span class="toc-text">返回404错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-object-or-404"><span class="toc-number">6.</span> <span class="toc-text">get_object_or_404()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用模板系统"><span class="toc-number">7.</span> <span class="toc-text">使用模板系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL命名空间"><span class="toc-number">8.</span> <span class="toc-text">URL命名空间</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,621 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>fedroa 25 开发常用配置及问题 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="尝鲜使用了一段时间的fedroa,大概使用了一个月吧，之前一直是使用的Ubuntu 16.04,想着和服务器上的CentOS尽量保持一致就装了个Fedroa 25最为日常开发机器，大概用了一个月就放弃了，说句实话，不是很好用,引用一句在stackoverflow上的答案吧，我觉得确实说的很有道理，问题大概是Ubuntu和Fedroa有什么区别，我相信很多同时用过这两个系统的人都可能会问这个问题，那">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fedroa 25 开发常用配置及问题">
+<meta property="og:url" content="http://sjq597.github.io/2017/02/13/fedroa-25-开发常用配置及问题/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="尝鲜使用了一段时间的fedroa,大概使用了一个月吧，之前一直是使用的Ubuntu 16.04,想着和服务器上的CentOS尽量保持一致就装了个Fedroa 25最为日常开发机器，大概用了一个月就放弃了，说句实话，不是很好用,引用一句在stackoverflow上的答案吧，我觉得确实说的很有道理，问题大概是Ubuntu和Fedroa有什么区别，我相信很多同时用过这两个系统的人都可能会问这个问题，那">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fedroa 25 开发常用配置及问题">
+<meta name="twitter:description" content="尝鲜使用了一段时间的fedroa,大概使用了一个月吧，之前一直是使用的Ubuntu 16.04,想着和服务器上的CentOS尽量保持一致就装了个Fedroa 25最为日常开发机器，大概用了一个月就放弃了，说句实话，不是很好用,引用一句在stackoverflow上的答案吧，我觉得确实说的很有道理，问题大概是Ubuntu和Fedroa有什么区别，我相信很多同时用过这两个系统的人都可能会问这个问题，那">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/13/fedroa-25-开发常用配置及问题/" title="fedroa 25 开发常用配置及问题" itemprop="url">fedroa 25 开发常用配置及问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-13T10:04:05.000Z" itemprop="datePublished"> 发表于 2017-02-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysqldb-python"><span class="toc-number">1.</span> <span class="toc-text">mysqldb-python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vim"><span class="toc-number">2.</span> <span class="toc-text">vim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#右键菜单打开终端"><span class="toc-number">3.</span> <span class="toc-text">右键菜单打开终端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动栏快捷键"><span class="toc-number">4.</span> <span class="toc-text">启动栏快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sougo中文输入法"><span class="toc-number">5.</span> <span class="toc-text">sougo中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步盘"><span class="toc-number">6.</span> <span class="toc-text">同步盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消左下角托盘"><span class="toc-number">7.</span> <span class="toc-text">取消左下角托盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fedroa截屏"><span class="toc-number">8.</span> <span class="toc-text">fedroa截屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fedroa-ssh-server"><span class="toc-number">9.</span> <span class="toc-text">fedroa ssh server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装mysql"><span class="toc-number">10.</span> <span class="toc-text">安装mysql</span></a></li></ol>
+		
+		</div>
+		
+		<p>尝鲜使用了一段时间的<code>fedroa</code>,大概使用了一个月吧，之前一直是使用的<code>Ubuntu 16.04</code>,想着和服务器上的<code>CentOS</code>尽量保持一致就装了个<code>Fedroa 25</code>最为日常开发机器，大概用了一个月就放弃了，说句实话，不是很好用,引用一句在<code>stackoverflow</code>上的答案吧，我觉得确实说的很有道理，问题大概是<code>Ubuntu和Fedroa</code>有什么区别，我相信很多同时用过这两个系统的人都可能会问这个问题，那就是作为桌面开发机来说，到底选那个，或者又说这两者都是桌面环境的<code>Linux</code>,哪个更适合作为日常开发使用?<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Ubuntu的使命是使Linux对人更友好，更易于交互</div></pre></td></tr></table></figure></p>
+<p>其实你都不可否认，<code>Ubuntu</code>应该是目前为止非常稳定的一个<code>Linux桌面开发环境</code>,这句话在我使用了一个月的<code>Fedroa</code>之后感受尤为深刻。</p>
+<p>虽然也能用。碰到了各种问题，花了很多的时间，所以想记下来这些解决的笔记。</p>
+<p>##<br>系统Fedroa 25 64bit,以下操作都是在此基础上，其他系统仅做参考。可以先把源设置成阿里的源，那个源比较快。</p>
+<h3 id="mysqldb-python"><a href="#mysqldb-python" class="headerlink" title="mysqldb-python"></a>mysqldb-python</h3><p>安装<code>mysqldb</code>报错,错误信息如下:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">gcc:</span> <span class="symbol">error:</span> /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">rpm</span>/<span class="title">redhat</span>/<span class="title">redhat</span>-<span class="title">hardened</span>-<span class="title">cc1</span>: <span class="title">No</span> <span class="title">such</span> <span class="title">file</span> <span class="title">or</span> <span class="title">directory</span></span></div><div class="line"> <span class="symbol">error:</span> command <span class="string">'gcc'</span> failed <span class="keyword">with</span> exit status <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>解决方案在<code>stackoverflow</code>上,链接为:<br><a href="http://stackoverflow.com/questions/34624428/g-error-usr-lib-rpm-redhat-redhat-hardened-cc1-no-that-file-and-directory" target="_blank" rel="external">http://stackoverflow.com/questions/34624428/g-error-usr-lib-rpm-redhat-redhat-hardened-cc1-no-that-file-and-directory</a></p>
+<h3 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h3><p>fedora直接安装vim是会失败的，这个实在是太操蛋了解决方案,先更新系统自带<code>vi</code>,然后才能装.<br>好不容易装好了之后发现，vim里面的东西没有办法用鼠标选中复制到剪贴板，解决方案:<br><a href="http://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim" target="_blank" rel="external">http://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim</a></p>
+<h3 id="右键菜单打开终端"><a href="#右键菜单打开终端" class="headerlink" title="右键菜单打开终端"></a>右键菜单打开终端</h3><p>之前用<code>Ubuntu</code>一直没觉得这个功能有多么贴心，直到<code>Fedroa</code>中右键菜单没了这个才发现没了这个功能好麻烦，有时候就像在当前目录打开一个终端，还必须打开一个然后一路<code>cd</code>到当前目录，解决方案:<br><a href="https://www.if-not-true-then-false.com/2011/nautilus-open-in-terminal-on-fedora-centos-red-hat-rhel/" target="_blank" rel="external">right clik open terminnal</a></p>
+<h3 id="启动栏快捷键"><a href="#启动栏快捷键" class="headerlink" title="启动栏快捷键"></a>启动栏快捷键</h3><p>有时候需要把常用的一些应用固定在左侧启动栏，但是有些解压的软件好像无法<code>Add favourate</code>,此时可以手动编辑<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~/.<span class="keyword">local</span>/share/applications</div></pre></td></tr></table></figure></p>
+<p>下面的<code>xxxx.desktop</code>文件，照着写一个就行.<br>然后写完了可以用系统自带命令验证一下:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">desktop-<span class="built_in">file</span>-install xxx.desktop</div></pre></td></tr></table></figure></p>
+<h3 id="sougo中文输入法"><a href="#sougo中文输入法" class="headerlink" title="sougo中文输入法"></a>sougo中文输入法</h3><p>中文社区有源:<a href="https://www.fdzh.org/blog/2015/10/18/fedora-sougoupinyin/" target="_blank" rel="external">https://www.fdzh.org/blog/2015/10/18/fedora-sougoupinyin/</a></p>
+<h3 id="同步盘"><a href="#同步盘" class="headerlink" title="同步盘"></a>同步盘</h3><p>公司把所有外网的网盘封了，内部提供的网盘是<code>ownCloud</code>,安装客户端程序:<br>地址:<a href="https://software.opensuse.org/download/package?project=isv:ownCloud:desktop&amp;package=owncloud-client" target="_blank" rel="external">https://software.opensuse.org/download/package?project=isv:ownCloud:desktop&amp;package=owncloud-client</a></p>
+<h3 id="取消左下角托盘"><a href="#取消左下角托盘" class="headerlink" title="取消左下角托盘"></a>取消左下角托盘</h3><p>TopIcons<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnf <span class="keyword">install</span> gnome-tweak-tool</div></pre></td></tr></table></figure></p>
+<p>然后照着github上来:<br><a href="https://github.com/phocean/TopIcons-plus" target="_blank" rel="external">https://github.com/phocean/TopIcons-plus</a></p>
+<h3 id="fedroa截屏"><a href="#fedroa截屏" class="headerlink" title="fedroa截屏"></a>fedroa截屏</h3><p>The default behaviour when pressing the PrintScreen key is to automatically place your screenshot in the Pictures folder in your home directory (i.e. “~/Pictures”). The click and the flash mean that the screenshot has been taken, so just check the Pictures folder for your screenshot.</p>
+<p>Other than just the “Print Screen’ key, which saves your whole Desktop to the Pictures folder, GNOME3 also has the following shortcuts enabled by default for screenshot actions:</p>
+<p>PrintScreen – Takes a screenshot of your entire desktop and saves it to the Pictures folder.<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Alt + PrintScreen <span class="comment">-- Saves a screenshot of the focused window to the Pictures Folder</span></div><div class="line">Shift + PrintScreen <span class="comment">-- Lets you select an area of the screen, and saves to the Pictures Folder</span></div><div class="line">Ctrl + PrintScreen <span class="comment">-- Takes a screenshot of your entire desktop and copies it to the clipboard.</span></div><div class="line">Ctrl + Alt + PrintScreen <span class="comment">-- copies a screenshot of the focused window to the clipboard.</span></div><div class="line">Ctrl + Shift + PrintScreen <span class="comment">-- Lets you select an area of the screen, and copies it to the clipboard.</span></div><div class="line">Ctrl + Shift + Alt + R <span class="comment">-- Records a Screencast) of your entire desktop and saves it to your Videos folder.</span></div></pre></td></tr></table></figure></p>
+<h3 id="fedroa-ssh-server"><a href="#fedroa-ssh-server" class="headerlink" title="fedroa ssh server"></a>fedroa ssh server</h3><p>安装完之后执行:<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl <span class="literal">start</span> sshd</div></pre></td></tr></table></figure></p>
+<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>这个最蛋疼,装完了还有一堆配置非常的麻烦。<br><a href="https://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/" target="_blank" rel="external">https://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/</a><br>如果无法初始化用户的密码，可以在mysql中试试下面的命令:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> authentication_string=<span class="keyword">password</span>(<span class="string">'Root@123'</span>) <span class="keyword">where</span> <span class="keyword">user</span>=<span class="string">'root'</span> <span class="keyword">and</span> host=<span class="string">'localhost'</span>;</div><div class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>其实可以多折腾一下，但是说实话吧，这个系统的桌面版真的不好用，装个软件非常不方便，尤其是mysql.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2017/02/13/fedroa-25-开发常用配置及问题/" data-title="fedroa 25 开发常用配置及问题 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/02/22/git-常用场景即解决方案/" title="git 常用场景即解决方案">
+  <strong>上一篇：</strong><br/>
+  <span>
+  git 常用场景即解决方案</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/02/07/mysqldb-python-错误汇总分析/"  title="mysqldb python 错误汇总分析">
+ <strong>下一篇：</strong><br/> 
+ <span>mysqldb python 错误汇总分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysqldb-python"><span class="toc-number">1.</span> <span class="toc-text">mysqldb-python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vim"><span class="toc-number">2.</span> <span class="toc-text">vim</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#右键菜单打开终端"><span class="toc-number">3.</span> <span class="toc-text">右键菜单打开终端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动栏快捷键"><span class="toc-number">4.</span> <span class="toc-text">启动栏快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sougo中文输入法"><span class="toc-number">5.</span> <span class="toc-text">sougo中文输入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步盘"><span class="toc-number">6.</span> <span class="toc-text">同步盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消左下角托盘"><span class="toc-number">7.</span> <span class="toc-text">取消左下角托盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fedroa截屏"><span class="toc-number">8.</span> <span class="toc-text">fedroa截屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fedroa-ssh-server"><span class="toc-number">9.</span> <span class="toc-text">fedroa ssh server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装mysql"><span class="toc-number">10.</span> <span class="toc-text">安装mysql</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

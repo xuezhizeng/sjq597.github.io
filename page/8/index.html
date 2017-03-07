@@ -1,0 +1,1107 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="数据开发工程师的成长历程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LittleQ">
+<meta property="og:url" content="http://sjq597.github.io/page/8/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="数据开发工程师的成长历程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LittleQ">
+<meta name="twitter:description" content="数据开发工程师的成长历程">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/22/Vim-大小写转换/" title="Vim 大小写转换" itemprop="url">Vim 大小写转换</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-22T13:09:09.000Z" itemprop="datePublished"> 发表于 2015-11-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Vim有个命令还是挺好用的，就是大小写转换，因为我把键盘上的<code>Caps Lock</code>键改成了<code>Esc</code>键，所以有时候如果直接写一个大写字母还好，可以用<code>Shift</code>键，但是如果写一个大写的单词那就比较麻烦了，这个时候大写转换命令就派上大用场了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gu	<span class="comment"># 转小写</span></div><div class="line">gU	<span class="comment"># 转大写</span></div></pre></td></tr></table></figure>
+<p>当然对于<code>Vim</code>这么强大的工具来说，这个命令远远不止这么点作用，这个命令的强大之处在于可以配合光标移动命令达到各种效果：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">～		<span class="meta"># 将光标下的字母改变大小写</span></div><div class="line"><span class="number">3</span>～		<span class="meta"># 将光标位置开始的3个字母改变其大小写</span></div><div class="line">g~~		<span class="meta"># 改变当前行字母的大小写</span></div><div class="line">U		<span class="meta"># 将可视模式下选择的字母全改写成大写字母</span></div><div class="line">u		<span class="meta"># 将可视模式下选择的字母全改成小写字母</span></div><div class="line">gUU		<span class="meta"># 将当前行的字母改成大写</span></div><div class="line">guu		<span class="meta"># 将当前行的字母改成小写</span></div><div class="line"><span class="number">3</span>gUU		<span class="meta"># 将从光标开始到下面3行字母改成大写</span></div><div class="line">gUw		<span class="meta"># 将那个光标下的单词改成大写</span></div><div class="line">guw		<span class="meta"># 将光标下的单词改成小写</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/22/Ubuntu-14-04-MySQL-从本地文件批量导入数据/" title="Ubuntu 14.04 MySQL 从本地文件批量导入数据" itemprop="url">Ubuntu 14.04 MySQL 从本地文件批量导入数据</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-22T03:10:26.000Z" itemprop="datePublished"> 发表于 2015-11-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>想做几个数据测试，于是把服务器上的<code>mysql</code>数据查询结果导入到服务器本地一个文件中，然后下载到本地机器想直接导入到自己机器的mysql表中:<br>假设我的MySQL用户名和密码分别为:root root123456,对应的库为test,表为user<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 下载的文件为result.txt,目录为当前用户根目录,即~/result.txt</span></div><div class="line"></div><div class="line"><span class="comment"># 进入mysql</span></div><div class="line">$ mysql -uroot -proot123456</div><div class="line"></div><div class="line"><span class="comment"># 执行导入命令</span></div><div class="line">mysql&gt; use <span class="built_in">test</span>;</div><div class="line">mysql&gt; load data <span class="built_in">local</span> infile <span class="string">'~/result.txt'</span> into table user;</div></pre></td></tr></table></figure></p>
+<p>结果报错，信息如下：<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ERROR </span>1148 (42000): The used command is not allowed with this MySQL version</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>网上查了一下：如果指定<code>local</code>关键词，则表明从客户主机读文件。如果<code>local</code>没指定，文件必须位于服务器上。既然是在本地机器上测试，那么我们也是服务器，所以我们可以去掉这个<code>local</code>参数，直接导入,结果又报新的错误：<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; load data infile <span class="string">'~/result.txt'</span> into table user;</div><div class="line">ERROR <span class="number">13</span> (HY000): Can<span class="string">'t get stat of '</span>/var/<span class="class"><span class="keyword">lib</span>/<span class="title">mysql</span>/<span class="title">test</span>/<span class="title">result</span>.<span class="title">txt</span>' (<span class="title">Errcode</span>: 2)</span></div></pre></td></tr></table></figure></p>
+<p>在我们指定的路径处<code>var/lib/mysql/test/result.txt</code>没有找到这个文件,原来默认是在<strong>*当前数据库</strong>(此处为我们的<code>test</code>库)目录下载入文件。我的文件放在当前用户的根目录下，当然会找不到，于是我把文件拷贝到这个目录下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo cp ~/result.txt /var/lib/mysql/<span class="built_in">test</span></div></pre></td></tr></table></figure></p>
+<p>这回应该可以导入了吧，再次执行导入：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; load data infile '~/result.txt' into table user;</div><div class="line">ERROR 13 (HY000): Can't get stat of '/var/lib/mysql/user/result.txt' (Errcode: 2)</div></pre></td></tr></table></figure></p>
+<p>还是报错，奇怪了，难道文件没有拷贝到我们指定的目录？为了一探究竟，我决定去这个目录下看看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /var/lib/mysql</div><div class="line"><span class="built_in">cd</span>: permission denied: /var/lib/mysql</div></pre></td></tr></table></figure></p>
+<p>访问权限受限了，这个简单，加上就行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo chmod 777 mysql</div><div class="line">$ <span class="built_in">cd</span> mysql</div></pre></td></tr></table></figure></p>
+<p>没问题了，然后进入<code>test</code>目录，果然还是一样没权限，同样处理，然后进入<code>test</code>目录，居然有我们的<code>result.txt</code>文件。然后重新在mysql里执行导入命令：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; load data infile '~/result.txt' into table user;</div><div class="line">Query OK, 44173 rows affected (0.22 sec)</div><div class="line">Records: 44173  Deleted: 0  Skipped: 0  Warnings: 0</div></pre></td></tr></table></figure></p>
+<p>我擦，居然成功了，看来果然是权限的问题,虽然有点儿麻烦，但是可以导入数据就行。有时间再研究一下加<code>local</code>的用法。</p>
+<p>其实不用这么麻烦，主要要先赋权限，然后再加一个参数就可以了:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo chown -R <span class="symbol">zhangsan:</span>zhangsan /var/<span class="class"><span class="keyword">lib</span>/<span class="title">mysql</span> </span></div><div class="line">$ sudo chown -R <span class="symbol">mysql:</span>mysql /var/<span class="class"><span class="keyword">lib</span>/<span class="title">mysql</span></span></div><div class="line">$ sudo mysql -uroot --local-infile=<span class="number">1</span> -proot123456</div><div class="line">mysql&gt; use test;</div><div class="line">mysql&gt; LOAD DATA LOCAL INFILE <span class="string">'/home/zhangsan/result.txt'</span> REPLACE INTO TABLE oc_daily_order_cheche FIELDS TERMINATED BY <span class="string">'\t'</span>;</div></pre></td></tr></table></figure></p>
+<p>所以其实主要问题在一个<code>--local-infile=1</code>以及一个权限问题。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/SQL/">SQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/21/Ubuntu-14-04-升级后键盘鼠标失灵解决方案/" title="Ubuntu 14.04 升级后键盘鼠标失灵解决方案" itemprop="url">Ubuntu 14.04 升级后键盘鼠标失灵解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-21T13:57:38.000Z" itemprop="datePublished"> 发表于 2015-11-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近家里的台式机<code>Ubuntu 14.04 64bit</code>升级了内核之后，重启之后鼠标键盘全都失灵了，连登陆系统输密码的地方都输入不了，鼠标键盘都失效连重启都没办法，只能强行按电源键关机。<br>网上查了各种资料，都有说在系统里修复啥的，但是我压根就连系统也进不去，如果要修复就只能用启动盘了。开始怀疑是USB接口的问题，但是进<code>Windows 10</code>一点问题都没有，鼠标键盘都是好的。看来是Ubuntu系统升级的问题，可能是升级之后驱动的不兼容，后来一想，既然在Grub启动菜单那里键盘鼠标还可以用，于是试了一下其他的几个启动项，发现在高级选项里可以选择使用其他内核驱动，抱着试一试的态度，试了倒数第二个，恢复模式，结果进去之后，貌似要重置系统，不敢点，于是退出来，选了上一个版本的内核，但是这回是选择正常启动，结果居然好使了。看来就是系统内核的问题，可能主板的驱动不兼容吧，暂时就这么用了吧。顺便说一下，Ubuntu的升级真是他妈的坑爹，老是碰到升级卡死，然后强行关机，然后就启动不了了，这回升级倒是可以，结果升级内核之后居然还不好使。<br>具体的操作记录在下面了，首先开机进入Grub菜单：</p>
+<ul>
+<li><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04%20升级后键盘鼠标失灵解决方案01.jpg" alt="Grub 开机启动菜单"><br>正常情况下是选第一项的，但是现在系统挂了，我们想用以前的内核启动，选第二项：<code>Advanced options for Ubuntu Kylin GUN/Linux</code></li>
+<li><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04%20升级后键盘鼠标失灵解决方案02.jpg" alt="Grub 启动内核版本选择"><br>内核版本从上到下版本号一次递减，选正常模式，一般选倒数第二新的版本即可，如果不行，那就再选更旧的版本。家里的电脑是升级到<code>-68</code>代号的内核出问题的，后来在台式机上选倒数第二新的内核就可以进去了，记住不要选<code>recovery mode</code>。</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/21/Permission-denied-publickey/" title="Permission denied (publickey)" itemprop="url">Permission denied (publickey)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-21T13:41:09.000Z" itemprop="datePublished"> 发表于 2015-11-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在家里电脑的电脑上<code>git pull</code>的时候，报错。电脑系统是<code>Ubuntu 14.04 64bit</code>，发现项目无法更新，之前都可以把项目拉取下来，现在更新却不行了，具体报错如下：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Permission denied (publickey). </div><div class="line">fatal: Could <span class="keyword">not</span> <span class="built_in">read</span> <span class="built_in">from</span> remote repository. </div><div class="line">Please make sure you have <span class="keyword">the</span> correct access rights </div><div class="line"><span class="keyword">and</span> <span class="keyword">the</span> repository exists.</div></pre></td></tr></table></figure></p>
+<p>网上的说法是<code>SSH key</code>的缘故，但是我之前在gitcafe上都可以clone下来，后来也没改东西，突然就没权限了。没办法，把gitcafe上的<code>SSH key</code>删掉了，又重新生成了一遍，传上去，结果还是不行。后来我重新在另一个目录下拉取项目，发现可以，于是突然想到，会不会是目录的权限问题。于是给项目的目录赋上了最高权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 给docment目录赋最高权限</span></div><div class="line">sudo chmod 777 docment/</div></pre></td></tr></table></figure></p>
+<p>然后重新更新项目，果然好使了。</p>
+<p>但是后来电脑又出现了一个问题，突然就又连不上了，最后折腾了好久才搞定，这次是深入搞明白了，为啥会出现这个问题了，其实，说白了就是秘钥不对，但是网上的说法都太模糊，很多人其实都把密钥上传到了网站上，一开始是可以用的，后来确不行了，所以这里面应该不是密钥没上传导致的，而是本地的密钥出了问题，下面来看看具体的问题解决步骤。<br>一般报错信息是：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Cloning <span class="keyword">into</span> <span class="string">'******'</span>...</div><div class="line">Permission denied (publickey).</div><div class="line">fatal: Could <span class="keyword">not</span> <span class="built_in">read</span> <span class="built_in">from</span> remote repository.</div><div class="line"></div><div class="line">Please make sure you have <span class="keyword">the</span> correct access rights</div><div class="line"><span class="keyword">and</span> <span class="keyword">the</span> repository exists.</div></pre></td></tr></table></figure></p>
+<p>　　这个时候多半是你的密钥出了问题，而且出现这种问题一般是你使用了多个代码托管账户造成的，这个比较常见，现在很多公司都会搭建自己的代码托管仓库，例如<strong>gitlab</strong>，然后就是大名鼎鼎的<strong>github</strong>,作为程序员这个账户肯定是有的，然后呢，有时候吧，由于国内你懂得一些原因，<strong>github</strong>访问不是很稳定，所以会选择国内的一些代码托管仓库，例如<strong>oschina</strong>或者<strong>gitcafe</strong>。这么多账户一起使用，密钥的问题就来了。再加上我在家里还有个台式机，而且有时候为了能登公司的服务器，还要使用<strong>Window</strong>系统，这样下来，密钥一堆，所以密钥特别乱，慢慢的就产生了这个问题，偶尔就出现了上面这个问题。<br>首先要看看<strong>~/.ssh</strong>下面有些啥:一般就是会有一个<strong>id_rsa</strong>,<strong>id_rsa.pub</strong>,<strong>config</strong>这写文件,简单介绍一下这三个文件都是干啥的:<br><strong>id_rsa</strong>是私钥，同理<strong>id_rsa.pub</strong>就是公钥，公钥是要传到服务器上的，每次你连接代码托管服务器，都是用服务器上的公钥去校验你本地的私钥，系统默认会读取你的<strong>～/.ssh/</strong>目录下的私钥文件，如果读取不到，或者读取到的私钥是错的，就会出现上面的问题，即<strong>Permission denied (publickey).</strong>，<br>这就要说道第三个文件<strong>config</strong>的作用了,先看看他长啥样吧：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Host github<span class="selector-class">.com</span></div><div class="line">    Hostname github<span class="selector-class">.com</span></div><div class="line">    IdentityFile ~/.ssh/id_rsa</div><div class="line">    User github_username </div><div class="line"></div><div class="line">Host gitcafe<span class="selector-class">.com</span></div><div class="line">    Hostname gitcafe<span class="selector-class">.com</span></div><div class="line">    IdentityFile ~/.ssh/id_rsa<span class="selector-class">.gitcafe</span></div><div class="line">    User gitcafe_username</div></pre></td></tr></table></figure></p>
+<p>看到这个文件我想你们大概应该明白了，</p>
+<ol>
+<li><code>Host</code>后面的名字相当于一个别名，真正的Host是Hostname的值,也即你可以使用别名来访问你托管代码的网站,</li>
+<li><code>IdentityFile</code>就是你访问这个网站是，网站上的公钥会校验你的本地私钥的文件位置，这个填错了就无法正确校验了，所以会出错，</li>
+<li><code>User</code>就是你在代码托管网站上的用户名</li>
+</ol>
+<p>另外说一个调试技巧，就是当你出问题，没权限<code>pull/push</code>代码的时候，如何确定是密钥出问题了呢？可以打开调试模式看看是用哪一个私钥文件在校验<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">ssh -vT git@gitcafe.com</div><div class="line"></div><div class="line">OpenSSH_6.6.1, OpenSSL 1.0.2d 9 Jul 2015</div><div class="line">debug1: Reading configuration data /home/zhangsan/.ssh/config</div><div class="line">debug1: /home/zhangsan/.ssh/config line 6: Applying options <span class="keyword">for</span> gitcafe.com</div><div class="line">debug1: Reading configuration data /etc/ssh/ssh_config</div><div class="line">debug1: /etc/ssh/ssh_config line 19: Applying options <span class="keyword">for</span> *</div><div class="line">debug1: Connecting to gitcafe.com [124.42.117.218] port 22.</div><div class="line">debug1: identity file /home/zhangsan/.ssh/id_rsa.gitcafe <span class="built_in">type</span> 1</div><div class="line">debug1: identity file /home/zhangsan/.ssh/id_rsa.gitcafe-cert <span class="built_in">type</span> -1</div><div class="line">debug1: Remote protocol version 2.0, remote software version OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.3</div><div class="line">debug1: Host <span class="string">'gitcafe.com'</span> is known and matches the RSA host key.</div><div class="line">debug1: Found key <span class="keyword">in</span> /home/zhangsan/.ssh/known_hosts:1</div><div class="line">debug1: Next authentication method: publickey</div><div class="line">debug1: Offering RSA public key: /home/zhangsan/.ssh/id_rsa.gitcafe</div><div class="line">debug1: Offering RSA public key: zhang.san@163.com</div><div class="line">debug1: Authentications that can <span class="built_in">continue</span>: publickey</div><div class="line">debug1: Offering RSA public key: zhang.san@gmail.com</div><div class="line">debug1: Server accepts key: pkalg ssh-rsa blen 279</div><div class="line">debug1: Authentication succeeded (publickey).</div><div class="line">Authenticated to gitcafe.com ([124.42.117.218]:22).</div><div class="line">Hi zhangsan! You<span class="string">'ve successfully authenticated, but GitCafe does not provide shell access.</span></div><div class="line">debug1: client_input_channel_req: channel 0 rtype exit-status reply 0</div><div class="line">debug1: client_input_channel_req: channel 0 rtype eow@openssh.com reply 0</div><div class="line">debug1: channel 0: free: client-session, nchannels 1</div><div class="line">Transferred: sent 4632, received 3656 bytes, in 1.0 seconds</div><div class="line">Bytes per second: sent 4642.3, received 3664.1</div><div class="line">debug1: Exit status 1</div></pre></td></tr></table></figure></p>
+<p>这里输出了很多,看第4行，告诉我们加载配置文件的地方就是前面提到的<strong>config</strong>文件，然后第9行，他从配置文件里加载私钥文件，所以你想看你的<strong>git</strong>是加载的哪个文件，看这个就可以了，如果不对，那么按照上面的配置重新配置一下就OK了。</p>
+<p><strong>备注：</strong> 注意，如果在使用<code>sudo git ...</code>的时候仍然提示<strong>Permission denied (publickey).</strong>。记得去掉<code>sudo</code>,或者更改对应的私钥文件的权限。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Git/">Git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/17/Hive-cannot-recognize-input-near-EOF-EOF-EOF/" title="Hive cannot recognize input near &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39;" itemprop="url">Hive cannot recognize input near &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39;</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-17T04:07:10.000Z" itemprop="datePublished"> 发表于 2015-11-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Hive中复制表数据,把一个表的查询结果存储起来放到一个完整的表中,用到了<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name <span class="keyword">as</span> <span class="keyword">select</span> filed1[,field2][,field3...] <span class="keyword">from</span> table2_name;</div></pre></td></tr></table></figure></p>
+<p>根据上面的语法,我想直接把一个表的查询结果作为<code>table2_name</code>,看看我的写法:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">as</span> <span class="keyword">day</span>,<span class="keyword">count</span>(user_name) <span class="keyword">as</span> empty_user</div><div class="line"><span class="keyword">from</span> table2_name</div><div class="line"><span class="keyword">where</span> user_name=<span class="string">''</span> <span class="keyword">or</span> user_name <span class="keyword">is</span> <span class="literal">null</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>));</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong><code>table2_name</code>表存放的是每天有登陆记录的用户,上面的语句其实是想统计每天用户名为空或者没有用户名的用户.<br>出现了报错信息:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FAILED: ParseException line <span class="number">6</span>:<span class="number">34</span> cannot recognize <span class="selector-tag">input</span> near <span class="string">'&lt;EOF&gt;'</span> <span class="string">'&lt;EOF&gt;'</span> <span class="string">'&lt;EOF&gt;'</span> <span class="keyword">in</span> subquery source</div></pre></td></tr></table></figure></p>
+<p>意思是子查询的语法不对,语句的结尾不正确,后来仔细想了一下,想到别名这个sql里常用的语法,虽然表的别名本身并没有什么大用,但是在子查询中经常用到,而且没有别名没有时还会报错,于是把后面加了一个表别名,改为如下:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">as</span> <span class="keyword">day</span>,<span class="keyword">count</span>(user_name) <span class="keyword">as</span> empty_user</div><div class="line"><span class="keyword">from</span> table2_name</div><div class="line"><span class="keyword">where</span> user_name=<span class="string">''</span> <span class="keyword">or</span> user_name <span class="keyword">is</span> <span class="literal">null</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>)) p1;</div></pre></td></tr></table></figure></p>
+<p>然后就好了.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/15/Ubuntu-14-04-安装vim-gnome失败解决办法/" title="Ubuntu 14.04 安装vim-gnome失败解决办法" itemprop="url">Ubuntu 14.04 安装vim-gnome失败解决办法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-15T12:54:00.000Z" itemprop="datePublished"> 发表于 2015-11-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>每次想拷贝Vim里的内容到其他地方,开始都是用鼠标的,但是后来发现,如果要复制大片内容,终端里没有显示出来就没辙了,所以网上搜了怎么把Vim里的内容复制到剪贴板.<br>网上搜了一下如何把Vim里的内容复制到系统剪贴板,大部分都是建议安装<code>vim-gnome</code>这个插件,仅针对于<code>Ubuntu</code>桌面环境,其他的我没有测试过:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gnome</div></pre></td></tr></table></figure></p>
+<p>结果报错了,报错信息如下:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Some packages could not <span class="keyword">be</span> installed. This may mean that you have</div><div class="line">requested <span class="keyword">an</span> impossible situation <span class="built_in">or</span> <span class="keyword">if</span> you are using the unstable</div><div class="line">distribution that some required packages have not yet been created</div><div class="line"><span class="built_in">or</span> been moved out of Incoming.</div><div class="line">The following information may <span class="keyword">help</span> <span class="keyword">to</span> <span class="built_in">resolve</span> the situation:</div><div class="line"></div><div class="line">The following packages have unmet dependencie<span class="variable">s:</span></div><div class="line"> <span class="keyword">vim</span>-gnome : Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">gui</span>-common (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but it <span class="keyword">is</span> not going <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">             Depend<span class="variable">s:</span> <span class="keyword">vim</span>-common (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">             Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">runtime</span> (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">E: Unable <span class="keyword">to</span> correct problems, you have held broken packages.</div></pre></td></tr></table></figure></p>
+<p>看上面的意思是这个插件依赖的几个库没有安装,手动安装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gui-common</div></pre></td></tr></table></figure></p>
+<p>然后再试试可不可以安装<code>vim-gnome</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gnome</div></pre></td></tr></table></figure></p>
+<p>果不其然又报错了:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">The following packages have unmet dependencie<span class="variable">s:</span></div><div class="line"> <span class="keyword">vim</span>-gnome : Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">runtime</span> (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div></pre></td></tr></table></figure></p>
+<p>这个意思就是说依赖的<code>vim-runtime</code>是一个老的版本,但是安装的是一个更加新的版本.那我们来手动装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-runtime</div></pre></td></tr></table></figure></p>
+<p>看看提示信息:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vim</span>-<span class="keyword">runtime</span> <span class="keyword">is</span> already the newest <span class="keyword">version</span>.</div><div class="line">The following packages were automatically installed <span class="built_in">and</span> are <span class="keyword">no</span> longer required:</div><div class="line">  g++-<span class="number">4.8</span> libstdc++-<span class="number">4.8</span>-dev linux-headers-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span></div><div class="line">  linux-headers-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic linux-image-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic</div><div class="line">  linux-image-extra-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic</div><div class="line">Use <span class="string">'apt-get autoremove'</span> <span class="keyword">to</span> <span class="built_in">remove</span> them.</div><div class="line"><span class="number">0</span> upgraded, <span class="number">0</span> newly installed, <span class="number">0</span> <span class="keyword">to</span> <span class="built_in">remove</span> <span class="built_in">and</span> <span class="number">16</span> not upgraded.</div></pre></td></tr></table></figure></p>
+<p>好了,找到问题的关键所在了,我之前升级了<code>gcc 4.9.2</code>,我们需要把这些老的包移除掉,不要漏掉了,也可以逐一卸载:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get autoremove g++-4.8 libstdc++-4.8-dev linux-headers-3.13.0-32 linux-headers-3.13.0-32-generic linux-image-extra-3.13.0-32-generic</div></pre></td></tr></table></figure></p>
+<p>然后强制安装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-runtime</div></pre></td></tr></table></figure></p>
+<p>好了,然后在Vim里的非<code>INSERT</code>模式下使用<code>&quot;+y</code>就可以把Vim里的内容复制到系统剪贴板了,注意记得重启Vim才能生效.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/11/Hive-SemanticException-Error-10025-Line-1-7-Expression-not-in-GROUP-BY-key/" title="Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key" itemprop="url">Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-10T16:46:26.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Hive表里同时用<code>group by</code>和<code>order by</code>的时候，出现了错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FAILED: SemanticException [Error 10025]: Line 1:7 Expression not <span class="keyword">in</span> GROUP BY key <span class="string">'sys_code'</span></div></pre></td></tr></table></figure></p>
+<p>具体的SQL语句如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> sys_code,<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure></p>
+<p>后来上网查了一下，这个主要问题还是，<code>sys_code</code>也有多个种类，如果只是对<code>status</code>进行<code>group by</code>。那么<code>sys_code</code>没有办法分类，不知道该如何排序，所以解决办法有两种：</p>
+<ul>
+<li>既然按某一个字段分类，那么其他字段也只能有一种情况，所以可以使用集合，针对上面的这个语句就是：<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> collect_set(sys_code),<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>或者可以只取一个值：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> collect_set(sys_code)[<span class="number">0</span>],<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>第二种就比较简单了，直接报错的字段也加到<code>GROUP BY</code>选项里即可。</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/11/MySQL-Every-derived-table-must-have-its-own-alias/" title="MySQL:Every derived table must have its own alias" itemprop="url">MySQL:Every derived table must have its own alias</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-10T16:38:14.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在做多表联合查询时，报错：</p>
+<blockquote>
+<p>Every derived table must have its own alias</p>
+</blockquote>
+<p>意思就是每个派生出来的表都必须有一个自己的别名，这个错误一般多出现在多表查询的时候。<br>之所以在多表查询的时候会出现这个问题，是因为多表在做联合查询的时候，有嵌套查询。子查询出来的结果是作为一个派生表来进行上一级的查询，所以子查询的结果必须要有一个别名，按照下面类似的改法：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_name) <span class="keyword">as</span> t2;</div></pre></td></tr></table></figure></p>
+<p>也就是为每个子查询一个别名，其实加一个简写，也方便多个表作联合查询条件来作联合。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SQL/">SQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/11/Hive-count-和count-expr/" title="Hive count(*)和count(expr)" itemprop="url">Hive count(*)和count(expr)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-10T16:15:42.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在给PM做报表时，要统计登陆订单的下单比例，也就是说哪些订单是登陆用户的订单，那些没有用户名，即用户名为<code>null</code>的用户不需要统计到最后的登陆订单中。<br>一开始我想这直接在<code>count</code>函数内写一个条件判断:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> user_name <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> login_order</div><div class="line"><span class="keyword">from</span> table_name</div></pre></td></tr></table></figure></p>
+<p>但是后来我在查询Hive里count函数的用法时，发现了网上有人说，其实count在统计行数的时候，会根据使用的用法进行不同的逻辑运算，具体看Hive参考文档：<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">count(*) - Returns the total number of retrieved <span class="built_in">rows</span>, including <span class="built_in">rows</span> containing <span class="built_in">NULL</span> values;</div><div class="line">count(<span class="keyword">expr</span>) - Returns the number of <span class="built_in">rows</span> <span class="keyword">for</span> which the supplied expression is non-<span class="built_in">NULL</span>;</div><div class="line">count(DISTINCT <span class="keyword">expr</span>[, <span class="keyword">expr</span>]) - Returns the number of <span class="built_in">rows</span> <span class="keyword">for</span> which the supplied expression(s) are <span class="built_in">unique</span> <span class="keyword">and</span> non-<span class="built_in">NULL</span>.</div></pre></td></tr></table></figure></p>
+<p>上面的意思简单明了，除了<code>count(*)</code>之外，其他的计算的是非空值的条数，并且加上<code>distinct</code>还会合并重复记录到一类里面。<br>看到这里，我才发现，上面的写法有些多余，可以直接就count(user_name)，会自动略过那些user_name为空的记录。但是后面我还是采用了这个多余的写法，为什么？其实还是出于可读性和可维护性，这样写虽然复杂，但是后来维护的人起码知道你没有统计null用户。</p>
+<h3 id="Hive-count高级用法"><a href="#Hive-count高级用法" class="headerlink" title="Hive count高级用法"></a>Hive count高级用法</h3><p>count不是简单只有<code>count(*)</code>用法，下面还有一些更为高级的用法，加上条件语句:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">type</span>,</div><div class="line">	<span class="keyword">count</span>(*),</div><div class="line">	<span class="keyword">count</span>(<span class="keyword">distinct</span> u),</div><div class="line">	<span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> plat=<span class="number">1</span> <span class="keyword">then</span> u <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>),</div><div class="line">	<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">case</span> <span class="keyword">when</span> plat=<span class="number">1</span> <span class="keyword">then</span> u <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>),</div><div class="line">	<span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> (<span class="keyword">type</span>=<span class="number">2</span> <span class="keyword">or</span> <span class="keyword">type</span>=<span class="number">6</span>) <span class="keyword">then</span> u <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>),</div><div class="line">	<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">case</span> <span class="keyword">when</span> (<span class="keyword">type</span>=<span class="number">2</span> <span class="keyword">or</span> <span class="keyword">type</span>=<span class="number">6</span>) <span class="keyword">then</span> u <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>)</div><div class="line"><span class="keyword">from</span> t</div><div class="line"><span class="keyword">where</span> dt <span class="keyword">in</span> (<span class="string">'2015-11-01'</span>, <span class="string">'2015-11-01)</span></div><div class="line">group by type</div><div class="line">order by type;</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/10/Shell脚本报错：Syntax-error-unexpected/" title="Shell脚本报错：Syntax error: &#39;(&#39; unexpected" itemprop="url">Shell脚本报错：Syntax error: &#39;(&#39; unexpected</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-10T15:51:37.000Z" itemprop="datePublished"> 发表于 2015-11-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>执行脚本报错:</p>
+<blockquote>
+<p>Syntax error: “(“ unexpected</p>
+</blockquote>
+<p>与实际使用的Shell版本有关，判断方法可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">⚡ ⇒ ls <span class="_">-l</span> /bin/*sh</div><div class="line">-rwxr-xr-x 1 root root 1021112 10月  8  2014 /bin/bash</div><div class="line">-rwxr-xr-x 1 root root  121272  2月 19  2014 /bin/dash</div><div class="line">lrwxrwxrwx 1 root root       4 10月  8  2014 /bin/rbash -&gt; bash</div><div class="line">lrwxrwxrwx 1 root root      22 10月 24 18:08 /bin/rzsh -&gt; /etc/alternatives/rzsh</div><div class="line">lrwxrwxrwx 1 root root       4 10月 24 14:21 /bin/sh -&gt; dash</div><div class="line">lrwxrwxrwx 1 root root       7 10月 24 14:21 /bin/static-sh -&gt; busybox</div><div class="line">lrwxrwxrwx 1 root root      21 10月 24 18:08 /bin/zsh -&gt; /etc/alternatives/zsh</div></pre></td></tr></table></figure></p>
+<p>可以看到，<code>sh</code>果然被重定向到<code>dash</code>。因此，如果执行<code>./scirpt.sh</code>，使用的是<code>dash</code>。<br>避免报错方法很多，可以手动指定用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash script.sh</div></pre></td></tr></table></figure></p>
+<p>或者，在脚本第一行制定用什么Shell来执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/bash</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/7/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

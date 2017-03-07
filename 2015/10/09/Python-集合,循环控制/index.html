@@ -1,0 +1,688 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>集合,循环控制 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="python常用结构python常用结构有集合以及循环，另外集合包括列表和集合两大类。
+集合类
+有序列表list
+123&amp;gt;&amp;gt;&amp;gt; listTest = [&apos;ha&apos;,&apos;test&apos;,&apos;yes&apos;]&amp;gt;&amp;gt;&amp;gt; listTest[&apos;ha&apos;, &apos;test&apos;, &apos;yes&apos;]
+len()获取list元素个数。
+12&amp;gt;&amp;gt;&amp;gt; len(listTest)3
+可以用索引来访">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集合,循环控制">
+<meta property="og:url" content="http://sjq597.github.io/2015/10/09/Python-集合,循环控制/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="python常用结构python常用结构有集合以及循环，另外集合包括列表和集合两大类。
+集合类
+有序列表list
+123&amp;gt;&amp;gt;&amp;gt; listTest = [&apos;ha&apos;,&apos;test&apos;,&apos;yes&apos;]&amp;gt;&amp;gt;&amp;gt; listTest[&apos;ha&apos;, &apos;test&apos;, &apos;yes&apos;]
+len()获取list元素个数。
+12&amp;gt;&amp;gt;&amp;gt; len(listTest)3
+可以用索引来访">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="集合,循环控制">
+<meta name="twitter:description" content="python常用结构python常用结构有集合以及循环，另外集合包括列表和集合两大类。
+集合类
+有序列表list
+123&amp;gt;&amp;gt;&amp;gt; listTest = [&apos;ha&apos;,&apos;test&apos;,&apos;yes&apos;]&amp;gt;&amp;gt;&amp;gt; listTest[&apos;ha&apos;, &apos;test&apos;, &apos;yes&apos;]
+len()获取list元素个数。
+12&amp;gt;&amp;gt;&amp;gt; len(listTest)3
+可以用索引来访">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/09/Python-集合,循环控制/" title="集合,循环控制" itemprop="url">集合,循环控制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-09T12:17:47.000Z" itemprop="datePublished"> 发表于 2015-10-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#python常用结构"><span class="toc-number">1.</span> <span class="toc-text">python常用结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#集合类"><span class="toc-number">1.1.</span> <span class="toc-text">集合类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#循环控制"><span class="toc-number">1.2.</span> <span class="toc-text">循环控制</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h3 id="python常用结构"><a href="#python常用结构" class="headerlink" title="python常用结构"></a>python常用结构</h3><p><code>python</code>常用结构有集合以及循环，另外集合包括列表和集合两大类。</p>
+<h4 id="集合类"><a href="#集合类" class="headerlink" title="集合类"></a>集合类</h4><ul>
+<li><p>有序列表list</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest = [<span class="string">'ha'</span>,<span class="string">'test'</span>,<span class="string">'yes'</span>]</div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'test'</span>, <span class="string">'yes'</span>]</div></pre></td></tr></table></figure>
+<p><code>len()</code>获取<code>list</code>元素个数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; len(listTest)</div><div class="line">3</div></pre></td></tr></table></figure>
+<p>可以用索引来访问每一个元素，<code>0</code>表示第一个，<code>-1</code>还可以表示最后一个，即倒数第一个，依此类推<code>-2</code>表示倒数第二个，超过了也会报越界错误。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest[0]</div><div class="line"><span class="string">'ha'</span></div><div class="line">&gt;&gt;&gt; listTest[1]</div><div class="line"><span class="string">'test'</span></div><div class="line">&gt;&gt;&gt; listTest[3]</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">IndexError: list index out of range</div><div class="line">&gt;&gt;&gt; listTest[-1]</div><div class="line"><span class="string">'yes'</span></div><div class="line">&gt;&gt;&gt; listTest[-2]</div><div class="line"><span class="string">'test'</span></div></pre></td></tr></table></figure>
+<p>也可以把元素插入到指定的位置，比如索引号为<code>1</code>的位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest.insert(1,<span class="string">'jack'</span>)</div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>, <span class="string">'yes'</span>]</div></pre></td></tr></table></figure>
+<p>删除末尾元素，用<code>pop()</code>方法，添加到末尾用<code>append()</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>, <span class="string">'yes'</span>]</div><div class="line">&gt;&gt;&gt; listTest.pop()</div><div class="line"><span class="string">'yes'</span></div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>]</div></pre></td></tr></table></figure>
+<p>删除指定位置的元素，用<code>pop(i)</code>方法,其中<code>i</code>是索引位置:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>]</div><div class="line">&gt;&gt;&gt; listTest.pop(1)</div><div class="line"><span class="string">'jack'</span></div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'test'</span>]</div></pre></td></tr></table></figure>
+<p>把某个元素替换，直接赋值即可,并且类型也可以不同：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'test'</span>]</div><div class="line">&gt;&gt;&gt; listTest[1] = <span class="string">'debug'</span></div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'debug'</span>]</div><div class="line">&gt;&gt;&gt; listTest[1] = 123</div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, 123]</div></pre></td></tr></table></figure>
+<p><code>list</code>也可以嵌套:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; s = [<span class="string">'python'</span>, <span class="string">'java'</span>, [<span class="string">'asp'</span>, <span class="string">'php'</span>], <span class="string">'scheme'</span>]</div><div class="line">&gt;&gt;&gt; len(s)</div><div class="line">4</div><div class="line">&gt;&gt;&gt; s[1]</div><div class="line"><span class="string">'java'</span></div><div class="line">&gt;&gt;&gt; s[2]</div><div class="line">[<span class="string">'asp'</span>, <span class="string">'php'</span>]</div><div class="line">&gt;&gt;&gt; s[2][1]</div><div class="line"><span class="string">'php'</span></div></pre></td></tr></table></figure>
+<p>空的<code>list</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; L = []</div><div class="line">&gt;&gt;&gt; len(L)</div><div class="line">0</div></pre></td></tr></table></figure>
+</li>
+<li><p>不可变列表tuple<br>另一种有序列表叫元组：tuple。tuple和list非常类似，但是tuple一旦初始化就不能修改。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; classmates = (<span class="string">'Michael'</span>, <span class="string">'Bob'</span>, <span class="string">'Tracy'</span>)</div><div class="line">&gt;&gt;&gt; classmates</div><div class="line">(<span class="string">'Michael'</span>, <span class="string">'Bob'</span>, <span class="string">'Tracy'</span>)</div><div class="line">&gt;&gt;&gt; classmates[1]</div><div class="line"><span class="string">'Bob'</span></div></pre></td></tr></table></figure>
+<p><strong>注意：</strong>由于<code>tuple</code>不可变，所以代码更安全，如果可能，能用<code>tuple</code>代替<code>list</code>就尽量用<code>tuple</code>。<br><code>tuple的陷阱：</code>当你定义一个<code>tuple</code>时，在定义的时候，<code>tuple</code>的元素就必须被确定下来，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (1, 2)</div><div class="line">&gt;&gt;&gt; t</div><div class="line">(1, 2)</div></pre></td></tr></table></figure>
+<p>如果要定义一个空的<code>tuple</code>，可以写成()：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = ()</div><div class="line">&gt;&gt;&gt; t</div><div class="line">()</div></pre></td></tr></table></figure>
+<p>但是，要定义一个只有1个元素的<code>tuple</code>，如果你这么定义：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (1)</div><div class="line">&gt;&gt;&gt; t</div><div class="line">1</div></pre></td></tr></table></figure>
+<p>定义的不是<code>tuple</code>，是<code>1</code>这个数！这是因为括号<code>()</code>既可以表示<code>tuple</code>，又可以表示数学公式中的小括号，这就产生了歧义，因此，<code>Python</code>规定，这种情况下，按小括号进行计算，计算结果自然是<code>1</code>。</p>
+<p>所以，只有1个元素的<code>tuple</code>定义时必须加一个逗号,，来消除歧义：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (1,)</div><div class="line">&gt;&gt;&gt; t</div><div class="line">(1,)</div></pre></td></tr></table></figure>
+<p><code>Python</code>在显示只有1个元素的<code>tuple</code>时，也会加一个逗号<code>,</code>，以免你误解成数学计算意义上的括号。<br>最后来看一个<code>可变的</code>tuple：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'A'</span>, <span class="string">'B'</span>])</div><div class="line">&gt;&gt;&gt; t[2][0] = <span class="string">'X'</span></div><div class="line">&gt;&gt;&gt; t[2][1] = <span class="string">'Y'</span></div><div class="line">&gt;&gt;&gt; t</div><div class="line">(<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'X'</span>, <span class="string">'Y'</span>])</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong><code>tuple</code>所谓的<code>不变</code>是说，<code>tuple</code>的每个元素，指向永远不变。</p>
+</li>
+<li><p>Map<br><code>Python</code>内置了字典：<code>dict</code>的支持，<code>dict</code>全称<code>dictionary</code>，在<code>Java/C++</code>中也称为<code>Map</code>，使用键-值（<code>key-value</code>）存储，具有极快的查找速度。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d = &#123;<span class="string">'Michael'</span>: 95, <span class="string">'Bob'</span>: 75, <span class="string">'Tracy'</span>: 85&#125;</div><div class="line">&gt;&gt;&gt; d[<span class="string">'Michael'</span>]</div><div class="line">95</div></pre></td></tr></table></figure>
+<p>把数据放入<code>dict</code>的方法，除了初始化时指定外，还可以通过<code>key</code>放入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d[<span class="string">'Adam'</span>] = 67</div><div class="line">&gt;&gt;&gt; d[<span class="string">'Adam'</span>]</div><div class="line">67</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong>如果key不存在，dict就会报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d[<span class="string">'Thomas'</span>]</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">KeyError: <span class="string">'Thomas'</span></div></pre></td></tr></table></figure>
+<p>要避免key不存在的错误，有两种办法，一是通过in判断key是否存在：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; <span class="string">'Thomas'</span> <span class="keyword">in</span> d</div><div class="line">False</div></pre></td></tr></table></figure>
+<p>或者通过<code>dict</code>提供的<code>get</code>方法，如果<code>key</code>不存在，可以返回<code>None</code>，或者自己指定的value：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d.get(<span class="string">'Thomas'</span>)</div><div class="line">&gt;&gt;&gt; d.get(<span class="string">'Thomas'</span>, -1)</div><div class="line">-1</div></pre></td></tr></table></figure>
+<p>删除<code>dict</code>里的元素，用<code>pop(key)</code>方法，对应的<code>value</code>也会从<code>dict</code>中删除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d.pop(<span class="string">'Bob'</span>)</div><div class="line">75</div><div class="line">&gt;&gt;&gt; d</div><div class="line">&#123;<span class="string">'Michael'</span>: 95, <span class="string">'Tracy'</span>: 85&#125;</div></pre></td></tr></table></figure>
+<p>正确使用<code>dict</code>非常重要，需要牢记的第一条就是<code>dict</code>的<code>key</code>必须是不可变对象。</p>
+</li>
+<li><p>set集合<br><code>set</code>和<code>dict</code>类似，也是一组<code>key</code>的集合，但不存储<code>value</code>。由于<code>key</code>不能重复，所以，在<code>set</code>中，没有重复的<code>key</code>。<br>要创建一个<code>set</code>，需要提供一个<code>list</code>作为输入集合：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; s = <span class="built_in">set</span>([1, 2, 3])</div><div class="line">&gt;&gt;&gt; s</div><div class="line"><span class="built_in">set</span>([1, 2, 3])</div></pre></td></tr></table></figure>
+<p><code>set</code>会自动过滤重复元素，<code>add(key)</code>添加元素，可以重复添加，但是没有效果。<code>remove(key)</code>删除元素。对于两个集合，还可以通过<code>&amp;</code>取集合的交集，<code>|</code>取集合的并集。</p>
+</li>
+</ul>
+<h4 id="循环控制"><a href="#循环控制" class="headerlink" title="循环控制"></a>循环控制</h4><ul>
+<li><p>条件判断<br>之前学过<code>Java/C++</code>可能会不太习惯这种方式，先看看<code>python</code>的条件判断代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">age = <span class="number">20</span></div><div class="line"><span class="keyword">if</span> age &gt;= <span class="number">18</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'your age is'</span>, age</div><div class="line">    <span class="keyword">print</span> <span class="string">'adult'</span></div></pre></td></tr></table></figure>
+<p>根据<code>Python</code>的缩进规则，缩进的代码块就相当于<code>Java/C++</code>里大括号的内容。即<code>if</code>为<code>True</code>,执行代码块内容，加<code>else</code>，<code>elif</code>同理，注意不要漏掉<code>:</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> &lt;条件判断<span class="number">1</span>&gt;:</div><div class="line">    &lt;执行<span class="number">1</span>&gt;</div><div class="line"><span class="keyword">elif</span> &lt;条件判断<span class="number">2</span>&gt;:</div><div class="line">    &lt;执行<span class="number">2</span>&gt;</div><div class="line"><span class="keyword">elif</span> &lt;条件判断<span class="number">3</span>&gt;:</div><div class="line">    &lt;执行<span class="number">3</span>&gt;</div><div class="line"><span class="keyword">else</span>:</div><div class="line">    &lt;执行<span class="number">4</span>&gt;</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong> <code>if</code>还可以简写，下面这个和<code>Java/C++</code>有很大的不同，<code>python</code>对类型的判断很宽松，只要<code>x</code>是非零数值、非空字符串、非空<code>list</code>等，就判断为<code>True</code>，否则为<code>False</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> x:</div><div class="line">    <span class="keyword">print</span> <span class="string">'True'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>循环控制<br>循环和<code>Java/C++</code>就很像了，也是有两种:<code>for</code>循环和<code>while</code>循环。<br><code>for x in ...</code>循环就是把每个元素代入变量<code>x</code>，然后执行缩进代码块:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">names = [<span class="string">'Michael'</span>, <span class="string">'Bob'</span>, <span class="string">'Tracy'</span>]</div><div class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names:</div><div class="line">    <span class="keyword">print</span> name</div></pre></td></tr></table></figure>
+<p><code>while</code>循环,只要条件满足，就不断循环</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sum = <span class="number">0</span></div><div class="line">n = <span class="number">99</span></div><div class="line"><span class="keyword">while</span> n &gt; <span class="number">0</span>:</div><div class="line">    sum = sum + n</div><div class="line">    n = n - <span class="number">2</span></div><div class="line"><span class="keyword">print</span> sum</div></pre></td></tr></table></figure>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/10/09/Python-集合,循环控制/" data-title="集合,循环控制 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/10/10/Python-函数以及函数参数/" title="函数及函数参数">
+  <strong>上一篇：</strong><br/>
+  <span>
+  函数及函数参数</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/10/09/Python入门:输入输出及字符串/"  title="输入输出及字符串">
+ <strong>下一篇：</strong><br/> 
+ <span>输入输出及字符串
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#python常用结构"><span class="toc-number">1.</span> <span class="toc-text">python常用结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#集合类"><span class="toc-number">1.1.</span> <span class="toc-text">集合类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#循环控制"><span class="toc-number">1.2.</span> <span class="toc-text">循环控制</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

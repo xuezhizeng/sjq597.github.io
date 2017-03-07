@@ -1,0 +1,1390 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="数据开发工程师的成长历程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LittleQ">
+<meta property="og:url" content="http://sjq597.github.io/page/3/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="数据开发工程师的成长历程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LittleQ">
+<meta name="twitter:description" content="数据开发工程师的成长历程">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/10/Python-正则表达式笔记/" title="Python 正则表达式笔记" itemprop="url">Python 正则表达式笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-10T04:34:44.000Z" itemprop="datePublished"> 发表于 2016-07-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>总结一下在工作中常用到的关于Python正则的一些用法,主要无非就是匹配提取置顶信息，或者替换指定信息,不过都是<code>re</code>模块的用法</p>
+<h3 id="查找匹配"><a href="#查找匹配" class="headerlink" title="查找匹配"></a>查找匹配</h3><p>查找和匹配主要就是<code>re.search()</code>以及<code>re.match()</code></p>
+<ul>
+<li>match:从字符串的开始处匹配,匹配成功会返回<code>match object</code>,如果匹配不上返回None</li>
+<li>search:只要又字串符合就匹配成功，返回<code>match object</code>,如果没有一个子串满足匹配则返回None</li>
+<li>findall: 如果能匹配，返回所有的匹配结果list</li>
+</ul>
+<p>下面会以代码介绍一下如何使用以及提取出匹配到的内容:</p>
+<h4 id="match-search"><a href="#match-search" class="headerlink" title="match,search"></a>match,search</h4><figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/<span class="keyword">env</span> <span class="keyword">python</span></div><div class="line"># -*- coding: utf<span class="number">-8</span> -*-</div><div class="line">import re</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    str1 = <span class="string">'hello world, test test Test'</span></div><div class="line">    <span class="keyword">if</span> not re.<span class="keyword">match</span>(<span class="string">'world'</span>, str1):</div><div class="line">        <span class="keyword">print</span> <span class="string">'1:not match'</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'2:'</span>, re.<span class="keyword">match</span>(<span class="string">'hello'</span>, str1).<span class="keyword">group</span>()</div><div class="line">    <span class="keyword">print</span> <span class="string">'3:'</span>, re.<span class="keyword">match</span>(<span class="string">'.*test'</span>, str1).<span class="keyword">group</span>()</div><div class="line">    <span class="keyword">print</span> <span class="string">'4:'</span>, re.<span class="keyword">match</span>(<span class="string">'.*test'</span>, str1, re.I).<span class="keyword">group</span>()</div><div class="line">    <span class="keyword">print</span> <span class="string">'5:'</span>, re.search(<span class="string">'test'</span>, str1, re.I).<span class="keyword">group</span>()</div><div class="line">    pass</div></pre></td></tr></table></figure>
+<p>输出结果如下：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1:not <span class="built_in">match</span></div><div class="line">2: hello</div><div class="line">3: hello world, <span class="keyword">test</span> <span class="keyword">test</span></div><div class="line">4: hello world, <span class="keyword">test</span> <span class="keyword">test</span> <span class="keyword">Test</span></div><div class="line">5: <span class="keyword">test</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>1, 2 说明<code>match()</code>只会从开头开始匹配,如果不是在开头则无法匹配</li>
+<li>2, 3 说明如果要匹配的内容不是在字符串的开头，那么需要加<code>.*</code>或者类似的通配符</li>
+<li>3, 4 说明<code>re.I</code>表示的是忽略大小写，</li>
+<li>4, 5 可以看到<code>search()</code>函数则是在整个字符串里面去查找给定的模式，没有位置限制,但是只会匹配第一个，就算后面还有也不会输出来,所以只输出了一个<strong>test</strong>,后面的<strong>Test</strong>也没有输出来。</li>
+</ul>
+<h4 id="findall"><a href="#findall" class="headerlink" title="findall"></a>findall</h4><p>如果想获取指定内容应该怎么做呢？这里介绍一下正则里面的<code>()</code>,用括号匹配出来的内容可以通过<code>groups()</code>提取，看下面的代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    str1 = <span class="string">'sfasfasfsfaname=hello phone=234123423 mail=23423@qq.com,hslfas7'</span></div><div class="line"></div><div class="line">    result = re.match(<span class="string">r'.*name=(\w*).*phone=(\d*) mail=(\d*@\w*.com).*'</span>, str1, re.I)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> result <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">print</span> result.groups()</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>看一下输出结果：<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="symbol">'hello</span>', <span class="symbol">'234123423</span>', <span class="symbol">'23423@qq.com</span>')</div></pre></td></tr></table></figure></p>
+<p>可以看到，匹配结果被保存到了一个tuple里面，只要遍历这个tuple或者访问指定顺序的下标就可以获取相应的匹配结果了.<br>前面也说了，用<code>search()</code>匹配只会输出第一个匹配结果，而且上面的<code>match()</code>如果换成<code>search()</code>，调用<code>groups()</code>返回的结果和使用<code>match()</code>的结果是一样的,因为对于这个正则表达式来说，上面的匹配结果是第一个也是唯一一个。如果想返回字符串中所有出现的<strong>as</strong>应该怎么做呢？这个时候就需要用<code>findall()</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    str1 = <span class="string">'sfasfasfsfaname=hello phone=234123423 mail=23423@qq.com,hslfas7'</span></div><div class="line"></div><div class="line">    result1 = re.findall(<span class="string">r'name=(\w*).*phone=(\d*) mail=(\d*@\w*.com)'</span>, str1, re.I)</div><div class="line">    result2 = re.findall(<span class="string">r'as'</span>, str1, re.I)</div><div class="line">    <span class="keyword">print</span> result1</div><div class="line">    <span class="keyword">print</span> result2</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>程序的输出结果为<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[(<span class="symbol">'hello</span>', <span class="symbol">'234123423</span>', <span class="symbol">'23423@qq.com</span>')]</div><div class="line">[<span class="symbol">'as</span>', <span class="symbol">'as</span>', <span class="symbol">'as</span>']</div></pre></td></tr></table></figure></p>
+<p>可以看到<code>findall()</code>函数返回的是一个list，返回所有匹配的结果，如果正则里面有<code>()</code>提取内容，这写内容也会出现在里面，单独保存在一个tuple中.</p>
+<h3 id="正则分割"><a href="#正则分割" class="headerlink" title="正则分割"></a>正则分割</h3><p>在Python中，如果想对一个字符串进行分割的话，只需要调用str的split方法就可以实现，但是这个split只能根据某个字符来进行分割的操作，如果要同时指定多个字符来进行分割的话，它就无法实现了。<br>好在re模块也提供了split这个方法来对字符串进行分割，而且这个方法更加强大，可以同时根据多个字符进行分割的操作，下面来看分别看一下str的split和re的split有什么不同的地方：<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line">import re</div><div class="line"></div><div class="line">__author_<span class="number">_</span> = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name_<span class="number">_</span> == <span class="string">'__main__'</span>:</div><div class="line">    str1 = <span class="string">'helloword,i;am\nalex'</span></div><div class="line">    str2 = str1.<span class="keyword">split</span>(<span class="string">','</span>)</div><div class="line">    <span class="keyword">print</span> str2</div><div class="line"></div><div class="line">    str3 = re.<span class="keyword">split</span>(<span class="string">'[,|;|\n]'</span>, str1)</div><div class="line">    <span class="keyword">print</span> str3</div></pre></td></tr></table></figure></p>
+<p>看看输出结果:<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[<span class="symbol">'helloword</span>', <span class="symbol">'i</span><span class="comment">;am\nalex']</span></div><div class="line">[<span class="symbol">'helloword</span>', <span class="symbol">'i</span>', <span class="symbol">'am</span>', <span class="symbol">'alex</span>']</div></pre></td></tr></table></figure></p>
+<p>这里就可以看到差别是啥了，正则分割确实功能更加强大也更加灵活，可以用正则模式分割一个字符串</p>
+<h3 id="正则替换"><a href="#正则替换" class="headerlink" title="正则替换"></a>正则替换</h3><p>讲到正则分割，当然少不了正则<code>replace()</code>，同理字符串也有替换方法，但是只能替换指定的内容，如果想达到模糊替换，只能用正则，不过正则里面的替换方法不叫<code>replace</code>，叫<code>sub()</code>.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    str1 = <span class="string">'Hello 111 is 222'</span></div><div class="line">    str2 = re.sub(<span class="string">r'\d+'</span>, <span class="string">'333'</span>, str1)</div><div class="line">    <span class="keyword">print</span> str2</div></pre></td></tr></table></figure></p>
+<p>输出结果为:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hello <span class="number">333</span> is <span class="number">333</span></div></pre></td></tr></table></figure></p>
+<h3 id="正则查询表"><a href="#正则查询表" class="headerlink" title="正则查询表"></a>正则查询表</h3><p>平时记住一些常见的的正则用法，有些不太常用需要自己网上去查，这里整理记在一个表里，免得以后上网查:</p>
+<p>正则速查表</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\</td>
+<td>将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，<code>n</code>匹配字符<code>n</code>。<code>\n</code>匹配一个换行符。串行<code>\\</code>匹配<code>\</code>而<code>\(</code>则匹配<code>(</code>。</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置。如果设置了RegExp对象的Multiline属性，<code>^</code>也匹配<code>\n</code>或<code>\r</code>之后的位置。</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结束位置。如果设置了RegExp对象的Multiline属性，<code>$</code>也匹配<code>\n</code>或<code>\r</code>之前的位置。</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面的子表达式零次或多次。例如，<code>zo*</code>能匹配<code>z</code>以及<code>zoo</code>。<code>*</code>等价于<code>{0,}</code>。</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面的子表达式一次或多次。例如，<code>zo+</code>能匹配<code>zo</code>以及<code>zoo</code>，但不能匹配<code>z</code>。<code>+</code>等价于<code>{1,}</code>。</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面的子表达式零次或一次。例如，<code>do(es)?</code>可以匹配<code>does</code>或<code>does</code>中的<code>do</code>。<code>?</code>等价于<code>{0,1}</code>。</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td><code>n</code>是一个非负整数。匹配确定的<code>n</code>次。例如，<code>o{2}</code>不能匹配<code>Bob</code>中的<code>o</code>，但是能匹配<code>food</code>中的两个<code>o</code>。</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td><code>n</code>是一个非负整数。至少匹配<code>n</code>次。例如，<code>o{2,}</code>不能匹配<code>Bob</code>中的<code>o</code>，但能匹配<code>foooood</code>中的所有o。<code>o{1,}</code>等价于<code>o+</code>。<code>o{0,}</code>则等价于<code>o*</code>。</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td><code>m</code>和<code>n</code>均为非负整数，其中<code>n&lt;=m</code>。最少匹配<code>n</code>次且最多匹配<code>m</code>次。例如，<code>o{1,3}</code>将匹配<code>fooooood</code>中的前三个o。<code>o{0,1}</code>等价于<code>o?</code>。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td>?</td>
+<td>当该字符紧跟在任何一个其他限制符<code>(*,+,?,{n},{n,},{n,m})</code>后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串<code>oooo</code>，<code>o+?</code>将匹配单个<code>o</code>，而<code>o+</code>将匹配所有<code>o</code>。</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除<code>\n</code>之外的任何单个字符。要匹配包括<code>\n</code>在内的任何字符，请使用像(.&#124;\n)的模式。</td>
+</tr>
+<tr>
+<td>(pattern)</td>
+<td>匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用<code>\(</code>或<code>\)</code>。</td>
+</tr>
+<tr>
+<td>(?:pattern)</td>
+<td>匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符(&#124;)来组合一个模式的各个部分是很有用。例如industr(?:y&#124;ies)就是一个比industry&#124;industries更简略的表达式。</td>
+</tr>
+<tr>
+<td>(?=pattern)</td>
+<td>正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，Windows(?=95&#124;98&#124;NT&#124;2000)能匹配<code>Windows2000</code>中的<code>Windows</code>，但不能匹配<code>Windows3.1</code>中的<code>Windows</code>。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td>(?!pattern)</td>
+<td>正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如<code>Windows(?!95&amp;#124;98&amp;#124;NT&amp;#124;2000)</code>能匹配<code>Windows3.1</code>中的<code>Windows</code>，但不能匹配<code>Windows2000</code>中的<code>Windows</code>。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始</td>
+</tr>
+<tr>
+<td>(?&lt;=pattern)</td>
+<td>反向肯定预查，与正向肯定预查类拟，只是方向相反。例如，(?&lt;=95&#124;98&#124;NT&#124;2000)Windows能匹配<code>2000Windows</code>中的<code>Windows</code>，但不能匹配<code>3.1Windows</code>中的<code>Windows</code>。</td>
+</tr>
+<tr>
+<td>(?&lt;!pattern)</td>
+<td>反向否定预查，与正向否定预查类拟，只是方向相反。例如(?&lt;!95&#124;98&#124;NT&#124;2000)Windows能匹配<code>3.1Windows</code>中的<code>Windows</code>，但不能匹配<code>2000Windows</code>中的<code>Windows</code>。</td>
+</tr>
+<tr>
+<td>x&#124;y</td>
+<td>匹配x或y。例如，<code>z&amp;#124;food</code>能匹配<code>z</code>或<code>food</code>。<code>(z&amp;#124;f)ood</code>则匹配<code>zood</code>或<code>food</code>。</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>字符集合。匹配所包含的任意一个字符。例如，<code>[abc]</code>可以匹配<code>plain</code>中的<code>a</code>。</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>负值字符集合。匹配未包含的任意字符。例如，<code>[^abc]</code>可以匹配<code>plain</code>中的<code>p</code>。</td>
+</tr>
+<tr>
+<td>[a-z]</td>
+<td>字符范围。匹配指定范围内的任意字符。例如，<code>[a-z]</code>可以匹配<code>a</code>到<code>z</code>范围内的任意小写字母字符。</td>
+</tr>
+<tr>
+<td>[^a-z]</td>
+<td>负值字符范围。匹配任何不在指定范围内的任意字符。例如，<code>[^a-z]</code>可以匹配任何不在<code>a</code>到<code>z</code>范围内的任意字符。</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置。例如，<code>er\b</code>可以匹配<code>never</code>中的<code>er</code>，但不能匹配<code>verb</code>中的<code>er</code>。</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界。<code>er\B</code>能匹配<code>verb</code>中的<code>er</code>，但不能匹配<code>never</code>中的<code>er</code>。</td>
+</tr>
+<tr>
+<td>\cx</td>
+<td>匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的<code>c</code>字符。</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字字符。等价于<code>[0-9]</code>。</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符。等价于<code>[^0-9]</code>。</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符。等价于<code>\x0c</code>和<code>\cL</code>。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符。等价于<code>\x0a</code>和<code>\cJ</code>。</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符。等价于<code>\x0d</code>和<code>\cM</code>。</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任何空白字符，包括空格、制表符、换页符等等。等价于<code>[ \f\n\r\t\v]</code>。</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配任何非空白字符。等价于<code>[^ \f\n\r\t\v]</code>。</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个制表符。等价于<code>\x09</code>和<code>\cI</code>。</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配一个垂直制表符。等价于<code>\x0b</code>和<code>\cK</code>。</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配包括下划线的任何单词字符。等价于<code>[A-Za-z0-9_]</code>。</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配任何非单词字符。等价于<code>[^A-Za-z0-9_]</code>。</td>
+</tr>
+<tr>
+<td>\xn</td>
+<td>匹配n，其中n为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，<code>\x41</code>匹配<code>A</code>。<code>\x041</code>则等价于<code>\x04&amp;1</code>。正则表达式中可以使用ASCII编码。</td>
+</tr>
+<tr>
+<td>\num</td>
+<td>匹配num，其中num是一个正整数。对所获取的匹配的引用。例如，<code>(.)\1</code>匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>标识一个八进制转义值或一个向后引用。如果<code>\n</code>之前至少<code>n</code>个获取的子表达式，则<code>n</code>为向后引用。否则，如果<code>n</code>为八进制数字<code>(0-7)</code>，则<code>n</code>为一个八进制转义值。</td>
+</tr>
+<tr>
+<td>\nm</td>
+<td>标识一个八进制转义值或一个向后引用。如果<code>\nm</code>之前至少有<code>nm</code>个获得子表达式，则<code>nm</code>为向后引用。如果<code>\nm</code>之前至少有<code>n</code>个获取，则<code>n</code>为一个后跟文字<code>m</code>的向后引用。如果前面的条件都不满足，若<code>n</code>和<code>m``均为八进制数字</code>(0-7)<code>，则</code>\nm<code>将匹配八进制转义值</code>nm`。</td>
+</tr>
+<tr>
+<td>\nml</td>
+<td>如果<code>n</code>为八进制数字<code>(0-3)</code>，且m和l均为八进制数字<code>(0-7)</code>，则匹配八进制转义值<code>nml</code>。</td>
+</tr>
+<tr>
+<td>\un</td>
+<td>匹配<code>n</code>，其中<code>n</code>是一个用四个十六进制数字表示的Unicode字符。例如，<code>\u00A9</code>匹配版权符号<code>(©)</code>。</td>
+</tr>
+</tbody>
+</table>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/正则/">正则</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/08/Linux-报错cannot-open-shared-object-file解决方案-md/" title="Linux 报错cannot open shared object file解决方案.md" itemprop="url">Linux 报错cannot open shared object file解决方案.md</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-08T07:47:34.000Z" itemprop="datePublished"> 发表于 2016-07-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在使用Ubuntu安装软件之后，启动软件有时候会出现软件一直在闪，但是最后无法进入软件启动界面，这种时候，需要在终端中运行，这个时候一般会报错：<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">error </span>while loading shared libraries: libgstreamer<span class="string">-0</span>.10.so.0: cannot open shared object file: No such file or directory</div></pre></td></tr></table></figure></p>
+<p>借助<code>apt-file</code>命令可以查找缺少包所依赖的linux文件, 然后用<code>apt-get install</code>安装所对应的文件</p>
+<p>我的系统是<code>Ubuntu 16.04</code>，下面的操作都是在此系统上进行的操作:</p>
+<ul>
+<li>安装<code>apt-file</code>:</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt <span class="keyword">install</span> apt-<span class="keyword">file</span> -y</div><div class="line">sudo apt-<span class="keyword">file</span> <span class="keyword">update</span></div></pre></td></tr></table></figure>
+<ul>
+<li>查找缺失库</li>
+</ul>
+<p>最开始的报错信息里面有关键字<code>libgstreamer-0.10.so.0</code>，这个时候就需要查找<code>libgstreamer-0.10.so.0</code>所对应的库:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  Blog git:(master) ✗ apt-file search libgstreamer-<span class="number">0.10</span>.so<span class="meta">.0</span></div><div class="line">libgstreamer0<span class="meta">.10</span>-<span class="number">0</span>: /usr/lib/x86_64-linux-gnu/libgstreamer-<span class="number">0.10</span>.so<span class="meta">.0</span></div><div class="line">libgstreamer0<span class="meta">.10</span>-<span class="number">0</span>: /usr/lib/x86_64-linux-gnu/libgstreamer-<span class="number">0.10</span>.so<span class="meta">.0</span><span class="meta">.30</span><span class="meta">.0</span></div></pre></td></tr></table></figure></p>
+<p>通过上面的命令查到对应的库是<code>libgstreamer0.10-0</code>,所以直接安装缺失的库就行:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install libgstreamer0<span class="number">.10</span><span class="number">-0</span> -y</div></pre></td></tr></table></figure></p>
+<p>然后再重新运行程序，正常情况下应该没啥问题了，如果提示缺失其他的文件，同样的方式，直到不再报错为止.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/07/Git-恢复误删除文件/" title="Git 恢复误删除文件" itemprop="url">Git 恢复误删除文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-07T08:37:59.000Z" itemprop="datePublished"> 发表于 2016-07-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>有时候在项目里面不小心把某个文件删除了，并且代码也推送到远端了，或者我们删除了一个我们认为没啥用的文件,但是过了很长一段时间之后我们又想把这个文件找回来，当然笨一点的办法也有，就是去git的Web端找到删除那个文件的提交版本号，然后通过改动历史把那个文件内容复制，然后在本地新建那个文件，然后把内容复制过来，添加到项目中，自然这个文件也回来了，但是这个方法比较麻烦，下面介绍一下恢复一个被删掉的文件的过程<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">git log --graph</div><div class="line"></div><div class="line">* commit e4985f8fdac2b14468c0348e88180b5348417d04</div><div class="line"><span class="string">| Author: san.zhang &lt;san.zhang@gmail.com&gt;</span></div><div class="line"><span class="string">| Date:   Fri Dec 18 18:03:44 2015 +0800</span></div><div class="line"><span class="string">| </span></div><div class="line"><span class="string">|     xxxxx bugfix2</span></div><div class="line"><span class="string">|  </span></div><div class="line">* commit <span class="number">5</span>bb4f8e49f26e27991d9ab84812cd6eb5a0a3dd6</div><div class="line"><span class="string">| Author: san.zhang &lt;san.zhang@gmail.com&gt;</span></div><div class="line"><span class="string">| Date:   Fri Dec 18 17:27:21 2015 +0800</span></div><div class="line"><span class="string">| </span></div><div class="line"><span class="string">|     xxxxx,buggix2,删除配置文件</span></div><div class="line"><span class="string">|  </span></div><div class="line">* commit d835c652209ad430decdef28498d03379b06ae06</div><div class="line"><span class="string">| Author: san.zhang &lt;san.zhang@gmail.com&gt;</span></div><div class="line"><span class="string">| Date:   Fri Dec 18 16:44:04 2015 +0800</span></div><div class="line"><span class="string">| </span></div><div class="line"><span class="string">|     commit 1</span></div></pre></td></tr></table></figure></p>
+<p>在<strong>commit</strong><code>5bb4f8e49f26e27991d9ab84812cd6eb5a0a3dd6</code>这次提交删错了文件,具体日志为：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">* commit <span class="number">5</span>bb4f8e49f26e27991d9ab84812cd6eb5a0a3dd6</div><div class="line"><span class="string">| Author: san.zhang &lt;san.zhang@gmail.com&gt;</span></div><div class="line"><span class="string">| Date:   Fri Dec 18 17:27:21 2015 +0800</span></div><div class="line"><span class="string">| </span></div><div class="line"><span class="string">|     xxxxx,buggix2,删除配置文件</span></div></pre></td></tr></table></figure></p>
+<p>这次提交版本号为:<code>5bb4f8e</code>,这个commit之前的commit为<code>d835c65</code>,也就是说在<code>5bb4f8e</code>这个版本中其实是没有这个文件的，在<code>d835c65</code>这个版本中，这个文件的状态为被删之前的样子，我们只要能把文件恢复到这个版本就可以了，怎么做呢？<br>假设被删的文件叫<code>test.conf</code>,恢复<code>test.conf</code>有两个办法：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout <span class="string">"5bb4f8e~1"</span> <span class="keyword">test</span>.<span class="keyword">conf</span></div><div class="line">git checkout d835c65 <span class="keyword">test</span>.<span class="keyword">conf</span></div></pre></td></tr></table></figure>
+<p>其实这两个命令是一样的，<code>5bb4f8e~1</code>就是指这个commit的上一次，同理<code>~2</code>指的是前两次</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Git/">Git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/07/Git-撤销冲突，用远端代码覆盖本地/" title="Git 撤销冲突，用远端代码覆盖本地" itemprop="url">Git 撤销冲突，用远端代码覆盖本地</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-07T08:09:32.000Z" itemprop="datePublished"> 发表于 2016-07-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>本地改了一个代码，结果忘了推送到远端，晚上下班之后又改动了代码推送到了远端，结果第二天来公司一pull代码，果断悲剧了，冲突了。其实解冲突到没什么，但是其实我是想以远端的代码为准，完全丢弃我本地的代码更改，但是此时已经位于合并分支上，也没办法<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git</span> stash	<span class="comment"># 将更改的代码压栈</span></div></pre></td></tr></table></figure></p>
+<p>如果你已经处在合并代码的分支了，不合并完代码<code>commit</code>是没办法使用压栈命令把代码还原到更改之前的，当然暴力的办法当然是直接把项目删了，重新<code>clone</code>到本地，但是这个方法显然不是很好，如果项目特别大就很慢了:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">➜  data gi<span class="variable">t:</span>(init) ✗ git revert <span class="number">5</span>d49773</div><div class="line">error: revert <span class="keyword">is</span> not possible because you have unmerged <span class="keyword">files</span>.</div><div class="line">提示：请在工作区改正文件，然后酌情使用 <span class="string">'git add/rm &lt;文件&gt;'</span> 命令标记</div><div class="line">提示：解决方案并提交。</div><div class="line">fata<span class="variable">l:</span> 还原失败</div><div class="line">➜  data gi<span class="variable">t:</span>(init) ✗ git stash </div><div class="line"><span class="keyword">shell</span>/ordercenter/order_snap/order_common_scene_snap.<span class="keyword">sh</span>: needs merge</div><div class="line"><span class="keyword">shell</span>/ordercenter/order_snap/order_common_scene_snap.<span class="keyword">sh</span>: needs merge</div><div class="line"><span class="keyword">shell</span>/ordercenter/order_snap/order_common_scene_snap.<span class="keyword">sh</span>: unmerged (<span class="number">0</span>abc52f84a64ad5d5e8157303b0b50cd095e4319)</div><div class="line"><span class="keyword">shell</span>/ordercenter/order_snap/order_common_scene_snap.<span class="keyword">sh</span>: unmerged (eb8bd3095d572d0c6bde26eec1b7de0c3359ac78)</div><div class="line"><span class="keyword">shell</span>/ordercenter/order_snap/order_common_scene_snap.<span class="keyword">sh</span>: unmerged (dce00518150b3a26f5fb04315cd7b3fedf1c2396)</div><div class="line">fata<span class="variable">l:</span> git-<span class="keyword">write</span>-tree: error building trees</div><div class="line">无法保存当前索引状态</div></pre></td></tr></table></figure></p>
+<p>网上查阅了一下，有个命令可以将代码还原到指定历史:<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  <span class="class"><span class="keyword">data</span> git:(<span class="title">init</span>) ✗ git fetch <span class="comment">--all</span></span></div><div class="line">正在获取 origin</div><div class="line">➜  <span class="class"><span class="keyword">data</span> git:(<span class="title">init</span>) ✗ git reset <span class="comment">--hard origin/init</span></span></div><div class="line"><span class="type">HEAD</span> 现在位于 <span class="number">612</span>af0e update</div><div class="line">➜  <span class="class"><span class="keyword">data</span> git:(<span class="title">init</span>) git pull</span></div><div class="line"><span class="type">Already</span> up-to-date.</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>git fetch 只是下载远程的库的内容，不做任何的合并 git reset 把HEAD指向刚刚下载的最新的版本</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Git/">Git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/06/Hexo-主题同步/" title="Hexo 主题同步" itemprop="url">Hexo 主题同步</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-06T15:41:49.000Z" itemprop="datePublished"> 发表于 2016-07-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>由于经常在两台电脑上同步博客，一般博客文件夹下面的文件我会单独同步到Git上的一个项目。但是碰上重装系统了，虽然博客的内容可以直接从Github上同步下来，但是主题没了，所以研究了一下主题同步的方法。</p>
+<p>系统环境<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  <span class="selector-tag">Blog</span> <span class="selector-tag">git</span><span class="selector-pseudo">:(master)</span> ✗ <span class="selector-tag">hexo</span> <span class="selector-tag">-v</span></div><div class="line"><span class="selector-tag">hexo</span>: 3<span class="selector-class">.2</span><span class="selector-class">.0</span></div><div class="line"><span class="selector-tag">hexo-cli</span>: 1<span class="selector-class">.0</span><span class="selector-class">.1</span></div><div class="line"><span class="selector-tag">os</span>: <span class="selector-tag">Linux</span> 4<span class="selector-class">.4</span><span class="selector-class">.0-28-generic</span> <span class="selector-tag">linux</span> <span class="selector-tag">x64</span></div><div class="line"><span class="selector-tag">http_parser</span>: 2<span class="selector-class">.5</span><span class="selector-class">.0</span></div><div class="line"><span class="selector-tag">node</span>: 4<span class="selector-class">.1</span><span class="selector-class">.1</span></div><div class="line"><span class="selector-tag">v8</span>: 4<span class="selector-class">.5</span><span class="selector-class">.103</span><span class="selector-class">.33</span></div><div class="line"><span class="selector-tag">uv</span>: 1<span class="selector-class">.7</span><span class="selector-class">.4</span></div><div class="line"><span class="selector-tag">zlib</span>: 1<span class="selector-class">.2</span><span class="selector-class">.8</span></div><div class="line"><span class="selector-tag">ares</span>: 1<span class="selector-class">.10</span><span class="selector-class">.1-DEV</span></div><div class="line"><span class="selector-tag">modules</span>: 46</div><div class="line"><span class="selector-tag">openssl</span>: 1<span class="selector-class">.0</span><span class="selector-class">.2d</span></div></pre></td></tr></table></figure></p>
+<p>我用的主题是<a href="https://github.com/wuchong/jacman" target="_blank" rel="external">jacmam</a>,顺便说一下，Hexo的主题列表地址为<a href="https://hexo.io/themes/" target="_blank" rel="external">Hexo主题列表</a></p>
+<h3 id="主题同步"><a href="#主题同步" class="headerlink" title="主题同步"></a>主题同步</h3><p>这里采取的是<code>fork + subtree</code>来实现同步，下面都是以<code>jacman</code>主题为例</p>
+<ul>
+<li>fork目标主题</li>
+</ul>
+<p>jacman的git地址为:<code>https://github.com/wuchong/jacman.git</code>，然后我fork这个主题,于是我的项目的地址为:<code>https://github.com/sjq597/jacman</code>,然后我先把我本地的主题删掉:</p>
+<ul>
+<li>主题集成同步</li>
+</ul>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">➜  Blog git:(<span class="literal">master</span>) ✗ sudo rm -r themes/jacman</div><div class="line">➜  Blog git:(<span class="literal">master</span>) ✗ git remote add -f jacman https://github.com/sjq597/jacman</div><div class="line">更新 jacman 中</div><div class="line">warning: no common commits</div><div class="line">remote: Counting objects: <span class="number">1292</span>, done.</div><div class="line">remote: Total <span class="number">1292</span> (delta <span class="number">0</span>), reused <span class="number">0</span> (delta <span class="number">0</span>), pack-reused <span class="number">1292</span></div><div class="line">接收对象中: <span class="number">100</span>% (<span class="number">1292</span>/<span class="number">1292</span>), <span class="number">2.81</span> MiB | <span class="number">311.00</span> KiB/s, 完成.</div><div class="line">处理 delta 中: <span class="number">100</span>% (<span class="number">665</span>/<span class="number">665</span>), 完成.</div><div class="line">来自 https://github.com/sjq597/jacman</div><div class="line"> * [新分支]          closeaside -&gt; jacman/closeaside</div><div class="line"> * [新分支]          gh-pages   -&gt; jacman/gh-pages</div><div class="line"> * [新分支]          <span class="keyword">master</span>     <span class="title">-&gt; jacman</span>/<span class="keyword">master</span></div><div class="line"> <span class="title">* [新分支]          site</span>       -&gt; jacman/site</div><div class="line"> * [新标签]          v0.<span class="number">9.0</span>     -&gt; v0.<span class="number">9.0</span></div><div class="line">➜  Blog git:(<span class="literal">master</span>) ✗ git subtree add --<span class="attr">prefix=</span>themes/jacman jacman <span class="keyword">master</span> <span class="title">--squash</span></div><div class="line">git fetch jacman <span class="keyword">master</span></div><div class="line"><span class="title">来自 https</span>://github.com/sjq597/jacman</div><div class="line"> * branch            <span class="keyword">master</span>     <span class="title">-&gt; FETCH_HEAD</span></div><div class="line">Added dir 'themes/jacman'</div><div class="line">➜  Blog git:(<span class="literal">master</span>) ✗ git fetch jacman <span class="keyword">master</span> </div><div class="line"><span class="title">来自 https</span>://github.com/sjq597/jacman</div><div class="line"> * branch            <span class="keyword">master</span>     <span class="title">-&gt; FETCH_HEAD</span></div></pre></td></tr></table></figure>
+<p>这样就把<code>jacman</code>作为了我的博客<code>Blog</code>项目的一个子项目了，子项目可以单独更新以及推送，同理，如果父项目中更新了子项目，那么这个更新也会推送到父项目，下面有一些常用的命令：<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git commit -a -m 'update some'</div><div class="line">git subtree push --<span class="attr">prefix=</span>themes/jacman/ jacman <span class="keyword">master</span></div><div class="line"><span class="title">git</span> push origin <span class="keyword">master</span> <span class="title"># 顺便主项目也 push</span> 了</div></pre></td></tr></table></figure></p>
+<p>或者单独推送子项目:<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">git</span> <span class="keyword">subtree </span><span class="keyword">push </span>-P themes/jacman/ jacman master</div></pre></td></tr></table></figure></p>
+<p>命令参考:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git subtree <span class="built_in">add</span> -<span class="keyword">P</span> <span class="symbol">&lt;prefix&gt;</span> <span class="symbol">&lt;commit&gt;</span></div><div class="line">git subtree <span class="built_in">add</span> -<span class="keyword">P</span> <span class="symbol">&lt;prefix&gt;</span> <span class="symbol">&lt;repository&gt;</span> <span class="symbol">&lt;ref&gt;</span></div><div class="line">git subtree pull -<span class="keyword">P</span> <span class="symbol">&lt;prefix&gt;</span> <span class="symbol">&lt;repository&gt;</span> <span class="symbol">&lt;ref&gt;</span></div><div class="line">git subtree push -<span class="keyword">P</span> <span class="symbol">&lt;prefix&gt;</span> <span class="symbol">&lt;repository&gt;</span> <span class="symbol">&lt;ref&gt;</span></div><div class="line">git subtree merge -<span class="keyword">P</span> <span class="symbol">&lt;prefix&gt;</span> <span class="symbol">&lt;commit&gt;</span></div><div class="line">git subtree <span class="keyword">split</span> -<span class="keyword">P</span> <span class="symbol">&lt;prefix&gt;</span> [OPTIONS] [<span class="symbol">&lt;commit&gt;</span>]</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/博客搭建/">博客搭建</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/29/Python-参数解析/" title="Python 参数解析" itemprop="url">Python 参数解析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-29T15:21:52.000Z" itemprop="datePublished"> 发表于 2016-06-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>有时需要用到外部传入的参数，虽然简单的使用<code>*arg</code>数组可以获取到每个参数的值，但是有一个局限性就是参数必须按顺序传入，不能多也不能少。<br>但是考虑到有时候我们需要制定特定的参数的值，参数的个数，顺序都是不定的，这个时候单纯的靠<code>*args</code>显然无法满足我们的需求,这个时候就轮到<code>argparse</code>模块上场了，基本上一般的参数解析都可以胜任，下面看看怎么用：</p>
+<h3 id="参数的几种解析方式"><a href="#参数的几种解析方式" class="headerlink" title="参数的几种解析方式"></a>参数的几种解析方式</h3><p>主要有四种方式，简单介绍一下,先介绍一下最简单的按顺序解析不带<code>key</code>指定参数形式:</p>
+<h4 id="不带key按顺序解析"><a href="#不带key按顺序解析" class="headerlink" title="不带key按顺序解析"></a>不带key按顺序解析</h4><p>这种方式可以获取脚本运行时后面的所有参数，但是顺序由输入的顺序决定的，<br>先看看测试代码,假设文件名叫<code>args.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! /usr/bin/python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">for</span> arg <span class="keyword">in</span> sys.argv:</div><div class="line">        <span class="keyword">print</span> arg</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>来一段测试代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ python args.py 12 34 56 78                                                                                                </div><div class="line">args.py</div><div class="line">12</div><div class="line">34</div><div class="line">56</div><div class="line">78</div></pre></td></tr></table></figure></p>
+<p>第一个参数就是python脚本的名字,后面四个就是四个参数了.但这个有时候我们希望我们传入参数的顺序可以是随意的，只要我们指定每个参数的<code>key</code>,程序就能解析到对应的参数值，那应该怎么做呢？下面介绍一下带<code>key</code>的参数解析。</p>
+<h4 id="不带-参数"><a href="#不带-参数" class="headerlink" title="不带-参数"></a>不带<code>-</code>参数</h4><p>新建一个脚本<code>arg_demo.py</code>,然后输入以下代码:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env <span class="keyword">python</span></div><div class="line"># -*- codin<span class="variable">g:</span> utf-<span class="number">8</span> -*-</div><div class="line">import argparse</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    parse = argparse.ArgumentParser()</div><div class="line">    parse.add_argument(<span class="string">'a'</span>, <span class="keyword">help</span>=<span class="string">'必填参数'</span>)</div><div class="line">    <span class="keyword">args</span> = parse.parse_args()</div><div class="line">    </div><div class="line">    <span class="keyword">print</span> <span class="keyword">args</span>.<span class="keyword">a</span>  </div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<p>终端运行:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span>                    </div><div class="line">usage: arg_demo.<span class="keyword">py</span> [-h] <span class="keyword">a</span></div><div class="line">arg_demo.<span class="keyword">py</span>: error: too few arguments</div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span> 我是参数           </div><div class="line">我是参数</div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span> 我是参数<span class="number">1</span> 我是参数<span class="number">2</span></div><div class="line">usage: arg_demo.<span class="keyword">py</span> [-h] <span class="keyword">a</span></div><div class="line">arg_demo.<span class="keyword">py</span>: error: unrecognized <span class="keyword">argument</span><span class="variable">s:</span> 我是参数<span class="number">2</span></div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗</div></pre></td></tr></table></figure></p>
+<p>可以看出不带<code>-</code>的参数在调用脚本时必须输入值，并且输入的顺序必须和程序定义的一直，而且个数也得一致</p>
+<h4 id="带-的参数"><a href="#带-的参数" class="headerlink" title="带-的参数"></a>带<code>-</code>的参数</h4><p>同样的文件，改动以下代码<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env <span class="keyword">python</span></div><div class="line"># -*- codin<span class="variable">g:</span> utf-<span class="number">8</span> -*-</div><div class="line">import argparse</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    parse = argparse.ArgumentParser()</div><div class="line">    parse.add_argument(<span class="string">'-a'</span>)</div><div class="line">    <span class="keyword">args</span> = parse.parse_args()</div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="keyword">args</span>.<span class="keyword">a</span></div></pre></td></tr></table></figure></p>
+<p>同样，我们在终端中输入不同值运行一下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span>                          </div><div class="line">None</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> 我是参数                 </div><div class="line">usage: arg_demo<span class="selector-class">.py</span> [-h] [-<span class="selector-tag">a</span> A]</div><div class="line">arg_demo<span class="selector-class">.py</span>: error: unrecognized arguments: 我是参数</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -<span class="selector-tag">a</span> 我是参数              </div><div class="line">我是参数</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -a我是参数 </div><div class="line">我是参数</div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -<span class="selector-tag">a</span> 我是参数<span class="number">1</span> -<span class="selector-tag">a</span> 我是参数<span class="number">2</span></div><div class="line">我是参数<span class="number">2</span></div><div class="line">➜  parameter git:(python-note) ✗ python arg_demo<span class="selector-class">.py</span> -<span class="selector-tag">a</span> 我是参数<span class="number">2</span> -<span class="selector-tag">a</span> 我是参数<span class="number">1</span> </div><div class="line">我是参数<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>可以看出，带<code>-</code>的参数,可以输入也可以不输入，但是不能输入的时候不指定key,并且输入的key可以和参数分开或者连在一起，多次对一个key输入值，后面的会覆盖前面的输入。</p>
+<h4 id="带-参数"><a href="#带-参数" class="headerlink" title="带--参数"></a>带<code>--</code>参数</h4><p><code>-</code>参数还可以指定<code>shorname</code>,即<code>--shortname</code>这种格式，表示变量的别名，改动一下代码:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> argparse</div><div class="line"></div><div class="line">__author__ = <span class="string">'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    parse = argparse.ArgumentParser()</div><div class="line">    parse.add_argument(<span class="string">'-a'</span>, <span class="string">'--another_name'</span>, <span class="keyword">default</span>=<span class="string">'我是默认参数'</span>)</div><div class="line">    args = parse.parse_args()</div><div class="line"></div><div class="line">    <span class="built_in">print</span> args.another_name</div></pre></td></tr></table></figure></p>
+<p>同理在终端中运行:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span>                          </div><div class="line">我是默认参数</div><div class="line">➜  parameter gi<span class="variable">t:</span>(<span class="keyword">python</span>-note) ✗ <span class="keyword">python</span> arg_demo.<span class="keyword">py</span> -<span class="keyword">a</span>输入参数</div><div class="line">输入参数</div></pre></td></tr></table></figure></p>
+<p>可以看到如果不输入就输入默认值，输入了我们引用别名<code>another_name</code>也可以输出<code>-a</code>的值</p>
+<h3 id="解析参数的其他属性"><a href="#解析参数的其他属性" class="headerlink" title="解析参数的其他属性"></a>解析参数的其他属性</h3><p><code>argparse</code>还有很多可选参数，用来设置我们解析参数的具体操作，例如:</p>
+<ul>
+<li>dest<br>这个参数表示绑定参数在程序中对应的变量名称<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">add_argument</span><span class="params">(<span class="string">"a"</span>,dest=<span class="string">'code_name'</span>)</span></span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>表示<code>a</code>参数直接绑定到程序中的变量值<code>code_name</code></p>
+<ul>
+<li><p>default<br>为参数提供默认值，如果没有输入这个参数，就用默认值代替,注意不带<code>-</code>的参数不能制定默认值，因为不带<code>-</code>必须输入参数值，也就没有不输入而采用默认值的场景</p>
+</li>
+<li><p>help<br>参数的帮助文档，一般用来告诉用户这个参数是什么意思，起提示和指导作用</p>
+</li>
+<li><p>type<br>为参数指定一个类型，一般不指定的时候，默认会把输入的参数解析成字符串类型</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">add_argument</span><span class="params">(<span class="string">"c"</span>, type=int)</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>action<br>指对参数的具体操作</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td>默认就是这个模式，存储值到制定变量</td>
+</tr>
+<tr>
+<td>store_const</td>
+<td>存储值在参数的const部分指定，多用于实现非布尔的命令行flag</td>
+</tr>
+<tr>
+<td>store_true/store_falst</td>
+<td>布尔开关，store_true默认为False,输入则为True,store_false则相反</td>
+</tr>
+<tr>
+<td>append</td>
+<td>存储值到列表，该参数可以重复使用</td>
+</tr>
+<tr>
+<td>append_const</td>
+<td>存储值到列表，存储值在参数的const部分指定</td>
+</tr>
+<tr>
+<td>count</td>
+<td>统计参数简写输入的个数</td>
+</tr>
+<tr>
+<td>version</td>
+<td>输出版本信息然后退出</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>const<br>配合<code>action＝&quot;store_const|append_const&quot;</code>使用,默认值</p>
+</li>
+<li><p>choices<br>输入值的范围</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">add_argument</span><span class="params">(<span class="string">"--gb"</span>, choices=[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="number">0</span>])</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>required<br>默认为<code>False</code>，若为<code>True</code>，则必须输入该参数.</p>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/26/Linux-标准输出重定向到文件/" title="Linux 标准输出重定向到文件" itemprop="url">Linux 标准输出重定向到文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-26T05:41:29.000Z" itemprop="datePublished"> 发表于 2016-06-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>经常需要把脚本放到后台执行，但是出了问题也不知道错误出在哪，最好是把任务在前端执行输出到终端的标准输出以及标准错误输出都输出到文件，等程序出错了可以知道问题出在哪:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash test<span class="selector-class">.sh</span> &gt; data<span class="selector-class">.log</span> <span class="number">2</span>&gt;&amp;<span class="number">1</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/26/Linux端口被占用解决方案/" title="Linux端口被占用解决方案" itemprop="url">Linux端口被占用解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-26T02:52:53.000Z" itemprop="datePublished"> 发表于 2016-06-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>之前一直使用ss代理上google，但是最近不知道怎么回事儿，本地运行<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sslocal -c /etc/<span class="built_in">config</span>.json</div></pre></td></tr></table></figure></p>
+<p>报错:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">INFO:</span> loading config from doc/config.json</div><div class="line"><span class="number">2016</span>-<span class="number">06</span>-<span class="number">26</span> <span class="number">12</span>:<span class="number">34</span>:<span class="number">53</span> INFO     loading libcrypto from libcrypto.so<span class="meta">.1</span><span class="meta">.0</span><span class="meta">.0</span></div><div class="line"><span class="number">2016</span>-<span class="number">06</span>-<span class="number">26</span> <span class="number">12</span>:<span class="number">34</span>:<span class="number">53</span> INFO     starting local <span class="meta">at</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">1080</span></div><div class="line"><span class="number">2016</span>-<span class="number">06</span>-<span class="number">26</span> <span class="number">12</span>:<span class="number">34</span>:<span class="number">53</span> ERROR    [Errno <span class="number">98</span>] Address already <span class="keyword">in</span> use</div></pre></td></tr></table></figure></p>
+<p>主要是找不到占用这个端口的进程，也不知道怎么把占用端口的进程杀掉,网上查了相关解决方法，总算找到解决方案:<br>首先得找到是哪个进程占用了这个端口,即找出进程的pid:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ netstat -anp | grep <span class="number">1080</span>             </div><div class="line">（并非所有进程都能被检测到，所有非本用户的进程信息将不会显示，如果想看到所有信息，则必须切换到 root 用户）</div><div class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:<span class="number">1080</span>            <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:*               LISTEN      <span class="number">1955</span>/EmbedThunderMa</div></pre></td></tr></table></figure></p>
+<p>看到没，那个<code>1955</code>就是罪魁祸首,于是再通过pid查看具体是哪个进程:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ ps -ef | grep <span class="number">1955</span></div><div class="line">anonymo+  <span class="number">1955</span>  <span class="number">1871</span>  <span class="number">0</span> <span class="number">09</span>:<span class="number">47</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">18</span> /opt/xware-desktop/xware/<span class="class"><span class="keyword">lib</span>/<span class="title">EmbedThunderManager</span> *********</span></div><div class="line">anonymo+  <span class="number">5621</span>  <span class="number">2847</span>  <span class="number">0</span> <span class="number">10</span>:<span class="number">41</span> pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> grep --color=auto <span class="number">1955</span></div></pre></td></tr></table></figure></p>
+<p>终于找到原因,原来是前一阵子为了下东西，装了一个Linux版的迅雷，虽然最后还是没法下载，但是这东西有个服务开机自动启动，占用了我的1080端口，导致我想用没法用<br>果断卸载了坑爹的迅雷,然后把这个进程杀了<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo kill <span class="number">-9</span> <span class="number">1955</span></div></pre></td></tr></table></figure></p>
+<p>然后果然1080端口可以用了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发环境/">开发环境</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/21/Spark-下载与入门/" title="Spark 下载与入门" itemprop="url">Spark 下载与入门</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-21T15:03:39.000Z" itemprop="datePublished"> 发表于 2016-06-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>开发环境:<br>OS: Ubuntu 16.04 64bit</p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><h4 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h4><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo wget http://d3kbcqa49mib13.cloudfront.net/spark-<span class="number">1.6</span><span class="meta">.1</span>-bin-hadoop2<span class="meta">.6</span>.tgz</div><div class="line">sudo tar -xvf spark-<span class="number">1.6</span><span class="meta">.1</span>-bin-hadoop2<span class="meta">.6</span>.tgz -C /usr/dev </div><div class="line">sudo chown -R anonymous:anonymous spark-<span class="number">1.6</span><span class="meta">.1</span>-bin-hadoop2<span class="meta">.6</span>	# anonymous为当前用户名</div></pre></td></tr></table></figure>
+<h4 id="运行Spark"><a href="#运行Spark" class="headerlink" title="运行Spark"></a>运行Spark</h4><p>Spark支持多种语言,我们可以通过Python,Scala进入Spark交互式环境。</p>
+<ul>
+<li>Scala Shell</li>
+</ul>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /usr/dev/spark-1.6.1-bin-hadoop2.6</div><div class="line">./bin/spark-<span class="keyword">shell</span>	# 启动<span class="keyword">Scala</span> <span class="keyword">Shell</span></div></pre></td></tr></table></figure>
+<p><strong>注意:</strong>如果报错:<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Tue Jun 21 23:30:04 CST 2016 Thread[main,5,main] java.io.FileNotFoundException: derby.log (权限不够)</div><div class="line">16/06/21 23:30:04 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)</div><div class="line">Tue Jun 21 23:30:04 CST 2016 Thread[main,5,main] Cleanup action starting</div><div class="line"><span class="keyword">ERROR </span>XBM0H: Directory /usr/dev/spark<span class="string">-1</span>.6.1-bin-hadoop2.6/bin/metastore_db cannot be created.</div></pre></td></tr></table></figure></p>
+<p>出现这个问题一般就是没有创建文件的权限,安装的最后一个命令就是起这个作用的<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">chown</span> <span class="selector-tag">-R</span> <span class="selector-tag">anonymous</span><span class="selector-pseudo">:anonymous</span> <span class="selector-tag">spark-1</span><span class="selector-class">.6</span><span class="selector-class">.1-bin-hadoop2</span><span class="selector-class">.6</span>	# <span class="selector-tag">anonymous</span>为当前用户名</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Python Shell</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/bin/</span>pyspark</div></pre></td></tr></table></figure>
+<p>为了在Shell里面写Python有补全提示，强烈建议安装<code>ipython</code>,Ubuntu安装也很简单<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt <span class="keyword">install</span> -y ipython</div></pre></td></tr></table></figure></p>
+<p>然后启动的时候可以这样:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">IPYTHON</span>=<span class="number">1</span> ./bin/pyspark</div></pre></td></tr></table></figure></p>
+<p>进入Shell大概是这样的:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">➜  spark-<span class="number">1.6</span>.1-bin-hadoop2.6 IPYTHON=<span class="number">1</span> bin/pyspark</div><div class="line">Python <span class="number">2.7</span>.11+ (default, Apr <span class="number">17</span> <span class="number">2016</span>, <span class="number">14</span>:<span class="number">00</span>:<span class="number">29</span>) </div><div class="line">Type <span class="string">"copyright"</span>, <span class="string">"credits"</span> <span class="keyword">or</span> <span class="string">"license"</span> <span class="keyword">for</span> more information.</div><div class="line"></div><div class="line">IPython <span class="number">2.4</span>.1 -- An enhanced Interactive Python.</div><div class="line">?         -&gt; Introduction <span class="keyword">and</span> overview of IPython's <span class="built_in">features</span>.</div><div class="line">%quickref -&gt; Quick reference.</div><div class="line">help      -&gt; Python's own help <span class="built_in">system</span>.</div><div class="line">object?   -&gt; Details about 'object', use 'object??' <span class="keyword">for</span> extra details.</div><div class="line">Using Spark's default log4j profile: org/apache/spark/log4j-defaults.<span class="built_in">properties</span></div><div class="line"><span class="number">16</span>/<span class="number">06</span>/<span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">06</span> INFO SparkContext: Running Spark version <span class="number">1.6</span>.1</div><div class="line"><span class="number">16</span>/<span class="number">06</span>/<span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">06</span> WARN NativeCodeLoader: Unable to <span class="built_in">load</span> native-hadoop library <span class="keyword">for</span> your platform... using builtin-java classes where applicable</div><div class="line">Welcome to</div><div class="line">      ____              <span class="symbol">__</span></div><div class="line">     / <span class="symbol">__</span>/<span class="symbol">__</span>  ___ _____/ /<span class="symbol">__</span></div><div class="line">    <span class="symbol">_</span>\ \/ <span class="symbol">_</span> \/ <span class="symbol">_</span> `/ <span class="symbol">__</span>/  '<span class="symbol">_</span>/</div><div class="line">   /<span class="symbol">__</span> / .<span class="symbol">__</span>/\<span class="symbol">_</span>,<span class="symbol">_</span>/<span class="symbol">_</span>/ /<span class="symbol">_</span>/\<span class="symbol">_</span>\   version <span class="number">1.6</span>.1</div><div class="line">      /<span class="symbol">_</span>/</div><div class="line"></div><div class="line">Using Python version <span class="number">2.7</span>.11+ (default, Apr <span class="number">17</span> <span class="number">2016</span> <span class="number">14</span>:<span class="number">00</span>:<span class="number">29</span>)</div><div class="line">SparkContext available as sc, HiveContext available as sqlContext.</div><div class="line"></div><div class="line">In [<span class="number">1</span>]: lines = sc.textFile(<span class="string">"README.md"</span>)</div></pre></td></tr></table></figure></p>
+<p>如果你觉得这样也有些麻烦,可以在<code>~/.bashrc</code>里面加一行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">alias</span> ipython=<span class="string">'IPYTHON=1'</span></div></pre></td></tr></table></figure></p>
+<p>然后就可以这么启动:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~ cd /usr/dev/spark<span class="number">-1.6</span><span class="number">.1</span>-bin-hadoop2<span class="number">.6</span> </div><div class="line">➜  spark<span class="number">-1.6</span><span class="number">.1</span>-bin-hadoop2<span class="number">.6</span> ipython bin/pyspark</div></pre></td></tr></table></figure></p>
+<h4 id="简单样例"><a href="#简单样例" class="headerlink" title="简单样例"></a>简单样例</h4><p>Scala也不熟，就以Python为例吧,注意我的当前目录是在<code>/usr/dev/spark-1.6.1-bin-hadoop2.6</code>:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: lines = sc.textFile(<span class="string">"README.md"</span>)</div><div class="line"> n [<span class="number">2</span>]: lines.count()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">FileInputFormat:</span> Total input paths to <span class="string">process :</span> <span class="number">1</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">SparkContext:</span> Starting <span class="string">job:</span> count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Got job <span class="number">0</span> (count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>) with <span class="number">2</span> output partitions</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Final <span class="string">stage:</span> ResultStage <span class="number">0</span> (count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Parents of <span class="keyword">final</span> <span class="string">stage:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Missing <span class="string">parents:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Submitting ResultStage <span class="number">0</span> (PythonRDD[<span class="number">2</span>] at count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>), which has no missing parents</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">MemoryStore:</span> Block broadcast_1 stored <span class="keyword">as</span> values <span class="keyword">in</span> memory (estimated size <span class="number">5.6</span> KB, free <span class="number">173.1</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">MemoryStore:</span> Block broadcast_1_piece0 stored <span class="keyword">as</span> bytes <span class="keyword">in</span> memory (estimated size <span class="number">3.4</span> KB, free <span class="number">176.6</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">BlockManagerInfo:</span> Added broadcast_1_piece0 <span class="keyword">in</span> memory on <span class="string">localhost:</span><span class="number">36609</span> (<span class="string">size:</span> <span class="number">3.4</span> KB, <span class="string">free:</span> <span class="number">511.5</span> MB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">SparkContext:</span> Created broadcast <span class="number">1</span> from broadcast at DAGScheduler.<span class="string">scala:</span><span class="number">1006</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Submitting <span class="number">2</span> missing tasks from ResultStage <span class="number">0</span> (PythonRDD[<span class="number">2</span>] at count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">TaskSchedulerImpl:</span> Adding task set <span class="number">0.0</span> with <span class="number">2</span> tasks</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">TaskSetManager:</span> Starting task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>, localhost, partition <span class="number">0</span>,PROCESS_LOCAL, <span class="number">2151</span> bytes)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">TaskSetManager:</span> Starting task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>, localhost, partition <span class="number">1</span>,PROCESS_LOCAL, <span class="number">2151</span> bytes)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">Executor:</span> Running task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">Executor:</span> Running task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">HadoopRDD:</span> Input <span class="string">split:</span> <span class="string">file:</span><span class="regexp">/usr/</span>dev<span class="regexp">/spark-1.6.1-bin-hadoop2.6/</span>README.<span class="string">md:</span><span class="number">0</span>+<span class="number">1679</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">HadoopRDD:</span> Input <span class="string">split:</span> <span class="string">file:</span><span class="regexp">/usr/</span>dev<span class="regexp">/spark-1.6.1-bin-hadoop2.6/</span>README.<span class="string">md:</span><span class="number">1679</span>+<span class="number">1680</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.tip.id is deprecated. Instead, use mapreduce.task.id</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.task.partition is deprecated. Instead, use mapreduce.task.partition</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.job.id is deprecated. Instead, use mapreduce.job.id</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">PythonRunner:</span> <span class="string">Times:</span> total = <span class="number">283</span>, boot = <span class="number">268</span>, init = <span class="number">14</span>, finish = <span class="number">1</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">PythonRunner:</span> <span class="string">Times:</span> total = <span class="number">291</span>, boot = <span class="number">272</span>, init = <span class="number">19</span>, finish = <span class="number">0</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">Executor:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>). <span class="number">2124</span> bytes result sent to driver</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">Executor:</span> Finished task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>). <span class="number">2124</span> bytes result sent to driver</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">TaskSetManager:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>) <span class="keyword">in</span> <span class="number">407</span> ms on localhost (<span class="number">1</span>/<span class="number">2</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">TaskSetManager:</span> Finished task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>) <span class="keyword">in</span> <span class="number">393</span> ms on localhost (<span class="number">2</span>/<span class="number">2</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">DAGScheduler:</span> ResultStage <span class="number">0</span> (count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>) finished <span class="keyword">in</span> <span class="number">0.423</span> s</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">TaskSchedulerImpl:</span> Removed TaskSet <span class="number">0.0</span>, whose tasks have all completed, from pool </div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">DAGScheduler:</span> Job <span class="number">0</span> <span class="string">finished:</span> count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>, took <span class="number">0.489031</span> s</div><div class="line">Out[<span class="number">2</span>]: <span class="number">95</span></div><div class="line"></div><div class="line">In [<span class="number">3</span>]: lines.first()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">SparkContext:</span> Starting <span class="string">job:</span> runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Got job <span class="number">1</span> (runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>) with <span class="number">1</span> output partitions</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Final <span class="string">stage:</span> ResultStage <span class="number">1</span> (runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Parents of <span class="keyword">final</span> <span class="string">stage:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Missing <span class="string">parents:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Submitting ResultStage <span class="number">1</span> (PythonRDD[<span class="number">3</span>] at RDD at PythonRDD.<span class="string">scala:</span><span class="number">43</span>), which has no missing parents</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">MemoryStore:</span> Block broadcast_2 stored <span class="keyword">as</span> values <span class="keyword">in</span> memory (estimated size <span class="number">4.8</span> KB, free <span class="number">181.3</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">MemoryStore:</span> Block broadcast_2_piece0 stored <span class="keyword">as</span> bytes <span class="keyword">in</span> memory (estimated size <span class="number">3.0</span> KB, free <span class="number">184.3</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">BlockManagerInfo:</span> Added broadcast_2_piece0 <span class="keyword">in</span> memory on <span class="string">localhost:</span><span class="number">36609</span> (<span class="string">size:</span> <span class="number">3.0</span> KB, <span class="string">free:</span> <span class="number">511.5</span> MB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">SparkContext:</span> Created broadcast <span class="number">2</span> from broadcast at DAGScheduler.<span class="string">scala:</span><span class="number">1006</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Submitting <span class="number">1</span> missing tasks from ResultStage <span class="number">1</span> (PythonRDD[<span class="number">3</span>] at RDD at PythonRDD.<span class="string">scala:</span><span class="number">43</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSchedulerImpl:</span> Adding task set <span class="number">1.0</span> with <span class="number">1</span> tasks</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSetManager:</span> Starting task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>, localhost, partition <span class="number">0</span>,PROCESS_LOCAL, <span class="number">2151</span> bytes)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">Executor:</span> Running task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">HadoopRDD:</span> Input <span class="string">split:</span> <span class="string">file:</span><span class="regexp">/usr/</span>dev<span class="regexp">/spark-1.6.1-bin-hadoop2.6/</span>README.<span class="string">md:</span><span class="number">0</span>+<span class="number">1679</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">PythonRunner:</span> <span class="string">Times:</span> total = <span class="number">41</span>, boot = <span class="number">-33244</span>, init = <span class="number">33285</span>, finish = <span class="number">0</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">Executor:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>). <span class="number">2143</span> bytes result sent to driver</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSetManager:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>) <span class="keyword">in</span> <span class="number">67</span> ms on localhost (<span class="number">1</span>/<span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> ResultStage <span class="number">1</span> (runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>) finished <span class="keyword">in</span> <span class="number">0.068</span> s</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSchedulerImpl:</span> Removed TaskSet <span class="number">1.0</span>, whose tasks have all completed, from pool </div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Job <span class="number">1</span> <span class="string">finished:</span> runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>, took <span class="number">0.082887</span> s</div><div class="line">Out[<span class="number">3</span>]: u<span class="string">'# Apache Spark'</span></div></pre></td></tr></table></figure></p>
+<p>看看，其实很简单的，但是有个问题，每次输入一个操作，结果搞出这么一大堆的日志，看着确实影响输入，我们可以控制一下Spark的输出日志级别,编辑<code>spark-1.6.1-bin-hadoop2.6/conf/log4j.properties.template</code>文件,为了安全起见，我们直接拷贝一份模板作为我们的日志配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> conf/</div><div class="line">sudo cp <span class="built_in">log</span>4j.properties.template <span class="built_in">log</span>4j.properties</div></pre></td></tr></table></figure></p>
+<p>定位到这一行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">log</span>4j.rootCategory=INFO, console</div></pre></td></tr></table></figure></p>
+<p>改为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">log</span>4j.rootCategory=WARN, console</div></pre></td></tr></table></figure></p>
+<p>看看之前的操作:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Using Python version <span class="number">2.7</span><span class="number">.11</span>+ (default, Apr <span class="number">17</span> <span class="number">2016</span> <span class="number">14</span>:<span class="number">00</span>:<span class="number">29</span>)</div><div class="line">SparkContext available <span class="keyword">as</span> sc, HiveContext available <span class="keyword">as</span> sqlContext.</div><div class="line"></div><div class="line">In [<span class="number">1</span>]: lines = sc.textFile(<span class="string">"README.md"</span>)</div><div class="line"></div><div class="line">In [<span class="number">2</span>]: lines.count()</div><div class="line">Out[<span class="number">2</span>]: <span class="number">95</span></div><div class="line"></div><div class="line">In [<span class="number">3</span>]: lines.first()</div><div class="line">Out[<span class="number">3</span>]: <span class="string">u'# Apache Spark'</span></div><div class="line"></div><div class="line">In [<span class="number">4</span>]:</div></pre></td></tr></table></figure></p>
+<p>这样就只会输出警告及以上的日志了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/大数据/">大数据</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/Spark/">Spark</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/19/CentOS-安装Anaconda2-4-0-0-Linux-x86-64-sh报错/" title="CentOS 安装Anaconda2-4.0.0-Linux-x86_64.sh报错" itemprop="url">CentOS 安装Anaconda2-4.0.0-Linux-x86_64.sh报错</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-19T11:21:47.000Z" itemprop="datePublished"> 发表于 2016-06-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>前阵子想给服务器都装上Python的全家桶，结果怎么也装不上,开始安装<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">bash</span> <span class="selector-tag">Anaconda2-4</span><span class="selector-class">.0</span><span class="selector-class">.0-Linux-x86_64</span><span class="selector-class">.sh</span></div></pre></td></tr></table></figure></p>
+<p>但是装不了，一直报错:<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir: cannot create directory `/home/q/anaconda2': Permission denied</div><div class="line"><span class="keyword">ERROR: </span>Could not create directory: /home/q/anaconda2</div></pre></td></tr></table></figure></p>
+<p>网上查了之后发现很多人都碰到这个问题,后来大家都建议这么安装:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">bash</span> <span class="selector-tag">Anaconda2-4</span><span class="selector-class">.0</span><span class="selector-class">.0-Linux-x86_64</span><span class="selector-class">.sh</span></div></pre></td></tr></table></figure></p>
+<p>结果报错：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Sorry, user xxx is<span class="built_in"> not </span>allowed to<span class="built_in"> execute </span>'/bin/bash Anaconda2-4.0.0-Linux-x86_64.sh' as root on xxxx.</div></pre></td></tr></table></figure></p>
+<p>我去，简直无解了，没权限执行这个命令，普通的命令又装不了，结果折腾了好久也没办法，后来通过求助之后才发现，原来给这个包附个权限就可以执行了，原来如此,说干就干:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod <span class="number">777</span> Anaconda2<span class="number">-4.0</span><span class="number">.0</span>-Linux-x86_64.sh</div><div class="line">sudo ./Anaconda2<span class="number">-4.0</span><span class="number">.0</span>-Linux-x86_64.sh</div></pre></td></tr></table></figure></p>
+<p>后面一路畅通，搞定。</p>
+<p><strong>Tips:</strong>如果想用这个代替默认的环境变量，有些包这里又没有，假设你的安装目录为<code>/home/usr/anaconda2</code>,那么你可以这么装:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="meta-keyword">/home/</span>usr<span class="meta-keyword">/anaconda2/</span>bin/pip install <span class="params">&lt;module_name&gt;</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Python/">Python</a><a href="/tags/开发工具/">开发工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

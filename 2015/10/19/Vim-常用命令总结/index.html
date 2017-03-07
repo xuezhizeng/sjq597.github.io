@@ -1,0 +1,672 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Vim 常用命令总结 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="先申明，如果你不是非常需要和服务器以及服务器上的日志打交道，其实vim只会简单的光标移动以及插入，删除，复制，粘贴，保存即可。学习Vim和学习乐器很像，需要很长时间的练习，如果你平时很少用到vim，我建议是不用学的太深入，懂一些简单的即可。如果需要经常和日志打交道，那么，好好学学Vim，这可以很大的提升你的工作效率，当然学习成本很大。
+初级命令Ubuntu系统都自带了vi，你可以把Vim看成是Vi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim 常用命令总结">
+<meta property="og:url" content="http://sjq597.github.io/2015/10/19/Vim-常用命令总结/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="先申明，如果你不是非常需要和服务器以及服务器上的日志打交道，其实vim只会简单的光标移动以及插入，删除，复制，粘贴，保存即可。学习Vim和学习乐器很像，需要很长时间的练习，如果你平时很少用到vim，我建议是不用学的太深入，懂一些简单的即可。如果需要经常和日志打交道，那么，好好学学Vim，这可以很大的提升你的工作效率，当然学习成本很大。
+初级命令Ubuntu系统都自带了vi，你可以把Vim看成是Vi">
+<meta property="og:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/note_vim%20常用命令总结01.jpg">
+<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vim 常用命令总结">
+<meta name="twitter:description" content="先申明，如果你不是非常需要和服务器以及服务器上的日志打交道，其实vim只会简单的光标移动以及插入，删除，复制，粘贴，保存即可。学习Vim和学习乐器很像，需要很长时间的练习，如果你平时很少用到vim，我建议是不用学的太深入，懂一些简单的即可。如果需要经常和日志打交道，那么，好好学学Vim，这可以很大的提升你的工作效率，当然学习成本很大。
+初级命令Ubuntu系统都自带了vi，你可以把Vim看成是Vi">
+<meta name="twitter:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/note_vim%20常用命令总结01.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/19/Vim-常用命令总结/" title="Vim 常用命令总结" itemprop="url">Vim 常用命令总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-19T12:47:02.000Z" itemprop="datePublished"> 发表于 2015-10-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#初级命令"><span class="toc-number">1.</span> <span class="toc-text">初级命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单认识vim"><span class="toc-number">1.1.</span> <span class="toc-text">简单认识vim</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#移动光标"><span class="toc-number">1.2.</span> <span class="toc-text">移动光标</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中级命令"><span class="toc-number">2.</span> <span class="toc-text">中级命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高效命令"><span class="toc-number">3.</span> <span class="toc-text">高效命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令"><span class="toc-number">3.1.</span> <span class="toc-text">常用命令</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>先申明，如果你不是非常需要和服务器以及服务器上的日志打交道，其实vim只会简单的光标移动以及插入，删除，复制，粘贴，保存即可。学习Vim和学习乐器很像，需要很长时间的练习，如果你平时很少用到vim，我建议是不用学的太深入，懂一些简单的即可。如果需要经常和日志打交道，那么，好好学学Vim，这可以很大的提升你的工作效率，当然学习成本很大。</p>
+<h3 id="初级命令"><a href="#初级命令" class="headerlink" title="初级命令"></a>初级命令</h3><p>Ubuntu系统都自带了<code>vi</code>，你可以把Vim看成是Vi的升级版，Vim兼容Vi的所有命令，虽然vi<br>也可以用，但是有个不太好的地方，当你想在Vi打开的文件中插入东西时，它并没有提示，也就是不太好分清<code>Normal</code>模式和<code>Insert</code>模式，这个很容易搞混，一般就是多按几下<code>Esc</code>来确保是在<code>Normal</code>模式。所以我还是建议安装一个Vim。</p>
+<h4 id="简单认识vim"><a href="#简单认识vim" class="headerlink" title="简单认识vim"></a>简单认识vim</h4><p>当你安装好Vim之后，一定项输入点东西，很多新手也就在这里止步了，很多人都不知道如何在Vim中插入字符，所以Vim给很多人的第一印象是难用，甚至不如记事本好用，其实Vim不是这样的，安装好之后，请按照下面的命令操作：</p>
+<ol>
+<li>启动Vim后，Vim在<code>Normal</code>模式下</li>
+<li>按下<code>i</code>，进入<code>Insert</code>模式，这时Vim左下角会出现<code>-- INSERT --</code>，这个时候你可以像使用记事本那样，输入你想要输入的东西</li>
+<li>按<code>Esc</code>，可以从<code>Insert</code>模式返回到<code>Normal</code>模式</li>
+</ol>
+<p>现在你已经掌握了基本的在Normal和Insert模式的切换了，下面是一些比较常用的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">i    <span class="comment"># Insert 模式，按Esc返回Normal模式</span></div><div class="line">x    <span class="comment"># 删除当前光标所在的一个字符，你也可以试试delete键，效果是一样的</span></div><div class="line">:wq  <span class="comment"># 保存并且退出</span></div><div class="line">dd   <span class="comment"># 删除光标所在那一行</span></div><div class="line">p    <span class="comment"># 粘贴剪贴板</span></div></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong> <code>:w</code>存盘，后面也可以跟文件名 空格隔开。<code>:q</code>退出</p>
+<h4 id="移动光标"><a href="#移动光标" class="headerlink" title="移动光标"></a>移动光标</h4><p>Vim里移动光标有三种方式</p>
+<ul>
+<li>第一种：当然是用鼠标了，还可以用滚轮就不说了</li>
+<li>第二种：<code>←↓↑→</code>，最简单易记的移动光标方式</li>
+<li>第三种：<code>hjkl</code>，最常用的使用方式</li>
+</ul>
+<p>但是，最常用的其实是第三种，想想你为什么要放弃那么多好用的编辑器甚至IDE，其实很重要的一个理由是，用Vim可以做到基本不用鼠标，毕竟程序员需要频繁的在键盘和鼠标之间切换，有时候如果键盘可以完成的事，都是懒得去用鼠标点的，所以日常操作也会记一些经常用到的系统快捷键，所以，这里道理一样，并且使用<code>←↓↑→</code>，手指并不是很方便，所以大家习惯了使用<code>hjkl</code>。确实有点不好记，不过熟了就习惯了，有个技巧就是：<code>j</code>看上去像一个向下的箭头。</p>
+<p><strong>建议：</strong>如果你不长用Vim，或者写代码的机会不是那么多，那么你只需要记住上面的几个命令就足够了，这几个命令可以让你能基本使用Vim来编辑文件，做简单的修改。再说个题外话，一般的编辑器，如果你需要拷贝一段文字的时候，一般是<code>Ctrl-c</code>配合<code>Ctrl-v</code>，Ctrl扮演的就是功能键的作用，即当功能键被按下，c便不再是c，变成了一个命令或者快捷键，<code>在Vim的Normal模式下，所有的键都是功能键</code>。</p>
+<h3 id="中级命令"><a href="#中级命令" class="headerlink" title="中级命令"></a>中级命令</h3><p>下面在介绍的时候，多半是一些快捷键，如果是<code>Ctrl-key</code>，统一写成<code>&lt;C-key&gt;</code>。并且以<code>:</code>开始的命令需要输入回车，例如退出命令：<code>:q&lt;enter&gt;</code>。<br>为了更高效的使用Vim，一些简单的命令还是不行的，拿还不如使用IDE和其他文本编辑器更加方便，以下所有的命令都是在Normal模式下输入的，如果不确定是不是在Normal下，多敲几下Esc键。</p>
+<ul>
+<li>各种插入模式</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a	<span class="comment"># 在光标后插入</span></div><div class="line">o	<span class="comment"># 在光标所在行后免插入一个新行</span></div><div class="line">O	<span class="comment"># 大写字母o，表示在光标所在行前插入一个新行</span></div><div class="line">cw	<span class="comment"># 替换光标所在位置后一直到光标所在单词结尾的字符，就是删除掉</span></div></pre></td></tr></table></figure>
+<ul>
+<li>各种移动光标</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">0		<span class="comment"># 数字0，到行头</span></div><div class="line">^		<span class="comment"># 到本行第一个不是空白的位置，空白包括空格，tab，换行，回车等</span></div><div class="line">$		<span class="comment"># 到本行行尾</span></div><div class="line">g_		<span class="comment"># 到本行最后一个不是空白的位置</span></div><div class="line">/pattern	<span class="comment"># 搜索pattern的字符串，多个匹配可以按n跳到下一个</span></div></pre></td></tr></table></figure>
+<ul>
+<li>拷贝/粘贴</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">p		<span class="comment"># 粘贴，在当前位置之后粘贴</span></div><div class="line">P		<span class="comment"># 粘贴，在当前位置之前粘贴</span></div><div class="line">yy		<span class="comment"># 拷贝当前行</span></div></pre></td></tr></table></figure>
+<ul>
+<li>撤销/重做</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">u		<span class="comment"># undo 撤销</span></div><div class="line">&lt;C-r&gt;		<span class="comment"># redo 重做</span></div></pre></td></tr></table></figure>
+<ul>
+<li>打开/保存/退出/改变文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">:e &lt;path/to/file&gt;		<span class="comment"># 打开一个文件，空格隔开</span></div><div class="line">:w				<span class="comment"># 存盘</span></div><div class="line">:saveas &lt;path/to/file&gt;		<span class="comment"># 另存为&lt;path/to/file&gt; 空格隔开</span></div><div class="line">:x				<span class="comment"># 保存并退出</span></div><div class="line">ZZ				<span class="comment"># 保存并退出</span></div><div class="line">:wq				<span class="comment"># 保存并退出</span></div><div class="line">:q!				<span class="comment"># 退出，但不保存</span></div><div class="line">:qa!				<span class="comment"># 强行退出所有正在编辑的文件</span></div><div class="line">:bn				<span class="comment"># 切换到打开的下一个文件</span></div><div class="line">:bp				<span class="comment"># 切换到挡开的上一个文件</span></div></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 其实只是切换文件可以用<code>:n</code>，表示到下一个文件。</p>
+<h3 id="高效命令"><a href="#高效命令" class="headerlink" title="高效命令"></a>高效命令</h3><p>在处理文本的时候，有时候需要做很多重复的动作，下面来看看<code>Vim</code>如何重复自己</p>
+<ul>
+<li>重复命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.		<span class="comment"># 小数点，可以重复上一次命令，当然你要记住上次你干了啥</span></div><div class="line">N&lt;<span class="built_in">command</span>&gt;	<span class="comment"># 重复某个命令N次，N为数字，命令要是有效的vim命令</span></div></pre></td></tr></table></figure>
+<p> 看看示例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dd			<span class="comment"># 删除一行，并且删除的内容会存放到剪贴板</span></div><div class="line">2dd			<span class="comment"># 2dd表示删除从光标开始的两行</span></div><div class="line">3p			<span class="comment"># 粘贴文本3次，内容是剪贴板的内容，假设先执行了2dd，再3p，则会粘贴6行新内容</span></div><div class="line">100icontent [Esc]	<span class="comment"># 中间有个空格 插入100遍content&lt;space&gt;</span></div></pre></td></tr></table></figure></p>
+<p> <strong>注意：</strong> 如果在<code>100icontent [Esc]之后在输入小数点</code>.<code>。那么会再插入100遍content&lt;space&gt;，即重复上条命令。如果再输入</code>3.`，会再输入3个content<space></space></p>
+<ul>
+<li>更快的移动光标</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">NG		<span class="comment"># 到第N行，G必须大写</span></div><div class="line">gg		<span class="comment"># 到第一行</span></div><div class="line">G		<span class="comment"># 到最后一行</span></div><div class="line">w		<span class="comment"># 到下一个单词的开头</span></div><div class="line">e		<span class="comment"># 到下一个单词的结尾</span></div></pre></td></tr></table></figure>
+<p> <strong>注意：</strong> 默认情况，单词是由字母，数字，下划线组成，如果认为是blank字符分隔，则需要使用<code>E</code>和<code>W</code>，如下如所示：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_vim%20常用命令总结01.jpg" alt="e,w和E,W区别"></p>
+<p> 其实这并不是最强的光标移动，下面来看看最快的光标如何移动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">%		<span class="comment"># 匹配括号移动，包括(,&#123;,[,这个对于编程来匹配括号非常好用，记住你需要把光标先移到括号上，然后就可以匹配到与之对应的反括号</span></div><div class="line">*		<span class="comment"># 匹配光标当前所在单词，移动到下一个，以blank字符为分隔符</span></div><div class="line"><span class="comment">#		# 匹配光标当前所在单词，移动到上一个,以blank字符为分隔符</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>选中</li>
+</ul>
+<p>一定要记住光标的移动快捷键，很多命令可以通过光标的移动来实现联动，比如从某个地方拷贝到某个地方，删除从某个位置到另一个位置，语法类似下面</p>
+<blockquote>
+<p><start position="">command<end position=""></end></start></p>
+</blockquote>
+<p> 例如：<code>0y$</code>命令意味着：</p>
+<blockquote>
+<p>0    # 先到行头<br>y    # 从光标处开始拷贝<br>$    # 拷贝到本行最后一个字符</p>
+</blockquote>
+<p> 类似这样的命令还有：<code>ye</code>，从当前位置拷贝到本单词的最后一个字符。<code>y2/foo</code>，拷贝两个foo之间的字符串。不一定按<code>y</code>才会拷贝，下面的命令也会拷贝：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">d		<span class="comment"># 删除</span></div></pre></td></tr></table></figure></p>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:g/^</span><span class="variable">$/</span>de		<span class="comment"># 删除空白行</span></div><div class="line"><span class="symbol">:set</span> encoding	<span class="comment"># 查看文件编码</span></div><div class="line"><span class="symbol">:set</span> list		<span class="comment"># 显示不可见字符，一般来看每一行结尾是否有空格</span></div></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2015/10/19/Vim-常用命令总结/" data-title="Vim 常用命令总结 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/10/25/Hexo-基本配置/" title="Hexo 基本配置">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hexo 基本配置</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/10/14/Ubuntu-14-04-多终端窗口合并/"  title="Ubuntu 14.04 多终端窗口合并">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu 14.04 多终端窗口合并
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#初级命令"><span class="toc-number">1.</span> <span class="toc-text">初级命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单认识vim"><span class="toc-number">1.1.</span> <span class="toc-text">简单认识vim</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#移动光标"><span class="toc-number">1.2.</span> <span class="toc-text">移动光标</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中级命令"><span class="toc-number">2.</span> <span class="toc-text">中级命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高效命令"><span class="toc-number">3.</span> <span class="toc-text">高效命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令"><span class="toc-number">3.1.</span> <span class="toc-text">常用命令</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

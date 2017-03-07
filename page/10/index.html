@@ -1,0 +1,1154 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="数据开发工程师的成长历程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LittleQ">
+<meta property="og:url" content="http://sjq597.github.io/page/10/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="数据开发工程师的成长历程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LittleQ">
+<meta name="twitter:description" content="数据开发工程师的成长历程">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/02/Vim-编程常用高效必备插件/" title="Vim 编程常用高效必备插件" itemprop="url">Vim 编程常用高效必备插件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-02T12:06:28.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>假设你已经了解基本的vim使用,并且喜欢在vim下写代码,你需要几个非常好用的插件,可以极大的提升你的工作效率.</p>
+<h3 id="插件管理利器"><a href="#插件管理利器" class="headerlink" title="插件管理利器"></a>插件管理利器</h3><p>原始的插件管理方法就是下一个插件,拷贝到一个目录下就行了,但是这样有点儿乱,插件管理工具常用的用<code>pathogen</code>和<code>Vundle</code>.就管理插件而言,不需要太过于关注哪个好,都挺好用的,我使用的就是<code>pathogen</code>,其安装方法详见<a href="../Ubuntu-vim安装markdown插件">Ubuntu vim安装markdown插件</a>这篇笔记里的介绍.</p>
+<h3 id="常用插件"><a href="#常用插件" class="headerlink" title="常用插件"></a>常用插件</h3><p>列举了几个比较常用的插件</p>
+<ol>
+<li>nerdtree</li>
+<li>snipMate</li>
+<li>vim-multiple-cursors</li>
+</ol>
+<p>以下所有安装方法都是使用<code>pathogen</code>插件管理器的安装方法,其他方法自行琢磨.</p>
+<h4 id="nerdtree插件"><a href="#nerdtree插件" class="headerlink" title="nerdtree插件"></a>nerdtree插件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~/.vim/bundle</div><div class="line">git <span class="built_in">clone</span> https://github.com/scrooloose/nerdtree.git</div></pre></td></tr></table></figure>
+<p>这个插件可以使用vim来打开文件夹,按回车进入文件夹,展开文件夹下面的所有文件,可以用vim的光标控制命令来移动,选择打开某个文件.</p>
+<h4 id="snipMate插件"><a href="#snipMate插件" class="headerlink" title="snipMate插件"></a>snipMate插件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~/.vim/bundle</div><div class="line">git <span class="built_in">clone</span> https://github.com/tomtom/tlib_vim.git</div><div class="line">git <span class="built_in">clone</span> https://github.com/MarcWeber/vim-addon-mw-utils.git</div><div class="line">git <span class="built_in">clone</span> https://github.com/garbas/vim-snipmate.git</div><div class="line">git <span class="built_in">clone</span> https://github.com/honza/vim-snippets.git</div></pre></td></tr></table></figure>
+<p>这个工具可以快速,减少重复代码,关于具体的使用,你可以在插件目录<code>bundle/</code>存放插件的<code>snippets</code>目录下找到对应的语言的<code>snippets</code>,并且修改对应的<code>snippets</code>.</p>
+<h4 id="vim-multiple-cursors插件"><a href="#vim-multiple-cursors插件" class="headerlink" title="vim-multiple-cursors插件"></a>vim-multiple-cursors插件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~/.vim/bundle</div><div class="line">git <span class="built_in">clone</span> https://github.com/terryma/vim-multiple-cursors.git</div></pre></td></tr></table></figure>
+<p>看名字的意思就是多光标编辑,比如你有个变量,在很多地方被引用了,突然有一天你觉得这个变量名字起的不好,想换一个变量名,这个时候可以使用这个,具体效果如下:<br>测试代码<code>multiple.py</code>:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def hell(poorly_named_var)</div><div class="line">    poorly_named_var ||= "Nameless"</div><div class="line">        puts("Hi, " + poorly_named_var)</div><div class="line">	end</div></pre></td></tr></table></figure></p>
+<p><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Vim%20编程常用高效必备插件01.gif" alt="vim-multiple-cursors插件多光标效果"><br>上图的演示过程就是，具体的操作就是将光标移到变量的第一个字母，然后按<code>&lt;Crrl-n&gt;</code>就是增加一个，按<code>&lt;Ctrl-p&gt;</code>就是减少一个。连按三下都选中，然后按<code>c</code>,然后输入name即是上面的效果。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/02/Ubuntu-Vim安装Markdown插件/" title="Ubuntu Vim安装Markdown插件" itemprop="url">Ubuntu Vim安装Markdown插件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-02T11:30:04.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Ubuntu下使用vim开发,写博客,由于博客是使用markdown写的,之前是使用sublime Text来写markdown,不过还是想完全用键盘,书写更快,决定以后都使用vim来写markdown了.</p>
+<h3 id="安装前提"><a href="#安装前提" class="headerlink" title="安装前提"></a>安装前提</h3><p>首先要安装vim,没有的话终端安装也方便:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim</div></pre></td></tr></table></figure></p>
+<p>然后安装插件管理器,有几种方式,就以<code>pathogen</code>为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mkdir -p ~/.vim/<span class="built_in">autoload</span> ~/.vim/bundle &amp;&amp; curl -LSso ~/.vim/<span class="built_in">autoload</span>/pathogen.vim https://tpo.pe/pathogen.vim</div></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong> 如果执行这个命令报错：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl: (23) Failed writing body (0 != 12140)</div></pre></td></tr></table></figure></p>
+<p>这是没有写权限所导致的，可以为三个文件夹赋权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo chmod 777 ~/.vim</div><div class="line"><span class="built_in">cd</span> ~/.vim</div><div class="line">sudo chmod 777 <span class="built_in">autoload</span> bundle</div></pre></td></tr></table></figure></p>
+<p>然后在<code>~/.vimrc</code>文件里添加如下内容<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">execute</span> pathogen<span class="meta">#infect()</span></div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong> 如果刚装的vim,啥东西也没有加过,可能没有<code>.vimrc</code>文件,需要自己新建<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim ~/.vimrc</div></pre></td></tr></table></figure></p>
+<p>然后添加如下内容:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">execute</span> pathogen#infect()</div><div class="line"><span class="keyword">syntax</span> <span class="keyword">on</span></div><div class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span></div></pre></td></tr></table></figure></p>
+<h3 id="安装vim-markdown插件"><a href="#安装vim-markdown插件" class="headerlink" title="安装vim-markdown插件"></a>安装vim-markdown插件</h3><p>现在假设你的<code>pathogen</code>已经安装好了,安装<code>vim-markdown</code>插件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~/.vim/bundle</div><div class="line">git <span class="built_in">clone</span> https://github.com/plasticboy/vim-markdown.git</div></pre></td></tr></table></figure></p>
+<p>然后重新打开一个<code>*.md</code>文件就可以生效了,注意,打开<code>*.md</code>文件,标题块之间会被折叠,光标跳转到折叠行,按空格就可以展开.</p>
+<p>由于是用<code>hexo</code>写博客,还需要对<code>YAML</code>语法,需要在<code>~/.vimrc</code>中添加如下配置:<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> g:<span class="attr">vim_markdown_frontmatter=1</span></div></pre></td></tr></table></figure></p>
+<p>基本的插件安装就这几个步骤，其实也没有很特别的提示功能，只是在写错的时候可以看出来，还有就是按标题折叠成块比较实用。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/02/Ubuntu-14-04-升级gcc/" title="Ubuntu 14.04 升级gcc" itemprop="url">Ubuntu 14.04 升级gcc</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-02T09:46:38.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>前段时间安装mysqldb时碰到gcc的编译错误问题,后来看到了网上有人说需要更新gcc编译器,在Ubuntu 14.04下更新gcc也很简单</p>
+<h3 id="Ubuntu-更新gcc编译器"><a href="#Ubuntu-更新gcc编译器" class="headerlink" title="Ubuntu 更新gcc编译器"></a>Ubuntu 更新gcc编译器</h3><ul>
+<li>首先更新源</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:ubuntu-toolchain-r/<span class="built_in">test</span></div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install gcc-4.9 g++-4.9</div></pre></td></tr></table></figure>
+<ul>
+<li>保留旧的gcc</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10  </div><div class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20</div><div class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 10</div><div class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20</div></pre></td></tr></table></figure>
+<ul>
+<li>查看配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo update-alternatives --config gcc</div></pre></td></tr></table></figure>
+<p> 如下结果:<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="section">  选择       路径        优先级  状态</span></div><div class="line">------------------------------------------------------------</div><div class="line"><span class="bullet">* </span>0     /usr/bin/gcc-4.9   20   自动模式</div><div class="line"><span class="code">  1     /usr/bin/gcc-4.8   10   手动模式</span></div><div class="line"><span class="code">  2     /usr/bin/gcc-4.9   20   手动模式</span></div></pre></td></tr></table></figure></p>
+<p> 可以手动选择使用哪个版本,由于我们把<code>gcc-4.9</code>设置的优先级最高,所以默认就是使用的高版本的,对于<code>g++</code>同样.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/01/Python-fetchall-字段特殊字符过滤处理/" title="Python fetchall()字段特殊字符过滤处理" itemprop="url">Python fetchall()字段特殊字符过滤处理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-01T02:50:04.000Z" itemprop="datePublished"> 发表于 2015-11-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在做数据仓库的迁移工作,之前数据仓库的数据都是用的shell脚本来抽取,后来换了python脚本.<br>但是在把数据抽取存放到hadoop时,出现了一个问题:<br>由于数据库字段很多,提前也不知道数据库字段会存储什么内容,hive建表是以<code>\t\n</code>做分隔,这就导致了一个问题,如果mysql字段内容里面本身含有<code>\t\n</code>,那么就会出现字段错位情况,并且很头疼的是mysql有100多个字段,也不知道哪个字段会出现这个问题.<br>shell脚本里的做法是在需要抽取的字段上用mysql的replace函数对字段进行替换,例如,假设mysql里的字段是<code>column1 varchar(2000)</code>,那么很可能就会出现有特殊字符的情况,在查询的sql语句里加上<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">replace</span>(<span class="keyword">replace</span>(<span class="keyword">replace</span>(column1,<span class="string">'\r'</span>,<span class="string">''</span>),<span class="string">'\n'</span>,<span class="string">''</span>),<span class="string">'\t'</span>,<span class="string">''</span>)</div></pre></td></tr></table></figure></p>
+<p>之前一直是这么干的,但是这样写sql特别长,特别是有100多个字段,也不知道哪个有特殊字符,只要都加上.<br>所以在python中对字段不加处理,最终导致hive表字段对应出现偏差,所以在python里从mysql查询到的字段在写到文件之前需要对每个字段进行过滤处理</p>
+<p>看个例子,我就以mysql测试为例,首先建一张测试表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`filter_fields`</span> (</div><div class="line">  <span class="string">`field1`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</div><div class="line">  <span class="string">`field2`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</div><div class="line">  <span class="string">`field3`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</div><div class="line">  <span class="string">`field4`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</div><div class="line">  <span class="string">`field5`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</div><div class="line">  <span class="string">`field6`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span></div><div class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</div></pre></td></tr></table></figure></p>
+<p>有六个字段,都是<code>varchar</code>类型,插入新数据可以在里面插入特殊字符.简单插入条数据测试看看:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> filter_fields(field1,field2,field3,field4,field5,field6) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'test01'</span>,<span class="string">'test02'</span>,<span class="string">'test03'</span>,<span class="string">'test04'</span>,<span class="string">'test05'</span>,<span class="string">'test06'</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> filter_fields(field1,field2,field3,field4,field5,field6) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'test11\ntest11'</span>,<span class="string">'test12\n\n'</span>,<span class="string">'test13'</span>,<span class="string">'test14'</span>,<span class="string">'test15'</span>,<span class="string">'test16'</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> filter_fields(field1,field2,field3,field4,field5,field6) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'test21\ttest21'</span>,<span class="string">'test22\ttest22\ttest22'</span>,<span class="string">'test23\t\t\t'</span>,<span class="string">'test4'</span>,<span class="string">'test5'</span>,<span class="string">'test6'</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> filter_fields(field1,field2,field3,field4,field5,field6) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'test21\rest21'</span>,<span class="string">'test22\r\rest22\r\rest22'</span>,<span class="string">'test23\r\r\r'</span>,<span class="string">'test4'</span>,<span class="string">'test5'</span>,<span class="string">'test6'</span>);</div></pre></td></tr></table></figure></p>
+<p>其中数据里插入的特殊字符,可能连在一起,也有不连在一起的.</p>
+<p>python测试代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> MySQLdb</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">db_host = <span class="string">'127.0.0.1'</span>   <span class="comment"># 数据库地址</span></div><div class="line">db_port = <span class="number">3306</span>          <span class="comment"># 数据库端口</span></div><div class="line">db_user = <span class="string">'root'</span>        <span class="comment"># mysql用户名</span></div><div class="line">db_pwd = <span class="string">'yourpassword'</span> <span class="comment"># mysql用户密码,换成你的密码</span></div><div class="line">db_name = <span class="string">'test'</span>        <span class="comment"># 数据库名</span></div><div class="line">db_table = <span class="string">'filter_fields'</span>  <span class="comment"># 数据库表</span></div><div class="line"></div><div class="line"><span class="comment"># 过滤sql字段结果中的\t\n</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_data</span><span class="params">(table_name)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        conn = MySQLdb.connect(host=db_host, port = db_port, user=db_user,</div><div class="line">                               passwd = db_pwd, db = db_name, charset = <span class="string">"utf8"</span>)</div><div class="line">        cursor = conn.cursor()</div><div class="line">    <span class="keyword">except</span> MySQLdb.Error, e:</div><div class="line">        <span class="keyword">print</span> <span class="string">'数据库连接异常'</span></div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        sql = <span class="string">'select * from %s;'</span>%(table_name)</div><div class="line">        cursor.execute(sql)</div><div class="line">        rows = cursor.fetchall()</div><div class="line"></div><div class="line">        <span class="keyword">print</span> <span class="string">'====字段未过滤查询结果===='</span></div><div class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> rows:</div><div class="line">            <span class="keyword">print</span> row</div><div class="line"></div><div class="line">        <span class="keyword">print</span> <span class="string">'====字段过滤之后结果===='</span></div><div class="line">        rows_list = []</div><div class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> rows:</div><div class="line">            row_list = []</div><div class="line">            <span class="keyword">for</span> column <span class="keyword">in</span> row:</div><div class="line">                row_list.append(column.replace(<span class="string">'\t'</span>, <span class="string">''</span>).replace(<span class="string">'\n'</span>, <span class="string">''</span>).replace(<span class="string">'\r'</span>, <span class="string">''</span>))</div><div class="line">            rows_list.append(row_list)</div><div class="line">            <span class="keyword">print</span> rows_list[<span class="number">-1</span>]		<span class="comment"># [-1]表示列表最后一个元素</span></div><div class="line">        <span class="keyword">return</span> rows_list</div><div class="line">    <span class="keyword">except</span> MySQLdb.Error, e:</div><div class="line">        <span class="keyword">print</span> <span class="string">'执行sql语句失败'</span></div><div class="line">        cursor.close()</div><div class="line">        conn.close()</div><div class="line">        sys.exit(<span class="number">1</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'begin:'</span></div><div class="line">    rows = extract_data(db_table)</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>看看输出结果:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">====字段未过滤查询结果====</div><div class="line">(<span class="string">u'test01'</span>, <span class="string">u'test02'</span>, <span class="string">u'test03'</span>, <span class="string">u'test04'</span>, <span class="string">u'test05'</span>, <span class="string">u'test06'</span>)</div><div class="line">(<span class="string">u'test11\ntest11'</span>, <span class="string">u'test12\n\n'</span>, <span class="string">u'test13'</span>, <span class="string">u'test14'</span>, <span class="string">u'test15'</span>, <span class="string">u'test16'</span>)</div><div class="line">(<span class="string">u'test21\ttest21'</span>, <span class="string">u'test22\ttest22\ttest22'</span>, <span class="string">u'test23\t\t\t'</span>, <span class="string">u'test4'</span>, <span class="string">u'test5'</span>, <span class="string">u'test6'</span>)</div><div class="line">(<span class="string">u'test21\rest21'</span>, <span class="string">u'test22\r\rest22\r\rest22'</span>, <span class="string">u'test23\r\r\r'</span>, <span class="string">u'test4'</span>, <span class="string">u'test5'</span>, <span class="string">u'test6'</span>)</div><div class="line">====字段过滤之后结果====</div><div class="line">[<span class="string">u'test01'</span>, <span class="string">u'test02'</span>, <span class="string">u'test03'</span>, <span class="string">u'test04'</span>, <span class="string">u'test05'</span>, <span class="string">u'test06'</span>]</div><div class="line">[<span class="string">u'test11test11'</span>, <span class="string">u'test12'</span>, <span class="string">u'test13'</span>, <span class="string">u'test14'</span>, <span class="string">u'test15'</span>, <span class="string">u'test16'</span>]</div><div class="line">[<span class="string">u'test21test21'</span>, <span class="string">u'test22test22test22'</span>, <span class="string">u'test23'</span>, <span class="string">u'test4'</span>, <span class="string">u'test5'</span>, <span class="string">u'test6'</span>]</div><div class="line">[<span class="string">u'test21est21'</span>, <span class="string">u'test22est22est22'</span>, <span class="string">u'test23'</span>, <span class="string">u'test4'</span>, <span class="string">u'test5'</span>, <span class="string">u'test6'</span>]</div></pre></td></tr></table></figure></p>
+<p>可以看到,制表符,换行符,回车都被过滤了.<br><strong>建议:</strong>最后说点题外话,不要小视<code>\r</code>,回车符.很多人以为回车符就是换行符,其实不是的,<code>\r</code>表示回车符,<code>\n</code>表示新行.之前代码里其实是过滤掉了<code>\t\n</code>的,但是抽取的数据还是不对,后来看了源码之后才发现,原来是没有过滤<code>\r</code>,就这个不同导致了很多数据抽取不对.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/sql/">sql</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/27/Linux-本地和服务器互传文件命令-scp/" title="Linux 本地和服务器互传文件命令:scp" itemprop="url">Linux 本地和服务器互传文件命令:scp</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-27T10:58:07.000Z" itemprop="datePublished"> 发表于 2015-10-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在日常工作开发中,都是登陆跳板机然后再登陆开发机或者在线服务器,有时候需要把一个本地文件上传到服务器,例如服务器缺少某个字体,通常是本地机下载字体然后上传到服务器.也有时候需要把服务器上的某个文件拷贝到本地,例如某个日志或者结果等.这个时候<code>scp</code>命令登场了.</p>
+<h3 id="scp命令使用"><a href="#scp命令使用" class="headerlink" title="scp命令使用"></a>scp命令使用</h3><h4 id="准备条件"><a href="#准备条件" class="headerlink" title="准备条件"></a>准备条件</h4><blockquote>
+<p>假设你的用户名是zhang.san<br>跳板机地址:redirector.machine.com<br>目标机器地址:target.machine.com<br>本机文件:/home/zhang.san/1.txt<br>目标机器文件:/home/dev/www/log/test.log</p>
+</blockquote>
+<p><strong>注意:</strong> 由于是跳板机,所以会有很多人登陆,每个人在跳板机上都有一个以自己名字命名的目录,例如<code>/home/zhang.san/</code></p>
+<h4 id="本地上传到服务器"><a href="#本地上传到服务器" class="headerlink" title="本地上传到服务器"></a>本地上传到服务器</h4><ul>
+<li>上传文件到跳板机</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~  scp 1.txt zhang.san@redirector.machine.com:~</div><div class="line">Enter PASSCODE:<span class="string">"此处可能要输入密码"</span></div><div class="line">1.txt                                              100%   10     0.0KB/s   00:00</div></pre></td></tr></table></figure>
+<ul>
+<li>登陆跳板机查看</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ssh zhang.san@redirector.machine.com</div><div class="line">Enter PASSCODE:<span class="string">"输入密码处"</span></div><div class="line">Last login: Tue Oct 27 19:16:47 2015 from 10.86.108.97</div><div class="line">[zhang.san@redirector.machine.com ~]$ ls</div><div class="line">1.txt</div></pre></td></tr></table></figure>
+<p> 再在跳板机上进行同样的操作上传到服务器即可.</p>
+<h4 id="服务器下载到本地"><a href="#服务器下载到本地" class="headerlink" title="服务器下载到本地"></a>服务器下载到本地</h4><p>在本地机器上执行下面命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp zhang.san@redirector.machine.com:1.txt ./</div></pre></td></tr></table></figure></p>
+<p>注意这个命令不是在跳板机,而是在本地机器上执行.</p>
+<p>其实前面的是比较复杂的，如果单纯的只是想从服务器上上传东西，可以使用一个简单的命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -m SimpleHTTPServer 端口号</div></pre></td></tr></table></figure></p>
+<p>这个命令可以把执行这个命令的目录变成一个服务器的目录，可以直接用http下载,pythons服务器上一般是安装了的，没有的话就不能这么用了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Web/">Web</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/25/Ubuntu-14-04-IntelliJ-IDEA-乱码/" title="Ubuntu 14.04下 IntelliJ IDEA 乱码" itemprop="url">Ubuntu 14.04下 IntelliJ IDEA 乱码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T14:46:23.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Ubuntu下，由于缺少宋体，导致中文路径出现乱码，解决办法是先下载字体，然后在IDEA中设置使用宋体即可。<br>乱码有几种情况，</p>
+<h3 id="编辑器以及调试信息乱码"><a href="#编辑器以及调试信息乱码" class="headerlink" title="编辑器以及调试信息乱码"></a>编辑器以及调试信息乱码</h3><p>解决方案，选择<code>File--&gt;settings--&gt;Editor--&gt;File Encoding</code><br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04下%20IntelliJ%20IDEA%20乱码01.png" alt="IDEA 中设置默认字符编码"><br>如上图所示，两个编码都选择<code>UTF-8</code>，这样可以保证以后新建的文件编码方式，防止乱码。</p>
+<h3 id="IDEA-其他窗口乱码"><a href="#IDEA-其他窗口乱码" class="headerlink" title="IDEA 其他窗口乱码"></a>IDEA 其他窗口乱码</h3><p>如下图所示：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04下%20IntelliJ%20IDEA%20乱码02.png" alt="IDEA 中窗口乱码"><br>出现这样的原因是linux系统提供的字体不支持中文的显示，在idea中，默认的是ubuntu字体，该字体并不支持中文显示。因此，还需要自己下载一个支持中文显示的字体。</p>
+<ul>
+<li>下载simsun字体，<a href="http://pan.baidu.com/s/1pJ06y2B" target="_blank" rel="external">百度盘下载地址</a></li>
+<li>将下载好的字体添加到系统字体库中</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo cp Downloads/simsun.ttf /usr/share/fonts</div></pre></td></tr></table></figure>
+<ul>
+<li>重启IDEA，设置字体<br>重启idea，然后选择<code>File-&gt;settings-&gt;Appearance &amp; Behavior-&gt;Appearance</code>.如下所示：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04下%20IntelliJ%20IDEA%20乱码03.png" alt="IDEA中设置simsun字体"><br>在右边勾选上<code>Override default fonts by(....)</code>,并在<code>Name</code>选项中选择刚刚添加的SimSun字体。</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/IDEA/">IDEA</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/25/Ubuntu-14-04-使用VPN/" title="Ubuntu 14.04 使用VPN" itemprop="url">Ubuntu 14.04 使用VPN</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T12:10:03.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Linux下使用VPN十分简单，只需要安装一软件即可。</p>
+<ul>
+<li>安装网络挂件<code>vpnc</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vpnc</div></pre></td></tr></table></figure>
+<ul>
+<li>找到公司的默认配置文件<code>qunar_common.pcf</code>,使用命令将其转化成对应的配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pcf2vpnc Documents/qunar_common.pcf default.conf</div></pre></td></tr></table></figure>
+<ul>
+<li>替换配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod 777 /etc/vpnc </div><div class="line">sudo cp default.conf /etc/vpnc</div></pre></td></tr></table></figure>
+<ul>
+<li>更改配置文件中的账户Xauth username</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/vpnc/default.conf</div></pre></td></tr></table></figure>
+<ul>
+<li>连接VPN</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vpnc-connect</div></pre></td></tr></table></figure>
+<p><strong>备注:</strong> 关闭连接用<code>sudo vpnc-disconnect</code>。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/25/Ubuntu-14-04-更改源/" title="Ubuntu 14.04 更改源" itemprop="url">Ubuntu 14.04 更改源</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T11:44:39.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>之前把Ubuntu的默认的源替换了，速度有点慢，现在替换回来<br>在命令行下修改，修改<code>/etc/apt/sources.list</code>,内容修改如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># deb cdrom:[Ubuntu-Kylin 14.04.1 LTS _Trusty Tahr_ - Release amd64 (20140722.1)]/ trusty main multiverse restricted universe</span></div><div class="line"></div><div class="line"><span class="comment"># See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to</span></div><div class="line"><span class="comment"># newer versions of the distribution.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty main restricted</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty main restricted</div><div class="line"></div><div class="line"><span class="comment">## Major bug fix updates produced after the final release of the</span></div><div class="line"><span class="comment">## distribution.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates main restricted</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates main restricted</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu</span></div><div class="line"><span class="comment">## team. Also, please note that software in universe WILL NOT receive any</span></div><div class="line"><span class="comment">## review or updates from the Ubuntu security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty universe</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty universe</div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates universe</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates universe</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu </span></div><div class="line"><span class="comment">## team, and may not be under a free licence. Please satisfy yourself as to </span></div><div class="line"><span class="comment">## your rights to use the software. Also, please note that software in </span></div><div class="line"><span class="comment">## multiverse WILL NOT receive any review or updates from the Ubuntu</span></div><div class="line"><span class="comment">## security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse</div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates multiverse</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository may not have been tested as</span></div><div class="line"><span class="comment">## extensively as that contained in the main release, although it includes</span></div><div class="line"><span class="comment">## newer versions of some applications which may provide useful features.</span></div><div class="line"><span class="comment">## Also, please note that software in backports WILL NOT receive any review</span></div><div class="line"><span class="comment">## or updates from the Ubuntu security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line"></div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security main restricted</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted</div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security universe</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security universe</div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security multiverse</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security multiverse</div><div class="line"></div><div class="line"><span class="comment">## Uncomment the following two lines to add software from Canonical's</span></div><div class="line"><span class="comment">## 'partner' repository.</span></div><div class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by Canonical and the</span></div><div class="line"><span class="comment">## respective vendors as a service to Ubuntu users.</span></div><div class="line"><span class="comment"># deb http://archive.canonical.com/ubuntu trusty partner</span></div><div class="line"><span class="comment"># deb-src http://archive.canonical.com/ubuntu trusty partner</span></div><div class="line"></div><div class="line"><span class="comment">## Uncomment the following two lines to add software from Ubuntu's</span></div><div class="line"><span class="comment">## 'extras' repository.</span></div><div class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by third-party</span></div><div class="line"><span class="comment">## developers who want to ship their latest software.</span></div><div class="line"><span class="comment"># deb http://extras.ubuntu.com/ubuntu trusty main</span></div><div class="line"><span class="comment"># deb-src http://extras.ubuntu.com/ubuntu trusty main</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/25/Ubuntu-14-04-IDEA配置和使用/" title="Ubuntu 14.04 IDEA配置和使用" itemprop="url">Ubuntu 14.04 IDEA配置和使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T04:17:44.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>IDEA相比Eclipse的好处我这里就不多说了，反正感觉无论是界面还是与其他插件的集成都做的非常好，特别是git和数据库这块，做的时想当好。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先根据系统下载对应IDEA的压缩包，以Ubuntu 14.04的64位系统为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo tar -xvf ideaIU-14.0.3.tar.gz -C /usr/dev</div><div class="line"><span class="built_in">cd</span> /usr/dev/idea-IU-139.1117.1/bin</div><div class="line">./idea.sh</div></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong>正常情况下，在你启动成功之后，可以在Ubuntu应用里直接启动，但是我的总是不行，没办法，在用户根目录下建了一个脚本，内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">/usr/dev/idea-IU-139.1117.1/bin/idea.sh &amp;</div></pre></td></tr></table></figure></p>
+<p>然后对脚本赋可执行权限</p>
+<h3 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h3><p>必装插件:<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">Eclipse</span> <span class="meta">Code</span> Formatter</div><div class="line"><span class="symbol">Lombok</span> plugin</div><div class="line"><span class="symbol">Vim</span> Emulation</div></pre></td></tr></table></figure></p>
+<p>激活服务器搭建:<a href="http://blog.lanyus.com/archives/174.html" target="_blank" rel="external">http://blog.lanyus.com/archives/174.html</a></p>
+<h3 id="无法切换中文输入法"><a href="#无法切换中文输入法" class="headerlink" title="无法切换中文输入法"></a>无法切换中文输入法</h3><p>修改启动脚本<code>/usr/dev/idea-IU-139.1117.1/bin/idea.sh</code>,头部加入下面几行:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> GTK_IM_MODULE=fcitx</div><div class="line"><span class="keyword">export</span> QT_IM_MODULE=fcitx</div><div class="line"><span class="keyword">export</span> XMODIFIERS=@im=fcitx</div></pre></td></tr></table></figure></p>
+<p>前提是你用的是<code>fcitx</code>架构的输入法.</p>
+<h3 id="序列化ID警告"><a href="#序列化ID警告" class="headerlink" title="序列化ID警告"></a>序列化ID警告</h3><p>I am not sure if you have an old version of IntelliJ but If I go File =&gt; Settings… =&gt; Inspections =&gt; Serialization issues =&gt;  Serializable class without ‘serialVersionUID’ enabled, the class you provide give me warnings</p>
+<h3 id="文件头模板d定制"><a href="#文件头模板d定制" class="headerlink" title="文件头模板d定制"></a>文件头模板d定制</h3><p>文件上右击–New–Edit File Templates–Includes–File Header</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/IDEA/">IDEA</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/25/Ubuntu-14-04-安装git/" title="Ubuntu 14.04 安装git" itemprop="url">Ubuntu 14.04 安装git</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T03:24:51.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>首先测试一下电脑安装git没有<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git --version</div></pre></td></tr></table></figure></p>
+<h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><p>没有安装按照以下步骤来：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install git-core git-gui git-doc gitk</div></pre></td></tr></table></figure></p>
+<p>安装完毕看看是否安装成功，如果安装成功的版本低于1.9.5则说明Ubuntu版本太低，进行如下操作:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:git-core/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install git</div></pre></td></tr></table></figure></p>
+<p>安装成功之后再次测试，版本就应该是比较高了。</p>
+<h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>基本配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">git config --global user.name <span class="string">"zhang.san"</span>             <span class="comment"># 请换成你自己的名字，除非你凑巧也叫zhang.san</span></div><div class="line">git config --global user.email <span class="string">"zhang.san@163.com"</span>    <span class="comment"># 同上</span></div><div class="line">git config --global merge.tool <span class="string">"kdiff3"</span>               <span class="comment"># 要是没装KDiff3就不用设这一行</span></div><div class="line">git config --global push.default simple               <span class="comment"># 要是你非要用低版本的Git（比如1.7.x），好吧，那就不设simple设current，否则你的Git不支持</span></div><div class="line">git config --global core.autocrlf <span class="literal">false</span>               <span class="comment"># 让Git不要管Windows/Unix换行符转换的事</span></div><div class="line">git config --global gui.encoding utf-8                <span class="comment"># 避免git gui中的中文乱码</span></div><div class="line">git config --global core.quotepath off                <span class="comment"># 避免git status显示的中文文件名乱码</span></div></pre></td></tr></table></figure></p>
+<p>如果你不习惯使用<code>Vim</code>,可以修改git默认的编辑器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global core.editor nano</div></pre></td></tr></table></figure></p>
+<h3 id="设置SSH"><a href="#设置SSH" class="headerlink" title="设置SSH"></a>设置SSH</h3><p>要和git服务器打交道，还要设置ssh，如果你之前已经有则不需要再次生成,命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"zhang.san@163.com"</span></div></pre></td></tr></table></figure></p>
+<p>然后一路回车，不要输入任何密码之类，生成ssh key pair。如果在Linux上，需要把其中的私钥告诉本地系统<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure></p>
+<p>查看公钥内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat ~/.ssh/id_rsa.pub</div></pre></td></tr></table></figure></p>
+<p>最后把公钥的内容复制到git服务器上，以github为例<br>登陆github，在<code>Settings--&gt;SSH keys--&gt; Add SSH key</code>,把公钥的内容复制到key里面，title不用管。(windows下的用户目录找到.ssh文件夹进去就可以看到)的内容paste进去。不需要填title，title会自动生成。<br>要是Git服务器报“不是有效的key”之类的错误，可能是你没去除注意去除多余的回车符，也可能是paste之前copy的时候，没copy最开头的ssh-rsa这几个字。<br>测试一下成功了没<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div><div class="line">Warning: Permanently added the RSA host key <span class="keyword">for</span> IP address <span class="string">'192.30.252.129'</span> to the list of known hosts.</div><div class="line">Hi zhang.san! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/9/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>
