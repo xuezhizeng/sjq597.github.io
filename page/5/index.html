@@ -81,6 +81,77 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/23/Ubuntu-your-firefox-profile-cannot-be-loaded/" title="Ubuntu your firefox profile cannot be loaded" itemprop="url">Ubuntu your firefox profile cannot be loaded</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-23T05:43:51.000Z" itemprop="datePublished"> 发表于 2016-04-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>一时手贱把<code>~/tmp/</code>文件夹删了，结果火狐打不开了,最后在网上找了很久才找到解决方案，记录一下防止下次手贱了。<br>大部分文章只提到，把<code>~/.mozilla</code>文件的权限更改成当前用户和用户组，就可以了：</p>
+<ul>
+<li>察看.mozilla文件件的权限属性</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ls <span class="_">-l</span></div></pre></td></tr></table></figure>
+<p>如果<code>~/.mozilla</code>文件夹的属性是<code>root</code>则改变文件夹的属性为当前用户。命令如下：</p>
+<ul>
+<li>需改文件夹权限</li>
+</ul>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo chown -hR <span class="symbol">zhangsan:</span>zhangsan ~<span class="regexp">/.mozilla/</span></div></pre></td></tr></table></figure>
+<p>如此操作后，其实firefox还是启动不了，因为，还有一个文件夹的属性仍然是root，这个文件夹就是<code>~/.cache/mozilla</code>。<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">$</span> cd ~/.cache</div><div class="line"><span class="symbol">$</span> ls -l </div><div class="line"><span class="symbol">$</span> sudo chown -hR zhangsan:zhangsan mozilla/</div></pre></td></tr></table></figure></p>
+<p>经过如此折腾，双击firefox图标，才能正常启动firefox浏览器。<br>太坑爹了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/23/MySQL过滤中文/" title="MySQL过滤中文" itemprop="url">MySQL过滤中文</a>
   </h1>
   <p class="article-author">By
@@ -722,85 +793,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/Hive-参数设置/" title="Hive 参数设置" itemprop="url">Hive 参数设置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T06:14:10.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Hive参数设置方式"><a href="#Hive参数设置方式" class="headerlink" title="Hive参数设置方式"></a>Hive参数设置方式</h2><p>Hive提供了很多可设置参数，可以通过设置不同的参数来满足不同场景的各种需求，改变Hive有三种方式：</p>
-<ol>
-<li>修改Hive安装路径下的配置文件，即修改${HIVE_HOME}/conf/hive-site.xml文件里的配置；</li>
-<li>在启动Hive时，在命令行里面设置参数；</li>
-<li>在进入Hive的CLI客户端里面进行参数设置。</li>
-</ol>
-<h3 id="修改配置文件设置参数"><a href="#修改配置文件设置参数" class="headerlink" title="修改配置文件设置参数"></a>修改配置文件设置参数</h3><p>在安装好Hive之后，默认的配置会在${hive_home}/conf/hive-default.xml文件里面，一般都会对默认的配置做一定的修改，如果要修改默认配置，可以先在相同目录下创建一个<code>hive-site.xml</code>,格式如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.warehouse.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/user/hive/warehouse<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span></div><div class="line">	    location of default database for the warehouse</div><div class="line">	<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>所有的配置都是以<code>&lt;configuration&gt;&lt;/configuration&gt;</code>标签里面，里面可以有多个<code>&lt;property&gt;&lt;/property&gt;</code>标签，每个<code>&lt;property&gt;&lt;/property&gt;</code>标签里面可以设定我们需要设定的属性值：</p>
-<ol>
-<li><code>&lt;name&gt;&lt;/name&gt;:</code>要设定的属性的属性名</li>
-<li><code>&lt;value&gt;&lt;/value&gt;:</code>设定属性的值</li>
-<li><code>&lt;description&gt;&lt;/description&gt;:</code>描述属性的一些介绍性语句，可以不写<br>大部分共同的配置都是写到这里的，如果有必要的话，因为这里面的配置对全局用户都有效，并且一旦设置就永久有效。并且<code>hive-site.xml</code>里的配置会覆盖<code>hive-default.xml</code>里的配置，并且由于Hive是作为Hadoop的客户端启动的，所以Hive同时也会读取Hadoop的配置，同理，Hive的配置会覆盖Hadoop的配置。</li>
-</ol>
-<h3 id="命令行设置参数"><a href="#命令行设置参数" class="headerlink" title="命令行设置参数"></a>命令行设置参数</h3><p>在命令行启动Hive进入CLI的时候，可以在命令行里面添加<code>--hiveconf param=value</code>来设定参数，例如，在终端里输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hive --hiveconf mapreduce.job.queuename=queue1</div></pre></td></tr></table></figure></p>
-<p>这个是设置MapReduce任务的队列，注意这个设置是临时的，一旦你退出了Hive客户端，这个配置就失效了，下次如果想使用这个配置，你必须重新配置。</p>
-<h3 id="进入Hive的CLI客户端设置参数"><a href="#进入Hive的CLI客户端设置参数" class="headerlink" title="进入Hive的CLI客户端设置参数"></a>进入Hive的CLI客户端设置参数</h3><p>当我们已经进入了CLI里面，可以使用<code>set</code>关键字来设置参数，例如：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;hive set mapreduce.job.queuename=queue1;</div></pre></td></tr></table></figure></p>
-<p>这个和上一种方式差不多，效果也是一样，一旦退出CLI客户端，也会失效，但是和方法二有一个不同的地方是，如果set后面只跟参数名而不带参数值，就可以查看这个参数目前的值，像下面这样：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;hive set mapreduce.job.queuename;</div><div class="line">mapreduce.job.queuename=queue1</div></pre></td></tr></table></figure></p>
-<p>如果set后面连参数名都不跟，那么就可以查看整个Hive的所有配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;hive set;</div><div class="line">datanucleus.autoCreateSchema=true</div><div class="line">datanucleus.autoStartMechanismMode=checked</div><div class="line">datanucleus.cache.level2=false</div><div class="line">datanucleus.cache.level2.type=none</div><div class="line">datanucleus.connectionPoolingType=DBCP</div><div class="line">datanucleus.identifierFactory=datanucleus</div><div class="line">datanucleus.plugin.pluginRegistryBundleCheck=LOG</div><div class="line">datanucleus.storeManagerType=rdbms</div><div class="line">datanucleus.transactionIsolation=read-committed</div></pre></td></tr></table></figure></p>
-<p>上面介绍的这三种参数设置方式的优先级类似于编程语言里的变量声明，即本地变量会覆盖全局变量，优先级是依此递增的</p>
-<h2 id="常用Hive配置"><a href="#常用Hive配置" class="headerlink" title="常用Hive配置"></a>常用Hive配置</h2><p>注意，这些设置里面没有双引号<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 设置job名</div><div class="line">set mapred.job.name=这是一个测试;</div><div class="line"># 设置job执行队列名</div><div class="line">set mapred.job.queue.name=root.tcop;</div><div class="line"># 设定reduce内存大小,单位M</div><div class="line">set mapreduce.reduce.memory.mb=8048;</div><div class="line">set mapred.child.reduce.java.opts=-Xmx8048M;</div><div class="line">set mapreduce.reduce.java.opts=-Xmx8048M;</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Hive/">Hive</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
@@ -842,7 +834,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -887,7 +879,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -911,7 +903,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

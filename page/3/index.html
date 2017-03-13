@@ -81,6 +81,92 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/10/D3-js-笔记01/" title="D3.js 笔记01" itemprop="url">D3.js 笔记01</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-10T11:35:32.000Z" itemprop="datePublished"> 发表于 2016-07-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>对于做数据的来说，调度器这个东西应该不是陌生概念，数据流就是靠着调度器调度的，然后进行汇总，整合。但是随着调度器上的任务越来越多,任务之间的依赖变得很复杂，而且有时候有一些任务需要用到重要的模型，报表或者邮件日报中，这就要求用到的这些数据任务流需要进行一些优化，但是没有一个任务依赖图做全局参考，优化有时候不是那么好做，所以近期打算使用<code>D3.js</code>这个库给现有的调度器做一个任务依赖图，可以更好的把控数流。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>首先需要下载<a href="https://d3js.org/" target="_blank" rel="external">d3.js官网</a>,下载<code>d3.zip</code>文件，解压之后把里面的<code>d3.min.js</code>拷贝到项目里面,我的项目目录路径为<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  <span class="selector-tag">script</span> <span class="selector-tag">git</span><span class="selector-pseudo">:(web-d3.js)</span> ✗ <span class="selector-tag">tree</span></div><div class="line">.</div><div class="line">├── <span class="selector-tag">hello_world</span><span class="selector-class">.html</span></div><div class="line">├── <span class="selector-tag">js</span></div><div class="line">│   └── <span class="selector-tag">d3</span><span class="selector-class">.min</span><span class="selector-class">.js</span></div><div class="line">└── <span class="selector-tag">README</span><span class="selector-class">.md</span></div></pre></td></tr></table></figure></p>
+<p><code>d3.min.js</code>文件放在项目目录下的的<code>js</code>文件夹，先来一个Hello World<code>,新建一个</code>hello_world.html`文件，内容如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>HelloWorld<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World 1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World 2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/d3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">        d3.select(<span class="string">"body"</span>).selectAll(<span class="string">"p"</span>).text(<span class="string">"www.ourd3js.com"</span>);</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>打开浏览器就可以看到效果，所有的<code>&lt;p&gt;</code>标签里面的内容都被替换了。如果换成普通的js来实现也可以，不过得用一个循环，<code>D3</code>所做的事就是减轻你的工作量，以及使你的代码十分简单易懂。下面还有个简单的样例,也是类似余替代循环:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>HelloWorld<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World 1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World 2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/d3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    <span class="comment">//选择&lt;body&gt;中所有的&lt;p&gt;，其文本内容为 www.ourd3js.com，选择集保存在变量 p 中</span></div><div class="line">    <span class="keyword">var</span> p = d3.select(<span class="string">"body"</span>)</div><div class="line">            .selectAll(<span class="string">"p"</span>)</div><div class="line">            .text(<span class="string">"www.ourd3js.com"</span>);</div><div class="line"></div><div class="line">    <span class="comment">//修改段落的颜色和字体大小</span></div><div class="line">    p.style(<span class="string">"color"</span>, <span class="string">"red"</span>)</div><div class="line">            .style(<span class="string">"font-size"</span>, <span class="string">"72px"</span>);</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>上面的代码是先将选中的元素赋值给变量<code>p</code>，然后通过变量<code>p</code>来改变样式，这样可以使代码更整洁。</p>
+<p>这里就展示除了<code>D3.js</code>的一个很重要的概念:<strong>选择集</strong>,像<code>de.select()</code>或<code>d3.sellectAll()</code>选择元素返回的对象都是选择集.<br>除了选择集，<code>d3.js</code>还可以链式不停的调用函数<code>d3.select().selectAll().text()</code>链式语法。</p>
+<h3 id="选择-绑定数据"><a href="#选择-绑定数据" class="headerlink" title="选择 绑定数据"></a>选择 绑定数据</h3><p>既然是操作数据，当然少不了选择需要操作的元素以及绑定对应的数据到对应的元素上。</p>
+<h4 id="选择元素"><a href="#选择元素" class="headerlink" title="选择元素"></a>选择元素</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">d3</span><span class="selector-class">.select</span>():	是选择所有指定元素的第一个</div><div class="line"><span class="selector-tag">d3</span><span class="selector-class">.selectAll</span>():	是选择指定元素的全部</div></pre></td></tr></table></figure>
+<p>上面的函数返回的结果都是返回集,常见用法有:<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> body = d3.<span class="keyword">select</span>(<span class="string">"body"</span>); <span class="comment">//选择文档中的body元素</span></div><div class="line"><span class="keyword">var</span> p1 = body.<span class="keyword">select</span>(<span class="string">"p"</span>);      <span class="comment">//选择body中的第一个p元素</span></div><div class="line"><span class="keyword">var</span> p = body.selectAll(<span class="string">"p"</span>);    <span class="comment">//选择body中的所有p元素</span></div><div class="line"><span class="keyword">var</span> svg = body.<span class="keyword">select</span>(<span class="string">"svg"</span>);   <span class="comment">//选择body中的svg元素</span></div><div class="line"><span class="keyword">var</span> rects = svg.selectAll(<span class="string">"rect"</span>);  <span class="comment">//选择svg中所有的svg元素</span></div></pre></td></tr></table></figure></p>
+<h4 id="绑定元素"><a href="#绑定元素" class="headerlink" title="绑定元素"></a>绑定元素</h4><p>选择元素最终也是为了操作元素，尤其是元素的值，即数据，绑定数据主要用下面两个方法:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">datum</span><span class="params">()</span></span>:	绑定一个数据到选择集上</div><div class="line"><span class="function"><span class="title">data</span><span class="params">()</span></span>:		绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定</div></pre></td></tr></table></figure></p>
+<p>以具体的例子来看,<code>data()</code>和<code>datum()</code>如何绑定数据:<br>首先在html代码里面写上几个供测试:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Apple<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Pear<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Banana<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>datum()</li>
+</ul>
+<p>假设有我们有一个字符串，把这个字符串的内容绑定到这三个段落标签：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    <span class="keyword">var</span> str = <span class="string">"China"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> body = d3.select(<span class="string">"body"</span>);</div><div class="line">    <span class="keyword">var</span> p = body.selectAll(<span class="string">"p"</span>);</div><div class="line"></div><div class="line">    p.datum(str);</div><div class="line"></div><div class="line">    p.text(<span class="function"><span class="keyword">function</span> <span class="params">(d, i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"第 "</span> + i + <span class="string">" 个元素绑定的数据是 "</span> + d;</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行这段代码的结果如下:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">第 <span class="number">0</span> 个元素绑定的数据是 China</div><div class="line"></div><div class="line">第 <span class="number">1</span> 个元素绑定的数据是 China</div><div class="line"></div><div class="line">第 <span class="number">2</span> 个元素绑定的数据是 China</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>匿名函数<code>function(d,i)</code>的应用场景一般是选择集需要使用绑定的数据，两个参数的意思分别是:</p>
+<ul>
+<li>d:代表数据，也就是绑定的数据</li>
+<li><p>i:代表索引，代表数据的索引号,从0开始</p>
+</li>
+<li><p>data()</p>
+</li>
+</ul>
+<p>现在假设我们要把一个数组的元素依次赋值给前面的三个<code>&lt;p&gt;</code>，调用<code>data()</code>绑定数据，并替换成相应的内容:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Apple<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Pear<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Banana<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/d3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    <span class="keyword">var</span> dataset = [<span class="string">"I like dogs"</span>, <span class="string">"I like cats"</span>, <span class="string">"I like snakes"</span>];</div><div class="line"></div><div class="line">    <span class="keyword">var</span> body = d3.select(<span class="string">"body"</span>);</div><div class="line">    <span class="keyword">var</span> p = body.selectAll(<span class="string">"p"</span>);</div><div class="line"></div><div class="line">    p.data(dataset)</div><div class="line">            .text(<span class="function"><span class="keyword">function</span> <span class="params">(d, i)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> d</div><div class="line">            &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行结果为:<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">I <span class="keyword">like</span> dogs</div><div class="line"></div><div class="line">I <span class="keyword">like</span> cats</div><div class="line"></div><div class="line">I <span class="keyword">like</span> snakes</div></pre></td></tr></table></figure></p>
+<p>这里的<code>function(d, i)</code>和上面的一样，<code>d</code>代表绑定的数据,<code>i</code>代表选择集元素序号，也是对选择集进行依次设置值</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JScript/">JScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/可视化/">可视化</a><a href="/tags/Web/">Web</a><a href="/tags/JS/">JS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/10/Python-正则表达式笔记/" title="Python 正则表达式笔记" itemprop="url">Python 正则表达式笔记</a>
   </h1>
   <p class="article-author">By
@@ -958,72 +1044,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/19/CentOS-安装Anaconda2-4-0-0-Linux-x86-64-sh报错/" title="CentOS 安装Anaconda2-4.0.0-Linux-x86_64.sh报错" itemprop="url">CentOS 安装Anaconda2-4.0.0-Linux-x86_64.sh报错</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-19T11:21:47.000Z" itemprop="datePublished"> 发表于 2016-06-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>前阵子想给服务器都装上Python的全家桶，结果怎么也装不上,开始安装<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">bash</span> <span class="selector-tag">Anaconda2-4</span><span class="selector-class">.0</span><span class="selector-class">.0-Linux-x86_64</span><span class="selector-class">.sh</span></div></pre></td></tr></table></figure></p>
-<p>但是装不了，一直报错:<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir: cannot create directory `/home/q/anaconda2': Permission denied</div><div class="line"><span class="keyword">ERROR: </span>Could not create directory: /home/q/anaconda2</div></pre></td></tr></table></figure></p>
-<p>网上查了之后发现很多人都碰到这个问题,后来大家都建议这么安装:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">bash</span> <span class="selector-tag">Anaconda2-4</span><span class="selector-class">.0</span><span class="selector-class">.0-Linux-x86_64</span><span class="selector-class">.sh</span></div></pre></td></tr></table></figure></p>
-<p>结果报错：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Sorry, user xxx is<span class="built_in"> not </span>allowed to<span class="built_in"> execute </span>'/bin/bash Anaconda2-4.0.0-Linux-x86_64.sh' as root on xxxx.</div></pre></td></tr></table></figure></p>
-<p>我去，简直无解了，没权限执行这个命令，普通的命令又装不了，结果折腾了好久也没办法，后来通过求助之后才发现，原来给这个包附个权限就可以执行了，原来如此,说干就干:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod <span class="number">777</span> Anaconda2<span class="number">-4.0</span><span class="number">.0</span>-Linux-x86_64.sh</div><div class="line">sudo ./Anaconda2<span class="number">-4.0</span><span class="number">.0</span>-Linux-x86_64.sh</div></pre></td></tr></table></figure></p>
-<p>后面一路畅通，搞定。</p>
-<p><strong>Tips:</strong>如果想用这个代替默认的环境变量，有些包这里又没有，假设你的安装目录为<code>/home/usr/anaconda2</code>,那么你可以这么装:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="meta-keyword">/home/</span>usr<span class="meta-keyword">/anaconda2/</span>bin/pip install <span class="params">&lt;module_name&gt;</span></div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Python/">Python</a><a href="/tags/开发工具/">开发工具</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1065,7 +1085,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -1110,7 +1130,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -1134,7 +1154,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

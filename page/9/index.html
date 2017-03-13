@@ -81,6 +81,72 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/10/Shell脚本报错：Syntax-error-unexpected/" title="Shell脚本报错：Syntax error: &#39;(&#39; unexpected" itemprop="url">Shell脚本报错：Syntax error: &#39;(&#39; unexpected</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-10T15:51:37.000Z" itemprop="datePublished"> 发表于 2015-11-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>执行脚本报错:</p>
+<blockquote>
+<p>Syntax error: “(“ unexpected</p>
+</blockquote>
+<p>与实际使用的Shell版本有关，判断方法可以使用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">⚡ ⇒ ls <span class="_">-l</span> /bin/*sh</div><div class="line">-rwxr-xr-x 1 root root 1021112 10月  8  2014 /bin/bash</div><div class="line">-rwxr-xr-x 1 root root  121272  2月 19  2014 /bin/dash</div><div class="line">lrwxrwxrwx 1 root root       4 10月  8  2014 /bin/rbash -&gt; bash</div><div class="line">lrwxrwxrwx 1 root root      22 10月 24 18:08 /bin/rzsh -&gt; /etc/alternatives/rzsh</div><div class="line">lrwxrwxrwx 1 root root       4 10月 24 14:21 /bin/sh -&gt; dash</div><div class="line">lrwxrwxrwx 1 root root       7 10月 24 14:21 /bin/static-sh -&gt; busybox</div><div class="line">lrwxrwxrwx 1 root root      21 10月 24 18:08 /bin/zsh -&gt; /etc/alternatives/zsh</div></pre></td></tr></table></figure></p>
+<p>可以看到，<code>sh</code>果然被重定向到<code>dash</code>。因此，如果执行<code>./scirpt.sh</code>，使用的是<code>dash</code>。<br>避免报错方法很多，可以手动指定用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash script.sh</div></pre></td></tr></table></figure></p>
+<p>或者，在脚本第一行制定用什么Shell来执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/bash</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/10/Vim-替换命令/" title="Vim 替换命令" itemprop="url">Vim 替换命令</a>
   </h1>
   <p class="article-author">By
@@ -1097,76 +1163,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/03/Vim-对比两个文件差异/" title="用Vim对比两个文件的不同" itemprop="url">用Vim对比两个文件的不同</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-03T05:50:10.000Z" itemprop="datePublished"> 发表于 2015-11-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>从mysql数据库抽取数据到hadoop时,中间加了一个校验层,发现某天的数据Hive表里的和mysql里的差了一条,查询结果有7万多条,但是就只有一条不一样,最开始的思路是利用sql里的集合做差,即左外连接来过滤出那一条记录,但是由于Hive里是分区数据,查询语句怎么写都不对,后来换了一种思路,将查询结果保存到文件中,然后比较两个文件的不同来判断差了哪一条数据.</p>
-<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><ul>
-<li>Hive数据导出到文件</li>
-</ul>
-<p>利用到了管道,将结果输入到文件,具体命令为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -uuser_name /home/dev/hive-0.12.0/bin/hive -database dw_subject <span class="_">-e</span> <span class="string">"select idid,create_time from table_name  where (create_time&gt;='2015-10-29 00:00:00' and create_time&lt;='2015-10-29 23:59:59') order by idid;"</span> &gt; subject.txt</div></pre></td></tr></table></figure></p>
-<p> 注意,最好按照主键来将结果进行排序,因为数据很多,时间也可能有重复的,如果按时间来排序,时间相同的数可能顺序会有差异,7万多数据对比起来还是很麻烦的,所以尽量选不重复的字段排序,反正,最好能够保证排序不存在二义性即可.</p>
-<ul>
-<li>利用vim比较两个文件</li>
-</ul>
-<p>假设这两个文件是<code>subject.txt</code>和<code>source.txt</code>,命令如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim <span class="_">-d</span> source.txt subject.txt</div></pre></td></tr></table></figure></p>
-<p> 最终的效果如下图所示:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/用Vim来对比两个文件的不同01.jpg" alt="Vim对比效果"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Vim/">Vim</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/8/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/">Next<span></span></a>
@@ -1208,7 +1204,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -1253,7 +1249,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -1277,7 +1273,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

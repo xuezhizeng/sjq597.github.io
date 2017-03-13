@@ -81,6 +81,72 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/19/CentOS-安装Anaconda2-4-0-0-Linux-x86-64-sh报错/" title="CentOS 安装Anaconda2-4.0.0-Linux-x86_64.sh报错" itemprop="url">CentOS 安装Anaconda2-4.0.0-Linux-x86_64.sh报错</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-19T11:21:47.000Z" itemprop="datePublished"> 发表于 2016-06-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>前阵子想给服务器都装上Python的全家桶，结果怎么也装不上,开始安装<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">bash</span> <span class="selector-tag">Anaconda2-4</span><span class="selector-class">.0</span><span class="selector-class">.0-Linux-x86_64</span><span class="selector-class">.sh</span></div></pre></td></tr></table></figure></p>
+<p>但是装不了，一直报错:<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir: cannot create directory `/home/q/anaconda2': Permission denied</div><div class="line"><span class="keyword">ERROR: </span>Could not create directory: /home/q/anaconda2</div></pre></td></tr></table></figure></p>
+<p>网上查了之后发现很多人都碰到这个问题,后来大家都建议这么安装:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">bash</span> <span class="selector-tag">Anaconda2-4</span><span class="selector-class">.0</span><span class="selector-class">.0-Linux-x86_64</span><span class="selector-class">.sh</span></div></pre></td></tr></table></figure></p>
+<p>结果报错：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Sorry, user xxx is<span class="built_in"> not </span>allowed to<span class="built_in"> execute </span>'/bin/bash Anaconda2-4.0.0-Linux-x86_64.sh' as root on xxxx.</div></pre></td></tr></table></figure></p>
+<p>我去，简直无解了，没权限执行这个命令，普通的命令又装不了，结果折腾了好久也没办法，后来通过求助之后才发现，原来给这个包附个权限就可以执行了，原来如此,说干就干:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod <span class="number">777</span> Anaconda2<span class="number">-4.0</span><span class="number">.0</span>-Linux-x86_64.sh</div><div class="line">sudo ./Anaconda2<span class="number">-4.0</span><span class="number">.0</span>-Linux-x86_64.sh</div></pre></td></tr></table></figure></p>
+<p>后面一路畅通，搞定。</p>
+<p><strong>Tips:</strong>如果想用这个代替默认的环境变量，有些包这里又没有，假设你的安装目录为<code>/home/usr/anaconda2</code>,那么你可以这么装:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="meta-keyword">/home/</span>usr<span class="meta-keyword">/anaconda2/</span>bin/pip install <span class="params">&lt;module_name&gt;</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Python/">Python</a><a href="/tags/开发工具/">开发工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/18/Python-多线程/" title="Python 多线程" itemprop="url">Python 多线程</a>
   </h1>
   <p class="article-author">By
@@ -822,77 +888,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/23/Ubuntu-your-firefox-profile-cannot-be-loaded/" title="Ubuntu your firefox profile cannot be loaded" itemprop="url">Ubuntu your firefox profile cannot be loaded</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-23T05:43:51.000Z" itemprop="datePublished"> 发表于 2016-04-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>一时手贱把<code>~/tmp/</code>文件夹删了，结果火狐打不开了,最后在网上找了很久才找到解决方案，记录一下防止下次手贱了。<br>大部分文章只提到，把<code>~/.mozilla</code>文件的权限更改成当前用户和用户组，就可以了：</p>
-<ul>
-<li>察看.mozilla文件件的权限属性</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ls <span class="_">-l</span></div></pre></td></tr></table></figure>
-<p>如果<code>~/.mozilla</code>文件夹的属性是<code>root</code>则改变文件夹的属性为当前用户。命令如下：</p>
-<ul>
-<li>需改文件夹权限</li>
-</ul>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>sudo chown -hR <span class="symbol">zhangsan:</span>zhangsan ~<span class="regexp">/.mozilla/</span></div></pre></td></tr></table></figure>
-<p>如此操作后，其实firefox还是启动不了，因为，还有一个文件夹的属性仍然是root，这个文件夹就是<code>~/.cache/mozilla</code>。<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">$</span> cd ~/.cache</div><div class="line"><span class="symbol">$</span> ls -l </div><div class="line"><span class="symbol">$</span> sudo chown -hR zhangsan:zhangsan mozilla/</div></pre></td></tr></table></figure></p>
-<p>经过如此折腾，双击firefox图标，才能正常启动firefox浏览器。<br>太坑爹了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
@@ -934,7 +929,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -979,7 +974,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -1003,7 +998,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

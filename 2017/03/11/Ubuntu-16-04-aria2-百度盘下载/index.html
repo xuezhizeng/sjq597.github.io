@@ -1,0 +1,613 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Ubuntu 16.04 aria2 百度盘下载 | LittleQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="LittleQ">
+    
+
+    
+    <meta name="description" content="由于本人经常在我的vps上下载东西上传到百度云,然后再下载到本地机器,平时的工作环境又是Ubuntu,官方没有提供百度盘的Linux版本,就算有如果不是非会员也很麻烦,限速很蛋疼，最快也就下300多k的速度.网上查了一下,虽然百度盘限速，但是不限下载线程,也就是说其实用浏览器去下载,百度官方限制你的单个http请求的速度,破解方法就是开多个线程,一般10个就够了,带宽够大可以再高点，只要机器扛得住">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 16.04 aria2 百度盘下载">
+<meta property="og:url" content="http://sjq597.github.io/2017/03/11/Ubuntu-16-04-aria2-百度盘下载/index.html">
+<meta property="og:site_name" content="LittleQ">
+<meta property="og:description" content="由于本人经常在我的vps上下载东西上传到百度云,然后再下载到本地机器,平时的工作环境又是Ubuntu,官方没有提供百度盘的Linux版本,就算有如果不是非会员也很麻烦,限速很蛋疼，最快也就下300多k的速度.网上查了一下,虽然百度盘限速，但是不限下载线程,也就是说其实用浏览器去下载,百度官方限制你的单个http请求的速度,破解方法就是开多个线程,一般10个就够了,带宽够大可以再高点，只要机器扛得住">
+<meta property="og:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD01.png">
+<meta property="og:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD02.png">
+<meta property="og:updated_time" content="2017-03-11T11:26:33.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 16.04 aria2 百度盘下载">
+<meta name="twitter:description" content="由于本人经常在我的vps上下载东西上传到百度云,然后再下载到本地机器,平时的工作环境又是Ubuntu,官方没有提供百度盘的Linux版本,就算有如果不是非会员也很麻烦,限速很蛋疼，最快也就下300多k的速度.网上查了一下,虽然百度盘限速，但是不限下载线程,也就是说其实用浏览器去下载,百度官方限制你的单个http请求的速度,破解方法就是开多个线程,一般10个就够了,带宽够大可以再高点，只要机器扛得住">
+<meta name="twitter:image" content="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD01.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="LittleQ" title="LittleQ"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="LittleQ">LittleQ</a></h1>
+				<h2 class="blog-motto">爱好：写代码</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:sjq597.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/11/Ubuntu-16-04-aria2-百度盘下载/" title="Ubuntu 16.04 aria2 百度盘下载" itemprop="url">Ubuntu 16.04 aria2 百度盘下载</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-11T10:56:48.000Z" itemprop="datePublished"> 发表于 2017-03-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装步骤"><span class="toc-number">1.</span> <span class="toc-text">安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#aria2"><span class="toc-number">1.1.</span> <span class="toc-text">aria2</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>由于本人经常在我的vps上下载东西上传到百度云,然后再下载到本地机器,平时的工作环境又是Ubuntu,官方没有提供百度盘的Linux版本,就算有如果不是非会员也很麻烦,限速很蛋疼，最快也就下300多k的速度.网上查了一下,虽然百度盘限速，但是不限下载线程,也就是说其实用浏览器去下载,百度官方限制你的单个http请求的速度,破解方法就是开多个线程,一般10个就够了,带宽够大可以再高点，只要机器扛得住。</p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>需要安装一个软件以及一个chrome的插件</p>
+<h4 id="aria2"><a href="#aria2" class="headerlink" title="aria2"></a>aria2</h4><p>这个是Linux下面一个非常优秀的多线程下载工具,安装方法:</p>
+<ul>
+<li>安装aria2</li>
+</ul>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="keyword">get</span> install aria2</div></pre></td></tr></table></figure>
+<ul>
+<li>安装BaiduExporter</li>
+</ul>
+<p>装了这个之后需要配合一个浏览器插件,因为百度盘的文件链接是不能直接下载的，需要安装下Chrome插件<a href="https://github.com/acgotaku/BaiduExporter/blob/master/chrome.crx" target="_blank" rel="external">BaiduExporter</a>,怎么安装Chrome插件就不细讲了，不懂的直接度娘。<br><strong>备注:</strong> 如果是Mac用户可以参考这篇文章<a href="http://www.jianshu.com/p/e5e56a1d25a3" target="_blank" rel="external">Aria2 - 可能是现在下载百度云资料速度最快的方式</a>,由于主要讲Ubuntu下面的配置,这个就不多讲了.</p>
+<ul>
+<li>下载文件</li>
+</ul>
+<p>安装好<code>aria2</code>以及<code>BaiduExporter</code>之后,我们以一个百度云里面的文件来做个测试:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD01.png" alt="下载文件链接"><br>注意是勾选所需要下载的文件,然后会多出一个<strong>导出下载</strong>标签页,然后我们需要点列表中的<code>导出下载</code>,然后就会弹出一个框:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD02.png" alt="aria2下载链接框"><br>把框里面的内容全部复制出来,直接丢到终端中执行，注意文件会保存到当前路径,如果你想保存到指定位置，还是先cd到指定目录吧.<br>下载的命令如下:<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">aria2c -c -s1<span class="number">0</span> -k1M -x16 --enable-rpc=false -o <span class="string">'Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv'</span> --header <span class="string">"User-Agent: netdisk;5.3.4.5;PC;PC-Windows;5.1.2600;WindowsBaiduYunGuanJia"</span> --header <span class="string">"Referer: http://pan.baidu.com/disk/home"</span> --header <span class="string">"Cookie: BDUSS=FDVnRtbnVaclhoR2dMLWdScHY2TlNFN1h3b3Qyb0stcXgtcXpyS0gtSFpXT3RZSVFBQUFBJCQAAAAAAAAAAAEAAAA7KQQU0KHHv7Tz0KG08wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANnLw1jZy8NYcD; pcsett=1489315049-753101e6547a834c2756fc96703e7839"</span> <span class="string">"https://pcs.baidu.com/rest/2.0/pcs/file?method=download&amp;app_id=250528&amp;path=%2Fapps%2Fbypy%2FGantz.O.2016.720p.WEB-DL.AAC2.0.H.264%20%5BMultiSub(Eng%2CIta%2CPor%2CRum%2CSwe%2CTur)%5Dv2.mkv"</span></div></pre></td></tr></table></figure></p>
+<p>看看下载结果:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[#<span class="number">99b455</span> <span class="number">2.</span>2GiB/<span class="number">2.</span>2GiB(<span class="number">99</span><span class="symbol">%</span>) CN:<span class="number">10</span> DL:148KiB ETA:<span class="number">1</span> *** Download Progress Summary as of Sat Mar <span class="number">11</span> <span class="number">19</span>:<span class="number">12</span>:<span class="number">58</span> <span class="number">2017</span> *** </div><div class="line">================================================</div><div class="line">[#<span class="number">99b455</span> <span class="number">2.</span>2GiB/<span class="number">2.</span>2GiB(<span class="number">99</span><span class="symbol">%</span>) CN:<span class="number">10</span> DL:92KiB ETA:48s]</div><div class="line">FILE: /home/anonymous/Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv</div><div class="line">------------------------------------------------</div><div class="line"></div><div class="line">[#<span class="number">99b455</span> <span class="number">2.</span>2GiB/<span class="number">2.</span>2GiB(<span class="number">99</span><span class="symbol">%</span>) CN:<span class="number">1</span> DL:19KiB ETA:<span class="number">13</span></div><div class="line"><span class="number">03</span>/<span class="number">11</span> <span class="number">19</span>:<span class="number">13</span>:<span class="number">57</span> [NOTICE] Download complete: /home/anonymous/Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv</div><div class="line"></div><div class="line">Download Results:</div><div class="line">gid   |stat|avg speed  |path/URI</div><div class="line">======+====+===========+=======================================================</div><div class="line"><span class="number">99b455</span>|OK  |   <span class="number">1.</span>2MiB/s|/home/anonymous/Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv</div><div class="line"></div><div class="line">Status Legend:</div><div class="line">(OK):download completed.</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>简单说明一下命令行里面的命令<code>s10</code>指下载的线程数为10.开始速度均值为<code>2Mb/s</code>,后面快完成的时候会慢下来，均速大概<code>1.2Mb/s</code>.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://sjq597.github.io/2017/03/11/Ubuntu-16-04-aria2-百度盘下载/" data-title="Ubuntu 16.04 aria2 百度盘下载 | LittleQ" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/02/22/git-常用场景即解决方案/"  title="git 常用场景即解决方案">
+ <strong>下一篇：</strong><br/> 
+ <span>git 常用场景即解决方案
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装步骤"><span class="toc-number">1.</span> <span class="toc-text">安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#aria2"><span class="toc-number">1.1.</span> <span class="toc-text">aria2</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Django/" title="Django">Django<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Hive笔记/" title="Hive笔记">Hive笔记<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JScript/" title="JScript">JScript<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MySQL/" title="MySQL">MySQL<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Shell/" title="Shell">Shell<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Vim/" title="Vim">Vim<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/博客搭建/" title="博客搭建">博客搭建<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂七杂八/" title="杂七杂八">杂七杂八<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发工具/" title="开发工具">开发工具<sup>19</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开发环境/" title="开发环境">开发环境<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="LittleQ">LittleQ</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

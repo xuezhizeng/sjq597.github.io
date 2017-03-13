@@ -81,6 +81,69 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/12/29/Ubuntu-14-04-64位-安装WPS/" title="Ubuntu 14.04 64位 安装WPS" itemprop="url">Ubuntu 14.04 64位 安装WPS</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-29T05:25:18.000Z" itemprop="datePublished"> 发表于 2015-12-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>经常要处理数据,自带的那个<code>LibreOffice</code>看看数据还行,但是要自己统计,我还是不太会用,所以就装了个<code>WPS for Linux</code>.之前也装过一次,但是装完了启动不了,今天要做统计,所以就再装了一下.</p>
+<p>首先要下载安装包<a href="http://kdl.cc.ksosoft.com/wps-community/download/a20/wps-office_10.1.0.5444~a20_amd64.deb" target="_blank" rel="external">wps-office_10.1.0.5444~a20_amd64.deb</a></p>
+<p>直接点开就可以安装,但是正常情况下会安装失败,缺少依赖啥的,所以要装依赖库<code>libc6-i386</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install libc6-i386</div></pre></td></tr></table></figure></p>
+<p>安装成功之后再重新安装<code>WPS</code>的安装包,装好了就可以使用了,记住,刚开始启动可能会有个警告报错,缺少字体,下载对应的字体就可以了,当然不下载也是可以使用的,没有什么多大的区别.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/12/20/Python-yield剖析/" title="Python yield剖析" itemprop="url">Python yield剖析</a>
   </h1>
   <p class="article-author">By
@@ -850,118 +913,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/25/Hive-UDF函数开发使用样例/" title="Hive UDF函数开发使用样例" itemprop="url">Hive UDF函数开发使用样例</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-25T02:00:57.000Z" itemprop="datePublished"> 发表于 2015-11-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>关于<code>UDF</code>的废话也不多讲了,主要讲一下如何开发一个<code>UDF</code>函数以及如何部署到服务器的<code>Hive</code>中使用.</p>
-<h3 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h3><p>有一个Hive表的某个字段是一个<code>collect_set</code>类型,里面是一些数字,类似下面这样:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">zhang<span class="selector-class">.san</span>	[<span class="number">2</span>,<span class="number">3</span>]</div><div class="line"><span class="selector-tag">li</span><span class="selector-class">.si</span>		[<span class="number">0</span>,<span class="number">3</span>]</div><div class="line">wang<span class="selector-class">.wu</span>		[<span class="number">1</span>,<span class="number">2</span>]</div></pre></td></tr></table></figure></p>
-<p>每个数字都代表着对应的特定的名字,假设配置文件<code>code.properties</code>内容如下:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">0</span>=北京</div><div class="line"><span class="attr">1</span>=上海</div><div class="line"><span class="attr">2</span>=深圳</div><div class="line"><span class="attr">3</span>=香港</div></pre></td></tr></table></figure></p>
-<p>你可以假设这是一个统计一个人去过的城市列表,那么<code>[2,3]</code>就代表这个人去过深圳和香港.当然有些时候数据表里会按照代码的方式来记录,到要用的时候再做一个映射即可,现在有个需求就是,我们要把这些代码换成具体的城市,即一个字典映射,来看看我们如何用UDF函数来解决这个问题.</p>
-<h3 id="开发UDF函数"><a href="#开发UDF函数" class="headerlink" title="开发UDF函数"></a>开发UDF函数</h3><p>以java代码为例,基于maven构建工程.</p>
-<h4 id="新建maven工程"><a href="#新建maven工程" class="headerlink" title="新建maven工程"></a>新建maven工程</h4><p>怎么新建Maven工程我这里就不详细讲解了,建好了目录如下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">➜  hive  tree</div><div class="line">.</div><div class="line">├── hive<span class="selector-class">.iml</span></div><div class="line">├── pom<span class="selector-class">.xml</span></div><div class="line">├── src</div><div class="line">│   ├── main</div><div class="line">│   │   ├── java</div><div class="line">│   │   │   └── UDF</div><div class="line">│   │   │       └── BusinessType<span class="selector-class">.java</span></div><div class="line">│   │   └── resources</div><div class="line">│   │       └── business_no<span class="selector-class">.properties</span></div><div class="line">│   └── test</div><div class="line">│       └── java</div><div class="line">│           └── UDF</div><div class="line">└── target</div><div class="line">    ├── classes</div><div class="line">    │   ├── business_no<span class="selector-class">.properties</span></div><div class="line">    │   └── UDF</div><div class="line">    │       └── BusinessType<span class="selector-class">.class</span></div><div class="line">    ├── generated-sources</div><div class="line">    │   └── annotations</div><div class="line">    └── MANIFEST.MF</div></pre></td></tr></table></figure></p>
-<p><strong>备注:</strong><code>src/main</code>目录下的<code>java</code>为代码根目录,<code>resources</code>为资源根目录,<code>test</code>目录为测试根目录,<code>target</code>下的<code>classes</code>目录为<code>.class</code>文件输出路径.</p>
-<h3 id="开发代码"><a href="#开发代码" class="headerlink" title="开发代码"></a>开发代码</h3><p>分为三个地方:</p>
-<blockquote>
-<p>pom.xml文件<br>BusinessType.java源码文件<br>business_no.properties为配置文件,即一个映射字典.</p>
-</blockquote>
-<h4 id="BusinessType-java"><a href="#BusinessType-java" class="headerlink" title="BusinessType.java"></a>BusinessType.java</h4><p>代码很简单,如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> UDF;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@Description</span> hive</div><div class="line"> * Created by junqiangshen on 15-11-24.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BusinessType</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> HashMap&lt;Integer, String&gt; sysCodeMapping = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BusinessType</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        InputStreamReader propFile = <span class="keyword">new</span> InputStreamReader(getClass().getClassLoader().getResourceAsStream(<span class="string">"business_no.properties"</span>), <span class="string">"UTF-8"</span>);</div><div class="line">        Properties prop = <span class="keyword">new</span> Properties();</div><div class="line">        prop.load(propFile);</div><div class="line">        <span class="keyword">for</span> (Object key : prop.keySet()) &#123;</div><div class="line">            sysCodeMapping.put(Integer.valueOf((String)key), prop.getProperty(String.valueOf(key)));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">evaluate</span><span class="params">(<span class="keyword">int</span> business_no)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sysCodeMapping.get(business_no) == <span class="keyword">null</span> ? Integer.valueOf(business_no).toString() : sysCodeMapping.get(business_no);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        BusinessType businessType = <span class="keyword">new</span> BusinessType();</div><div class="line">        <span class="keyword">int</span> list[] = <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i) &#123;</div><div class="line">            System.out.println(businessType.evaluate(list[i]));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><strong>备注:</strong> 函数一定要继承<code>UDF类</code>,并且根据你的业务需求重写里面的<code>evaluate()</code>方法,构造函数从资源根目录读取配置文件,把<code>key-value</code>加载到一个集合中,<code>Hive</code>每次调用的其实是<code>evaluate()</code>函数,对于每个传入的为<code>int</code>型的字段,经过我们的处理,在<code>evaluate()</code>函数内部会被当成<code>key</code>去我们的集合中查找,若有,则返回<code>key</code>对应的<code>value</code>;若没有,直接返回数字字符串.主函数是一个简单的测试,别忘了,提交到<code>Hive</code>里运行的时候要把<code>main</code>函数注释掉.</p>
-<h4 id="business-no-properties"><a href="#business-no-properties" class="headerlink" title="business_no.properties"></a>business_no.properties</h4><p>配置文件即为我们替换的字典文件,格式就是每一行<code>key=value</code>这种格式,部分内容如下:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">0</span>=北京</div><div class="line"><span class="attr">1</span>=上海</div><div class="line"><span class="attr">2</span>=深圳</div><div class="line"><span class="attr">3</span>=香港</div></pre></td></tr></table></figure></p>
-<p>根据你的需要,你可以换成任何值.</p>
-<h4 id="pom文件"><a href="#pom文件" class="headerlink" title="pom文件"></a>pom文件</h4><p>开发UDF函数,还需要一些关键的包,这里我们采用Maven来管理我们的依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></div><div class="line">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0</span></div><div class="line">         http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;</div><div class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>UDF<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-exec<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.13.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h4 id="打包jar包"><a href="#打包jar包" class="headerlink" title="打包jar包"></a>打包jar包</h4><p>在main函数里调试没问题之后,就可以把main函数注释掉,打包成jar包.打包有很多方法,用IDEA自带的工具就可以打包,具体方法如下:</p>
-<ul>
-<li><code>File--&gt;Project Structure</code></li>
-<li><code>Artifacts</code>,点中间绿色的<code>+</code>:<code>--&gt;JAR--&gt;From modules with dependencies</code></li>
-<li><code>Name:</code>里填你希望生成的名字,例如<code>BusinessType:jar</code></li>
-<li>输出路径默认就行,不用改.然后一定要勾选上<code>Build on make</code></li>
-<li>依赖的jar包这里可以不用,Hive,Hadoop里都有,除非有其他包你需要加入,全选上,点<code>-</code>号都去掉</li>
-</ul>
-<p>回到IDEA主界面,<code>Build--&gt;Make Project</code>.在输出路径就可以找到jar包了<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Hive%20UDF函数开发样例01.png" alt="打包设置界面"><br>还有个打包比较简单的,直接用jar命令,以本程序为例<br><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> target/classes</div><div class="line">➜  classes  <span class="built_in">tree</span></div><div class="line">.</div><div class="line">├── business_no.properties</div><div class="line">└── UDF</div><div class="line">    └── BusinessType.class</div></pre></td></tr></table></figure></p>
-<p>目录结构如上所示,打包命令为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jar cvf BusinessType.jar .</div></pre></td></tr></table></figure></p>
-<p><strong>注意:</strong><code>.</code>表示打包当前目录下所有文件,包括子目录,<code>BusinessType.jar</code>是生成的jar包名.</p>
-<h3 id="部署到Hive上使用"><a href="#部署到Hive上使用" class="headerlink" title="部署到Hive上使用"></a>部署到Hive上使用</h3><p>写了个UDF,最后怎么在Hive里用呢?介绍两种方法,一种是临时使用.</p>
-<h4 id="临时方案"><a href="#临时方案" class="headerlink" title="临时方案"></a>临时方案</h4><p>如果只是想测试一下,可以使用临时方案,简单方便,只是每次启动Hive客户端之前都要添加,创建函数,退出Hive客户端函数就会自动销毁了.<br>假设jar包存放在服务器上的<code>/home/tmp/</code>目录下:</p>
-<ul>
-<li>添加jar包</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hive&gt; add jar /home/tmp/BusinessType.jar;</div><div class="line">Added [/home/tmp/BusinessType.jar] to class path</div><div class="line">Added resources: [/home/tmp/BusinessType.jar]</div></pre></td></tr></table></figure>
-<ul>
-<li>创建临时函数</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hive&gt; create temporary function business_type_func as 'UDF.BusinessType';</div><div class="line">OK</div><div class="line">Time taken: 0.015 seconds</div></pre></td></tr></table></figure>
-<p> <strong>注意:</strong>切记,如果你的类有包名,要添加完整路径,例如我的类在UDF包里面,所以在创建函数的时候天的路径为<code>UDF.BusinessType</code>.</p>
-<ul>
-<li>建一张dual表测试</li>
-</ul>
-<p>dual表的概念来自oracle，数据库建立时即与数据字典一起初始化，该表只有一个varchar2类型名为dummy的字段，表数据只有一行“X”，用来查询一些系统信息，如:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">sysdate</span> <span class="keyword">from</span> dual; </div><div class="line"><span class="keyword">select</span> <span class="keyword">user</span> <span class="keyword">from</span> dual;</div><div class="line"><span class="keyword">select</span> seq.nextval <span class="keyword">from</span> dual</div></pre></td></tr></table></figure></p>
-<p> 为了能在hive中测试一些时间、数学、聚合函数，可以仿照oracle创建dual表。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hive&gt; create dual (dummy String);</div><div class="line">hive&gt; select (1+2) from dual;</div><div class="line">OK</div><div class="line">3</div><div class="line">Time taken: 0.145 seconds, Fetched: 1 row(s)</div></pre></td></tr></table></figure>
-<ul>
-<li>测试函数</li>
-</ul>
-<p>我们新建的临时函数名为business_type_func,可以这么测试<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hive&gt; select business_type_func(1) from dual;</div><div class="line">OK</div><div class="line">上海</div><div class="line">Time taken: 0.145 seconds, Fetched: 1 row(s)</div></pre></td></tr></table></figure></p>
-<h4 id="持久方案"><a href="#持久方案" class="headerlink" title="持久方案"></a>持久方案</h4><p>每次都要执行这个命令,如果确实是需要用的,不用每次都这么麻烦.还有一个原因,我写的这个函数不知道为什么,每次运行都会出问题,但是数据明明都可以跑出来,后来我就采用了下面的方法,就可以了.<br>我们可以把我们开发的jar包拷贝到Hive的lib目录下,然后如果这个目录在环境变量里,就可以每次启动的时候加载<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 拷贝jar包到hive的lib目录</span></div><div class="line">sudo cp /home/tmp/BusinessType.jar /home/hive/hive-0.12.0/lib/</div><div class="line"></div><div class="line"><span class="comment"># 修改hive配置文件</span></div><div class="line">sudo vim /home/hive/hive-0.12.0/conf/.hiverc</div></pre></td></tr></table></figure></p>
-<p>在文件中添加下面两行内容:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">add jar /home/hive/hive-0.12.0/lib/BusinessType.jar;</div><div class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">function</span> business_type_func <span class="keyword">as</span> <span class="string">'UDF.BusinessType'</span>;</div></pre></td></tr></table></figure></p>
-<p>然后重启就可以了,也不用再创建函数了,这个函数就在Hive启动时就会一起加载到Hive内部.</p>
-<p><strong>后记:</strong> 如果你也出现了<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ERROR </span>1148 (42000) at line 1: The used command is not allowed with this MySQL version</div></pre></td></tr></table></figure></p>
-<p>可以尝试采用第二种部署方式,至于原因还不明,有时间再研究.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/Hive/">Hive</a><a href="/tags/Java/">Java</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
@@ -1003,7 +954,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -1048,7 +999,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -1072,7 +1023,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

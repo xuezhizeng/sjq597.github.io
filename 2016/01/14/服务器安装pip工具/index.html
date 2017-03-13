@@ -29,7 +29,7 @@
 
 然后下载安装pip
 1234sudo wget -">
-<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta property="og:updated_time" content="2017-03-09T02:57:12.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="服务器安装pip工具">
 <meta name="twitter:description" content="系统版本:CentOS release 6.4 (Final)Python版本:2.6.6
@@ -132,6 +132,8 @@
 </ol>
 <h3 id="安装python"><a href="#安装python" class="headerlink" title="安装python"></a>安装python</h3><p>有时候用pip安装,会提示:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SystemError: Cannot compile <span class="string">'Python.h'</span>. Perhaps you need <span class="keyword">to</span> install <span class="keyword">python</span>-dev|<span class="keyword">python</span>-devel</div></pre></td></tr></table></figure></p>
 <p>这时候不能像Ubuntu上安装<code>python-dev</code>,在CentOS上,名字变了,像如下安装:<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum <span class="keyword">install</span> python-devel</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>如果是Ubuntu安装报错<code>mysql_config</code>:<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    libs = mysql_config(<span class="string">"libs_r"</span>)</div><div class="line">  <span class="keyword">File</span> <span class="string">"/tmp/pip-build-a7IbwK/MySQL-python/setup_posix.py"</span>, <span class="literal">line</span> <span class="number">25</span>, <span class="keyword">in</span> mysql_config</div><div class="line">    raise EnvironmentError(<span class="string">"%s not found"</span> % (mysql_config.path,))</div><div class="line">EnvironmentError: mysql_config <span class="keyword">not</span> found</div></pre></td></tr></table></figure></p>
+<p>解决方案为:<br><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install libmysqlclient-<span class="built_in">dev</span></div></pre></td></tr></table></figure></p>
 <p>还需要升级python2.6.6至2.7.x<br>查看python2.7安装位置，假设在<code>/usr/bin/q-python2.7</code>,建立软连接<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 加-b 参数是为了覆盖之前的软链接</span></div><div class="line">sudo ln -sb /usr/bin/q-python2.7 /usr/bin/python</div></pre></td></tr></table></figure></p>
 <p>这会导致yum无法使用，修复办法,编辑<code>/usr/bin/yum</code><br>将头部的python改为python2.6</p>
 <p>有时候由于国内某些你懂的原因，安装包经常连不上，需要设置pip的国内镜像CentOS修改<code>~/.pip/pip.conf</code>文件，内容如下：<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">trusted-host</span>=mirrors.aliyun.com</div><div class="line"><span class="attr">index-url</span>=http://mirrors.aliyun.com/pypi/simple/</div></pre></td></tr></table></figure></p>
@@ -237,7 +239,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -282,7 +284,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -306,7 +308,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

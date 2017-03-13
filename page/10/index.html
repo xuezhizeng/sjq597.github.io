@@ -81,6 +81,76 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/03/Vim-对比两个文件差异/" title="用Vim对比两个文件的不同" itemprop="url">用Vim对比两个文件的不同</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-03T05:50:10.000Z" itemprop="datePublished"> 发表于 2015-11-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>从mysql数据库抽取数据到hadoop时,中间加了一个校验层,发现某天的数据Hive表里的和mysql里的差了一条,查询结果有7万多条,但是就只有一条不一样,最开始的思路是利用sql里的集合做差,即左外连接来过滤出那一条记录,但是由于Hive里是分区数据,查询语句怎么写都不对,后来换了一种思路,将查询结果保存到文件中,然后比较两个文件的不同来判断差了哪一条数据.</p>
+<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><ul>
+<li>Hive数据导出到文件</li>
+</ul>
+<p>利用到了管道,将结果输入到文件,具体命令为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -uuser_name /home/dev/hive-0.12.0/bin/hive -database dw_subject <span class="_">-e</span> <span class="string">"select idid,create_time from table_name  where (create_time&gt;='2015-10-29 00:00:00' and create_time&lt;='2015-10-29 23:59:59') order by idid;"</span> &gt; subject.txt</div></pre></td></tr></table></figure></p>
+<p> 注意,最好按照主键来将结果进行排序,因为数据很多,时间也可能有重复的,如果按时间来排序,时间相同的数可能顺序会有差异,7万多数据对比起来还是很麻烦的,所以尽量选不重复的字段排序,反正,最好能够保证排序不存在二义性即可.</p>
+<ul>
+<li>利用vim比较两个文件</li>
+</ul>
+<p>假设这两个文件是<code>subject.txt</code>和<code>source.txt</code>,命令如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim <span class="_">-d</span> source.txt subject.txt</div></pre></td></tr></table></figure></p>
+<p> 最终的效果如下图所示:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/用Vim来对比两个文件的不同01.jpg" alt="Vim对比效果"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/02/Vim-编程常用高效必备插件/" title="Vim 编程常用高效必备插件" itemprop="url">Vim 编程常用高效必备插件</a>
   </h1>
   <p class="article-author">By
@@ -719,75 +789,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/25/Ubuntu-14-04-安装git/" title="Ubuntu 14.04 安装git" itemprop="url">Ubuntu 14.04 安装git</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-25T03:24:51.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>首先测试一下电脑安装git没有<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git --version</div></pre></td></tr></table></figure></p>
-<h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><p>没有安装按照以下步骤来：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install git-core git-gui git-doc gitk</div></pre></td></tr></table></figure></p>
-<p>安装完毕看看是否安装成功，如果安装成功的版本低于1.9.5则说明Ubuntu版本太低，进行如下操作:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:git-core/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install git</div></pre></td></tr></table></figure></p>
-<p>安装成功之后再次测试，版本就应该是比较高了。</p>
-<h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>基本配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">git config --global user.name <span class="string">"zhang.san"</span>             <span class="comment"># 请换成你自己的名字，除非你凑巧也叫zhang.san</span></div><div class="line">git config --global user.email <span class="string">"zhang.san@163.com"</span>    <span class="comment"># 同上</span></div><div class="line">git config --global merge.tool <span class="string">"kdiff3"</span>               <span class="comment"># 要是没装KDiff3就不用设这一行</span></div><div class="line">git config --global push.default simple               <span class="comment"># 要是你非要用低版本的Git（比如1.7.x），好吧，那就不设simple设current，否则你的Git不支持</span></div><div class="line">git config --global core.autocrlf <span class="literal">false</span>               <span class="comment"># 让Git不要管Windows/Unix换行符转换的事</span></div><div class="line">git config --global gui.encoding utf-8                <span class="comment"># 避免git gui中的中文乱码</span></div><div class="line">git config --global core.quotepath off                <span class="comment"># 避免git status显示的中文文件名乱码</span></div></pre></td></tr></table></figure></p>
-<p>如果你不习惯使用<code>Vim</code>,可以修改git默认的编辑器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global core.editor nano</div></pre></td></tr></table></figure></p>
-<h3 id="设置SSH"><a href="#设置SSH" class="headerlink" title="设置SSH"></a>设置SSH</h3><p>要和git服务器打交道，还要设置ssh，如果你之前已经有则不需要再次生成,命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"zhang.san@163.com"</span></div></pre></td></tr></table></figure></p>
-<p>然后一路回车，不要输入任何密码之类，生成ssh key pair。如果在Linux上，需要把其中的私钥告诉本地系统<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure></p>
-<p>查看公钥内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat ~/.ssh/id_rsa.pub</div></pre></td></tr></table></figure></p>
-<p>最后把公钥的内容复制到git服务器上，以github为例<br>登陆github，在<code>Settings--&gt;SSH keys--&gt; Add SSH key</code>,把公钥的内容复制到key里面，title不用管。(windows下的用户目录找到.ssh文件夹进去就可以看到)的内容paste进去。不需要填title，title会自动生成。<br>要是Git服务器报“不是有效的key”之类的错误，可能是你没去除注意去除多余的回车符，也可能是paste之前copy的时候，没copy最开头的ssh-rsa这几个字。<br>测试一下成功了没<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div><div class="line">Warning: Permanently added the RSA host key <span class="keyword">for</span> IP address <span class="string">'192.30.252.129'</span> to the list of known hosts.</div><div class="line">Hi zhang.san! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/Git/">Git</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/9/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/">Next<span></span></a>
@@ -829,7 +830,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -874,7 +875,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -898,7 +899,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			

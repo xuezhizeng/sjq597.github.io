@@ -81,6 +81,82 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/11/Ubuntu-16-04-aria2-百度盘下载/" title="Ubuntu 16.04 aria2 百度盘下载" itemprop="url">Ubuntu 16.04 aria2 百度盘下载</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-11T10:56:48.000Z" itemprop="datePublished"> 发表于 2017-03-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>由于本人经常在我的vps上下载东西上传到百度云,然后再下载到本地机器,平时的工作环境又是Ubuntu,官方没有提供百度盘的Linux版本,就算有如果不是非会员也很麻烦,限速很蛋疼，最快也就下300多k的速度.网上查了一下,虽然百度盘限速，但是不限下载线程,也就是说其实用浏览器去下载,百度官方限制你的单个http请求的速度,破解方法就是开多个线程,一般10个就够了,带宽够大可以再高点，只要机器扛得住。</p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>需要安装一个软件以及一个chrome的插件</p>
+<h4 id="aria2"><a href="#aria2" class="headerlink" title="aria2"></a>aria2</h4><p>这个是Linux下面一个非常优秀的多线程下载工具,安装方法:</p>
+<ul>
+<li>安装aria2</li>
+</ul>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="keyword">get</span> install aria2</div></pre></td></tr></table></figure>
+<ul>
+<li>安装BaiduExporter</li>
+</ul>
+<p>装了这个之后需要配合一个浏览器插件,因为百度盘的文件链接是不能直接下载的，需要安装下Chrome插件<a href="https://github.com/acgotaku/BaiduExporter/blob/master/chrome.crx" target="_blank" rel="external">BaiduExporter</a>,怎么安装Chrome插件就不细讲了，不懂的直接度娘。<br><strong>备注:</strong> 如果是Mac用户可以参考这篇文章<a href="http://www.jianshu.com/p/e5e56a1d25a3" target="_blank" rel="external">Aria2 - 可能是现在下载百度云资料速度最快的方式</a>,由于主要讲Ubuntu下面的配置,这个就不多讲了.</p>
+<ul>
+<li>下载文件</li>
+</ul>
+<p>安装好<code>aria2</code>以及<code>BaiduExporter</code>之后,我们以一个百度云里面的文件来做个测试:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD01.png" alt="下载文件链接"><br>注意是勾选所需要下载的文件,然后会多出一个<strong>导出下载</strong>标签页,然后我们需要点列表中的<code>导出下载</code>,然后就会弹出一个框:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2016.04%20aria2%20%E7%99%BE%E5%BA%A6%E7%9B%98%E4%B8%8B%E8%BD%BD02.png" alt="aria2下载链接框"><br>把框里面的内容全部复制出来,直接丢到终端中执行，注意文件会保存到当前路径,如果你想保存到指定位置，还是先cd到指定目录吧.<br>下载的命令如下:<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">aria2c -c -s1<span class="number">0</span> -k1M -x16 --enable-rpc=false -o <span class="string">'Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv'</span> --header <span class="string">"User-Agent: netdisk;5.3.4.5;PC;PC-Windows;5.1.2600;WindowsBaiduYunGuanJia"</span> --header <span class="string">"Referer: http://pan.baidu.com/disk/home"</span> --header <span class="string">"Cookie: BDUSS=FDVnRtbnVaclhoR2dMLWdScHY2TlNFN1h3b3Qyb0stcXgtcXpyS0gtSFpXT3RZSVFBQUFBJCQAAAAAAAAAAAEAAAA7KQQU0KHHv7Tz0KG08wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANnLw1jZy8NYcD; pcsett=1489315049-753101e6547a834c2756fc96703e7839"</span> <span class="string">"https://pcs.baidu.com/rest/2.0/pcs/file?method=download&amp;app_id=250528&amp;path=%2Fapps%2Fbypy%2FGantz.O.2016.720p.WEB-DL.AAC2.0.H.264%20%5BMultiSub(Eng%2CIta%2CPor%2CRum%2CSwe%2CTur)%5Dv2.mkv"</span></div></pre></td></tr></table></figure></p>
+<p>看看下载结果:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[#<span class="number">99b455</span> <span class="number">2.</span>2GiB/<span class="number">2.</span>2GiB(<span class="number">99</span><span class="symbol">%</span>) CN:<span class="number">10</span> DL:148KiB ETA:<span class="number">1</span> *** Download Progress Summary as of Sat Mar <span class="number">11</span> <span class="number">19</span>:<span class="number">12</span>:<span class="number">58</span> <span class="number">2017</span> *** </div><div class="line">================================================</div><div class="line">[#<span class="number">99b455</span> <span class="number">2.</span>2GiB/<span class="number">2.</span>2GiB(<span class="number">99</span><span class="symbol">%</span>) CN:<span class="number">10</span> DL:92KiB ETA:48s]</div><div class="line">FILE: /home/anonymous/Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv</div><div class="line">------------------------------------------------</div><div class="line"></div><div class="line">[#<span class="number">99b455</span> <span class="number">2.</span>2GiB/<span class="number">2.</span>2GiB(<span class="number">99</span><span class="symbol">%</span>) CN:<span class="number">1</span> DL:19KiB ETA:<span class="number">13</span></div><div class="line"><span class="number">03</span>/<span class="number">11</span> <span class="number">19</span>:<span class="number">13</span>:<span class="number">57</span> [NOTICE] Download complete: /home/anonymous/Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv</div><div class="line"></div><div class="line">Download Results:</div><div class="line">gid   |stat|avg speed  |path/URI</div><div class="line">======+====+===========+=======================================================</div><div class="line"><span class="number">99b455</span>|OK  |   <span class="number">1.</span>2MiB/s|/home/anonymous/Gantz.O.2016.720p.WEB-DL.AAC2.0.H.264 [MultiSub(Eng,Ita,Por,Rum,Swe,Tur)]v2.mkv</div><div class="line"></div><div class="line">Status Legend:</div><div class="line">(OK):download completed.</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>简单说明一下命令行里面的命令<code>s10</code>指下载的线程数为10.开始速度均值为<code>2Mb/s</code>,后面快完成的时候会慢下来，均速大概<code>1.2Mb/s</code>.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/02/22/git-常用场景即解决方案/" title="git 常用场景即解决方案" itemprop="url">git 常用场景即解决方案</a>
   </h1>
   <p class="article-author">By
@@ -810,84 +886,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/18/sed-批量替换修改原文件/" title="sed 批量替换修改原文件" itemprop="url">sed 批量替换修改原文件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-18T07:23:30.000Z" itemprop="datePublished"> 发表于 2016-09-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>网上下载某个js库，官网下载的源码一般都带有样例，但是好多html里面引用的js都是使用的cdn网址，类似于这样:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.bootcss.com/d3/3.5.2/d3.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>但是好多优秀的JS插件都是国外的，所以很多作者的项目里面样例都是使用的国外的cdn,例如<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">https:</span><span class="comment">//cdnjs.com/</span></div></pre></td></tr></table></figure></p>
-<p>但是由于某些特殊的你懂得原因，上面这个网占经常没办法访问，或者访问不了,所以我只能替换成国内的cdn，比如我上面最开始写的那个就是，现在问题来了，我想把<code>example</code>下面的所有<code>html</code>文件里面的这个js都替换掉，即把:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>替换成:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.bootcss.com/d3/3.5.2/d3.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>其实使用一条Linux命令就可以了:<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sed</span> <span class="string">'s/old_xxx/new_xxx/g'</span> &lt;file_name&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">cd</span> examples</div><div class="line">sed -i <span class="string">'s#https://cdn.bootcss.com/d3/3.5.2/d3.min.js#https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js#g'</span> <span class="regexp">*.html</span></div></pre></td></tr></table></figure>
-<p>上面需要稍作解释:</p>
-<ul>
-<li>-i</li>
-</ul>
-<p>如果不加<code>-i</code>参数，那么sed会把结果输出到终端，加了之后替换的结果会写回到原文件</p>
-<ul>
-<li>s#old_xxx#new_xxx#g</li>
-</ul>
-<p>原替换语法是<code>s/old_xxx/new_xxx/g</code>,但是如果原本的内容里面就有<code>/</code>，要么转义这个字符，或者为了不破外可读性，降低出错概率，直接用<code>#</code>做分隔符更好</p>
-<ul>
-<li>*.html</li>
-</ul>
-<p>由于要替换所有的，所以最后面的文件名参数直接就写成<code>*.html</code>，这样就会把所有的<code>html</code>文件里面的内容替换并写回原文件了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -929,7 +927,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>22</sup></a></li>
+			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
 		  
@@ -974,7 +972,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>62</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
 			
 		
 			
@@ -998,7 +996,7 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>11</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
