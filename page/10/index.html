@@ -81,6 +81,473 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/05/Hive-逻辑运算-函数/" title="Hive 逻辑运算,函数" itemprop="url">Hive 逻辑运算,函数</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-05T06:05:57.000Z" itemprop="datePublished"> 发表于 2015-11-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Hive自身提供了逻辑运算以及数学上的一些函数,基本和mysql<br>里差不多.简单的不再多说了，只记录一些常用的</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>Hive自带的函数非常多,大致分为一下几块介绍,详细信息在<a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF" target="_blank" rel="external">Hive Wiki官网</a></p>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bigint</td>
+<td>round(double a)</td>
+<td>四舍五入</td>
+</tr>
+<tr>
+<td>double</td>
+<td>round(double a, int d)</td>
+<td>小数部分d位之后数字四舍五入</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>floor(double a)</td>
+<td>对给定数据进行向下舍入最接近的整数</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>ceil(double a)<br>ceiling(double a)</td>
+<td>将参数向上舍入为最接近的整数</td>
+</tr>
+<tr>
+<td>double</td>
+<td>rand()<br>rand(int seed)</td>
+<td>返回大于或等于0且小于1的平均分布随机数（依重新计算而变）</td>
+</tr>
+<tr>
+<td>double</td>
+<td>pow(double a, double p)<br>power(double a, double p)</td>
+<td>返回某数的乘幂</td>
+</tr>
+<tr>
+<td>double</td>
+<td>sqrt(double a)</td>
+<td>返回数值的平方根</td>
+</tr>
+<tr>
+<td>int<br>double</td>
+<td>positive(int a)<br>positive(double a)</td>
+<td>返回A的值</td>
+</tr>
+<tr>
+<td>int<br>double</td>
+<td>negative(int a)<br>negative(double a)</td>
+<td>返回A的相反数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h3><table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>from_unixtime(bigint unixtime[, string format])</td>
+<td>UNIX_TIMESTAMP参数表示返回一个值’YYYY- MM – DD HH：MM：SS’或YYYYMMDDHHMMSS.uuuuuu格式，这取决于是否是在一个字符串或数字语境中使用的功能。该值表示在当前的时区。</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>unix_timestamp()</td>
+<td>如果不带参数的调用，返回一个Unix时间戳（从’1970-01–0100:00:00′到现在的UTC秒数）为无符号整数。</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>unix_timestamp(string date)</td>
+<td>指定日期参数调用UNIX_TIMESTAMP（），它返回参数值’1970- 01 – 0100:00:00′到指定日期的秒数。</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>unix_timestamp(string date, string pattern)</td>
+<td>指定时间输入格式，返回到1970年秒数：unix_timestamp(’2009-03-20′, ‘yyyy-MM-dd’) = 1237532400</td>
+</tr>
+<tr>
+<td>string</td>
+<td>to_date(string timestamp)</td>
+<td>返回时间中的年月日： to_date(“1970-01-01 00:00:00″) = “1970-01-01″</td>
+</tr>
+<tr>
+<td>string</td>
+<td>to_dates(string date)</td>
+<td>给定一个日期date，返回一个天数（0年以来的天数）</td>
+</tr>
+<tr>
+<td>int</td>
+<td>year(string date)</td>
+<td>返回指定时间的年份</td>
+</tr>
+<tr>
+<td>int</td>
+<td>month(string date)</td>
+<td>返回指定时间的月份</td>
+</tr>
+<tr>
+<td>int</td>
+<td>day(string date)</td>
+<td>dayofmonth(date) 返回指定时间的日期</td>
+</tr>
+<tr>
+<td>int</td>
+<td>hour(string date)</td>
+<td>返回指定时间的小时，范围为0到23。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>minute(string date)</td>
+<td>返回指定时间的分钟，范围为0到59。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>second(string date)</td>
+<td>返回指定时间的秒，范围为0到59。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>weekofyear(string date)</td>
+<td>返回指定日期所在一年中的星期号，范围为0到53。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>datediff(string enddate, string startdate)</td>
+<td>两个时间参数的日期之差。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>date_add(string startdate, int days)</td>
+<td>给定时间，在此基础上加上指定的时间段。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>date_sub(string startdate, int days)</td>
+<td>给定时间，在此基础上减去指定的时间段。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong>所以想把一个<strong>20160302</strong>转换成<strong>2016-03-02</strong>这种时间格式，要么用<strong>strsub()</strong>配合<strong>concat()</strong>来实现，或者就使用<code>from_unixtime(unix_timestamp(create_time, &#39;yyyyMMdd&#39;), &#39;yyyy-MM-dd)</code></p>
+<h3 id="字符函数"><a href="#字符函数" class="headerlink" title="字符函数"></a>字符函数</h3><table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>length(string A)</td>
+<td>返回字符串的长度</td>
+</tr>
+<tr>
+<td>string</td>
+<td>reverse(string A)</td>
+<td>返回倒序字符串</td>
+</tr>
+<tr>
+<td>string</td>
+<td>concat(string A, string B…)</td>
+<td>连接多个字符串，合并为一个字符串，可以接受任意数量的输入字符串</td>
+</tr>
+<tr>
+<td>string</td>
+<td>concat_ws(string SEP, string A, string B…)</td>
+<td>链接多个字符串，字符串之间以指定的分隔符分开。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>substr(string A, int start, int len)<br>substring(string A, int start, int len)</td>
+<td>从文本字符串中指定的位置指定长度的字符。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>upper(string A)<br>ucase(string A)</td>
+<td>将文本字符串转换成字母全部大写形式</td>
+</tr>
+<tr>
+<td>string</td>
+<td>lower(string A)<br>lcase(string A)</td>
+<td>将文本字符串转换成字母全部小写形式</td>
+</tr>
+<tr>
+<td>string</td>
+<td>trim(string A)</td>
+<td>删除字符串两端的空格，字符之间的空格保留</td>
+</tr>
+<tr>
+<td>string</td>
+<td>ltrim(string A)</td>
+<td>删除字符串左边的空格，其他的空格保留</td>
+</tr>
+<tr>
+<td>string</td>
+<td>rtrim(string A)</td>
+<td>删除字符串右边的空格，其他的空格保留</td>
+</tr>
+<tr>
+<td>string</td>
+<td>regexp_replace(string A, string B, string C)</td>
+<td>字符串A中的B字符被C字符替代</td>
+</tr>
+<tr>
+<td>string</td>
+<td>regexp_extract(string subject, string pattern, int index)</td>
+<td>通过下标返回正则表达式指定的部分。需要注意的是：原来的<code>\</code> 转义，这里变成了双斜杠了<code>\\</code>,所以对于<code>[,{</code>这些特殊字符，需要注意使用两个斜杠，包括原来的正则表达式，如果是<code>\d</code>匹配数字，就需要使用<code>\\d</code></td>
+</tr>
+<tr>
+<td>string</td>
+<td>parse_url(string urlString, string partToExtract [, string keyToExtract])</td>
+<td>返回URL指定的部分。parse_url(‘<a href="http://facebook.com/path1/p.php?k1=v1&amp;k2=v2#Ref1′" target="_blank" rel="external">http://facebook.com/path1/p.php?k1=v1&amp;k2=v2#Ref1′</a>, ‘HOST’) 返回：’facebook.com’,key处理指定为host,还可以指定为path,[query,key]</td>
+</tr>
+<tr>
+<td>string</td>
+<td>get_json_object(string json_string, string path)</td>
+<td>select a.timestamp, get_json_object(a.appevents, ‘$.eventid’), get_json_object(a.appenvets, ‘$.eventname’) from log a;</td>
+</tr>
+<tr>
+<td>string</td>
+<td>space(int n)</td>
+<td>返回指定数量的空格</td>
+</tr>
+<tr>
+<td>string</td>
+<td>repeat(string str, int n)</td>
+<td>重复N次字符串</td>
+</tr>
+<tr>
+<td>int</td>
+<td>ascii(string str)</td>
+<td>返回字符串中首字符的数字值</td>
+</tr>
+<tr>
+<td>string</td>
+<td>lpad(string str, int len, string pad)</td>
+<td>返回指定长度的字符串，给定字符串长度小于指定长度时，由指定字符从左侧填补。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>rpad(string str, int len, string pad)</td>
+<td>返回指定长度的字符串，给定字符串长度小于指定长度时，由指定字符从右侧填补。</td>
+</tr>
+<tr>
+<td>array</td>
+<td>split(string str, string pat)</td>
+<td>将字符串转换为数组。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>find_in_set(string str, string strList)</td>
+<td>返回字符串str第一次在strlist出现的位置。如果任一参数为NULL,返回NULL；如果第一个参数包含逗号，返回0。</td>
+</tr>
+<tr>
+<td>array<array<string>&gt;</array<string></td>
+<td>sentences(string str, string lang, string locale)</td>
+<td>将字符串中内容按语句分组，每个单词间以逗号分隔，最后返回数组。 例如sentences(‘Hello there! How are you?’) 返回：( (“Hello”, “there”), (“How”, “are”, “you”) )</td>
+</tr>
+</tbody>
+</table>
+<h3 id="内置聚合函数"><a href="#内置聚合函数" class="headerlink" title="内置聚合函数"></a>内置聚合函数</h3><p>还有一些是内置的统计函数,可以免去不少计算的步骤</p>
+<table>
+<thead>
+<tr>
+<th>返回类型</th>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bigint</td>
+<td>count(*)<br>count(expr)<br>count(DISTINCT expr[, expr<em>., expr</em>.])</td>
+<td>返回记录条数。</td>
+</tr>
+<tr>
+<td>double</td>
+<td>sum(col)<br>sum(DISTINCT col)</td>
+<td>求和</td>
+</tr>
+<tr>
+<td>double</td>
+<td>avg(col)<br>avg(DISTINCT col)</td>
+<td>求平均值</td>
+</tr>
+<tr>
+<td>double</td>
+<td>var_pop(col)</td>
+<td>返回指定列的方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>var_samp(col)</td>
+<td>返回指定列的样本方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>stddev_pop(col)</td>
+<td>返回指定列的偏差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>stddev_samp(col)</td>
+<td>返回指定列的样本偏差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>covar_pop(col1, col2)</td>
+<td>两列数值协方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>covar_samp(col1, col2)</td>
+<td>两列数值样本协方差</td>
+</tr>
+<tr>
+<td>double</td>
+<td>corr(col1, col2)</td>
+<td>返回两列数值的相关系数</td>
+</tr>
+<tr>
+<td>double</td>
+<td>percentile(col, p)</td>
+<td>返回数值区域的百分比数值点。0&lt;=P&lt;=1,否则返回NULL,不支持浮点型数值。</td>
+</tr>
+</tbody>
+</table>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/03/Shell-按日期循环执行/" title="Shell 按日期循环执行" itemprop="url">Shell 按日期循环执行</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-03T12:41:17.000Z" itemprop="datePublished"> 发表于 2015-11-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>服务器上有些脚本,执行的参数用到了日期,也就是每天执行一次,日期取当天时间作为参数,当有些时候需要把这些脚本过去一段时间的运行结果重新运行一次时,手动指定脚本日期没有办法大批量执行,需要在shell中写循环,让脚本批量执行.</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>以一个小的例子来说:把指定日期时间段内的日期都输出来,看看下面的代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/bash</span></div><div class="line"></div><div class="line">start_date=20151101</div><div class="line">end_date=20151103</div><div class="line">start_sec=`date <span class="_">-d</span> <span class="string">"<span class="variable">$start_date</span>"</span> <span class="string">"+%s"</span>`</div><div class="line">end_sec=`date <span class="_">-d</span> <span class="string">"<span class="variable">$end_date</span>"</span> <span class="string">"+%s"</span>`</div><div class="line"><span class="keyword">for</span>((i=start_sec;i&lt;=end_sec;i+=86400)); <span class="keyword">do</span></div><div class="line">    day=$(date <span class="_">-d</span> <span class="string">"@<span class="variable">$i</span>"</span> <span class="string">"+%Y-%m-%d"</span>)</div><div class="line">    <span class="built_in">echo</span> <span class="variable">$day</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p>看看输出结果:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">2015</span><span class="number">-11</span><span class="number">-01</span></div><div class="line"><span class="number">2015</span><span class="number">-11</span><span class="number">-02</span></div><div class="line"><span class="number">2015</span><span class="number">-11</span><span class="number">-03</span></div></pre></td></tr></table></figure></p>
+<p>执行结果是循环输出日期,把需要循环的脚本放在循环里调用,把<code>$day</code>当参数使用即可.如果脚本里面的变量是日期,那就把脚本代码拷贝到循环中间.日期的格式可以按需求自己调整.例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>((i=start_sec;i&lt;=end_sec;i+=86400)); <span class="keyword">do</span></div><div class="line">    day=$(date <span class="_">-d</span> <span class="string">"@<span class="variable">$i</span>"</span> <span class="string">"+%Y-%m-%d"</span>)</div><div class="line">    <span class="built_in">echo</span> <span class="variable">$day</span></div><div class="line">    sudo /usr/python/ /usr/dev/job.py <span class="variable">$day</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p>这样就可以把时间参数批量传入脚本.</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>但是上面的还是很麻烦，你要记住一天有多少秒，这样也不太容易记住，下面还有另一种方法,注意到时间格式为<code>20151101</code>,这种其实也是一个数字，我们可以让日期按天增加，然后比较日期大小关系:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/bash</span></div><div class="line"></div><div class="line">start=20160101</div><div class="line">end=20160103</div><div class="line"></div><div class="line"><span class="keyword">while</span> [ <span class="variable">$&#123;start&#125;</span> -le <span class="variable">$&#123;end&#125;</span> ]</div><div class="line"><span class="keyword">do</span></div><div class="line">  <span class="built_in">echo</span> <span class="variable">$&#123;start&#125;</span></div><div class="line">  start=`date <span class="_">-d</span> <span class="string">"1 day <span class="variable">$&#123;start&#125;</span>"</span> +%Y%m%d`	<span class="comment"># 日期自增</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>Shell里面的数字大小比较:<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">ne	<span class="comment"># 不相等</span></span></div><div class="line">-<span class="ruby">gt	<span class="comment"># 大于</span></span></div><div class="line">-<span class="ruby">lt	<span class="comment"># 小于</span></span></div><div class="line">-<span class="ruby">ge	<span class="comment"># 大于或等于</span></span></div><div class="line">-<span class="ruby">le	<span class="comment"># 小于或等于</span></span></div></pre></td></tr></table></figure></p>
+<h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><p>虽然上面的方法二比方法一要好很多，但是好像有个问题，一般日期都是以字符串的形式传入，多半是<code>2016-01-01</code>这种带间隔的方式，这种情况我们是没办法比较的，当然把上面的改一改也能用,例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/bash</span></div><div class="line"></div><div class="line"><span class="comment"># 先把日期处理成纯数字的格式</span></div><div class="line">start=`date <span class="_">-d</span> <span class="string">"2016-01-01"</span> +%Y%m%d`</div><div class="line">end=`date <span class="_">-d</span> <span class="string">"2016-03-01"</span> +%Y%m%d`</div><div class="line"></div><div class="line"><span class="keyword">while</span> [ <span class="variable">$&#123;start&#125;</span> -le <span class="variable">$&#123;end&#125;</span> ]</div><div class="line"><span class="keyword">do</span></div><div class="line">  <span class="built_in">echo</span> <span class="variable">$&#123;start&#125;</span></div><div class="line">  <span class="comment"># 假设下面有一个脚本需要2016-01-01格式的日期</span></div><div class="line">  bash xxx.sh `date <span class="_">-d</span> <span class="string">"<span class="variable">$&#123;start&#125;</span>"</span> +%Y-%m-%d`</div><div class="line">  start=`date <span class="_">-d</span> <span class="string">"1 day <span class="variable">$&#123;start&#125;</span>"</span> +%Y%m%d`	<span class="comment"># 日期自增</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p>但是这样感觉好麻烦，为啥循环就只能是数字呢?有没有一种比较通用的循环方式,这个当然有，你可以像下面这样:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/bash</span></div><div class="line"></div><div class="line">start=<span class="string">'2016-01-01'</span></div><div class="line">end=<span class="string">'2016-01-03'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> [ <span class="string">"<span class="variable">$&#123;start&#125;</span>"</span> != <span class="string">"<span class="variable">$&#123;end&#125;</span>"</span> ]</div><div class="line"><span class="keyword">do</span></div><div class="line">  <span class="built_in">echo</span> <span class="variable">$&#123;start&#125;</span></div><div class="line">  start=`date <span class="_">-d</span> <span class="string">"1 day <span class="variable">$&#123;start&#125;</span>"</span> +%Y-%m-%d`	<span class="comment"># 日期自增</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p>这样就可以循环了，但是记住，<code>start</code>取不到<code>end</code>值，即最后输出的是<code>[start,end)</code>，好像Shell里面并没有<code>do...while</code>这种循环，所以最好在循环之前，先做一步处理:<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">end</span>=`date -d <span class="string">"1 day $&#123;end&#125;"</span> +<span class="symbol">%Y-</span><span class="symbol">%m-</span><span class="symbol">%d</span>`	# 日期自增</div></pre></td></tr></table></figure></p>
+<p>然后再就可以取到两边的边界值了。<br><strong>注意:</strong>这样比较的时候，一定要注意<code>while</code>里面的左右条件一定要用<code>&quot;&quot;</code>引起来，<code>&#39;</code>不行。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/03/Vim-对比两个文件差异/" title="用Vim对比两个文件的不同" itemprop="url">用Vim对比两个文件的不同</a>
   </h1>
   <p class="article-author">By
@@ -660,135 +1127,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/25/Ubuntu-14-04-更改源/" title="Ubuntu 14.04 更改源" itemprop="url">Ubuntu 14.04 更改源</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-25T11:44:39.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>之前把Ubuntu的默认的源替换了，速度有点慢，现在替换回来<br>在命令行下修改，修改<code>/etc/apt/sources.list</code>,内容修改如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># deb cdrom:[Ubuntu-Kylin 14.04.1 LTS _Trusty Tahr_ - Release amd64 (20140722.1)]/ trusty main multiverse restricted universe</span></div><div class="line"></div><div class="line"><span class="comment"># See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to</span></div><div class="line"><span class="comment"># newer versions of the distribution.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty main restricted</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty main restricted</div><div class="line"></div><div class="line"><span class="comment">## Major bug fix updates produced after the final release of the</span></div><div class="line"><span class="comment">## distribution.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates main restricted</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates main restricted</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu</span></div><div class="line"><span class="comment">## team. Also, please note that software in universe WILL NOT receive any</span></div><div class="line"><span class="comment">## review or updates from the Ubuntu security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty universe</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty universe</div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates universe</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates universe</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu </span></div><div class="line"><span class="comment">## team, and may not be under a free licence. Please satisfy yourself as to </span></div><div class="line"><span class="comment">## your rights to use the software. Also, please note that software in </span></div><div class="line"><span class="comment">## multiverse WILL NOT receive any review or updates from the Ubuntu</span></div><div class="line"><span class="comment">## security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse</div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates multiverse</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository may not have been tested as</span></div><div class="line"><span class="comment">## extensively as that contained in the main release, although it includes</span></div><div class="line"><span class="comment">## newer versions of some applications which may provide useful features.</span></div><div class="line"><span class="comment">## Also, please note that software in backports WILL NOT receive any review</span></div><div class="line"><span class="comment">## or updates from the Ubuntu security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line"></div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security main restricted</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted</div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security universe</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security universe</div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security multiverse</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security multiverse</div><div class="line"></div><div class="line"><span class="comment">## Uncomment the following two lines to add software from Canonical's</span></div><div class="line"><span class="comment">## 'partner' repository.</span></div><div class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by Canonical and the</span></div><div class="line"><span class="comment">## respective vendors as a service to Ubuntu users.</span></div><div class="line"><span class="comment"># deb http://archive.canonical.com/ubuntu trusty partner</span></div><div class="line"><span class="comment"># deb-src http://archive.canonical.com/ubuntu trusty partner</span></div><div class="line"></div><div class="line"><span class="comment">## Uncomment the following two lines to add software from Ubuntu's</span></div><div class="line"><span class="comment">## 'extras' repository.</span></div><div class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by third-party</span></div><div class="line"><span class="comment">## developers who want to ship their latest software.</span></div><div class="line"><span class="comment"># deb http://extras.ubuntu.com/ubuntu trusty main</span></div><div class="line"><span class="comment"># deb-src http://extras.ubuntu.com/ubuntu trusty main</span></div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/25/Ubuntu-14-04-IDEA配置和使用/" title="Ubuntu 14.04 IDEA配置和使用" itemprop="url">Ubuntu 14.04 IDEA配置和使用</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-25T04:17:44.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>IDEA相比Eclipse的好处我这里就不多说了，反正感觉无论是界面还是与其他插件的集成都做的非常好，特别是git和数据库这块，做的时想当好。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先根据系统下载对应IDEA的压缩包，以Ubuntu 14.04的64位系统为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo tar -xvf ideaIU-14.0.3.tar.gz -C /usr/dev</div><div class="line"><span class="built_in">cd</span> /usr/dev/idea-IU-139.1117.1/bin</div><div class="line">./idea.sh</div></pre></td></tr></table></figure></p>
-<p><strong>注意：</strong>正常情况下，在你启动成功之后，可以在Ubuntu应用里直接启动，但是我的总是不行，没办法，在用户根目录下建了一个脚本，内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">/usr/dev/idea-IU-139.1117.1/bin/idea.sh &amp;</div></pre></td></tr></table></figure></p>
-<p>然后对脚本赋可执行权限</p>
-<h3 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h3><p>必装插件:<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">Eclipse</span> <span class="meta">Code</span> Formatter</div><div class="line"><span class="symbol">Lombok</span> plugin</div><div class="line"><span class="symbol">Vim</span> Emulation</div></pre></td></tr></table></figure></p>
-<p>激活服务器搭建:<a href="http://blog.lanyus.com/archives/174.html" target="_blank" rel="external">http://blog.lanyus.com/archives/174.html</a></p>
-<h3 id="无法切换中文输入法"><a href="#无法切换中文输入法" class="headerlink" title="无法切换中文输入法"></a>无法切换中文输入法</h3><p>修改启动脚本<code>/usr/dev/idea-IU-139.1117.1/bin/idea.sh</code>,头部加入下面几行:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> GTK_IM_MODULE=fcitx</div><div class="line"><span class="keyword">export</span> QT_IM_MODULE=fcitx</div><div class="line"><span class="keyword">export</span> XMODIFIERS=@im=fcitx</div></pre></td></tr></table></figure></p>
-<p>前提是你用的是<code>fcitx</code>架构的输入法.</p>
-<h3 id="序列化ID警告"><a href="#序列化ID警告" class="headerlink" title="序列化ID警告"></a>序列化ID警告</h3><p>I am not sure if you have an old version of IntelliJ but If I go File =&gt; Settings… =&gt; Inspections =&gt; Serialization issues =&gt;  Serializable class without ‘serialVersionUID’ enabled, the class you provide give me warnings</p>
-<h3 id="文件头模板d定制"><a href="#文件头模板d定制" class="headerlink" title="文件头模板d定制"></a>文件头模板d定制</h3><p>文件上右击–New–Edit File Templates–Includes–File Header</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/IDEA/">IDEA</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/9/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/">Next<span></span></a>
@@ -830,6 +1168,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -854,7 +1196,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -875,7 +1217,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -895,11 +1237,11 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -907,11 +1249,11 @@
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -927,11 +1269,15 @@
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -939,19 +1285,15 @@
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>

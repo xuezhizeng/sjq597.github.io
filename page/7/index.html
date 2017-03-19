@@ -81,6 +81,177 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/01/03/Django-笔记02/" title="Django 笔记02" itemprop="url">Django 笔记02</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-01-03T03:29:44.000Z" itemprop="datePublished"> 发表于 2016-01-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>上一篇文章简单的搭建了一个<code>Django</code>的应用,互联网的应用，最后的数据都必须存储在数据库里，所以一个Web应用不可能不用到数据库，今天简单介绍一下<code>Django</code>中如何使用和配置数据库。</p>
+<h3 id="数据库设置"><a href="#数据库设置" class="headerlink" title="数据库设置"></a>数据库设置</h3><p>打开配置文件<code>mysite/settings.py</code>,默认这个配置文件是使用的<code>SQLite</code>数据库，如果只是简单的学些这个框架，做一些简单的应用，这个数据库很方便，是Python内置的，你不用再安装任何其他的驱动，包之类的。当然，如果你想使用更牛逼的数据库，例如<code>MySQL</code>，<code>PostgreSQL</code>，看配置文件的下面的内容：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Database</span></div><div class="line"><span class="comment"># https://docs.djangoproject.com/en/dev/ref/settings/#databases</span></div><div class="line"></div><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.sqlite3'</span>,</div><div class="line">        <span class="string">'NAME'</span>: os.path.join(BASE_DIR, <span class="string">'db.sqlite3'</span>),</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>ENGINE</strong>:<br><figure class="highlight sml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">'django</span>.db.backends.sqlite3',</div><div class="line"><span class="symbol">'django</span>.db.backends.postgresql',</div><div class="line"><span class="symbol">'django</span>.db.backends.mysql',</div><div class="line"><span class="symbol">'django</span>.db.backends.oracle',</div></pre></td></tr></table></figure></p>
+<p><strong>NAME</strong>:你所创建的数据库文件的地址，记得是绝对路径，默认的是<code>os.path.join(BASE_DIR,&#39;db.sqlite3&#39;)</code>。<br>如果使用的是其他的数据库，还需要数据库的用户名和密码，记得一定要安装对应的驱动，例如，使用<code>MySQL</code>要安装类似于<code>python-mysqldb</code>这样的驱动，配置文件如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>, </div><div class="line">        <span class="string">'NAME'</span>: <span class="string">'test'</span>,    	<span class="comment">#你的数据库名称</span></div><div class="line">        <span class="string">'USER'</span>: <span class="string">'root'</span>,   	<span class="comment">#你的数据库用户名</span></div><div class="line">        <span class="string">'PASSWORD'</span>: <span class="string">''</span>, 	<span class="comment">#你的数据库密码</span></div><div class="line">        <span class="string">'HOST'</span>: <span class="string">''</span>, 		<span class="comment">#你的数据库主机，留空默认为localhost</span></div><div class="line">        <span class="string">'PORT'</span>: <span class="string">'3306'</span>, 	<span class="comment">#你的数据库端口</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于只是练手，简单的就是用默认配置了，在使用数据库之前，需要创建表，在终端里执行以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py migrate</div></pre></td></tr></table></figure></p>
+<p>这个命令其实是会根据<code>mysite/settings.py</code>里安装的模块创建对应的表，如果某些模块需要使用数据库，它就会创建对应的表，这么看实在是强大又方便。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Application definition</span></div><div class="line"></div><div class="line">INSTALLED_APPS = [</div><div class="line">    <span class="string">'django.contrib.admin'</span>,</div><div class="line">    <span class="string">'django.contrib.auth'</span>,</div><div class="line">    <span class="string">'django.contrib.contenttypes'</span>,</div><div class="line">    <span class="string">'django.contrib.sessions'</span>,</div><div class="line">    <span class="string">'django.contrib.messages'</span>,</div><div class="line">    <span class="string">'django.contrib.staticfiles'</span>,</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>看看执行命令的输出确实是这样的,有四个模块使用了数据库：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Operations <span class="keyword">to</span> perform:</div><div class="line">  Apply <span class="literal">all</span> migrations: admin, contenttypes, auth, sessions</div><div class="line">Running migrations:</div><div class="line">  Rendering model states<span class="params">...</span> DONE</div><div class="line">  Applying contenttypes<span class="number">.0001</span>_initial<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0001</span>_initial<span class="params">...</span> OK</div><div class="line">  Applying admin<span class="number">.0001</span>_initial<span class="params">...</span> OK</div><div class="line">  Applying admin<span class="number">.0002</span>_logentry_remove_auto_add<span class="params">...</span> OK</div><div class="line">  Applying contenttypes<span class="number">.0002</span>_remove_content_type_name<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0002</span>_alter_permission_name_max_length<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0003</span>_alter_user_email_max_length<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0004</span>_alter_user_username_opts<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0005</span>_alter_user_last_login_null<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0006</span>_require_contenttypes_0002<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0007</span>_alter_validators_add_error_messages<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0008</span>_alter_user_username_max_length<span class="params">...</span> OK</div><div class="line">  Applying sessions<span class="number">.0001</span>_initial<span class="params">...</span> OK</div></pre></td></tr></table></figure></p>
+<h3 id="实体类设计"><a href="#实体类设计" class="headerlink" title="实体类设计"></a>实体类设计</h3><p>在我们之前创建的一个应用里，我们来创建两个实体类：<code>Question</code>和<code>Choice</code>,每个<code>Choice</code>都关联着一个<code>Question</code>。编辑<code>polls/models.py</code>文件：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> unicode_literals</div><div class="line"></div><div class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Create your models here.</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Question</span><span class="params">(models.Model)</span>:</span></div><div class="line">    question_text = models.CharField(max_length=<span class="number">200</span>)</div><div class="line">    pub_date = models.DateTimeField(<span class="string">'date published'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Choice</span><span class="params">(models.Model)</span>:</span></div><div class="line">    quetion = models.ForeignKey(Question, on_delete=models.CASCADE)</div><div class="line">    choice_text = models.CharField(max_length=<span class="number">200</span>)</div><div class="line">    votes = models.IntegerField(default=<span class="number">0</span>)</div></pre></td></tr></table></figure></p>
+<p><strong>NOTE:</strong>每个实体类有两个字段属性，注意<code>Choice</code>里的<code>question</code>不是字段，只是定义一个外键。</p>
+<h3 id="激活模块"><a href="#激活模块" class="headerlink" title="激活模块"></a>激活模块</h3><p>现在我们已经创建了模块，剩下的我们要告诉我们的工程，<code>polls</code>这个应用要被安装，就是上面我们提到的配置文件，修改<code>mysite/settings.py</code>，改为以下内容：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">INSTALLED_APPS = [</div><div class="line">    <span class="string">'polls.apps.PollsConfig'</span>,</div><div class="line">    <span class="string">'django.contrib.admin'</span>,</div><div class="line">    <span class="string">'django.contrib.auth'</span>,</div><div class="line">    <span class="string">'django.contrib.contenttypes'</span>,</div><div class="line">    <span class="string">'django.contrib.sessions'</span>,</div><div class="line">    <span class="string">'django.contrib.messages'</span>,</div><div class="line">    <span class="string">'django.contrib.staticfiles'</span>,</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>然后在终端里运行下面的命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py makemigrations polls</div></pre></td></tr></table></figure></p>
+<p>将会看到如下输出：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Migrations for 'polls':</div><div class="line">  polls/migrations/0001_initial.py:</div><div class="line">    - <span class="keyword">Create</span> <span class="keyword">model</span> Choice</div><div class="line">    - <span class="keyword">Create</span> <span class="keyword">model</span> Question</div><div class="line">    - <span class="keyword">Add</span> <span class="keyword">field</span> quetion <span class="keyword">to</span> choice</div></pre></td></tr></table></figure></p>
+<p>运行上面的命令的意思就是说，你已经修改了你的实体类，然后想把这些改动存储到数据库里。关于这个命令目前不需要知道太详细，知道这样用就可以了，但这样还不够，还需要运行下面的命令来把这些操作生效：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py migrate</div></pre></td></tr></table></figure></p>
+<p>看到如下输出就说明成功了：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Operations <span class="keyword">to</span> perform:</div><div class="line">  Apply <span class="literal">all</span> migrations: admin, contenttypes, polls, auth, sessions</div><div class="line">Running migrations:</div><div class="line">  Rendering model states<span class="params">...</span> DONE</div><div class="line">  Applying polls<span class="number">.0001</span>_initial<span class="params">...</span> OK</div></pre></td></tr></table></figure></p>
+<p>上面的命令是把改变写到数据库中，使之生效，如果不运行这个，会报错，找不到表。</p>
+<h3 id="使用API交互调试"><a href="#使用API交互调试" class="headerlink" title="使用API交互调试"></a>使用API交互调试</h3><p>上回忘了说，<code>manage.py</code>有很多命令，其中有一个是交互式调试工具<code>manage.py shell</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> django</div><div class="line"></div><div class="line">In [<span class="number">2</span>]: django.setup()</div><div class="line"></div><div class="line">In [<span class="number">3</span>]: <span class="keyword">from</span> polls.models <span class="keyword">import</span> Question,Choice</div><div class="line"></div><div class="line">In [<span class="number">4</span>]: Question.objects.all()</div><div class="line">Out[<span class="number">4</span>]: &lt;QuerySet []&gt;</div><div class="line"></div><div class="line"><span class="comment"># 下面我们来插入一条记录，稍微多说一句，使用`timezone.now()`来替代</span></div><div class="line"><span class="comment"># datetime.datetime.now()</span></div><div class="line">In [<span class="number">5</span>]: <span class="keyword">from</span> django.utils <span class="keyword">import</span> timezone</div><div class="line"></div><div class="line">In [<span class="number">6</span>]: q = Question(question_text=<span class="string">"What's new?"</span>, pub_date=timezone.now())</div><div class="line"><span class="comment"># 把这条记录存到数据库里</span></div><div class="line">In [<span class="number">7</span>]: q.save()</div><div class="line"></div><div class="line"><span class="comment"># 存到数据库之后这条记录就有id了</span></div><div class="line">In [<span class="number">8</span>]: q.id</div><div class="line">Out[<span class="number">8</span>]: <span class="number">1</span></div><div class="line"></div><div class="line">In [<span class="number">9</span>]: q.question_text</div><div class="line">Out[<span class="number">9</span>]: <span class="string">"What's new?"</span></div><div class="line"></div><div class="line">In [<span class="number">10</span>]: q.pub_date</div><div class="line">Out[<span class="number">10</span>]: datetime.datetime(<span class="number">2016</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">54</span>, <span class="number">39966</span>, tzinfo=&lt;UTC&gt;)</div><div class="line"></div><div class="line">In [<span class="number">11</span>]: Question.objects.all()</div><div class="line">Out[<span class="number">11</span>]: &lt;QuerySet [&lt;Question: Question object&gt;]&gt;</div></pre></td></tr></table></figure></p>
+<p>看最后一行，是不是觉得根本看不出什么东西？类比于<code>Java</code>里，我们知道，有些类都会自带一个<code>toString()</code>方法，可以把一个类作为一个字符串输出来，这里我们也来定义一下类的<code>toString</code>方法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Question</span><span class="params">(models.Model)</span>:</span></div><div class="line">    question_text = models.CharField(max_length=<span class="number">200</span>)</div><div class="line">    pub_date = models.DateTimeField(<span class="string">'date published'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.question_text</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Choice</span><span class="params">(models.Model)</span>:</span></div><div class="line">    quetion = models.ForeignKey(Question, on_delete=models.CASCADE)</div><div class="line">    choice_text = models.CharField(max_length=<span class="number">200</span>)</div><div class="line">    votes = models.IntegerField(default=<span class="number">0</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.choice_text</div></pre></td></tr></table></figure></p>
+<p>然后你需要退出交互式Python环境，重新进一边，就可以看到变化了：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">4</span>]: Question.objects.all()</div><div class="line">Out[<span class="number">4</span>]: &lt;QuerySet [&lt;Question: What<span class="string">'s new?&gt;]&gt;</span></div></pre></td></tr></table></figure></p>
+<p>再给<code>Question</code>加一个比较常用的方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Question</span><span class="params">(models.Model)</span>:</span></div><div class="line">    question_text = models.CharField(max_length=<span class="number">200</span>)</div><div class="line">    pub_date = models.DateTimeField(<span class="string">'date published'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.question_text</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">was_published_recently</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.pub_date &gt;= timezone.now() - datetime.timedelta(days=<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="使用admin模块"><a href="#使用admin模块" class="headerlink" title="使用admin模块"></a>使用admin模块</h3><p>这个模块主要是管理员模块，管理网站的各种权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py createsuperuser</div></pre></td></tr></table></figure></p>
+<p>后面照着填就行了。开启服务器：<code>python manage.py runserver</code>,访问<code>http://127.0.0.1:8000/admin/</code>。<br>登陆进去之后界面大概是这样的：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Django%20%E7%AC%94%E8%AE%B00201.png" alt="Django 后台管理模块"></p>
+<h3 id="导入模块到后台管理"><a href="#导入模块到后台管理" class="headerlink" title="导入模块到后台管理"></a>导入模块到后台管理</h3><p>编辑<code>polls/admin.py</code>文件，内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</div><div class="line"></div><div class="line"><span class="comment"># Register your models here.</span></div><div class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Question</div><div class="line"></div><div class="line">admin.site.register(Question)</div></pre></td></tr></table></figure></p>
+<p>把模块注册到后台管理模块中之后，就可以在管理模块中操作我们的数据了，再次刷新就可以看到我们的模块了：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Django%20%E7%AC%94%E8%AE%B00202.png" alt="polls模块"><br>还可以添加管理数据：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Django%20%E7%AC%94%E8%AE%B00203.png" alt="后台管理数据库数据"><br>这些数据会根据自己的类型选择自己的展示方式，日期的会有一个日历展示框。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Django/">Django</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/Web/">Web</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/31/Django-笔记01/" title="Django 笔记01" itemprop="url">Django 笔记01</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-31T14:58:52.000Z" itemprop="datePublished"> 发表于 2015-12-31</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>记录一下关于学习<code>Django</code>的一些细节，主要还是网上的一些教程实在是太坑了，可能是早期的版本，所以各种报错，所以最后都是参考了官方的原版教程，以及结合着其他博客慢慢折腾出来的，这里我会尽量把作为一个新手的常用问题记录下来。</p>
+<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><blockquote>
+<p>OS:Ubuntu 14.04 64bits<br>Python: 2.7.6<br>Django:1.10.dev20151230230702</p>
+</blockquote>
+<h3 id="安装Django"><a href="#安装Django" class="headerlink" title="安装Django"></a>安装Django</h3><p>方法很多，只讲我的方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /usr/dev</div><div class="line">git <span class="built_in">clone</span> git://github.com/django/django.git</div><div class="line">sudo pip install <span class="_">-e</span> django/</div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>如果没有装<code>pip</code>，可以直接在终端里装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install python-pip</div></pre></td></tr></table></figure></p>
+<p>最终目录结构看起来就是下面这样：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysite/</div><div class="line">    manage<span class="selector-class">.py</span></div><div class="line">    mysite/</div><div class="line">        __init__<span class="selector-class">.py</span></div><div class="line">        settings<span class="selector-class">.py</span></div><div class="line">        urls<span class="selector-class">.py</span></div><div class="line">        wsgi.py</div></pre></td></tr></table></figure></p>
+<p>关于这些文件的用途，大概介绍一下，开始不必过多纠结这个，后面用到了会详细讲：</p>
+<ol>
+<li>外层的<code>mysite/</code>是工程的根目录，这个名字对于<code>Django</code>来说无所谓，你可以随便改个名字。</li>
+<li><code>manage.py</code>:管家，启动服务器，数据库之类的都需要通过这个来完成。</li>
+<li><code>mysite/__init__.py</code>：这个空的文件只是为了标示这个文件夹是个<code>Python</code>包。</li>
+<li><code>mysite/settings.py</code>:整个工程的配置文件。</li>
+<li><code>mysite/urls.py</code>:整个<code>Django</code>工程<code>url</code>映射。</li>
+<li><code>mysite/wsgi.py</code>:一个供调试用的小型web服务器，类似Apache，tomcat。</li>
+</ol>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>在外层的<code>mysite</code>目录下，在终端中执行下面的命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py runserver</div></pre></td></tr></table></figure></p>
+<p>此时就可以在控制台看到成功启动服务器的信息，浏览器访问<a href="http://127.0.0.1:8000/" target="_blank" rel="external">http://127.0.0.1:8000/</a>，能访问看到对应的欢迎信息则说明成功了。<br>再多说一点，如果不指定端口和IP，则默认的就是<code>127.0.0.1</code>和<code>8000</code>.着意味着你只能是在本地访问这个网址，如果要局域网里其他的机器可以访问你的这个网址，你需要像下面这样启动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py runserver 0.0.0.0:8000</div></pre></td></tr></table></figure></p>
+<p>这样服务器会监听所有的公共IP地址，你可以通过局域网其他IP地址访问这台机器的ip地址加端口号来访问对应的网址。</p>
+<h3 id="创建一个应用"><a href="#创建一个应用" class="headerlink" title="创建一个应用"></a>创建一个应用</h3><p>首先看看应用和工程有什么区别？我们可以这样理解，一个应用就是完成了一些功能的一个Web程序，一个工程就是由很多应用，或者说模块组成的，各个应用完成自己的功能，组成了功能强大的工程，下面我们来创建一个应用，还是到最外层的<code>mysite</code>下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py startapp polls</div></pre></td></tr></table></figure></p>
+<p>刚刚创建的<code>polls</code>文件夹的目录就像下面这样：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">polls|master⚡ ⇒ tree</div><div class="line">.</div><div class="line">├── admin.<span class="keyword">py</span></div><div class="line">├── apps.<span class="keyword">py</span></div><div class="line">├── __init__.<span class="keyword">py</span></div><div class="line">├── migrations</div><div class="line">│   └── __init__.<span class="keyword">py</span></div><div class="line">├── models.<span class="keyword">py</span></div><div class="line">├── tests.<span class="keyword">py</span></div><div class="line">├── urls.<span class="keyword">py</span></div><div class="line">├── views.<span class="keyword">py</span></div></pre></td></tr></table></figure></p>
+<p>来写我们的第一个视图，编辑<code>polls/views.py</code>文件，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Create your views here.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></div><div class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">"Hello, world. You're at the polls index."</span>)</div></pre></td></tr></table></figure></p>
+<p>这个是一个最简单的视图了，为了访问到这个视图，我们需要创建一个<code>URL</code>映射，编辑<code>polls/urls.py</code>文件，最终文件看上去像下面这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(<span class="string">r'^$'</span>, views.index, name=<span class="string">'index'</span>),</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>光这样还不行，这个只是把访问这个应用时，内部如何处理映射了，但是最外层如何访问到这个内层应用，还需要在<code>mysite</code>中配置一个<code>URL</code>映射,修改<code>mysite/urls.py</code>文件：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> include, url</div><div class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(<span class="string">r'^polls/'</span>, include(<span class="string">'polls.urls'</span>)),</div><div class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>记得要导入<code>include</code>模块。<br><strong>注意:</strong>什么时候需要使用<code>include</code>模块？当你的URL匹配中包含另外的URL匹配映射时，你需要用<code>include()</code>,对于我们的例子，当在处理<code>127.0.0.1:8000/polls/</code>这个链接时，需要用到<code>polls/urls.py</code>里面的映射，所以我们要用<code>include()</code>将其他的匹配规则包含进来。<br>一切都完成了之后，我们来启动工程：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py runserver</div></pre></td></tr></table></figure></p>
+<p>同样，浏览器访问<a href="http://127.0.0.1:8000/polls/" target="_blank" rel="external">http://127.0.0.1:8000/polls/</a>,如果看到输出了：</p>
+<blockquote>
+<p>Hello, world. You’re at the polls index.</p>
+</blockquote>
+<p>则说明我们的第一个应用完成了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Django/">Django</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/Web/">Web</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/12/29/Ubuntu-14-04-64位-安装WPS/" title="Ubuntu 14.04 64位 安装WPS" itemprop="url">Ubuntu 14.04 64位 安装WPS</a>
   </h1>
   <p class="article-author">By
@@ -763,156 +934,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/26/Linux-作业管理/" title="Linux 作业管理" itemprop="url">Linux 作业管理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-26T07:38:15.000Z" itemprop="datePublished"> 发表于 2015-11-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>经常在服务器上登陆,操作,有些命令一旦执行,就一直在屏幕上输出内容,如果想切换到终端去干其他的事,新手通常是直接<code>Ctrl+c</code>强制删除任务,然后再回来重新执行.其实完全没这个必要,我们可以把任务切换到后台挂起,然后去干我们自己的事情,干完了之后再切回来,继续执行之前没执行完的任务就行了,听上去是不是像操作系统的进程和线程调度,下面是一些常用的Shell作业管理命令.</p>
-<h3 id="作业管理"><a href="#作业管理" class="headerlink" title="作业管理"></a>作业管理</h3><ol>
-<li>将<strong>当前</strong>作业放到后台<strong>暂停</strong>:<code>Ctrl+z</code></li>
-<li><p>观察当前前后台作业状态:<code>jobs</code></p>
-<blockquote>
-<p>-l    除了列出作业号之外同时列出PID<br>-r    列出仅在后台运行(run)的作业<br>-s    仅列出暂停的作业</p>
-</blockquote>
-</li>
-<li><p>将后台作业拿到前台处理:<code>fg</code></p>
-<blockquote>
-<p>fg %jobnumber (%可有可无)</p>
-</blockquote>
-</li>
-<li><p>让作业在后台运行:<code>bg</code></p>
-<blockquote>
-<p>Ctrl+z让当前作业到后台去暂停,bg作业号就可以在后台run</p>
-</blockquote>
-</li>
-<li><p>管理后台作业:<code>kill</code><br>前面讲的都是把作业放到后台,或者切换到前台,要么挂起,要么执行.如果要删除作业或者重启作业,需要给作业发送特定信号<br><code>kill -signal %jobnumber</code></p>
-<blockquote>
-<p>-l    列出当前kill能够使用的信号<br>signal    表示给后台作业什么指示,用man 7 signal可知<br>-1    重新读取一次参数的设置文件,类似 reload<br>-2    表示与由键盘输入Ctrl+c同样的作用<br>-9    立刻强制删除一个作业<br>-15    以正常方式终止一项作业,与-9不一样</p>
-</blockquote>
-</li>
-</ol>
-<h3 id="应用场合"><a href="#应用场合" class="headerlink" title="应用场合"></a>应用场合</h3><p>有些程序没办法通过应用图标运行,只能调用脚本运行,并且一堆输出日志,当你在服务器上使用<code>Vim</code>编辑一个文件时,想去运行一个脚本,可以先保存<code>Vim</code>内容,然后把<code>Vim</code>切换到后台挂起,去执行脚本之后再且回来继续编辑<code>Vim</code>.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/25/Linux-chown命令/" title="Linux chown命令" itemprop="url">Linux chown命令</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-25T07:48:47.000Z" itemprop="datePublished"> 发表于 2015-11-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><code>chown</code>将指定文件的拥有者改为指定的用户或组，用户可以是用户名或者用户ID；组可以是组名或者组ID；文件是以空格分开的要改变权限的文件列表，支持通配符。系统管理员经常使用chown命令，在将文件拷贝到另一个用户的名录下之后，让用户拥有使用该文件的权限。 </p>
-<p><strong>使用语法</strong></p>
-<blockquote>
-<p>chown [选项]… [所有者][:[组]] 文件…</p>
-</blockquote>
-<p>必要参数:<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">c	显示更改的部分的信息</span></div><div class="line">-<span class="ruby">f	忽略错误信息</span></div><div class="line">-<span class="ruby">h	修复符号链接</span></div><div class="line">-<span class="ruby">R	处理指定目录以及其子目录下的所有文件</span></div><div class="line">-<span class="ruby">v	显示详细的处理信息</span></div><div class="line">-<span class="ruby">deference	作用于符号链接的指向，而不是链接文件本身</span></div></pre></td></tr></table></figure></p>
-<p>常用的操作就是修改某个文件夹及其子文件夹下所有文件,使其权限为某一个组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo chown -R <span class="built_in">test</span>:root temp/</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
@@ -954,6 +975,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -978,7 +1003,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -999,7 +1024,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -1019,11 +1044,11 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -1031,11 +1056,11 @@
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -1051,11 +1076,15 @@
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -1063,19 +1092,15 @@
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>

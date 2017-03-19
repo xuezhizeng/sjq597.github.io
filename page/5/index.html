@@ -81,6 +81,174 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/24/SSH-免密码登陆/" title="SSH 免密码登陆" itemprop="url">SSH 免密码登陆</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-24T03:07:12.000Z" itemprop="datePublished"> 发表于 2016-04-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>开发工作中，经常需要使用ssh来登录服务器，密码一般都是机器生成的，特别难记，关键是机器多了这样也麻烦，所以配置一下ssh面密码登录，节省时间。</p>
+<h3 id="系统说明"><a href="#系统说明" class="headerlink" title="系统说明"></a>系统说明</h3><p>本地机器：Ubuntu<br>服务器：CentOS</p>
+<h3 id="大概流程"><a href="#大概流程" class="headerlink" title="大概流程"></a>大概流程</h3><p>需要服务器和本机都做一定的配置才能免密码登陆</p>
+<h4 id="本地机器配置"><a href="#本地机器配置" class="headerlink" title="本地机器配置"></a>本地机器配置</h4><ol>
+<li>通过<code>ssh-keygen</code>产生RSA公私密钥对</li>
+</ol>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen`</div></pre></td></tr></table></figure>
+<p>然后一路回车，不要输入任何密码和字符，最后在<code>~/.ssh/</code>文件夹中会生成两个文件<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，然后需要修改问年间权限<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>chmod <span class="number">775</span> ~<span class="regexp">/.ssh</span></div></pre></td></tr></table></figure></p>
+<p>将<code>id_rsa.pub</code>上传到服务器的<code>~/.ssh/</code>文件夹下，其实也不用上传，直接把这个文件的内容复制然后在服务器的对应文件夹下创建文件，然后写入也是一样的。</p>
+<ol>
+<li>在<code>~/.ssh/</code>文件夹里创建配置文件<code>config</code><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Host my_server <span class="comment">// 服务器别名</span></div><div class="line">    HostName <span class="number">192.168</span><span class="number">.1</span><span class="number">.120</span>  <span class="comment">// 服务器ip</span></div><div class="line">    User root   <span class="comment">//登录用户名</span></div><div class="line">    Port <span class="number">22</span>     <span class="comment">// ssh端口</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="服务器机器配置"><a href="#服务器机器配置" class="headerlink" title="服务器机器配置"></a>服务器机器配置</h4><ol>
+<li>修改<code>/etc/ssh/sshd_config</code>文件,将下面几行前面的注释去掉<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">RSAAuthentication</span> <span class="literal">yes</span></div><div class="line">PubkeyAuthentication <span class="literal">yes</span></div><div class="line">AuthorizedKeysFile      %h/.ssh/authorized_keys</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果已经注释掉了就不用配置则这里了，</p>
+<ol>
+<li>在用户目录下创建<code>.ssh</code>文件夹，如果有就不用创建了，具体路径为<code>~/.ssh/</code><br>然后在<code>~/.ssh/</code>文件夹下面创建<code>authorized_keys</code>文件,并将之前上传到服务器上的<code>id_rsa.pub</code>文件里的内容拷贝到<code>authorized_keys</code>中,保存之后重启ssh服务</li>
+</ol>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>cd ~<span class="regexp">/.ssh/</span></div><div class="line"><span class="variable">$ </span>sudo cat id_rsa.pub &gt; authorized_keys</div><div class="line"><span class="variable">$ </span>sudo chmod <span class="number">644</span> authorized_keys</div><div class="line"><span class="variable">$ </span>sudo service sshd restart</div></pre></td></tr></table></figure>
+<h4 id="本机测试"><a href="#本机测试" class="headerlink" title="本机测试"></a>本机测试</h4><p>通过终端连接服务器<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>ssh my_server</div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>如果这一步出现<code>bad owers</code>等错误，记得要修改本机的文件权限<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">$</span> chmod <span class="number">700</span> ~/.ssh</div><div class="line"><span class="symbol">$</span> chmod go+rwx ~/.ssh<span class="comment">/*</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/23/脚本语言时间处理函数总结/" title="脚本语言时间处理函数总结" itemprop="url">脚本语言时间处理函数总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-23T05:55:58.000Z" itemprop="datePublished"> 发表于 2016-04-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>平时做数据分析统计跑程序脚本需呀经常用到各种时间的转化和传入，日期的格式化，日期的相减，字符串时间互转。每次都是现查，比较浪费时间，这里把平时常用到的总结一下，因为涉及到好几个脚本语言的时间函数，我也记不住，干脆整理出一个查表更方便。主要涉及到Shell,Python,MySQL,Hive这几个脚本</p>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>Shell感觉是最生涩的，最恶心的就是空格不能多也不能少，也没个IDE命令提示啥的，用的也最少，所以老容易忘</p>
+<ul>
+<li>常用的几种用法</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">date</span>	以默认格式显示当前日期(Fri Nov <span class="number">18</span> <span class="number">10</span>:<span class="number">38</span>:<span class="number">07</span> CST <span class="number">2011</span>)</div><div class="line">$ <span class="keyword">date</span> +%Y%m%d             以yyyymmdd格式输出(<span class="number">20160423</span>)</div><div class="line">$ <span class="keyword">date</span> +<span class="string">"%Y%m%d %A"</span>		以<span class="string">"yyyymmdd 星期"</span>格式输出(<span class="number">20160423</span> Friday)  </div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1 day"</span> +%Y%m%d	显示一天后的日期(<span class="number">20160424</span>)</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"3 day ago"</span> +%Y-%m-%d	以指定格式显示<span class="number">3</span>天前的日期(<span class="number">2016</span><span class="number">-04</span><span class="number">-26</span>)</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1 month"</span> +%Y-%m-%d	以指定格式显示一个月后的日期</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1 month"</span> +%s	以指定格式显示一个月后的日期的秒数，%S为当前的秒数(<span class="number">0</span>～<span class="number">59</span>)</div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"1970-01-01 CST 1 second"</span> +%s	显示从<span class="number">1970</span><span class="number">-01</span><span class="number">-01</span> CST起<span class="number">1</span>秒后的秒数</div></pre></td></tr></table></figure>
+<ul>
+<li>用<code>-d</code>这个参数可以产生各种时间组合</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">date</span> -d <span class="string">"-2 day 20160423"</span> +%Y%m%d</div><div class="line"><span class="number">20160421</span></div><div class="line">$ <span class="keyword">date</span> -d <span class="string">"+7 day 20160423"</span> +%Y%m%d</div><div class="line"><span class="number">20160430</span></div></pre></td></tr></table></figure>
+<ul>
+<li>日期循环</li>
+</ul>
+<p>这个场景还是很常用的，一般脚本都是默认跑当天或者前一天的数据，如果要一次重跑每一天的数据，可能就需要用到Shell日期循环：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">begin_date=<span class="string">'20160401'</span></div><div class="line">end_date=<span class="string">'20160423'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> [ <span class="string">"<span class="variable">$begin_date</span>"</span> != <span class="string">"<span class="variable">$end_date</span>"</span> ]</div><div class="line"><span class="keyword">do</span></div><div class="line">	<span class="built_in">echo</span> <span class="variable">$begin_date</span></div><div class="line">	begin_date=`date <span class="_">-d</span> <span class="string">"1 day <span class="variable">$begin_date</span>"</span> +%Y%m%d`</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>一定要用<code>&quot;&quot;</code>把条件扩起来，<code>!=</code>史比较字符串的。</p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>Python里用的比较多的就是两个包<code>datetime</code>,<code>time</code></p>
+<ul>
+<li>datetime</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">datetime.datetime.now().strftime(<span class="string">'%Y-%m-%d'</span>)	<span class="comment"># 2016-04-23</span></div><div class="line">str(datetime.datetime.now())[:<span class="number">10</span>]	<span class="comment"># 2016-04-23</span></div><div class="line">(datetime.datetime.now() + datetime.timedelta(days=<span class="number">-1</span>)).strftime(<span class="string">'%Y-%m-%d'</span>)	<span class="comment"># 2016-04-22</span></div><div class="line">datetime.datetime.strptime(<span class="string">'2016-04-23'</span>, <span class="string">'%Y-%m-%d'</span>)	<span class="comment"># 将字符串格式为datetime对象</span></div><div class="line">(d1 - d2 ).days	<span class="comment"># d1,d2 为datetime对象，计算连个日期之间相差多少天</span></div><div class="line">(d1 - d2 ).seconds	<span class="comment"># d1,d2 为datetime对象，计算连个日期之间相差多少秒</span></div><div class="line">datetime.weekday()	<span class="comment"># 返回weekday，如果是星期一，返回0；如果是星期2，返回1，以此类推；</span></div><div class="line">datatime.isoweekday()	<span class="comment"># 返回weekday，如果是星期一，返回1；如果是星期2，返回2，以此类推；</span></div><div class="line">datetime.fromtimestamp(timestamp)	<span class="comment"># 根据给定的时间戮，返回一个datetime对象；</span></div></pre></td></tr></table></figure>
+<ul>
+<li>time<figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">time.strftime('<span class="built_in">%Y</span>-<span class="built_in">%m</span>-<span class="built_in">%d</span> <span class="built_in">%H</span>:<span class="built_in">%M</span>:<span class="built_in">%S</span>') # 格式化输出当前时间</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>主要是一些时间转换函数<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="section">mysql&gt; select unix_timestamp('2016-01-01 10:10:10');</span></div><div class="line">+---------------------------------------+</div><div class="line"><span class="section">| unix_timestamp('2016-01-01 10:10:10') |</span></div><div class="line">+---------------------------------------+</div><div class="line"><span class="section">|                            1451614210 |</span></div><div class="line">+---------------------------------------+</div><div class="line">1 row in set (0.01 sec)</div><div class="line"></div><div class="line"><span class="section">mysql&gt; select from_unixtime(unix_timestamp());</span></div><div class="line">+---------------------------------+</div><div class="line"><span class="section">| from_unixtime(unix_timestamp()) |</span></div><div class="line">+---------------------------------+</div><div class="line"><span class="section">| 2016-06-18 13:07:53             |</span></div><div class="line">+---------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h3 id="Hive"><a href="#Hive" class="headerlink" title="Hive"></a>Hive</h3><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">to_date('2016<span class="string">-04</span><span class="string">-23</span>')	# 2016<span class="string">-04</span><span class="string">-23</span></div><div class="line">to_date('2016<span class="string">-04</span><span class="string">-23</span> 12:21:10')	# 2016<span class="string">-04</span><span class="string">-23</span></div><div class="line">datediff(end_time, start_time)	# 返回日期相隔天数</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/Hive/">Hive</a><a href="/tags/Shell/">Shell</a><a href="/tags/MySQL/">MySQL</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/23/Ubuntu-your-firefox-profile-cannot-be-loaded/" title="Ubuntu your firefox profile cannot be loaded" itemprop="url">Ubuntu your firefox profile cannot be loaded</a>
   </h1>
   <p class="article-author">By
@@ -659,140 +827,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/Ubuntu-create-ap-rfkill-lock/" title="Ubuntu create_ap rfkill lock" itemprop="url">Ubuntu create_ap rfkill lock</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T08:14:59.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在<a href="../../../2015/10/07">Ubuntu 14.04设置wifi热点</a>这篇文章中我们使用create_ap来在Ubuntu上建立wifi,主要是看中了它可以建立隐藏wifi的功能，但是在使用的时候老是出问题，例如</p>
-<blockquote>
-<p>WARN: Your adapter does not fully support AP virtual interface, enabling –no-virt<br>Config dir: /tmp/create_ap.wlan0.conf.A912iinp<br>PID: 20324<br>command failed: Operation not supported (-95)<br>Access Point’s SSID is hidden!<br>RTNETLINK answers: Operation not possible due to RF-kill</p>
-</blockquote>
-<p>解决办法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ sudo rfkill list all</div><div class="line">0: hci0: Bluetooth</div><div class="line">        Soft blocked: no</div><div class="line">        Hard blocked: no</div><div class="line">1: dell-wifi: Wireless LAN</div><div class="line">        Soft blocked: yes</div><div class="line">        Hard blocked: no</div><div class="line">2: dell-bluetooth: Bluetooth</div><div class="line">        Soft blocked: no</div><div class="line">        Hard blocked: no</div><div class="line">3: phy0: Wireless LAN</div><div class="line">        Soft blocked: yes</div><div class="line">        Hard blocked: no</div></pre></td></tr></table></figure></p>
-<p>注意看1和3的<code>Soft blocked</code>那里都是yes,在终端里输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo rfkill unblock wifi</div><div class="line">$ sudo rfkill unblock all</div></pre></td></tr></table></figure></p>
-<p>然后再看看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ sudo rfkill list</div><div class="line">0: hci0: Bluetooth</div><div class="line">        Soft blocked: no</div><div class="line">        Hard blocked: no</div><div class="line">1: dell-wifi: Wireless LAN</div><div class="line">        Soft blocked: no</div><div class="line">        Hard blocked: no</div><div class="line">2: dell-bluetooth: Bluetooth</div><div class="line">        Soft blocked: no</div><div class="line">        Hard blocked: no</div><div class="line">3: phy0: Wireless LAN</div><div class="line">        Soft blocked: no</div><div class="line">        Hard blocked: no</div></pre></td></tr></table></figure></p>
-<p>yes那里变成no了，然后就可以再次使用create_ap来建立wifi了。引用子stackoverflow上网友的原话：</p>
-<blockquote>
-<p>Soft-blocking<br>The output to sudo rfkill list shows that your network card is “soft-blocked”.<br>This could happen when the wireless card has been signalled to switch-off via the kernel.<br>Try the following steps:<br>run in a terminal:<br>sudo rfkill unblock wifi; sudo rfkill unblock all<br>rerun sudo rfkill list to confirm that the card has been unblocked.<br>reboot<br>rerun sudo rfkill list again to confirm unblocking as been retained.<br>rerun sudo lshw -class network - you should now see that the kernel has recognised (or not) the wireless card.<br>If the wireless kernel module has been recognised (it should not say “unclaimed”), Network Manager should now be able to see wireless networks that are available in your vacinity.</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/pyCharm-trying-to-add-breakpoint-to-file-that-does-not-exist/" title="pyCharm trying to add breakpoint to file that does not exist" itemprop="url">pyCharm trying to add breakpoint to file that does not exist</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T07:52:55.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>pyCharm在调试程序的时候出现了这个问题,解决办法就是在<code>Run--&gt; View Breakpoints</code>里面(或者直接按Ctrl+Shift+F8)<br>这里可以看到所有的断点，哪怕是其他工程项目里面的，这就会导致几个问题，当你删掉了某些文件的时候，断点记录还在，所以在运行的时候会报错：</p>
-<blockquote>
-<p>pydev debugger: warning: trying to add breakpoint to file that does not exist: /home/workspace/work/Python/upload_file/upload_file/views.py (will have no effect)</p>
-</blockquote>
-<p>原因就是我把这个删掉了，但是之前在调试这个文件的时候设置过断点，所以记录还在，把不需要的断点记录勾选掉就可以了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/开发工具/">开发工具</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
@@ -834,6 +868,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -858,7 +896,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -879,7 +917,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -899,11 +937,11 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -911,11 +949,11 @@
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -931,11 +969,15 @@
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -943,19 +985,15 @@
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>

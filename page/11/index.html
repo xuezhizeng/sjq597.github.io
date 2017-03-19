@@ -81,6 +81,135 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/10/25/Ubuntu-14-04-更改源/" title="Ubuntu 14.04 更改源" itemprop="url">Ubuntu 14.04 更改源</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T11:44:39.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>之前把Ubuntu的默认的源替换了，速度有点慢，现在替换回来<br>在命令行下修改，修改<code>/etc/apt/sources.list</code>,内容修改如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># deb cdrom:[Ubuntu-Kylin 14.04.1 LTS _Trusty Tahr_ - Release amd64 (20140722.1)]/ trusty main multiverse restricted universe</span></div><div class="line"></div><div class="line"><span class="comment"># See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to</span></div><div class="line"><span class="comment"># newer versions of the distribution.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty main restricted</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty main restricted</div><div class="line"></div><div class="line"><span class="comment">## Major bug fix updates produced after the final release of the</span></div><div class="line"><span class="comment">## distribution.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates main restricted</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates main restricted</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu</span></div><div class="line"><span class="comment">## team. Also, please note that software in universe WILL NOT receive any</span></div><div class="line"><span class="comment">## review or updates from the Ubuntu security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty universe</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty universe</div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates universe</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates universe</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu </span></div><div class="line"><span class="comment">## team, and may not be under a free licence. Please satisfy yourself as to </span></div><div class="line"><span class="comment">## your rights to use the software. Also, please note that software in </span></div><div class="line"><span class="comment">## multiverse WILL NOT receive any review or updates from the Ubuntu</span></div><div class="line"><span class="comment">## security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse</div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-updates multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-updates multiverse</div><div class="line"></div><div class="line"><span class="comment">## N.B. software from this repository may not have been tested as</span></div><div class="line"><span class="comment">## extensively as that contained in the main release, although it includes</span></div><div class="line"><span class="comment">## newer versions of some applications which may provide useful features.</span></div><div class="line"><span class="comment">## Also, please note that software in backports WILL NOT receive any review</span></div><div class="line"><span class="comment">## or updates from the Ubuntu security team.</span></div><div class="line">deb http://cn.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line">deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line"></div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security main restricted</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted</div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security universe</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security universe</div><div class="line">deb http://security.ubuntu.com/ubuntu trusty-security multiverse</div><div class="line">deb-src http://security.ubuntu.com/ubuntu trusty-security multiverse</div><div class="line"></div><div class="line"><span class="comment">## Uncomment the following two lines to add software from Canonical's</span></div><div class="line"><span class="comment">## 'partner' repository.</span></div><div class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by Canonical and the</span></div><div class="line"><span class="comment">## respective vendors as a service to Ubuntu users.</span></div><div class="line"><span class="comment"># deb http://archive.canonical.com/ubuntu trusty partner</span></div><div class="line"><span class="comment"># deb-src http://archive.canonical.com/ubuntu trusty partner</span></div><div class="line"></div><div class="line"><span class="comment">## Uncomment the following two lines to add software from Ubuntu's</span></div><div class="line"><span class="comment">## 'extras' repository.</span></div><div class="line"><span class="comment">## This software is not part of Ubuntu, but is offered by third-party</span></div><div class="line"><span class="comment">## developers who want to ship their latest software.</span></div><div class="line"><span class="comment"># deb http://extras.ubuntu.com/ubuntu trusty main</span></div><div class="line"><span class="comment"># deb-src http://extras.ubuntu.com/ubuntu trusty main</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/25/Ubuntu-14-04-IDEA配置和使用/" title="Ubuntu 14.04 IDEA配置和使用" itemprop="url">Ubuntu 14.04 IDEA配置和使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T04:17:44.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>IDEA相比Eclipse的好处我这里就不多说了，反正感觉无论是界面还是与其他插件的集成都做的非常好，特别是git和数据库这块，做的时想当好。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先根据系统下载对应IDEA的压缩包，以Ubuntu 14.04的64位系统为例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo tar -xvf ideaIU-14.0.3.tar.gz -C /usr/dev</div><div class="line"><span class="built_in">cd</span> /usr/dev/idea-IU-139.1117.1/bin</div><div class="line">./idea.sh</div></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong>正常情况下，在你启动成功之后，可以在Ubuntu应用里直接启动，但是我的总是不行，没办法，在用户根目录下建了一个脚本，内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">/usr/dev/idea-IU-139.1117.1/bin/idea.sh &amp;</div></pre></td></tr></table></figure></p>
+<p>然后对脚本赋可执行权限</p>
+<h3 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h3><p>必装插件:<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">Eclipse</span> <span class="meta">Code</span> Formatter</div><div class="line"><span class="symbol">Lombok</span> plugin</div><div class="line"><span class="symbol">Vim</span> Emulation</div></pre></td></tr></table></figure></p>
+<p>激活服务器搭建:<a href="http://blog.lanyus.com/archives/174.html" target="_blank" rel="external">http://blog.lanyus.com/archives/174.html</a></p>
+<h3 id="无法切换中文输入法"><a href="#无法切换中文输入法" class="headerlink" title="无法切换中文输入法"></a>无法切换中文输入法</h3><p>修改启动脚本<code>/usr/dev/idea-IU-139.1117.1/bin/idea.sh</code>,头部加入下面几行:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> GTK_IM_MODULE=fcitx</div><div class="line"><span class="keyword">export</span> QT_IM_MODULE=fcitx</div><div class="line"><span class="keyword">export</span> XMODIFIERS=@im=fcitx</div></pre></td></tr></table></figure></p>
+<p>前提是你用的是<code>fcitx</code>架构的输入法.</p>
+<h3 id="序列化ID警告"><a href="#序列化ID警告" class="headerlink" title="序列化ID警告"></a>序列化ID警告</h3><p>I am not sure if you have an old version of IntelliJ but If I go File =&gt; Settings… =&gt; Inspections =&gt; Serialization issues =&gt;  Serializable class without ‘serialVersionUID’ enabled, the class you provide give me warnings</p>
+<h3 id="文件头模板d定制"><a href="#文件头模板d定制" class="headerlink" title="文件头模板d定制"></a>文件头模板d定制</h3><p>文件上右击–New–Edit File Templates–Includes–File Header</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/IDEA/">IDEA</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/10/25/Ubuntu-14-04-安装git/" title="Ubuntu 14.04 安装git" itemprop="url">Ubuntu 14.04 安装git</a>
   </h1>
   <p class="article-author">By
@@ -784,261 +913,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/10/Python-函数以及函数参数/" title="函数及函数参数" itemprop="url">函数及函数参数</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-10T06:39:07.000Z" itemprop="datePublished"> 发表于 2015-10-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>方法或者说函数的使用，这个和其他编程语言<code>Java/C++</code>没什么区别，使用正确的方法名加参数就可以，<code>python</code>还有一个比较人性化的地方：在交互命令行下通过<code>help(functionName)</code>可以查看指定函数的使用帮助。例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; <span class="built_in">help</span>(range)</div></pre></td></tr></table></figure></p>
-<p>会出现如下内容，按<code>q</code>退出：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Help</span> <span class="keyword">on</span> built-<span class="keyword">in</span> <span class="keyword">function</span> <span class="keyword">range</span> <span class="keyword">in</span> <span class="keyword">module</span> __builtin__:</div><div class="line"></div><div class="line"><span class="keyword">range</span>(...)</div><div class="line">    <span class="keyword">range</span>(<span class="keyword">stop</span>) -&gt; <span class="keyword">list</span> <span class="keyword">of</span> integers</div><div class="line">    <span class="keyword">range</span>(<span class="keyword">start</span>, <span class="keyword">stop</span>[, step]) -&gt; <span class="keyword">list</span> <span class="keyword">of</span> integers</div><div class="line">    </div><div class="line">    <span class="keyword">Return</span> a <span class="keyword">list</span> containing an arithmetic progression <span class="keyword">of</span> integers.</div><div class="line">    <span class="keyword">range</span>(i, j) <span class="keyword">returns</span> [i, i+<span class="number">1</span>, i+<span class="number">2</span>, ..., j<span class="number">-1</span>]; <span class="keyword">start</span> (!) <span class="keyword">defaults</span> <span class="keyword">to</span> <span class="number">0.</span></div><div class="line">    <span class="keyword">When</span> step <span class="keyword">is</span> given, it specifies the <span class="keyword">increment</span> (<span class="keyword">or</span> <span class="keyword">decrement</span>).</div><div class="line">    <span class="keyword">For</span> example, <span class="keyword">range</span>(<span class="number">4</span>) <span class="keyword">returns</span> [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].  The <span class="keyword">end</span> point <span class="keyword">is</span> omitted!</div><div class="line">    These <span class="keyword">are</span> exactly the valid <span class="keyword">indices</span> <span class="keyword">for</span> a <span class="keyword">list</span> <span class="keyword">of</span> <span class="number">4</span> elements.</div><div class="line">(<span class="keyword">END</span>)</div></pre></td></tr></table></figure></p>
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
-<li><p>定义函数<br>在Python中，定义一个函数要使用<code>def</code>语句，依次写出函数名、括号、括号中的参数和冒号<code>:</code>，然后，在缩进块中编写函数体，函数的返回值用<code>return</code>语句返回。<br>我们以自定义一个求绝对值的<code>my_abs</code>函数为例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> x</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> -x</div></pre></td></tr></table></figure>
-</li>
-<li><p>空函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">nop</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure>
-<p><code>pass</code>语句什么都不做，那有什么用？实际上<code>pass</code>可以用来作为占位符，比如现在还没想好怎么写函数的代码，就可以先放一个<code>pass</code>，让代码能运行起来。<br><code>pass</code>还可以用在其他语句里，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> age &gt;= <span class="number">18</span>:</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure>
-<p>缺少了<code>pass</code>，代码运行就会有语法错误。</p>
-</li>
-<li><p>参数检查<br>调用函数时，如果参数个数不对，Python解释器会自动检查出来，并抛出<code>TypeError</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; my_abs(1, 2)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">TypeError: my_abs() takes exactly 1 argument (2 given)</div></pre></td></tr></table></figure>
-<p>但是如果参数类型不对，Python解释器就无法帮我们检查。试试<code>my_abs</code>和内置函数<code>abs</code>的差别：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; my_abs(<span class="string">'A'</span>)</div><div class="line"><span class="string">'A'</span></div><div class="line">&gt;&gt;&gt; abs(<span class="string">'A'</span>)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">TypeError: bad operand <span class="built_in">type</span> <span class="keyword">for</span> abs(): <span class="string">'str'</span></div></pre></td></tr></table></figure>
-<p>当传入了不恰当的参数时，内置函数<code>abs</code>会检查出参数错误，而我们定义的<code>my_abs</code>没有参数检查，所以，这个函数定义不够完善。</p>
-<p>让我们修改一下<code>my_abs</code>的定义，对参数类型做检查，只允许整数和浮点数类型的参数。数据类型检查可以用内置函数<code>isinstance</code>实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(x, (int, float)):</div><div class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'bad operand type'</span>)</div><div class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> x</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> -x</div></pre></td></tr></table></figure>
-<p>添加了参数检查后，如果传入错误的参数类型，函数就可以抛出一个错误：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; my_abs(<span class="string">'A'</span>)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 3, <span class="keyword">in</span> my_abs</div><div class="line">TypeError: bad operand <span class="built_in">type</span></div></pre></td></tr></table></figure>
-<p>错误和异常处理将在后续讲到，此处只需要大概知道这个可以抛出一个异常就行了。</p>
-</li>
-<li><p>返回多个值<br>一般像<code>Java/C++</code>这样的语言，要想函数返回多个值，通常有两种方式：第一种，如果返回值的类型一样，那么一般就是返回一个列表或者数组对象，然后要用就去列表里取；第二种，返回值类型不一样，这种情况通常是定义一个结构体或者类来接收。但是对于Python，就不用这么麻烦了，看下面的代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> math</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">move</span><span class="params">(x, y, step, angle=<span class="number">0</span>)</span>:</span></div><div class="line">    nx = x + step * math.cos(angle)</div><div class="line">    ny = y - step * math.sin(angle)</div><div class="line">    <span class="keyword">return</span> nx, ny</div></pre></td></tr></table></figure>
-<p>在命令式交互行里看看返回值，<code>x</code>和<code>y</code>也可以直接单独使用：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x, y = move(100, 100, 60, math.pi / 6)</div><div class="line">&gt;&gt;&gt; <span class="built_in">print</span> x, y</div><div class="line">151.961524227 70.0</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong>虽然可以这么用，但是具体中间的过程还必须了解，其实返回值还是单一值，看下面：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; r = move(100, 100, 60, math.pi / 6)</div><div class="line">&gt;&gt;&gt; <span class="built_in">print</span> r</div><div class="line">(151.96152422706632, 70.0)</div></pre></td></tr></table></figure>
-<p>可以看到，返回值是一个<code>tuple</code>！，但是<code>python</code>的语法上返回一个<code>tuple</code>可以省略括号，同时多个变量又可以同事接收一个<code>tuple</code>，即相当于</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x,y = r</div></pre></td></tr></table></figure>
-</li>
-<li><p>函数参数<br><code>C++</code>里函数可以设置缺省参数，<code>Java</code>不可以，只能通过重载的方式来实现，<code>python</code>里也可以设置默认参数,最大的好处就是降低函数难度，函数的定义只有一个，<code>并且python是动态语言，在同一名称空间里不能有想多名称的函数，如果出现了，那么后出现的会覆盖前面的函数</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">power</span><span class="params">(x, n=<span class="number">2</span>)</span>:</span></div><div class="line">    s = <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</div><div class="line">        n = n - <span class="number">1</span></div><div class="line">        s = s * x</div><div class="line">    <span class="keyword">return</span> s</div></pre></td></tr></table></figure>
-<p>看看结果：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; power(5)</div><div class="line">25</div><div class="line">&gt;&gt;&gt; power(5,3)</div><div class="line">125</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong> 必选参数在前，默认参数在后，否则Python的解释器会报错。<br><strong>建议：*</strong>当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面。变化小的参数就可以作为默认参数。</p>
-<p>默认参数也有坑，看看下面的代码，先定义一个<code>list</code>，添加一个<code>end</code>再返回：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_end</span><span class="params">(L=[])</span>:</span></div><div class="line">    L.append(<span class="string">'END'</span>)</div><div class="line">    <span class="keyword">return</span> L</div></pre></td></tr></table></figure>
-<p>看看调用结果：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; add_end([1, 2, 3])</div><div class="line">[1, 2, 3, <span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end([<span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>])</div><div class="line">[<span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>, <span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end()</div><div class="line">[<span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end()</div><div class="line">[<span class="string">'END'</span>, <span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end()</div><div class="line">[<span class="string">'END'</span>, <span class="string">'END'</span>, <span class="string">'END'</span>]</div></pre></td></tr></table></figure>
-<p>这里需要解释一下，<code>Python</code>函数在定义的时候，默认参数<code>L</code>的值就被计算出来了，即<code>[]</code>。此时<code>L</code>指向<code>[]</code>。所以如果<code>L</code>中的内容改变了，下次调用引用的内容也就不再是<code>[]</code>了。所以要牢记一点<code>定义默认参数必须指向不可变对象！</code>。具体想深入了解可以看看<a href="../Python-默认参数陷阱/index.html">Python 默认参数陷阱</a></p>
-</li>
-<li><p>可变参数<br>第一种方法，传入的参数为一个<code>list</code>或者<code>tuple</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(numbers)</span>:</span></div><div class="line">    sum = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</div><div class="line">        sum = sum + n * n</div><div class="line">    <span class="keyword">return</span> sum</div></pre></td></tr></table></figure>
-<p>调用方式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; calc([1, 2, 3])</div><div class="line">14</div><div class="line">&gt;&gt;&gt; calc((1, 3, 5, 7))</div><div class="line">84</div></pre></td></tr></table></figure>
-<p>第二种方式，直接传入多个参数，函数内部会自动用一个<code>tuple</code>接收。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(*numbers)</span>:</span></div><div class="line">    sum = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</div><div class="line">        sum = sum + n * n</div><div class="line">    <span class="keyword">return</span> sum</div></pre></td></tr></table></figure>
-<p>调用方式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; calc(1, 2)</div><div class="line">5</div><div class="line">&gt;&gt;&gt; calc()</div><div class="line">0</div></pre></td></tr></table></figure>
-<p>这个时候如果还想把一个<code>list</code>或者<code>tuple</code>里的数据传进去，可以这样：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; nums = [1, 2, 3]</div><div class="line">&gt;&gt;&gt; calc(*nums)</div><div class="line">14</div></pre></td></tr></table></figure>
-</li>
-<li><p>关键字参数<br>关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个<code>dict</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name, age, **kw)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'name:'</span>, name, <span class="string">'age:'</span>, age, <span class="string">'other:'</span>, kw</div></pre></td></tr></table></figure>
-<p>调用示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; person(<span class="string">'Michael'</span>, 30)</div><div class="line">name: Michael age: 30 other: &#123;&#125;</div><div class="line">&gt;&gt;&gt; person(<span class="string">'Bob'</span>, 35, city=<span class="string">'Beijing'</span>)</div><div class="line">name: Bob age: 35 other: &#123;<span class="string">'city'</span>: <span class="string">'Beijing'</span>&#125;</div><div class="line">&gt;&gt;&gt; person(<span class="string">'Adam'</span>, 45, gender=<span class="string">'M'</span>, job=<span class="string">'Engineer'</span>)</div><div class="line">name: Adam age: 45 other: &#123;<span class="string">'gender'</span>: <span class="string">'M'</span>, <span class="string">'job'</span>: <span class="string">'Engineer'</span>&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>参数组合<br>在Python中定义函数，可以用必选参数、默认参数、可变参数和关键字参数，这4种参数都可以一起使用，或者只用其中某些，但是请注意，参数定义的顺序必须是：必选参数、默认参数、可变参数和关键字参数。</p>
-</li>
-<li><p>递归函数<br>基本的也没什么可讲的，和<code>Java/C++</code>里一样，就是调用本身的一种。这里重点介绍一下<code>尾递归</code>优化。事实上尾递归和循环效果是一样的，很显然的一个优点那就是可以防止递归调用栈溢出。<br><strong>定义：</strong>在函数返回的时候调用自身，并且，<code>return语句不能包含表达式</code>。编译器或者解释器可以对其做优化，无论调用多少次，只占用一个栈帧，不会出现溢出的情况。<br>举个简单的例子，以阶乘函数为例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">if</span> n==<span class="number">1</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> n * fact(n - <span class="number">1</span>)</div></pre></td></tr></table></figure>
-<p>如果传入的n很大，就可能会溢出，这是由于<code>return n * fact(n - 1)</code>引入了乘法表达式，就不是尾递归了。把代码改一下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">return</span> fact_iter(n, <span class="number">1</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact_iter</span><span class="params">(num, product)</span>:</span></div><div class="line">    <span class="keyword">if</span> num == <span class="number">1</span>:</div><div class="line">        <span class="keyword">return</span> product</div><div class="line">    <span class="keyword">return</span> fact_iter(num - <span class="number">1</span>, num * product)</div></pre></td></tr></table></figure>
-<p>但是一般不要用，有两点原因：1.python不支持尾递归优化；2.这样优化的代码可读性和逻辑性没有之前单纯的递归清晰。</p>
-</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Python/">Python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/09/Python-集合,循环控制/" title="集合,循环控制" itemprop="url">集合,循环控制</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-09T12:17:47.000Z" itemprop="datePublished"> 发表于 2015-10-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="python常用结构"><a href="#python常用结构" class="headerlink" title="python常用结构"></a>python常用结构</h3><p><code>python</code>常用结构有集合以及循环，另外集合包括列表和集合两大类。</p>
-<h4 id="集合类"><a href="#集合类" class="headerlink" title="集合类"></a>集合类</h4><ul>
-<li><p>有序列表list</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest = [<span class="string">'ha'</span>,<span class="string">'test'</span>,<span class="string">'yes'</span>]</div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'test'</span>, <span class="string">'yes'</span>]</div></pre></td></tr></table></figure>
-<p><code>len()</code>获取<code>list</code>元素个数。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; len(listTest)</div><div class="line">3</div></pre></td></tr></table></figure>
-<p>可以用索引来访问每一个元素，<code>0</code>表示第一个，<code>-1</code>还可以表示最后一个，即倒数第一个，依此类推<code>-2</code>表示倒数第二个，超过了也会报越界错误。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest[0]</div><div class="line"><span class="string">'ha'</span></div><div class="line">&gt;&gt;&gt; listTest[1]</div><div class="line"><span class="string">'test'</span></div><div class="line">&gt;&gt;&gt; listTest[3]</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">IndexError: list index out of range</div><div class="line">&gt;&gt;&gt; listTest[-1]</div><div class="line"><span class="string">'yes'</span></div><div class="line">&gt;&gt;&gt; listTest[-2]</div><div class="line"><span class="string">'test'</span></div></pre></td></tr></table></figure>
-<p>也可以把元素插入到指定的位置，比如索引号为<code>1</code>的位置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest.insert(1,<span class="string">'jack'</span>)</div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>, <span class="string">'yes'</span>]</div></pre></td></tr></table></figure>
-<p>删除末尾元素，用<code>pop()</code>方法，添加到末尾用<code>append()</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>, <span class="string">'yes'</span>]</div><div class="line">&gt;&gt;&gt; listTest.pop()</div><div class="line"><span class="string">'yes'</span></div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>]</div></pre></td></tr></table></figure>
-<p>删除指定位置的元素，用<code>pop(i)</code>方法,其中<code>i</code>是索引位置:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'jack'</span>, <span class="string">'test'</span>]</div><div class="line">&gt;&gt;&gt; listTest.pop(1)</div><div class="line"><span class="string">'jack'</span></div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'test'</span>]</div></pre></td></tr></table></figure>
-<p>把某个元素替换，直接赋值即可,并且类型也可以不同：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'test'</span>]</div><div class="line">&gt;&gt;&gt; listTest[1] = <span class="string">'debug'</span></div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, <span class="string">'debug'</span>]</div><div class="line">&gt;&gt;&gt; listTest[1] = 123</div><div class="line">&gt;&gt;&gt; listTest</div><div class="line">[<span class="string">'ha'</span>, 123]</div></pre></td></tr></table></figure>
-<p><code>list</code>也可以嵌套:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; s = [<span class="string">'python'</span>, <span class="string">'java'</span>, [<span class="string">'asp'</span>, <span class="string">'php'</span>], <span class="string">'scheme'</span>]</div><div class="line">&gt;&gt;&gt; len(s)</div><div class="line">4</div><div class="line">&gt;&gt;&gt; s[1]</div><div class="line"><span class="string">'java'</span></div><div class="line">&gt;&gt;&gt; s[2]</div><div class="line">[<span class="string">'asp'</span>, <span class="string">'php'</span>]</div><div class="line">&gt;&gt;&gt; s[2][1]</div><div class="line"><span class="string">'php'</span></div></pre></td></tr></table></figure>
-<p>空的<code>list</code>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; L = []</div><div class="line">&gt;&gt;&gt; len(L)</div><div class="line">0</div></pre></td></tr></table></figure>
-</li>
-<li><p>不可变列表tuple<br>另一种有序列表叫元组：tuple。tuple和list非常类似，但是tuple一旦初始化就不能修改。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; classmates = (<span class="string">'Michael'</span>, <span class="string">'Bob'</span>, <span class="string">'Tracy'</span>)</div><div class="line">&gt;&gt;&gt; classmates</div><div class="line">(<span class="string">'Michael'</span>, <span class="string">'Bob'</span>, <span class="string">'Tracy'</span>)</div><div class="line">&gt;&gt;&gt; classmates[1]</div><div class="line"><span class="string">'Bob'</span></div></pre></td></tr></table></figure>
-<p><strong>注意：</strong>由于<code>tuple</code>不可变，所以代码更安全，如果可能，能用<code>tuple</code>代替<code>list</code>就尽量用<code>tuple</code>。<br><code>tuple的陷阱：</code>当你定义一个<code>tuple</code>时，在定义的时候，<code>tuple</code>的元素就必须被确定下来，比如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (1, 2)</div><div class="line">&gt;&gt;&gt; t</div><div class="line">(1, 2)</div></pre></td></tr></table></figure>
-<p>如果要定义一个空的<code>tuple</code>，可以写成()：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = ()</div><div class="line">&gt;&gt;&gt; t</div><div class="line">()</div></pre></td></tr></table></figure>
-<p>但是，要定义一个只有1个元素的<code>tuple</code>，如果你这么定义：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (1)</div><div class="line">&gt;&gt;&gt; t</div><div class="line">1</div></pre></td></tr></table></figure>
-<p>定义的不是<code>tuple</code>，是<code>1</code>这个数！这是因为括号<code>()</code>既可以表示<code>tuple</code>，又可以表示数学公式中的小括号，这就产生了歧义，因此，<code>Python</code>规定，这种情况下，按小括号进行计算，计算结果自然是<code>1</code>。</p>
-<p>所以，只有1个元素的<code>tuple</code>定义时必须加一个逗号,，来消除歧义：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (1,)</div><div class="line">&gt;&gt;&gt; t</div><div class="line">(1,)</div></pre></td></tr></table></figure>
-<p><code>Python</code>在显示只有1个元素的<code>tuple</code>时，也会加一个逗号<code>,</code>，以免你误解成数学计算意义上的括号。<br>最后来看一个<code>可变的</code>tuple：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; t = (<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'A'</span>, <span class="string">'B'</span>])</div><div class="line">&gt;&gt;&gt; t[2][0] = <span class="string">'X'</span></div><div class="line">&gt;&gt;&gt; t[2][1] = <span class="string">'Y'</span></div><div class="line">&gt;&gt;&gt; t</div><div class="line">(<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'X'</span>, <span class="string">'Y'</span>])</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong><code>tuple</code>所谓的<code>不变</code>是说，<code>tuple</code>的每个元素，指向永远不变。</p>
-</li>
-<li><p>Map<br><code>Python</code>内置了字典：<code>dict</code>的支持，<code>dict</code>全称<code>dictionary</code>，在<code>Java/C++</code>中也称为<code>Map</code>，使用键-值（<code>key-value</code>）存储，具有极快的查找速度。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d = &#123;<span class="string">'Michael'</span>: 95, <span class="string">'Bob'</span>: 75, <span class="string">'Tracy'</span>: 85&#125;</div><div class="line">&gt;&gt;&gt; d[<span class="string">'Michael'</span>]</div><div class="line">95</div></pre></td></tr></table></figure>
-<p>把数据放入<code>dict</code>的方法，除了初始化时指定外，还可以通过<code>key</code>放入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d[<span class="string">'Adam'</span>] = 67</div><div class="line">&gt;&gt;&gt; d[<span class="string">'Adam'</span>]</div><div class="line">67</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong>如果key不存在，dict就会报错：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d[<span class="string">'Thomas'</span>]</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">KeyError: <span class="string">'Thomas'</span></div></pre></td></tr></table></figure>
-<p>要避免key不存在的错误，有两种办法，一是通过in判断key是否存在：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; <span class="string">'Thomas'</span> <span class="keyword">in</span> d</div><div class="line">False</div></pre></td></tr></table></figure>
-<p>或者通过<code>dict</code>提供的<code>get</code>方法，如果<code>key</code>不存在，可以返回<code>None</code>，或者自己指定的value：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d.get(<span class="string">'Thomas'</span>)</div><div class="line">&gt;&gt;&gt; d.get(<span class="string">'Thomas'</span>, -1)</div><div class="line">-1</div></pre></td></tr></table></figure>
-<p>删除<code>dict</code>里的元素，用<code>pop(key)</code>方法，对应的<code>value</code>也会从<code>dict</code>中删除：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; d.pop(<span class="string">'Bob'</span>)</div><div class="line">75</div><div class="line">&gt;&gt;&gt; d</div><div class="line">&#123;<span class="string">'Michael'</span>: 95, <span class="string">'Tracy'</span>: 85&#125;</div></pre></td></tr></table></figure>
-<p>正确使用<code>dict</code>非常重要，需要牢记的第一条就是<code>dict</code>的<code>key</code>必须是不可变对象。</p>
-</li>
-<li><p>set集合<br><code>set</code>和<code>dict</code>类似，也是一组<code>key</code>的集合，但不存储<code>value</code>。由于<code>key</code>不能重复，所以，在<code>set</code>中，没有重复的<code>key</code>。<br>要创建一个<code>set</code>，需要提供一个<code>list</code>作为输入集合：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; s = <span class="built_in">set</span>([1, 2, 3])</div><div class="line">&gt;&gt;&gt; s</div><div class="line"><span class="built_in">set</span>([1, 2, 3])</div></pre></td></tr></table></figure>
-<p><code>set</code>会自动过滤重复元素，<code>add(key)</code>添加元素，可以重复添加，但是没有效果。<code>remove(key)</code>删除元素。对于两个集合，还可以通过<code>&amp;</code>取集合的交集，<code>|</code>取集合的并集。</p>
-</li>
-</ul>
-<h4 id="循环控制"><a href="#循环控制" class="headerlink" title="循环控制"></a>循环控制</h4><ul>
-<li><p>条件判断<br>之前学过<code>Java/C++</code>可能会不太习惯这种方式，先看看<code>python</code>的条件判断代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">age = <span class="number">20</span></div><div class="line"><span class="keyword">if</span> age &gt;= <span class="number">18</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'your age is'</span>, age</div><div class="line">    <span class="keyword">print</span> <span class="string">'adult'</span></div></pre></td></tr></table></figure>
-<p>根据<code>Python</code>的缩进规则，缩进的代码块就相当于<code>Java/C++</code>里大括号的内容。即<code>if</code>为<code>True</code>,执行代码块内容，加<code>else</code>，<code>elif</code>同理，注意不要漏掉<code>:</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> &lt;条件判断<span class="number">1</span>&gt;:</div><div class="line">    &lt;执行<span class="number">1</span>&gt;</div><div class="line"><span class="keyword">elif</span> &lt;条件判断<span class="number">2</span>&gt;:</div><div class="line">    &lt;执行<span class="number">2</span>&gt;</div><div class="line"><span class="keyword">elif</span> &lt;条件判断<span class="number">3</span>&gt;:</div><div class="line">    &lt;执行<span class="number">3</span>&gt;</div><div class="line"><span class="keyword">else</span>:</div><div class="line">    &lt;执行<span class="number">4</span>&gt;</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong> <code>if</code>还可以简写，下面这个和<code>Java/C++</code>有很大的不同，<code>python</code>对类型的判断很宽松，只要<code>x</code>是非零数值、非空字符串、非空<code>list</code>等，就判断为<code>True</code>，否则为<code>False</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> x:</div><div class="line">    <span class="keyword">print</span> <span class="string">'True'</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>循环控制<br>循环和<code>Java/C++</code>就很像了，也是有两种:<code>for</code>循环和<code>while</code>循环。<br><code>for x in ...</code>循环就是把每个元素代入变量<code>x</code>，然后执行缩进代码块:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">names = [<span class="string">'Michael'</span>, <span class="string">'Bob'</span>, <span class="string">'Tracy'</span>]</div><div class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names:</div><div class="line">    <span class="keyword">print</span> name</div></pre></td></tr></table></figure>
-<p><code>while</code>循环,只要条件满足，就不断循环</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sum = <span class="number">0</span></div><div class="line">n = <span class="number">99</span></div><div class="line"><span class="keyword">while</span> n &gt; <span class="number">0</span>:</div><div class="line">    sum = sum + n</div><div class="line">    n = n - <span class="number">2</span></div><div class="line"><span class="keyword">print</span> sum</div></pre></td></tr></table></figure>
-</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Python/">Python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/10/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/">Next<span></span></a>
@@ -1080,6 +954,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -1104,7 +982,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -1125,7 +1003,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -1145,11 +1023,11 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -1157,11 +1035,11 @@
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -1177,11 +1055,15 @@
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -1189,19 +1071,15 @@
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>

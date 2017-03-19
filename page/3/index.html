@@ -81,6 +81,182 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/18/Hadoop-Streaming收集日志/" title="Hadoop Streaming收集日志" itemprop="url">Hadoop Streaming收集日志</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T07:58:11.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>公司的日志一般会有专门的日志收集系统，但是上传到hdfs上目录太多，一般都是按机房，按小时分割日志文件的。路径类似于下面这样:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/user/xxx/l-xxxx1<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">18</span><span class="selector-class">.gz</span></div><div class="line">/user/xxx/l-xxxx1<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">19</span><span class="selector-class">.gz</span></div><div class="line">/user/xxx/l-xxxx2<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">18</span><span class="selector-class">.gz</span></div><div class="line">/user/xxx/l-xxxx3<span class="selector-class">.pay</span><span class="selector-class">.cn1</span>/<span class="number">20160717</span>/log.<span class="number">20160717</span>-<span class="number">19</span>.gz</div></pre></td></tr></table></figure></p>
+<p>即日志文件会按小时打包<code>log.20160717-xx.gz</code>,另外日志可能会标注机房<code>l-xxxx[1-9].pay.cn[1-9]</code>不同机器,这样会对应很多个目录，这样就无法通过在Hive里面建一个表指向一个固定的hdfs路径来分析日志数据。我们必须通过一个方法把这些日志转化到一个路径，然后把数据<code>load</code>到Hive表中，然后就可以对日志的数据做一些分析，或者使用了。</p>
+<h3 id="Hadoop-Streaming"><a href="#Hadoop-Streaming" class="headerlink" title="Hadoop Streaming"></a>Hadoop Streaming</h3><p>这里使用到的是Hadoop原生的<code>Streaming</code>，毕竟我们的目的也不是很负复杂，就是一个数据收集汇总的过程，当然这中间也可以做一些简单的处理，例如过滤掉不需要的日志，毕竟日志不比MySQL里面的结构化数据，日志的量级一般都很大，都装到Hive表里面数据量大分析的时候也需要更多的计算资源，也更慢</p>
+<p>由于服务器上的<code>hadoop</code>是2.2.0版本的，所以我这里使用的是<code>hadoop-streaming-2.2.0.jar</code>。主要使用<code>shell</code>,<code>python</code>简单介绍一下如何使用这个。<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$HADOOP_HOME/bin/hadoop  jar $HADOOP_HOME/hadoop-streaming.jar \</div><div class="line">    -<span class="ruby">input myInputDirs \</span></div><div class="line">    -<span class="ruby">output myOutputDir \</span></div><div class="line">    -<span class="ruby">mapper /bin/cat \</span></div><div class="line">    -<span class="ruby">reducer /bin/wc</span></div></pre></td></tr></table></figure></p>
+<p>上面是具体的在shell里面执行的时候参数的指定，这里最简单的用法就是执行输入目录或者输入文件，以我上面的例子为例，涉及到多个机房，日志还按小时分割打包，可以写成<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-<span class="selector-tag">input</span> /user/xxx/l-xxxx*<span class="selector-class">.pay</span><span class="selector-class">.cn</span>*/<span class="number">20160717</span>/log.<span class="number">20160717</span>-*.gz</div></pre></td></tr></table></figure></p>
+<p>即路径可以使用通配符<code>*</code>指定,然后还要指定一个汇总日志输出路径:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-output <span class="regexp">/user/</span>xxx<span class="regexp">/logs/</span>xxxx<span class="regexp">/output/</span><span class="number">20160717</span><span class="regexp">/log_parse</span></div></pre></td></tr></table></figure></p>
+<p>这里主要是想讲一下<code>mapper</code>和<code>reducer</code>文件的编写，采用python实现:<br>先看一下<code>mapper.py</code>文件的实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">reg_pattern = <span class="string">r'(\d+-\d+-\d+ \d+:\d+:\d+.\d+).*GwRouteBizImpl\s*-\s*(\w*)\&#123;(.*)\&#125;.*'</span></div><div class="line">re_gx = re.compile(reg_pattern)</div><div class="line"></div><div class="line"><span class="keyword">for</span> line <span class="keyword">in</span> sys.stdin:</div><div class="line">    line = line.strip().replace(<span class="string">'\t'</span>, <span class="string">' '</span>).replace(<span class="string">'\r'</span>, <span class="string">' '</span>)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> re_gx.match(line):</div><div class="line">        <span class="keyword">print</span> <span class="string">'%s'</span> % re.sub(reg_pattern, <span class="string">r'\1\t\2\t\3'</span>, line)</div></pre></td></tr></table></figure></p>
+<p>这就是一个最简单的过滤日志，并简单做一些字段的提取，因为我们采用<code>\t</code>分割，所以需要把每一行的特殊字符去掉，然后用正则匹配满足格式的日志，如果不满足，这条日志就直接过滤掉了。<br><strong>注意:</strong>使用Hadoop原生的<code>Streaming</code>程序，只能处理标准输入输出,另外如果对输入不做任何处理，可以直接使用系统自带的<code>/bin/cat</code>，不用单独写<code>mapper</code>或者<code>reducer</code>，当然你也可以使用python写一个,什么也不干，原样输出<code>reducer.py</code>:<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="built_in">for</span> <span class="built_in">line</span> in sys.stdin:</div><div class="line">    <span class="built_in">line</span> = <span class="built_in">line</span>.strip()</div><div class="line">    <span class="built_in">print</span> <span class="string">'%s\t'</span> % <span class="built_in">line</span></div></pre></td></tr></table></figure></p>
+<p>具体使用就很简单了，在shell里面调用:</p>
+<blockquote>
+<p>sudo -u${HADOOP_USER} ${HADOOP_HOME}/bin/hadoop jar ${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-streaming-2.2.0.jar -D stream.non.zero.exit.is.failure=false -mapper “python mapper.py” -reducer “python reducer.py” -input ${HADOOP_LOG_FILE} -output ${HADOOP_OUTPUT_DIR} -file reducer.py -file mapper.py</p>
+</blockquote>
+<p><strong>备注:</strong>如果<code>mapper</code>,<code>reducer</code>不是使用系统的shell命令,那么就需要加上<code>-file</code>参数来把我们用其他程序写的代码分发到所有节点。另外还有一个地方需要注意，要确保<code>-output output_dir</code>路径不存在，你需要在调用之前调用删除命令:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u<span class="variable">$&#123;HADOOP_USER&#125;</span> <span class="variable">$&#123;HADOOP_HOME&#125;</span><span class="regexp">/bin/</span>hadoop fs -rm -r output_dir</div></pre></td></tr></table></figure></p>
+<p>还有一些常用的参数设置:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-jobconf <span class="tag">&lt;<span class="name">key</span>&gt;</span>=<span class="tag">&lt;<span class="name">value</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>例如:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-jobconf mapreduce<span class="selector-class">.job</span><span class="selector-class">.queue</span><span class="selector-class">.name</span>=xxx -jobconf mapreduce<span class="selector-class">.job</span><span class="selector-class">.name</span>=xxx</div></pre></td></tr></table></figure></p>
+<h3 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h3><p>对于日志这种，其实是多路输入，合并到一路输出，中间只是把一行内容变成一行内容，用特定字符分隔开来而已，所以并没有<code>reduce</code>过程，如果我们用了上面那个参数，最后会又有一个<code>reducer</code>，特别慢，关键是有可能内存不够，所以可以取消掉<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-jobconf mapred<span class="selector-class">.reduce</span><span class="selector-class">.tasks</span>=<span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>这样就不会有<code>reducer</code>了，会快很多。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/数据挖掘/">数据挖掘</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Hadoop/">Hadoop</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/14/D3-js-笔记02/" title="D3 js 笔记02" itemprop="url">D3 js 笔记02</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-14T06:34:39.000Z" itemprop="datePublished"> 发表于 2016-07-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>常用的操作:选择，插入，删除，前面已经讲了选择元素的相关操作，这里还是简单记一下。</p>
+<h2 id="元素操作"><a href="#元素操作" class="headerlink" title="元素操作"></a>元素操作</h2><h3 id="选择元素"><a href="#选择元素" class="headerlink" title="选择元素"></a>选择元素</h3><p>假设有三个元素<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>test1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>test2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>test3<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>下面的操作都是基于这三个的元素的操作</p>
+<h4 id="选择第一个p元素"><a href="#选择第一个p元素" class="headerlink" title="选择第一个p元素"></a>选择第一个p元素</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> p1 = body.sellect(<span class="string">"p"</span>);</div><div class="line">p1.<span class="built_in">style</span>(<span class="string">"color"</span>, <span class="string">"red"</span>);</div></pre></td></tr></table></figure>
+<h4 id="全选"><a href="#全选" class="headerlink" title="全选"></a>全选</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> p = body.sellectAll(<span class="string">"p"</span>);</div><div class="line">p.<span class="built_in">style</span>(<span class="string">"color"</span>, <span class="string">"red"</span>);</div></pre></td></tr></table></figure>
+<h4 id="选择指定元素"><a href="#选择指定元素" class="headerlink" title="选择指定元素"></a>选择指定元素</h4><ul>
+<li>通过元素id属性</li>
+</ul>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="params">&lt;p&gt;</span> id=<span class="string">"id_2"</span>&gt;Test <span class="number">2</span><span class="params">&lt;/p&gt;</span></div></pre></td></tr></table></figure>
+<p>然后使用下面的代码来改变第二个元素的颜色<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var p2 = <span class="keyword">body</span>.<span class="keyword">select</span>(<span class="string">"#id_2"</span>);</div><div class="line">p2.style(<span class="string">"color"</span>,<span class="string">"red"</span>);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>通过元素class属性</li>
+</ul>
+<p>假设有如下内容，把这个内容改一下:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;p <span class="built_in">class</span>=<span class="string">"c1"</span> <span class="built_in">id</span>=<span class="string">"id_1"</span>&gt;Apple&lt;/p&gt;</div><div class="line">&lt;p <span class="built_in">class</span>=<span class="string">"c1"</span> <span class="built_in">id</span>=<span class="string">"id_2"</span>&gt;Pear&lt;/p&gt;</div><div class="line">&lt;p <span class="built_in">class</span>=<span class="string">"c2"</span> <span class="built_in">id</span>=<span class="string">"id_3"</span>&gt;Banana&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>可以使用下面的方法:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> p = body.selectAll(<span class="string">".c1"</span>);</div><div class="line">p.<span class="built_in">style</span>(<span class="string">"color"</span>, <span class="string">"blue"</span>);</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong>关于<code>select()</code>和<code>selectAll()</code>的参数，其实是符合<code>CSS</code>选择器的条件的，即用<code>#</code>表示<strong>id</strong>，用<code>.</code>表示<strong>class</strong>.这样可以把前两个内容设置成蓝色。</p>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>和Python很像，有<code>insert()</code>以及<code>append()</code>方法:<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">append():	<span class="comment"># 在选择集末尾插入元素</span></div><div class="line"><span class="keyword">insert():	</span><span class="comment"># 在选择集前面插入元素</span></div></pre></td></tr></table></figure></p>
+<p>例子:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">body.append(<span class="string">"p"</span>).<span class="built_in">text</span>(<span class="string">"append p element"</span>);	<span class="comment"># 在最后插入一个&lt;p&gt;元素，并且设置文本内容</span></div><div class="line">body.insert(<span class="string">"p"</span>, <span class="string">"#id_2"</span>).<span class="built_in">text</span>(<span class="string">"insert p element"</span>);	<span class="comment"># 在id为id_2的元素前面插入一个元素</span></div></pre></td></tr></table></figure></p>
+<p>结果如下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Apple</div><div class="line">insert <span class="selector-tag">p</span> element</div><div class="line">Pear</div><div class="line">Banana</div><div class="line">append <span class="selector-tag">p</span> element</div></pre></td></tr></table></figure></p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>这个简单，直接使用<code>remove()</code>即可，对于上面的代码:<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> p = body.<span class="keyword">select</span>(<span class="string">"#id_1"</span>);</div><div class="line">p.<span class="keyword">remove</span>();	<span class="meta"># 删除id=id_1的元素</span></div></pre></td></tr></table></figure></p>
+<h2 id="简单图表"><a href="#简单图表" class="headerlink" title="简单图表"></a>简单图表</h2><p>简单介绍一下图表，但是的先明白几个常见的术语:<br>要画图，必须要在一个用来画图的东西，通常我们用画布来画图，常见的画布又两种:<code>SVG</code>和<code>Canvas</code>。</p>
+<ul>
+<li>SVG</li>
+</ul>
+<p>SVG是指可缩放的矢量图形，主要用来描述二维矢量图形，定义图形也很简单，使用<code>xml</code>来定义图形。由于是用<code>xml</code>来定义图形，所以每个元素都可以添加JavaScript事件处理器。</p>
+<ul>
+<li>Canvas</li>
+</ul>
+<p>Canvas是通过JavaScript来绘制2D图形</p>
+<p><strong>注意:</strong>这里需要说明一下，D3提供的很多画图的函数都是SVG图形生成器，所以建议在学习D3.js的时候使用SVG画布,添加一个<code>SVG</code>也很简单:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">var</span> <span class="attribute">width</span> = <span class="number">300</span>;  <span class="comment">//画布的宽度</span></div><div class="line"><span class="selector-tag">var</span> <span class="attribute">height</span> = <span class="number">300</span>;   <span class="comment">//画布的高度</span></div><div class="line"> </div><div class="line"><span class="selector-tag">var</span> svg = d3.select(<span class="string">"body"</span>)     <span class="comment">//选择文档中的body元素</span></div><div class="line">    .append(<span class="string">"svg"</span>)          <span class="comment">//添加一个svg元素</span></div><div class="line">    .attr(<span class="string">"width"</span>, <span class="attribute">width</span>)       //设定宽度</div><div class="line">    .attr(<span class="string">"height"</span>, <span class="attribute">height</span>);    <span class="comment">//设定高度</span></div></pre></td></tr></table></figure></p>
+<p>下面就可以在这个svg上画各种图了,先上源码:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>HelloWorld<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/d3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="actionscript"></span></div><div class="line">    <span class="keyword">var</span> width = <span class="number">300</span>;</div><div class="line">    <span class="keyword">var</span> height = <span class="number">300</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> svg = d3.select(<span class="string">"body"</span>)</div><div class="line">            .append(<span class="string">"svg"</span>)</div><div class="line">            .attr(<span class="string">"width"</span>, width)</div><div class="line">            .attr(<span class="string">"height"</span>, height);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> dataSet = [<span class="number">250</span>, <span class="number">210</span>, <span class="number">170</span>, <span class="number">130</span>, <span class="number">90</span>];</div><div class="line">    <span class="keyword">var</span> rectHeight = <span class="number">25</span>;</div><div class="line"></div><div class="line">    svg.selectAll(<span class="string">"rect"</span>)</div><div class="line">            .data(dataSet)</div><div class="line">            .enter()</div><div class="line">            .append(<span class="string">"rect"</span>)</div><div class="line">            .attr(<span class="string">"x"</span>, <span class="number">20</span>)  <span class="comment">// 设置举行左上角开始x位置</span></div><div class="line">            .attr(<span class="string">"y"</span>, <span class="function"><span class="keyword">function</span><span class="params">(d, i)</span> </span>&#123;     <span class="comment">// 设置举行左上角开始y位置</span></div><div class="line">                <span class="keyword">return</span> i * rectHeight;</div><div class="line">            &#125;)</div><div class="line">            .attr(<span class="string">"width"</span>, <span class="function"><span class="keyword">function</span><span class="params">(d)</span> </span>&#123;    <span class="comment">// 设置每个举行的宽度(长度)</span></div><div class="line">                <span class="keyword">return</span> d;</div><div class="line">            &#125;)</div><div class="line">            .attr(<span class="string">"height"</span>, rectHeight - <span class="number">2</span>) <span class="comment">// 行之间空出一条间隙</span></div><div class="line">            .attr(<span class="string">"fill"</span>, <span class="string">"steelblue"</span>);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>解释一下,<code>&lt;rect&gt;</code>为矩形，它有四个属性:<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">x：矩形左上角的 x 坐标</div><div class="line">y：矩形左上角的 y 坐标</div><div class="line"><span class="built_in">width</span>：矩形的宽度</div><div class="line"><span class="built_in">height</span>：矩形的高度</div></pre></td></tr></table></figure></p>
+<p>其中x轴正方向为水平向右，y轴正方向为垂直向下:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var dataSet = [<span class="number">250</span>, <span class="number">210</span>, <span class="number">170</span>, <span class="number">130</span>, <span class="number">90</span>];</div></pre></td></tr></table></figure></p>
+<p>用来存储几个长方形的长度，即<code>width</code>属性值，添加和<code>dataSet</code>数量相等的矩形，所使用的代码是:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">svg</span><span class="selector-class">.selectAll</span>(<span class="string">"rect"</span>)</div><div class="line">        <span class="selector-class">.data</span>(dataSet)</div><div class="line">        <span class="selector-class">.enter</span>()</div><div class="line">        <span class="selector-class">.append</span>(<span class="string">"rect"</span>)</div></pre></td></tr></table></figure></p>
+<p>这段代码先记住，可以添加足够多的元素，后面细讲机制，然后就是前面讲过的给元素附属性值了，依次给每个举行设置那四个属性的值，<code>dataSet</code>里面的元素设置成举行的<code>width</code>属性值，最后设置一下颜色，效果如下:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/D3%20js%20%E7%AC%94%E8%AE%B002%20001.jpg" alt="svg图表"></p>
+<h2 id="比例尺"><a href="#比例尺" class="headerlink" title="比例尺"></a>比例尺</h2><p>上面的设置矩形的长度用的是一个数组，里面的值直接设置成了矩形的像素长度，但是这样比较死，有可能太大也有可能太小，所以使用比例尺是个不错的注意，只要设置一种放缩关系，只用设定上下限，中间的值会自动放缩会很方便。<br>简单来说就是一个函数<code>x-&gt;y</code>这样的一种映射关系,x为定义域，y为值域。</p>
+<h3 id="线性比例尺"><a href="#线性比例尺" class="headerlink" title="线性比例尺"></a>线性比例尺</h3><p>这种比例尺比较常用，也比较简单，使用上只用设定上下限即可:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> dataSet = [<span class="number">1.2</span>, <span class="number">2.3</span>, <span class="number">0.9</span>, <span class="number">1.5</span>, <span class="number">3.3</span>];</div><div class="line"><span class="built_in">var</span> <span class="built_in">min</span> = d3.<span class="built_in">min</span>(dataSet);</div><div class="line"><span class="built_in">var</span> <span class="built_in">max</span> = d3.<span class="built_in">max</span>(dataSet);</div><div class="line"></div><div class="line"><span class="built_in">var</span> <span class="built_in">linear</span> = d3.<span class="built_in">scale</span>.<span class="built_in">linear</span>()</div><div class="line">	.<span class="built_in">domain</span>([<span class="built_in">min</span>, <span class="built_in">max</span>])</div><div class="line">	.<span class="built_in">range</span>([<span class="number">0</span>, <span class="number">300</span>])</div><div class="line"></div><div class="line"><span class="built_in">linear</span>(<span class="number">0.9</span>)</div><div class="line"><span class="built_in">linear</span>(<span class="number">2.3</span>)</div><div class="line"><span class="built_in">linear</span>(<span class="number">3.3</span>)</div></pre></td></tr></table></figure></p>
+<p><code>d3.scale.linear()</code>返回线性比例尺，也可以当函数使用。</p>
+<h3 id="离散比例尺"><a href="#离散比例尺" class="headerlink" title="离散比例尺"></a>离散比例尺</h3><p>有时候需要的并不一定是线性连续的映射关系，可能是把某一批转化成另一类元素，例如:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var index = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</div><div class="line">var color = [<span class="string">"red"</span>, <span class="string">"blue"</span>, <span class="string">"green"</span>, <span class="string">"yellow"</span>, <span class="string">"black"</span>];</div></pre></td></tr></table></figure></p>
+<p>需要把对应的序号映射到颜色上去，用序数比例尺就更合适:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var ordinal = d3.scale.ordinal()</div><div class="line">        .domain(index)</div><div class="line">        .range(color);</div><div class="line"></div><div class="line">ordinal(<span class="number">0</span>); <span class="comment">//返回 red</span></div><div class="line">ordinal(<span class="number">2</span>); <span class="comment">//返回 green</span></div><div class="line">ordinal(<span class="number">4</span>); <span class="comment">//返回 black</span></div></pre></td></tr></table></figure></p>
+<p>所以上面讲的柱形图，我们可以利用比例尺改写一下:<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rectHeight = <span class="number">25</span>;   <span class="comment">//每个矩形所占的像素高度(包括空白)</span></div><div class="line"></div><div class="line">svg.selectAll(<span class="string">"rect"</span>)</div><div class="line">    .data(dataset)</div><div class="line">    .enter()</div><div class="line">    .append(<span class="string">"rect"</span>)</div><div class="line">    .attr(<span class="string">"x"</span>,<span class="number">20</span>)</div><div class="line">    .attr(<span class="string">"y"</span>,<span class="function"><span class="keyword">function</span><span class="params">(d,i)</span></span>&#123;</div><div class="line">         <span class="keyword">return</span> i * rectHeight;</div><div class="line">    &#125;)</div><div class="line">    .attr(<span class="string">"width"</span>,<span class="function"><span class="keyword">function</span><span class="params">(d)</span></span>&#123;</div><div class="line">         <span class="keyword">return</span> linear(d);   <span class="comment">//在这里用比例尺</span></div><div class="line">    &#125;)</div><div class="line">    .attr(<span class="string">"height"</span>,rectHeight<span class="number">-2</span>)</div><div class="line">    .attr(<span class="string">"fill"</span>,<span class="string">"steelblue"</span>);</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JScript/">JScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/可视化/">可视化</a><a href="/tags/Web/">Web</a><a href="/tags/JS/">JS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/10/D3-js-笔记01/" title="D3.js 笔记01" itemprop="url">D3.js 笔记01</a>
   </h1>
   <p class="article-author">By
@@ -896,154 +1072,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/26/Linux端口被占用解决方案/" title="Linux端口被占用解决方案" itemprop="url">Linux端口被占用解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-26T02:52:53.000Z" itemprop="datePublished"> 发表于 2016-06-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>之前一直使用ss代理上google，但是最近不知道怎么回事儿，本地运行<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sslocal -c /etc/<span class="built_in">config</span>.json</div></pre></td></tr></table></figure></p>
-<p>报错:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">INFO:</span> loading config from doc/config.json</div><div class="line"><span class="number">2016</span>-<span class="number">06</span>-<span class="number">26</span> <span class="number">12</span>:<span class="number">34</span>:<span class="number">53</span> INFO     loading libcrypto from libcrypto.so<span class="meta">.1</span><span class="meta">.0</span><span class="meta">.0</span></div><div class="line"><span class="number">2016</span>-<span class="number">06</span>-<span class="number">26</span> <span class="number">12</span>:<span class="number">34</span>:<span class="number">53</span> INFO     starting local <span class="meta">at</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">1080</span></div><div class="line"><span class="number">2016</span>-<span class="number">06</span>-<span class="number">26</span> <span class="number">12</span>:<span class="number">34</span>:<span class="number">53</span> ERROR    [Errno <span class="number">98</span>] Address already <span class="keyword">in</span> use</div></pre></td></tr></table></figure></p>
-<p>主要是找不到占用这个端口的进程，也不知道怎么把占用端口的进程杀掉,网上查了相关解决方法，总算找到解决方案:<br>首先得找到是哪个进程占用了这个端口,即找出进程的pid:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ netstat -anp | grep <span class="number">1080</span>             </div><div class="line">（并非所有进程都能被检测到，所有非本用户的进程信息将不会显示，如果想看到所有信息，则必须切换到 root 用户）</div><div class="line">tcp        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:<span class="number">1080</span>            <span class="number">0.0</span><span class="meta">.0</span><span class="meta">.0</span>:*               LISTEN      <span class="number">1955</span>/EmbedThunderMa</div></pre></td></tr></table></figure></p>
-<p>看到没，那个<code>1955</code>就是罪魁祸首,于是再通过pid查看具体是哪个进程:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~ ps -ef | grep <span class="number">1955</span></div><div class="line">anonymo+  <span class="number">1955</span>  <span class="number">1871</span>  <span class="number">0</span> <span class="number">09</span>:<span class="number">47</span> ?        <span class="number">00</span>:<span class="number">00</span>:<span class="number">18</span> /opt/xware-desktop/xware/<span class="class"><span class="keyword">lib</span>/<span class="title">EmbedThunderManager</span> *********</span></div><div class="line">anonymo+  <span class="number">5621</span>  <span class="number">2847</span>  <span class="number">0</span> <span class="number">10</span>:<span class="number">41</span> pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> grep --color=auto <span class="number">1955</span></div></pre></td></tr></table></figure></p>
-<p>终于找到原因,原来是前一阵子为了下东西，装了一个Linux版的迅雷，虽然最后还是没法下载，但是这东西有个服务开机自动启动，占用了我的1080端口，导致我想用没法用<br>果断卸载了坑爹的迅雷,然后把这个进程杀了<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo kill <span class="number">-9</span> <span class="number">1955</span></div></pre></td></tr></table></figure></p>
-<p>然后果然1080端口可以用了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发环境/">开发环境</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/21/Spark-下载与入门/" title="Spark 下载与入门" itemprop="url">Spark 下载与入门</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-21T15:03:39.000Z" itemprop="datePublished"> 发表于 2016-06-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>开发环境:<br>OS: Ubuntu 16.04 64bit</p>
-<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><h4 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h4><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo wget http://d3kbcqa49mib13.cloudfront.net/spark-<span class="number">1.6</span><span class="meta">.1</span>-bin-hadoop2<span class="meta">.6</span>.tgz</div><div class="line">sudo tar -xvf spark-<span class="number">1.6</span><span class="meta">.1</span>-bin-hadoop2<span class="meta">.6</span>.tgz -C /usr/dev </div><div class="line">sudo chown -R anonymous:anonymous spark-<span class="number">1.6</span><span class="meta">.1</span>-bin-hadoop2<span class="meta">.6</span>	# anonymous为当前用户名</div></pre></td></tr></table></figure>
-<h4 id="运行Spark"><a href="#运行Spark" class="headerlink" title="运行Spark"></a>运行Spark</h4><p>Spark支持多种语言,我们可以通过Python,Scala进入Spark交互式环境。</p>
-<ul>
-<li>Scala Shell</li>
-</ul>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> /usr/dev/spark-1.6.1-bin-hadoop2.6</div><div class="line">./bin/spark-<span class="keyword">shell</span>	# 启动<span class="keyword">Scala</span> <span class="keyword">Shell</span></div></pre></td></tr></table></figure>
-<p><strong>注意:</strong>如果报错:<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Tue Jun 21 23:30:04 CST 2016 Thread[main,5,main] java.io.FileNotFoundException: derby.log (权限不够)</div><div class="line">16/06/21 23:30:04 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)</div><div class="line">Tue Jun 21 23:30:04 CST 2016 Thread[main,5,main] Cleanup action starting</div><div class="line"><span class="keyword">ERROR </span>XBM0H: Directory /usr/dev/spark<span class="string">-1</span>.6.1-bin-hadoop2.6/bin/metastore_db cannot be created.</div></pre></td></tr></table></figure></p>
-<p>出现这个问题一般就是没有创建文件的权限,安装的最后一个命令就是起这个作用的<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">chown</span> <span class="selector-tag">-R</span> <span class="selector-tag">anonymous</span><span class="selector-pseudo">:anonymous</span> <span class="selector-tag">spark-1</span><span class="selector-class">.6</span><span class="selector-class">.1-bin-hadoop2</span><span class="selector-class">.6</span>	# <span class="selector-tag">anonymous</span>为当前用户名</div></pre></td></tr></table></figure></p>
-<ul>
-<li>Python Shell</li>
-</ul>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/bin/</span>pyspark</div></pre></td></tr></table></figure>
-<p>为了在Shell里面写Python有补全提示，强烈建议安装<code>ipython</code>,Ubuntu安装也很简单<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt <span class="keyword">install</span> -y ipython</div></pre></td></tr></table></figure></p>
-<p>然后启动的时候可以这样:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">IPYTHON</span>=<span class="number">1</span> ./bin/pyspark</div></pre></td></tr></table></figure></p>
-<p>进入Shell大概是这样的:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">➜  spark-<span class="number">1.6</span>.1-bin-hadoop2.6 IPYTHON=<span class="number">1</span> bin/pyspark</div><div class="line">Python <span class="number">2.7</span>.11+ (default, Apr <span class="number">17</span> <span class="number">2016</span>, <span class="number">14</span>:<span class="number">00</span>:<span class="number">29</span>) </div><div class="line">Type <span class="string">"copyright"</span>, <span class="string">"credits"</span> <span class="keyword">or</span> <span class="string">"license"</span> <span class="keyword">for</span> more information.</div><div class="line"></div><div class="line">IPython <span class="number">2.4</span>.1 -- An enhanced Interactive Python.</div><div class="line">?         -&gt; Introduction <span class="keyword">and</span> overview of IPython's <span class="built_in">features</span>.</div><div class="line">%quickref -&gt; Quick reference.</div><div class="line">help      -&gt; Python's own help <span class="built_in">system</span>.</div><div class="line">object?   -&gt; Details about 'object', use 'object??' <span class="keyword">for</span> extra details.</div><div class="line">Using Spark's default log4j profile: org/apache/spark/log4j-defaults.<span class="built_in">properties</span></div><div class="line"><span class="number">16</span>/<span class="number">06</span>/<span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">06</span> INFO SparkContext: Running Spark version <span class="number">1.6</span>.1</div><div class="line"><span class="number">16</span>/<span class="number">06</span>/<span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">06</span> WARN NativeCodeLoader: Unable to <span class="built_in">load</span> native-hadoop library <span class="keyword">for</span> your platform... using builtin-java classes where applicable</div><div class="line">Welcome to</div><div class="line">      ____              <span class="symbol">__</span></div><div class="line">     / <span class="symbol">__</span>/<span class="symbol">__</span>  ___ _____/ /<span class="symbol">__</span></div><div class="line">    <span class="symbol">_</span>\ \/ <span class="symbol">_</span> \/ <span class="symbol">_</span> `/ <span class="symbol">__</span>/  '<span class="symbol">_</span>/</div><div class="line">   /<span class="symbol">__</span> / .<span class="symbol">__</span>/\<span class="symbol">_</span>,<span class="symbol">_</span>/<span class="symbol">_</span>/ /<span class="symbol">_</span>/\<span class="symbol">_</span>\   version <span class="number">1.6</span>.1</div><div class="line">      /<span class="symbol">_</span>/</div><div class="line"></div><div class="line">Using Python version <span class="number">2.7</span>.11+ (default, Apr <span class="number">17</span> <span class="number">2016</span> <span class="number">14</span>:<span class="number">00</span>:<span class="number">29</span>)</div><div class="line">SparkContext available as sc, HiveContext available as sqlContext.</div><div class="line"></div><div class="line">In [<span class="number">1</span>]: lines = sc.textFile(<span class="string">"README.md"</span>)</div></pre></td></tr></table></figure></p>
-<p>如果你觉得这样也有些麻烦,可以在<code>~/.bashrc</code>里面加一行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">alias</span> ipython=<span class="string">'IPYTHON=1'</span></div></pre></td></tr></table></figure></p>
-<p>然后就可以这么启动:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~ cd /usr/dev/spark<span class="number">-1.6</span><span class="number">.1</span>-bin-hadoop2<span class="number">.6</span> </div><div class="line">➜  spark<span class="number">-1.6</span><span class="number">.1</span>-bin-hadoop2<span class="number">.6</span> ipython bin/pyspark</div></pre></td></tr></table></figure></p>
-<h4 id="简单样例"><a href="#简单样例" class="headerlink" title="简单样例"></a>简单样例</h4><p>Scala也不熟，就以Python为例吧,注意我的当前目录是在<code>/usr/dev/spark-1.6.1-bin-hadoop2.6</code>:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: lines = sc.textFile(<span class="string">"README.md"</span>)</div><div class="line"> n [<span class="number">2</span>]: lines.count()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">FileInputFormat:</span> Total input paths to <span class="string">process :</span> <span class="number">1</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">SparkContext:</span> Starting <span class="string">job:</span> count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Got job <span class="number">0</span> (count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>) with <span class="number">2</span> output partitions</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Final <span class="string">stage:</span> ResultStage <span class="number">0</span> (count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Parents of <span class="keyword">final</span> <span class="string">stage:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Missing <span class="string">parents:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Submitting ResultStage <span class="number">0</span> (PythonRDD[<span class="number">2</span>] at count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>), which has no missing parents</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">MemoryStore:</span> Block broadcast_1 stored <span class="keyword">as</span> values <span class="keyword">in</span> memory (estimated size <span class="number">5.6</span> KB, free <span class="number">173.1</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">MemoryStore:</span> Block broadcast_1_piece0 stored <span class="keyword">as</span> bytes <span class="keyword">in</span> memory (estimated size <span class="number">3.4</span> KB, free <span class="number">176.6</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">BlockManagerInfo:</span> Added broadcast_1_piece0 <span class="keyword">in</span> memory on <span class="string">localhost:</span><span class="number">36609</span> (<span class="string">size:</span> <span class="number">3.4</span> KB, <span class="string">free:</span> <span class="number">511.5</span> MB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">SparkContext:</span> Created broadcast <span class="number">1</span> from broadcast at DAGScheduler.<span class="string">scala:</span><span class="number">1006</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">DAGScheduler:</span> Submitting <span class="number">2</span> missing tasks from ResultStage <span class="number">0</span> (PythonRDD[<span class="number">2</span>] at count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">TaskSchedulerImpl:</span> Adding task set <span class="number">0.0</span> with <span class="number">2</span> tasks</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">TaskSetManager:</span> Starting task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>, localhost, partition <span class="number">0</span>,PROCESS_LOCAL, <span class="number">2151</span> bytes)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">TaskSetManager:</span> Starting task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>, localhost, partition <span class="number">1</span>,PROCESS_LOCAL, <span class="number">2151</span> bytes)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">Executor:</span> Running task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">Executor:</span> Running task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">HadoopRDD:</span> Input <span class="string">split:</span> <span class="string">file:</span><span class="regexp">/usr/</span>dev<span class="regexp">/spark-1.6.1-bin-hadoop2.6/</span>README.<span class="string">md:</span><span class="number">0</span>+<span class="number">1679</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">HadoopRDD:</span> Input <span class="string">split:</span> <span class="string">file:</span><span class="regexp">/usr/</span>dev<span class="regexp">/spark-1.6.1-bin-hadoop2.6/</span>README.<span class="string">md:</span><span class="number">1679</span>+<span class="number">1680</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.tip.id is deprecated. Instead, use mapreduce.task.id</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.task.partition is deprecated. Instead, use mapreduce.task.partition</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">41</span> INFO <span class="string">deprecation:</span> mapred.job.id is deprecated. Instead, use mapreduce.job.id</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">PythonRunner:</span> <span class="string">Times:</span> total = <span class="number">283</span>, boot = <span class="number">268</span>, init = <span class="number">14</span>, finish = <span class="number">1</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">PythonRunner:</span> <span class="string">Times:</span> total = <span class="number">291</span>, boot = <span class="number">272</span>, init = <span class="number">19</span>, finish = <span class="number">0</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">Executor:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>). <span class="number">2124</span> bytes result sent to driver</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">Executor:</span> Finished task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>). <span class="number">2124</span> bytes result sent to driver</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">TaskSetManager:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">0</span>) <span class="keyword">in</span> <span class="number">407</span> ms on localhost (<span class="number">1</span>/<span class="number">2</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">TaskSetManager:</span> Finished task <span class="number">1.0</span> <span class="keyword">in</span> stage <span class="number">0.0</span> (TID <span class="number">1</span>) <span class="keyword">in</span> <span class="number">393</span> ms on localhost (<span class="number">2</span>/<span class="number">2</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">DAGScheduler:</span> ResultStage <span class="number">0</span> (count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>) finished <span class="keyword">in</span> <span class="number">0.423</span> s</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">TaskSchedulerImpl:</span> Removed TaskSet <span class="number">0.0</span>, whose tasks have all completed, from pool </div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">57</span>:<span class="number">42</span> INFO <span class="string">DAGScheduler:</span> Job <span class="number">0</span> <span class="string">finished:</span> count at &lt;ipython-input<span class="number">-2</span><span class="number">-44</span>aeefde846d&gt;:<span class="number">1</span>, took <span class="number">0.489031</span> s</div><div class="line">Out[<span class="number">2</span>]: <span class="number">95</span></div><div class="line"></div><div class="line">In [<span class="number">3</span>]: lines.first()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">SparkContext:</span> Starting <span class="string">job:</span> runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Got job <span class="number">1</span> (runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>) with <span class="number">1</span> output partitions</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Final <span class="string">stage:</span> ResultStage <span class="number">1</span> (runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Parents of <span class="keyword">final</span> <span class="string">stage:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Missing <span class="string">parents:</span> List()</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Submitting ResultStage <span class="number">1</span> (PythonRDD[<span class="number">3</span>] at RDD at PythonRDD.<span class="string">scala:</span><span class="number">43</span>), which has no missing parents</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">MemoryStore:</span> Block broadcast_2 stored <span class="keyword">as</span> values <span class="keyword">in</span> memory (estimated size <span class="number">4.8</span> KB, free <span class="number">181.3</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">MemoryStore:</span> Block broadcast_2_piece0 stored <span class="keyword">as</span> bytes <span class="keyword">in</span> memory (estimated size <span class="number">3.0</span> KB, free <span class="number">184.3</span> KB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">BlockManagerInfo:</span> Added broadcast_2_piece0 <span class="keyword">in</span> memory on <span class="string">localhost:</span><span class="number">36609</span> (<span class="string">size:</span> <span class="number">3.0</span> KB, <span class="string">free:</span> <span class="number">511.5</span> MB)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">SparkContext:</span> Created broadcast <span class="number">2</span> from broadcast at DAGScheduler.<span class="string">scala:</span><span class="number">1006</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Submitting <span class="number">1</span> missing tasks from ResultStage <span class="number">1</span> (PythonRDD[<span class="number">3</span>] at RDD at PythonRDD.<span class="string">scala:</span><span class="number">43</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSchedulerImpl:</span> Adding task set <span class="number">1.0</span> with <span class="number">1</span> tasks</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSetManager:</span> Starting task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>, localhost, partition <span class="number">0</span>,PROCESS_LOCAL, <span class="number">2151</span> bytes)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">Executor:</span> Running task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">HadoopRDD:</span> Input <span class="string">split:</span> <span class="string">file:</span><span class="regexp">/usr/</span>dev<span class="regexp">/spark-1.6.1-bin-hadoop2.6/</span>README.<span class="string">md:</span><span class="number">0</span>+<span class="number">1679</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">PythonRunner:</span> <span class="string">Times:</span> total = <span class="number">41</span>, boot = <span class="number">-33244</span>, init = <span class="number">33285</span>, finish = <span class="number">0</span></div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">Executor:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>). <span class="number">2143</span> bytes result sent to driver</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSetManager:</span> Finished task <span class="number">0.0</span> <span class="keyword">in</span> stage <span class="number">1.0</span> (TID <span class="number">2</span>) <span class="keyword">in</span> <span class="number">67</span> ms on localhost (<span class="number">1</span>/<span class="number">1</span>)</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> ResultStage <span class="number">1</span> (runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>) finished <span class="keyword">in</span> <span class="number">0.068</span> s</div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">TaskSchedulerImpl:</span> Removed TaskSet <span class="number">1.0</span>, whose tasks have all completed, from pool </div><div class="line"><span class="number">16</span><span class="regexp">/06/</span><span class="number">21</span> <span class="number">23</span>:<span class="number">58</span>:<span class="number">15</span> INFO <span class="string">DAGScheduler:</span> Job <span class="number">1</span> <span class="string">finished:</span> runJob at PythonRDD.<span class="string">scala:</span><span class="number">393</span>, took <span class="number">0.082887</span> s</div><div class="line">Out[<span class="number">3</span>]: u<span class="string">'# Apache Spark'</span></div></pre></td></tr></table></figure></p>
-<p>看看，其实很简单的，但是有个问题，每次输入一个操作，结果搞出这么一大堆的日志，看着确实影响输入，我们可以控制一下Spark的输出日志级别,编辑<code>spark-1.6.1-bin-hadoop2.6/conf/log4j.properties.template</code>文件,为了安全起见，我们直接拷贝一份模板作为我们的日志配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> conf/</div><div class="line">sudo cp <span class="built_in">log</span>4j.properties.template <span class="built_in">log</span>4j.properties</div></pre></td></tr></table></figure></p>
-<p>定位到这一行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">log</span>4j.rootCategory=INFO, console</div></pre></td></tr></table></figure></p>
-<p>改为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">log</span>4j.rootCategory=WARN, console</div></pre></td></tr></table></figure></p>
-<p>看看之前的操作:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Using Python version <span class="number">2.7</span><span class="number">.11</span>+ (default, Apr <span class="number">17</span> <span class="number">2016</span> <span class="number">14</span>:<span class="number">00</span>:<span class="number">29</span>)</div><div class="line">SparkContext available <span class="keyword">as</span> sc, HiveContext available <span class="keyword">as</span> sqlContext.</div><div class="line"></div><div class="line">In [<span class="number">1</span>]: lines = sc.textFile(<span class="string">"README.md"</span>)</div><div class="line"></div><div class="line">In [<span class="number">2</span>]: lines.count()</div><div class="line">Out[<span class="number">2</span>]: <span class="number">95</span></div><div class="line"></div><div class="line">In [<span class="number">3</span>]: lines.first()</div><div class="line">Out[<span class="number">3</span>]: <span class="string">u'# Apache Spark'</span></div><div class="line"></div><div class="line">In [<span class="number">4</span>]:</div></pre></td></tr></table></figure></p>
-<p>这样就只会输出警告及以上的日志了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/大数据/">大数据</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/Spark/">Spark</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1085,6 +1113,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -1109,7 +1141,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -1130,7 +1162,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -1150,11 +1182,11 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -1162,11 +1194,11 @@
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -1182,11 +1214,15 @@
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -1194,19 +1230,15 @@
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>

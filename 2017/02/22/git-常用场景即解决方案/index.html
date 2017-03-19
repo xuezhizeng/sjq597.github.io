@@ -19,7 +19,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 <meta property="og:site_name" content="LittleQ">
 <meta property="og:description" content="熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。
 merage错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操">
-<meta property="og:updated_time" content="2017-03-07T11:44:52.155Z">
+<meta property="og:updated_time" content="2017-03-13T06:44:33.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 常用场景即解决方案">
 <meta name="twitter:description" content="熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。
@@ -99,7 +99,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merage错了分支"><span class="toc-number">1.</span> <span class="toc-text">merage错了分支</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merage错了分支"><span class="toc-number">1.</span> <span class="toc-text">merage错了分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git仓库无权限"><span class="toc-number">2.</span> <span class="toc-text">Git仓库无权限</span></a></li></ol>
 		
 		</div>
 		
@@ -119,6 +119,17 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 <li>git revert一般做法</li>
 </ul>
 <p>一般我们的解决办法其实只是处理我们弄错了的分支，因为虽然我们合并错了，但是master,分支B都是好的，没有多余的提交的，我么你只需要把分支A的问题搞定就行了，此操作也会产生一个新的commit:<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">git</span> <span class="keyword">revert </span>&lt;merge操作的版本号&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="Git仓库无权限"><a href="#Git仓库无权限" class="headerlink" title="Git仓库无权限"></a>Git仓库无权限</h3><p>这个问题会经常出现，就算是很多用了好几年的程序员，有时候在出现这个问题的时候也不知道怎么解决，一般也就是去网上查一下，然后照着帖子里面弄一下，如果可以了，就再也不管了，如果不行，就接着找，试下一个方法，反正就这么一直试，试到后面总会莫名奇妙的解决了。如果实在不行可能就放大招重装系统或者git了。其实出现这个问题的根本原因就是ssh私钥和公钥的问题，要么是找不到，要么是找到了文件的权限不对.所以在出现这个问题的时候就知道怎么解决了.<br>首先得说明一下下面的两个命令的区别:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo git pull	/<span class="regexp">/ 读取的配置文件为/root</span><span class="regexp">/.ssh/id</span>_rsa</div><div class="line">git pull	/<span class="regexp">/ 读取的配置文件为~/</span>.ssh/id_rsa</div></pre></td></tr></table></figure></p>
+<p>可以试一下有什么区别:</p>
+<ul>
+<li>ssh -vT git@gitlab.corp.xxx.com</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_rsa type <span class="number">1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_rsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_dsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_dsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_ecdsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_ecdsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_ed25519 type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/home/</span>anonymous<span class="regexp">/.ssh/</span>id_ed25519-cert type <span class="number">-1</span></div></pre></td></tr></table></figure>
+<ul>
+<li>sudo ssh -vT git@gitlab.corp.xxx.com</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_rsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_rsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_dsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_dsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ecdsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ecdsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ed25519 type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ed25519-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> Enabling compatibility mode <span class="keyword">for</span> protocol <span class="number">2.0</span></div></pre></td></tr></table></figure>
+<p>不同权限加载的文件是不一样的，所以为了知道问题出在哪，首先你得知道在和git仓库同步代码的时候加载的是哪个地方的秘钥文件.<br>知道了加载哪个地方的文件之后，还有一个很重要的问题需要知道,秘钥文件的权限必须是<code>`600</code>,很多时候可能关键的问题还是因为秘钥文件的权限不对</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -181,7 +192,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merage错了分支"><span class="toc-number">1.</span> <span class="toc-text">merage错了分支</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merage错了分支"><span class="toc-number">1.</span> <span class="toc-text">merage错了分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git仓库无权限"><span class="toc-number">2.</span> <span class="toc-text">Git仓库无权限</span></a></li></ol>
  
   </div>
 
@@ -218,6 +229,10 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -242,7 +257,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -263,7 +278,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -283,11 +298,11 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -295,11 +310,11 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -315,11 +330,15 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -327,19 +346,15 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>

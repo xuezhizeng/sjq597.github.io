@@ -81,6 +81,155 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/10/06/Ubuntu-14-04-配置maven/" title="Ubuntu 14.04 配置maven" itemprop="url">Ubuntu 14.04 配置maven</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-06T08:57:06.000Z" itemprop="datePublished"> 发表于 2015-10-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="首先下载maven"><a href="#首先下载maven" class="headerlink" title="首先下载maven"></a>首先下载maven</h3><ul>
+<li><p>去官网下载压缩包<code>apache-maven-3.0.5-bin.tar.gz</code>，<a href="http://maven.apache.org/download.cgi" target="_blank" rel="external">apache-maven官网下载页面</a></p>
+</li>
+<li><p>解压压缩包</p>
+</li>
+</ul>
+<blockquote>
+<p>tar -xvzf apache-maven-3.0.5-bin.tar.gz</p>
+</blockquote>
+<p>把压缩包就放在当前解压目录，或者放到制定目录</p>
+<blockquote>
+<p>cp -r apache-maven-3.0.5 /usr/qunar/</p>
+</blockquote>
+<p>现在已经创建好了一个<code>Maven</code>安装目录<code>apache-maven-3.0.5</code>，虽然直接使用该目录配置环境变量之后就能使用<code>Maven</code>了，但推荐做法是，在安装目录旁平行地创建一个符号链接，以方便日后的升级：</p>
+<blockquote>
+<p>sudo ln -s apache-maven-3.0.5 apache-maven</p>
+</blockquote>
+<p>查看一下是否成功<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Ubuntu配置maven01.png" alt="查看链接是否创建"></p>
+<ul>
+<li>编辑环境变量</li>
+</ul>
+<blockquote>
+<p>vi ~/.bashrc</p>
+</blockquote>
+<p>在文件末尾加入以下内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> M2_HOME=/usr/qunar/apache-maven</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$&#123;M2_HOME&#125;</span>/bin</div></pre></td></tr></table></figure></p>
+<p>更新一下文件，然后再测试是否成功<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">​➜  qunar <span class="built_in">source</span> ~/.bashrc</div><div class="line">➜  qunar mvn -v</div><div class="line">Apache Maven 3.0.5 (r01de14724cdef164<span class="built_in">cd</span>33c7c8c2fe155faf9602da; 2013-02-19 21:51:28+0800)</div><div class="line">Maven home: /usr/qunar/apache-maven</div><div class="line">Java version: 1.7.0_40, vendor: Oracle Corporation</div><div class="line">Java home: /usr/qunar/jdk1.7.0_40/jre</div><div class="line">Default locale: zh_CN, platform encoding: UTF-8</div><div class="line">OS name: <span class="string">"linux"</span>, version: <span class="string">"3.13.0-32-generic"</span>, arch: <span class="string">"amd64"</span>, family: <span class="string">"unix"</span></div></pre></td></tr></table></figure></p>
+<p>在用户目录<code>~/.m2</code>目录下，添加<code>settings.xml</code>，内容如下：<br>其中最关键的看第29行和第44行，定义了两个仓库，分别是jar包仓库和插件仓库，这样在公司内网下载jar包就非常快<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">settings</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></div><div class="line">          <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">          <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0</span></div><div class="line">                            http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">servers</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">server</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">username</span>&gt;</span>snapshots<span class="tag">&lt;/<span class="name">username</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">password</span>&gt;</span>g2Dki6XCfhi48Bnj<span class="tag">&lt;/<span class="name">password</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">filePermissions</span>&gt;</span>664<span class="tag">&lt;/<span class="name">filePermissions</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">directoryPermissions</span>&gt;</span>775<span class="tag">&lt;/<span class="name">directoryPermissions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">server</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">server</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>releases<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">username</span>&gt;</span>&#123;username&#125;<span class="tag">&lt;/<span class="name">username</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">password</span>&gt;</span>&#123;yourpwd&#125;<span class="tag">&lt;/<span class="name">password</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">filePermissions</span>&gt;</span>664<span class="tag">&lt;/<span class="name">filePermissions</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">directoryPermissions</span>&gt;</span>775<span class="tag">&lt;/<span class="name">directoryPermissions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">server</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servers</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">profiles</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">profile</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>local<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">repositories</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">id</span>&gt;</span>QunarNexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://svn.corp.qunar.com:8081/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">releases</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></div><div class="line">                        <span class="comment">&lt;!-- always , daily (default), interval:X (where X is </span></div><div class="line">                            an integer in minutes) or never.--&gt;</div><div class="line">                        <span class="tag">&lt;<span class="name">updatePolicy</span>&gt;</span>daily<span class="tag">&lt;/<span class="name">updatePolicy</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">checksumPolicy</span>&gt;</span>warn<span class="tag">&lt;/<span class="name">checksumPolicy</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">updatePolicy</span>&gt;</span>always<span class="tag">&lt;/<span class="name">updatePolicy</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">id</span>&gt;</span>QunarNexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://svn.corp.qunar.com:8081/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">releases</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">checksumPolicy</span>&gt;</span>warn<span class="tag">&lt;/<span class="name">checksumPolicy</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">updatePolicy</span>&gt;</span>always<span class="tag">&lt;/<span class="name">updatePolicy</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">activeProfiles</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">activeProfile</span>&gt;</span>local<span class="tag">&lt;/<span class="name">activeProfile</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">activeProfiles</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/maven/">maven</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/06/IDEA中配置MySQL/" title="IDEA中配置MySQL" itemprop="url">IDEA中配置MySQL</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-06T04:58:04.000Z" itemprop="datePublished"> 发表于 2015-10-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="首先在终端中安装"><a href="#首先在终端中安装" class="headerlink" title="首先在终端中安装"></a>首先在终端中安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mysql-server</div></pre></td></tr></table></figure>
+<p>安装中途会要求输入密码，直接输入就可以了。<br>等待安装完成就可以登录了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~$ mysql -uroot -p+yourpassword</div></pre></td></tr></table></figure></p>
+<p><strong>NOTE:</strong> 假设你的密码是<code>123456</code>，那么最后就是<code>-p123456</code>。</p>
+<h3 id="在IDEA中配置MySQL"><a href="#在IDEA中配置MySQL" class="headerlink" title="在IDEA中配置MySQL"></a>在IDEA中配置MySQL</h3><p>在<code>View-&gt;Tool Windows-&gt;DataBase</code>，打开数据库配置窗口<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_IDE和MySQL环境配置01.png" alt="数据库配置窗口"><br>点<code>+</code>号，<code>Data Source</code>选择<code>MySQL</code>配置添加，填上自己的用户名和密码，注意第一次添加需要下载驱动<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_IDE和MySQL环境配置02.png" alt="数据库连接配置">即<code>Driver files</code>里会提示你下载。<br>在<code>0 tables 0 procedures下</code>面有红色的提示，点击<code>download</code>就可以下载了，下载好了，点<code>Test Connection</code><br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_IDE和MySQL环境配置03.png" alt="测试数据库连接"><br>出现这个就说明成功了，记得上面没有配置<code>Database</code>。<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_IDE和MySQL环境配置04.png" alt="数据库控制台"><br>最终效果就是这样，可以直接写<code>SQL</code>语句，然后执行。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/SQL/">SQL</a><a href="/tags/IDEA/">IDEA</a><a href="/tags/开发环境/">开发环境</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/10/05/终极-Shell——zsh/" title="终极 Shell——zsh" itemprop="url">终极 Shell——zsh</a>
   </h1>
   <p class="article-author">By
@@ -567,6 +716,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Linux使用/" title="Linux使用">Linux使用<sup>23</sup></a></li>
 		  
 		
@@ -591,7 +744,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
 		  
 		
 		  
@@ -612,7 +765,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>63</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
 			
 		
 			
@@ -632,11 +785,11 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
 			
 		
 			
@@ -644,11 +797,11 @@
 			
 		
 			
-				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
+				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Git/" title="Git">Git<sup>9</sup></a></li>
+				<li><a href="/tags/Vim/" title="Vim">Vim<sup>9</sup></a></li>
 			
 		
 			
@@ -664,11 +817,15 @@
 			
 		
 			
+				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>3</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -676,19 +833,15 @@
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>2</sup></a></li>
+				<li><a href="/tags/Sublime-Text/" title="Sublime Text">Sublime Text<sup>2</sup></a></li>
 			
 		
 		</ul>
