@@ -98,6 +98,9 @@
 <p>首先下载激活软件,这放一个下载地址<a href="https://pan.baidu.com/s/1c2pFhIS" target="_blank" rel="external">百度盘IDEA激活服务器下载地址</a>,密码:uh36.<br>然后把这个下载的软件上传到你的vps上就行了:<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp IntelliJIDEALicenseServer_linux_amd64 your_name<span class="variable">@you_vps_id</span><span class="symbol">:~</span></div></pre></td></tr></table></figure></p>
 <p>然后登录到你的vps上，找到当前目录，执行:<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod +x I<span class="symbol">ntelliJIDEALicenseServer_linux_amd64</span></div><div class="line">./I<span class="symbol">ntelliJIDEALicenseServer_linux_amd64</span> &amp;</div></pre></td></tr></table></figure></p>
 <p>然后在你的IDEA激活那选<code>License Server</code>,地址填:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//&lt;your_vps_id&gt;:1017</span></div></pre></td></tr></table></figure></p>
+<p>有了这个还不够,有时候vps访问并不是那么流畅，或者没联网，这可能会影响我们的idea启动速度,所以可以把激活服务器搭建在本机，然后设置开机启动即可,假设你的文件放在<code>/workspace/dev/IntelliJIDEALicenseServer_linux_amd64</code>,那么可以修改<code>/etc/rc.local</code>,添加:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="regexp">/workspace/</span>dev<span class="regexp">/IntelliJIDEALicenseServer_linux_amd64 &amp;</span></div></pre></td></tr></table></figure></p>
+<p>然后激活服务器可以填:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//127.0.0.1:1017</span></div></pre></td></tr></table></figure></p>
+<p>然后就可以每次不用管是不是联网了。</p>
 
         
         
@@ -957,15 +960,15 @@
 			
 		
 			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
