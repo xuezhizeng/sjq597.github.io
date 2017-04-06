@@ -554,6 +554,11 @@
 </blockquote>
 <p>依然按照建议加上参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install --trusted-host pypi.abc.def.com --upgrade sqlalchemy</div></pre></td></tr></table></figure></p>
 <p>然后就安装成功了。</p>
+<p>有时候升级pip会报这个错:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">The pip==<span class="number">7.1</span><span class="number">.0</span>' distribution was <span class="keyword">not</span> found <span class="keyword">and</span> <span class="keyword">is</span> required <span class="keyword">by</span> <span class="keyword">the</span> <span class="built_in">application</span></div></pre></td></tr></table></figure></p>
+<p>详细解决方案如下:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[root@xxx ~]<span class="comment"># easy_install pip</span></div><div class="line">Searching <span class="keyword">for</span> pip</div><div class="line">Best match: pip <span class="number">9.0</span><span class="number">.1</span></div><div class="line">Adding pip <span class="number">9.0</span><span class="number">.1</span> <span class="keyword">to</span> easy-install.pth <span class="built_in">file</span></div><div class="line">Installing pip <span class="keyword">script</span> <span class="keyword">to</span> /usr/<span class="keyword">local</span>/python2<span class="number">.7</span>/bin</div><div class="line">Installing pip3<span class="number">.5</span> <span class="keyword">script</span> <span class="keyword">to</span> /usr/<span class="keyword">local</span>/python2<span class="number">.7</span>/bin</div><div class="line">Installing pip3 <span class="keyword">script</span> <span class="keyword">to</span> /usr/<span class="keyword">local</span>/python2<span class="number">.7</span>/bin</div><div class="line"></div><div class="line">Using /usr/<span class="keyword">local</span>/python2<span class="number">.7</span>/lib/python2<span class="number">.7</span>/site-packages</div><div class="line">Processing dependencies <span class="keyword">for</span> pip</div><div class="line">Finished processing dependencies <span class="keyword">for</span> pip</div></pre></td></tr></table></figure></p>
+<p>然后看看系统的pip是哪个地方:<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@xxx</span> ~]<span class="meta"># which pip</span></div><div class="line">/usr/bin/pip</div></pre></td></tr></table></figure></p>
+<p>然后我们需要编辑一下这个文件<code>vi /usr/bin/pip</code>:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"><span class="comment"># EASY-INSTALL-ENTRY-SCRIPT: 'pip==7.1.0','console_scripts','pip'</span></div><div class="line">__requires__ = <span class="string">'pip==9.0.1'</span></div><div class="line">import sys</div><div class="line">from pkg_resources import load_entry_point</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    sys.<span class="keyword">exit</span>(</div><div class="line">        load_entry_point(<span class="string">'pip==9.0.1'</span>, <span class="string">'console_scripts'</span>, <span class="string">'pip'</span>)()</div><div class="line">    )</div></pre></td></tr></table></figure></p>
+<p>就是把pip改成你系统安装的pip,然后就可以安装包了．</p>
 
         
         
@@ -906,11 +911,11 @@
 			
 		
 			
-				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/Hive/" title="Hive">Hive<sup>13</sup></a></li>
 			
 		
 			
@@ -954,15 +959,15 @@
 			
 		
 			
-				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可视化/" title="可视化">可视化<sup>2</sup></a></li>
 			
 		
 			
