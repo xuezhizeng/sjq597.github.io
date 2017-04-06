@@ -81,6 +81,76 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/11/Hive-SemanticException-Error-10025-Line-1-7-Expression-not-in-GROUP-BY-key/" title="Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key" itemprop="url">Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-10T16:46:26.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Hive表里同时用<code>group by</code>和<code>order by</code>的时候，出现了错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FAILED: SemanticException [Error 10025]: Line 1:7 Expression not <span class="keyword">in</span> GROUP BY key <span class="string">'sys_code'</span></div></pre></td></tr></table></figure></p>
+<p>具体的SQL语句如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> sys_code,<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure></p>
+<p>后来上网查了一下，这个主要问题还是，<code>sys_code</code>也有多个种类，如果只是对<code>status</code>进行<code>group by</code>。那么<code>sys_code</code>没有办法分类，不知道该如何排序，所以解决办法有两种：</p>
+<ul>
+<li>既然按某一个字段分类，那么其他字段也只能有一种情况，所以可以使用集合，针对上面的这个语句就是：<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> collect_set(sys_code),<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>或者可以只取一个值：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> collect_set(sys_code)[<span class="number">0</span>],<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>第二种就比较简单了，直接报错的字段也加到<code>GROUP BY</code>选项里即可。</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/11/MySQL-Every-derived-table-must-have-its-own-alias/" title="MySQL:Every derived table must have its own alias" itemprop="url">MySQL:Every derived table must have its own alias</a>
   </h1>
   <p class="article-author">By
@@ -181,7 +251,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a>
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a>
   </div>
 
 </div>
@@ -759,71 +829,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/05/Hive-get-json-object用法/" title="Hive get_json_object用法" itemprop="url">Hive get_json_object用法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-05T10:14:09.000Z" itemprop="datePublished"> 发表于 2015-11-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>数据库中存放的json串,有时候需要对某个元素判断来查询结果,非常笨的一个方法就是直接把查询结果的字符串做模糊查询,即<code>like &#39;%str%&#39;</code>,当一个json串非常长的时候,本来效率就很慢,况且是在hadoop海量数据里查找,其实我们并不需要那些其他的字符串,只是需要某个元素的值而已,这个时候就需要用到Hive的字符函数<code>get_json_object()</code>函数.</p>
-<h3 id="get-json-object-函数"><a href="#get-json-object-函数" class="headerlink" title="get_json_object()函数"></a>get_json_object()函数</h3><p>函数用法:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">get_json_object</span><span class="params">(string json_string, string path)</span></span></div></pre></td></tr></table></figure></p>
-<p>具体看一个例子,数据库test定义如下:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">id</span>                  	int                 	自增<span class="built_in">id</span></div><div class="line">content                	<span class="built_in">string</span>              	内容</div></pre></td></tr></table></figure></p>
-<p>其中content是个json串,内容如下:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"status"</span>: &#123;</div><div class="line">     <span class="attr">"person"</span>: &#123;</div><div class="line">        <span class="attr">"name"</span>: <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>查询一下看看结果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">select get_json_object(content,<span class="string">'$.status'</span>) from <span class="built_in">test</span> <span class="built_in">limit</span> 1;</div><div class="line">OK</div><div class="line">&#123;<span class="string">"person"</span>:&#123;<span class="string">"name"</span>:<span class="literal">false</span>&#125;&#125;</div><div class="line">Time taken: 0.066 seconds, Fetched: 1 row(s)</div><div class="line"></div><div class="line">select get_json_object(content,<span class="string">'$.status.person'</span>) from <span class="built_in">test</span> <span class="built_in">limit</span> 1;</div><div class="line">OK</div><div class="line">&#123;<span class="string">"name"</span>:<span class="literal">false</span>&#125;</div><div class="line">Time taken: 0.081 seconds, Fetched: 1 row(s)</div><div class="line"></div><div class="line">select get_json_object(content,<span class="string">'$.status.person.name'</span>) from <span class="built_in">test</span> <span class="built_in">limit</span> 1;</div><div class="line">OK</div><div class="line"><span class="literal">false</span></div><div class="line">Time taken: 0.077 seconds, Fetched: 1 row(s)</div></pre></td></tr></table></figure></p>
-<p><strong>注意:</strong>如果要判断<code>name</code>的值,这个值并不是布尔型,而是一个string,所以需要加上<code>&#39;&#39;</code>,像下面这样:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">select id,content from <span class="built_in">test</span> <span class="built_in">where</span> get_json_object(content,<span class="string">'$.status.person.name'</span>)=<span class="string">'false'</span> <span class="built_in">limit</span> 2;</div><div class="line">OK</div><div class="line">7	&#123;.status<span class="string">":&#123;"</span>person<span class="string">":&#123;"</span>name<span class="string">":false&#125;&#125;&#125;</span></div><div class="line">31	&#123;.status":&#123;<span class="string">"person"</span>:&#123;<span class="string">"name"</span>:<span class="literal">false</span>&#125;&#125;&#125;</div><div class="line">Time taken: 0.085 seco	nds, Fetched: 2 row(s)</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a><a href="/tags/大数据/">大数据</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/8/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/">Next<span></span></a>
@@ -865,7 +870,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -934,7 +939,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -958,11 +963,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -974,7 +979,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -982,11 +987,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

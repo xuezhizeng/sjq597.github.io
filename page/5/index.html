@@ -81,6 +81,78 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/24/Hive-group-by-distinct性能调优/" title="Hive group by distinct性能调优" itemprop="url">Hive group by distinct性能调优</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-24T09:51:15.000Z" itemprop="datePublished"> 发表于 2016-04-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Hive去重统计"><a href="#Hive去重统计" class="headerlink" title="Hive去重统计"></a>Hive去重统计</h3><p>相信使用Hive的人平时会经常用到去重统计之类的吧，但是好像平时很少关注这个去重的性能问题，但是当一个表的数据量非常大的时候，会发现一个简单的<code>count(distinct order_no)</code>这种语句跑的特别慢，和直接运行<code>count(order_no)</code>的时间差了很多，于是研究了一下。<br><strong>先说结论:</strong>能使用<code>group by</code>代替<code>distinc</code>就不要使用<code>distinct</code>，例子：</p>
+<h3 id="实际论证"><a href="#实际论证" class="headerlink" title="实际论证"></a>实际论证</h3><p>order_snap为订单的快照表 总记录条数763191489，即将近8亿条记录,总大小:108.877GB,存储的是公司所有的订单信息，表的字段大概有20个,其中订单号是没有重复的,所以在统计总共有多少订单号的时候去重不去重结果都一样，我们来看看:<br>统计所有的订单有多少条条数，一个<code>count</code>函数就可以搞定的sql性能如何。</p>
+<ul>
+<li>DISTINCT</li>
+</ul>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select count(distinct order_no) from order_snap;</div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 1 </span>  Cumulative CPU: 7915.67 sec   HDFS Read:<span class="number"> 119072894175 </span>HDFS Write:<span class="number"> 10 </span>SUCCESS</div><div class="line">Total MapReduce CPU Time Spent:<span class="number"> 0 </span>days<span class="number"> 2 </span>hours<span class="number"> 11 </span>minutes<span class="number"> 55 </span>seconds<span class="number"> 670 </span>msec</div><div class="line"><span class="symbol">OK</span></div><div class="line">_c0</div><div class="line">763191489</div><div class="line">Time taken: 1818.864 seconds, Fetched:<span class="number"> 1 </span>row(s)</div></pre></td></tr></table></figure>
+<ul>
+<li>GROUP BY</li>
+</ul>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select count(t.order_no) from (select order_no from order_snap group by order_no) t;</div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 457 </span>  Cumulative CPU: 10056.7 sec   HDFS Read:<span class="number"> 119074266583 </span>HDFS Write:<span class="number"> 53469 </span>SUCCESS</div><div class="line">Stage-Stage-2: Map:<span class="number"> 177 </span> Reduce:<span class="number"> 1 </span>  Cumulative CPU: 280.22 sec   HDFS Read:<span class="number"> 472596 </span>HDFS Write:<span class="number"> 10 </span>SUCCESS</div><div class="line">Total MapReduce CPU Time Spent:<span class="number"> 0 </span>days<span class="number"> 2 </span>hours<span class="number"> 52 </span>minutes<span class="number"> 16 </span>seconds<span class="number"> 920 </span>msec</div><div class="line"><span class="symbol">OK</span></div><div class="line">_c0</div><div class="line">763191489</div><div class="line">Time taken: 244.192 seconds, Fetched:<span class="number"> 1 </span>row(s)</div></pre></td></tr></table></figure>
+<p><strong>结论:</strong>第二种写法的性能是第一种的<code>7.448499541</code>倍<br>注意到为什么会有这个差异，Hadoop其实就是处理大数据的，Hive并不怕数据有多大，怕的就是数据倾斜,我们看看两者的输出信息:<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># distinct</span></div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 1 </span>  Cumulative CPU: 7915.67 sec   HDFS Read:<span class="number"> 119072894175 </span>HDFS Write:<span class="number"> 10 </span>SUCCESS</div><div class="line"><span class="comment"># group by</span></div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 457 </span>  Cumulative CPU: 10056.7 sec   HDFS Read:<span class="number"> 119074266583 </span>HDFS Write:<span class="number"> 53469 </span>SUCCESS</div></pre></td></tr></table></figure></p>
+<p>发现猫腻了没有，使用distinct会将所有的order_no都shuffle到一个reducer里面，这就是我们所说的数据倾斜，都倾斜到一个reducer这样性能能不低么？再看第二个，直接按订单号分组，起了457个<code>reducer</code>，将数据分布到多台机器上执行，时间当然快了.<br>由于没有手动指定Reduce的个数，Hive会根据数据的大小动态的指定Reduce大小，你也可以手动指定<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hive&gt; set mapred<span class="selector-class">.reduce</span><span class="selector-class">.tasks</span>=<span class="number">100</span>；</div></pre></td></tr></table></figure></p>
+<p>类似这样,所以如果数据量特别大的情况下，尽量不要使用<code>distinct</code>吧。<br>但是如果你想在一条语句里看总记录条数以及去重之后的记录条数，那没有办法过滤，所以你有两个选择，要么使用两个sql语句分别跑，然后union all或者就使用普通的distinct。具体来说得看具体情况，直接使用distinct可读性好，数据量如果不大的话推荐使用，如果数据太大了，性能受到影响了，再考虑优化。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hive/">Hive</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/24/SSH-免密码登陆/" title="SSH 免密码登陆" itemprop="url">SSH 免密码登陆</a>
   </h1>
   <p class="article-author">By
@@ -728,105 +800,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/20/Python-包-模块之间引用/" title="Python 包 模块之间引用" itemprop="url">Python 包 模块之间引用</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-20T09:32:06.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Python在涉及到跨包的模块引用的时候，并不像Java这种语言那样，可以做到自动查找包路径。在网上也看到各种说法，有些还是不行，所以打算亲自实验一番。</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>实验环境：</p>
-<blockquote>
-<p>OS：Ubuntu<br>Python: Python 2.7.10+<br>IDE:PyCharm</p>
-</blockquote>
-<p>实验之前还要说一下，Python里面，必须在每个文件夹下面建一个<code>__init__.py</code>，这个文件是空的，但是必须要有这个文件，Python才会把这个文件夹视为一个<code>Python Package</code>，包里面的文件就可以称为模块。<br>首先看看测试工程的目录结构：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">➜  package_ref  tree</div><div class="line">.</div><div class="line">├── module1</div><div class="line">│   ├── __init__<span class="selector-class">.py</span></div><div class="line">│   ├── m11<span class="selector-class">.py</span></div><div class="line">│   ├── m12<span class="selector-class">.py</span></div><div class="line">│   └── module11</div><div class="line">│       ├── __init__<span class="selector-class">.py</span></div><div class="line">│       └── m1_m11<span class="selector-class">.py</span></div><div class="line">├── module2</div><div class="line">│   ├── __init__<span class="selector-class">.py</span></div><div class="line">│   └── m21<span class="selector-class">.py</span></div><div class="line">├── module3</div><div class="line">│   ├── __init__<span class="selector-class">.py</span></div><div class="line">│   └── m31<span class="selector-class">.py</span></div><div class="line">└── m.py</div></pre></td></tr></table></figure></p>
-<p>具体的引用关系为：  </p>
-<ol>
-<li>m21.py引用了m11,m12中的函数  </li>
-<li>m31引用了m1_11中的函数  </li>
-<li>m.py引用了m11,m12中的函数</li>
-</ol>
-<h3 id="文件内容"><a href="#文件内容" class="headerlink" title="文件内容"></a>文件内容</h3><ul>
-<li><p>m11.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'m11 func1'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'m11 func2'</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>m12.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'m12 func1'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'m12 func2'</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>m1_m11.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'m1_m11 func1'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'m1_m11 func2'</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>m21.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">from</span> module1 <span class="keyword">import</span> m11, m12</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></div><div class="line">    m11.func1()</div><div class="line">    <span class="keyword">print</span> <span class="string">'m21 func1'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></div><div class="line">    m12.func2()</div><div class="line">    <span class="keyword">print</span> <span class="string">'m21 func2'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    func1()</div><div class="line">    func2()</div></pre></td></tr></table></figure>
-</li>
-<li><p>m31.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">from</span> module1.module11 <span class="keyword">import</span> m1_m11</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></div><div class="line">    m1_m11.func1()</div><div class="line">    <span class="keyword">print</span> <span class="string">'m31 func1'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></div><div class="line">    m1_m11.func2()</div><div class="line">    <span class="keyword">print</span> <span class="string">'m31 func2'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    func1()</div><div class="line">    func2()</div></pre></td></tr></table></figure>
-</li>
-<li><p>m.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"><span class="keyword">from</span> module1 <span class="keyword">import</span> m11, m12</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></div><div class="line">    m11.func1()</div><div class="line">    <span class="keyword">print</span> <span class="string">'m func1'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></div><div class="line">    m12.func2()</div><div class="line">    <span class="keyword">print</span> <span class="string">'m func2'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    func1()</div><div class="line">    func2()</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h3><p>在PyCharm里执行，全部都可以正确执行,进入<code>package_ref</code>根目录，终端中执行<code>python m.py</code>,也没有问题。<br>进入<code>module2</code>目录，执行<code>python m21.py</code>，报错：</p>
-<blockquote>
-<p>Traceback (most recent call last):<br>  File “module2/m21.py”, line 3, in <module><br>    from module1 import m11, m12<br>ImportError: No module named module1</module></p>
-</blockquote>
-<p>进入module3也是同样的错误。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>在报错的文件中，引入本地包里面的模块之前，头部加上：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line">sys.path.append(<span class="string">'..'</span>)</div></pre></td></tr></table></figure></p>
-<p>其他地方不用改变，测试之后在pyCharm和终端中执行都没有问题。</p>
-<p><strong>备注:</strong>详细的工程在github上也有，git地址为<a href="https://github.com/sjq597/python_package_ref" target="_blank" rel="external">python-package_ref</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Python/">Python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
@@ -868,7 +841,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -937,7 +910,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -961,11 +934,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -977,7 +950,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -985,11 +958,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

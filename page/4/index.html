@@ -81,6 +81,66 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/26/Linux-标准输出重定向到文件/" title="Linux 标准输出重定向到文件" itemprop="url">Linux 标准输出重定向到文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-26T05:41:29.000Z" itemprop="datePublished"> 发表于 2016-06-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>经常需要把脚本放到后台执行，但是出了问题也不知道错误出在哪，最好是把任务在前端执行输出到终端的标准输出以及标准错误输出都输出到文件，等程序出错了可以知道问题出在哪:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash test<span class="selector-class">.sh</span> &gt; data<span class="selector-class">.log</span> <span class="number">2</span>&gt;&amp;<span class="number">1</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/26/Linux端口被占用解决方案/" title="Linux端口被占用解决方案" itemprop="url">Linux端口被占用解决方案</a>
   </h1>
   <p class="article-author">By
@@ -796,78 +856,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/24/Hive-group-by-distinct性能调优/" title="Hive group by distinct性能调优" itemprop="url">Hive group by distinct性能调优</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-24T09:51:15.000Z" itemprop="datePublished"> 发表于 2016-04-24</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Hive去重统计"><a href="#Hive去重统计" class="headerlink" title="Hive去重统计"></a>Hive去重统计</h3><p>相信使用Hive的人平时会经常用到去重统计之类的吧，但是好像平时很少关注这个去重的性能问题，但是当一个表的数据量非常大的时候，会发现一个简单的<code>count(distinct order_no)</code>这种语句跑的特别慢，和直接运行<code>count(order_no)</code>的时间差了很多，于是研究了一下。<br><strong>先说结论:</strong>能使用<code>group by</code>代替<code>distinc</code>就不要使用<code>distinct</code>，例子：</p>
-<h3 id="实际论证"><a href="#实际论证" class="headerlink" title="实际论证"></a>实际论证</h3><p>order_snap为订单的快照表 总记录条数763191489，即将近8亿条记录,总大小:108.877GB,存储的是公司所有的订单信息，表的字段大概有20个,其中订单号是没有重复的,所以在统计总共有多少订单号的时候去重不去重结果都一样，我们来看看:<br>统计所有的订单有多少条条数，一个<code>count</code>函数就可以搞定的sql性能如何。</p>
-<ul>
-<li>DISTINCT</li>
-</ul>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select count(distinct order_no) from order_snap;</div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 1 </span>  Cumulative CPU: 7915.67 sec   HDFS Read:<span class="number"> 119072894175 </span>HDFS Write:<span class="number"> 10 </span>SUCCESS</div><div class="line">Total MapReduce CPU Time Spent:<span class="number"> 0 </span>days<span class="number"> 2 </span>hours<span class="number"> 11 </span>minutes<span class="number"> 55 </span>seconds<span class="number"> 670 </span>msec</div><div class="line"><span class="symbol">OK</span></div><div class="line">_c0</div><div class="line">763191489</div><div class="line">Time taken: 1818.864 seconds, Fetched:<span class="number"> 1 </span>row(s)</div></pre></td></tr></table></figure>
-<ul>
-<li>GROUP BY</li>
-</ul>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select count(t.order_no) from (select order_no from order_snap group by order_no) t;</div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 457 </span>  Cumulative CPU: 10056.7 sec   HDFS Read:<span class="number"> 119074266583 </span>HDFS Write:<span class="number"> 53469 </span>SUCCESS</div><div class="line">Stage-Stage-2: Map:<span class="number"> 177 </span> Reduce:<span class="number"> 1 </span>  Cumulative CPU: 280.22 sec   HDFS Read:<span class="number"> 472596 </span>HDFS Write:<span class="number"> 10 </span>SUCCESS</div><div class="line">Total MapReduce CPU Time Spent:<span class="number"> 0 </span>days<span class="number"> 2 </span>hours<span class="number"> 52 </span>minutes<span class="number"> 16 </span>seconds<span class="number"> 920 </span>msec</div><div class="line"><span class="symbol">OK</span></div><div class="line">_c0</div><div class="line">763191489</div><div class="line">Time taken: 244.192 seconds, Fetched:<span class="number"> 1 </span>row(s)</div></pre></td></tr></table></figure>
-<p><strong>结论:</strong>第二种写法的性能是第一种的<code>7.448499541</code>倍<br>注意到为什么会有这个差异，Hadoop其实就是处理大数据的，Hive并不怕数据有多大，怕的就是数据倾斜,我们看看两者的输出信息:<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># distinct</span></div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 1 </span>  Cumulative CPU: 7915.67 sec   HDFS Read:<span class="number"> 119072894175 </span>HDFS Write:<span class="number"> 10 </span>SUCCESS</div><div class="line"><span class="comment"># group by</span></div><div class="line">Stage-Stage-1: Map:<span class="number"> 396 </span> Reduce:<span class="number"> 457 </span>  Cumulative CPU: 10056.7 sec   HDFS Read:<span class="number"> 119074266583 </span>HDFS Write:<span class="number"> 53469 </span>SUCCESS</div></pre></td></tr></table></figure></p>
-<p>发现猫腻了没有，使用distinct会将所有的order_no都shuffle到一个reducer里面，这就是我们所说的数据倾斜，都倾斜到一个reducer这样性能能不低么？再看第二个，直接按订单号分组，起了457个<code>reducer</code>，将数据分布到多台机器上执行，时间当然快了.<br>由于没有手动指定Reduce的个数，Hive会根据数据的大小动态的指定Reduce大小，你也可以手动指定<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hive&gt; set mapred<span class="selector-class">.reduce</span><span class="selector-class">.tasks</span>=<span class="number">100</span>；</div></pre></td></tr></table></figure></p>
-<p>类似这样,所以如果数据量特别大的情况下，尽量不要使用<code>distinct</code>吧。<br>但是如果你想在一条语句里看总记录条数以及去重之后的记录条数，那没有办法过滤，所以你有两个选择，要么使用两个sql语句分别跑，然后union all或者就使用普通的distinct。具体来说得看具体情况，直接使用distinct可读性好，数据量如果不大的话推荐使用，如果数据太大了，性能受到影响了，再考虑优化。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Hive/">Hive</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
@@ -909,7 +897,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -978,7 +966,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -1002,11 +990,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -1018,7 +1006,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -1026,11 +1014,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

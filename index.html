@@ -81,6 +81,86 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/06/Error-creating-beans-and-Injection-of-autowired-dependencies-failed/" title="Error creating beans and Injection of autowired dependencies failed" itemprop="url">Error creating beans and Injection of autowired dependencies failed</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-06T12:03:45.000Z" itemprop="datePublished"> 发表于 2017-04-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Spring中需要用到spring的事务回滚,注解方式是最简单易用的，一开始发现spring的事务没有起作用，最后查了很多资料,最后发现是配置文件中没有添加事务注解的配置,所以在spring的配置文件里面加了下面这行:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<p>结果发现之前可以运行的项目突然不能运行了,涉及到事务注解的service全部无法注入</p>
+<p>一般出现这个问题都会去网上查查是不是自己用的注入方式不对,有一些人还建议使用<code>@Resource</code>注解替换<code>@Autowried</code>,我试过时候发现还是不行．后来网上查了一下，其实很多人这么说都是人云亦云，很多人都不知道为什么，就知道<code>@Resource</code>是java自带的注解，所以比<code>@Autowried</code>靠谱,真的是这样吗?其实这个通过查资料就很容易知道并不是这样的:</p>
+<ul>
+<li>@Autowire </li>
+</ul>
+<p>默认按照类型装配，默认情况下它要求依赖对象必须存在如果允许为null，可以设置它required属性为false，如果我们想使用按照名称装配，可 以结合@Qualifier注解一起使用;</p>
+<ul>
+<li>@Resource</li>
+</ul>
+<p>默认按照名称装配，当找不到与名称匹配的bean才会按照类型装配，可以通过name属性指定，如果没有指定name属 性，当注解标注在字段上，即默认取字段的名称作为bean名称寻找依赖对象，当注解标注在属性的setter方法上，即默认取属性名作为bean名称寻找 依赖对象.</p>
+<p>所以说,正常情况下你可以理解为没啥区别,如果非要说后者比前者的优势,那就是减少外部依赖,因为<code>@Autowried</code>是spring提供的.</p>
+<p>但是我还是照着网上说的,既然注入失败,那肯定是bean的名字还有类型找不到,所以我尝试强制指定<code>Service</code>的名字:<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service(<span class="meta-string">"serviceName"</span>)</span></div></pre></td></tr></table></figure></p>
+<p>然后在<code>Controller</code>里面注入的时候使用<code>@Resource</code>注解指定名字:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">Resource</span>(<span class="keyword">name</span> = <span class="string">"serviceName"</span>)</div></pre></td></tr></table></figure></p>
+<p>结果奇迹出现了,还是报错,不过这个错误和之前不一样了,关键信息如下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">but was actually of type [com<span class="selector-class">.sun</span><span class="selector-class">.proxy</span>.<span class="variable">$Proxy17</span></div></pre></td></tr></table></figure></p>
+<p>这句话什么意思呢?意思是bean的名字是找到了，但是这个类型不符合,所以注入依然失败,总而言之就是我们要注入的<code>Service</code>的类型变成了<code>com.sun.proxy.$Proxy17</code>这个类型了,这是个啥类型？然后我网上查了很久,最后终于在stackoverflow上找到了答案,原来很多人都碰到了这个问题,原帖地址</p>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be" target="_blank" rel="external">http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be</a></p>
+</blockquote>
+<p>摘一段Spring官方的文档:<br><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Applies <span class="keyword">to</span> proxy mode only. Controls what type <span class="keyword">of</span> transactional proxies are created <span class="keyword">for</span> classes annotated <span class="keyword">with</span> the @Transactional annotation. <span class="keyword">If</span> <span class="string">"proxy-target-class"</span> attribute <span class="keyword">is</span> <span class="keyword">set</span> <span class="keyword">to</span> <span class="string">"true"</span>, <span class="keyword">then</span> <span class="keyword">class</span>-based proxies will be created. <span class="keyword">If</span> <span class="string">"proxy-target-class"</span> <span class="keyword">is</span> <span class="string">"false"</span> <span class="keyword">or</span> <span class="keyword">if</span> the attribute <span class="keyword">is</span> omitted, <span class="keyword">then</span> standard JDK <span class="keyword">interface</span>-based proxies will be created. (See the section entitled Section <span class="number">6.6</span>, “Proxying mechanisms” <span class="keyword">for</span> a detailed examination <span class="keyword">of</span> the different proxy types.)</div></pre></td></tr></table></figure></p>
+<p>大概翻译一下就是:是否只采用代理模式来做事务管理,并且有个关键字<code>class-based proxies</code>,这样就不会有类型不匹配的了.<br>而且这个作者的这个问题也是由于他使用的事务注解而导致的,和我的这个问题非常相像，核心意思是这个注解默认是使用系统的代理模式,即<code>com.sun.proxy</code>这个里面的类,但是一般<code>spring</code>的项目都是使用的<code>cglib,aspectj</code>这类的库来做代理的默认实现,所以导致了以上的这种问题,那么解决方法就是将最开始的配置改为:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> proxy-target-<span class="built_in">class</span>=<span class="string">"true"</span>/&gt;</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java笔记/">Java笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Web/">Web</a><a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/19/IDEA-激活服务器搭建/" title="IDEA 激活服务器搭建" itemprop="url">IDEA 激活服务器搭建</a>
   </h1>
   <p class="article-author">By
@@ -729,83 +809,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/10/23/Ubuntu-16-04-安装Apache-Kylin/" title="Ubuntu 16.04 安装Apache Kylin" itemprop="url">Ubuntu 16.04 安装Apache Kylin</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-10-23T07:57:27.000Z" itemprop="datePublished"> 发表于 2016-10-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>最近貌似用Kylin来搭建OLAP数据分析已经成为了大多数公司采取的做法了，这个东西搭建起来还有些=麻烦,因为它需要你先配置好Hadoop,Hive,Hbase这三个东西，任何一个配置的不对的话可能会出问题，下面介绍一下我的安装和配置过程</p>
-<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>主要是依赖的环境的一些版本<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">OS</span>: <span class="selector-tag">Ubuntu</span> 16<span class="selector-class">.04</span> 64<span class="selector-tag">bit</span></div><div class="line"><span class="selector-tag">Java</span>: 1<span class="selector-class">.7</span><span class="selector-class">.0_40</span></div><div class="line"><span class="selector-tag">Hive</span>: 2<span class="selector-class">.1</span><span class="selector-class">.0</span></div><div class="line"><span class="selector-tag">Hadoop</span>: 2<span class="selector-class">.6</span><span class="selector-class">.4</span></div><div class="line"><span class="selector-tag">Hbase</span>: 0<span class="selector-class">.98</span><span class="selector-class">.22-hadoop2</span></div><div class="line"><span class="selector-tag">Kylin</span>: 1<span class="selector-class">.5</span><span class="selector-class">.4</span><span class="selector-class">.1</span></div></pre></td></tr></table></figure></p>
-<p><strong>备注:</strong>这里Hbase并没有用官方的1.x版本，而是采用了Kylin官方建议的0.98版本，因为我第一次安装的时候由于hbase的问题而失败了，所以就换了一个低版本的，你在安装的时候也可以使用最新版，但是如果安装不成功，可以考虑采纳官方建议的组合版本</p>
-<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><p>Hadoop,Hive,Hbase的安装这里就不讲了，可以参考我以前的文章，我采用的都是本地为分布式运行模式,去<a href="http://kylin.apache.org/download/" target="_blank" rel="external">Kylin官方下载</a>最新版本:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar -xvf apache-kylin<span class="number">-1.5</span><span class="number">.4</span><span class="number">.1</span>-bin.tar.gz -C /usr/dev</div></pre></td></tr></table></figure></p>
-<p>解压好了，然后就是配置环境变量了，注意我都配置在<code>/etc/profile</code>这个文件里面了，主要是有些时候环境变量读取不到，所以干脆来个最狠的，直接全局配置了:<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">### 大数据相关</div><div class="line">## Hbase</div><div class="line"><span class="keyword">export</span> HBASE_HOME=/usr/dev/hbase<span class="number">-1.2</span><span class="number">.3</span></div><div class="line"><span class="keyword">export</span> HBASE_CONF_DIR=$&#123;HBASE_HOME&#125;/conf</div><div class="line"></div><div class="line">## Hadoop</div><div class="line"><span class="keyword">export</span> HADOOP_HOME=/usr/dev/hadoop<span class="number">-2.6</span><span class="number">.4</span></div><div class="line"><span class="keyword">export</span> HADOOP_CONF_DIR=$&#123;HADOOP_HOME&#125;/etc/hadoop</div><div class="line"><span class="keyword">export</span> YARN_CONF_DIR=$&#123;HADOOP_HOME&#125;/etc/hadoop</div><div class="line"></div><div class="line">## Hive</div><div class="line"><span class="keyword">export</span> HIVE_HOME=/usr/dev/apache-hive<span class="number">-2.1</span><span class="number">.0</span>-bin</div><div class="line"><span class="keyword">export</span> HCAT_HOME=$&#123;HIVE_HOME&#125;/hcatalog</div><div class="line"><span class="keyword">export</span> HIVE_CONF=$&#123;HIVE_HOME&#125;/conf</div><div class="line"></div><div class="line">## Kylin</div><div class="line"><span class="keyword">export</span> KYLIN_HOME=/usr/dev/apache-kylin<span class="number">-1.5</span><span class="number">.4</span><span class="number">.1</span>-bin</div></pre></td></tr></table></figure></p>
-<p>上面的目录如果不一致，改成你自己对应的目录,然后<code>source /etc/profile</code>使配置生效。</p>
-<h3 id="配置Kylin"><a href="#配置Kylin" class="headerlink" title="配置Kylin"></a>配置Kylin</h3><p>配置Kylin使用Hive的数据库名<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd $&#123;KYLIN_HOME&#125;/conf</div><div class="line">vim kylin<span class="selector-class">.properties</span></div><div class="line">kylin<span class="selector-class">.job</span><span class="selector-class">.hive</span><span class="selector-class">.database</span><span class="selector-class">.for</span><span class="selector-class">.intermediatetable</span>=kylin_middle</div></pre></td></tr></table></figure></p>
-<p>然后记得要手动在Hive中创建数据库<code>kylin_middle</code>.</p>
-<p>然后创建一个目录并赋给当前用户权限,假设当前用户为<code>anonymous</code>:<br><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hadoop <span class="built_in">fs</span> -<span class="built_in">mkdir</span> /kylin</div><div class="line">hadoop <span class="built_in">fs</span> -chown -R anonymous:anonymous /kylin</div></pre></td></tr></table></figure></p>
-<p>然后检测一下Kylin的环境变量:<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> <span class="variable">$&#123;KYLIN_HOME&#125;</span>/bin</div><div class="line">./check-env.<span class="keyword">sh</span></div></pre></td></tr></table></figure></p>
-<p>如果你的系统也报错:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">KYLIN_HOME <span class="keyword">is</span> <span class="keyword">set</span> <span class="keyword">to</span> /usr/dev/apache-kylin-<span class="number">1.5</span>.<span class="number">4.1</span>-bin</div><div class="line"><span class="keyword">cat</span>：无效选项 -- <span class="number">1</span></div><div class="line">Try <span class="string">'cat --help'</span> <span class="keyword">for</span> more information.</div><div class="line">-<span class="built_in">mkdir</span>: Not enough <span class="keyword">argument</span><span class="variable">s:</span> expected <span class="number">1</span> but got <span class="number">0</span></div><div class="line">Usage: hadoop fs [generic <span class="keyword">options</span>] -<span class="built_in">mkdir</span> [-<span class="keyword">p</span>] <span class="symbol">&lt;path&gt;</span> ...</div><div class="line">failed <span class="keyword">to</span> create , Please <span class="keyword">make</span> sure the user <span class="built_in">has</span> <span class="keyword">right</span> <span class="keyword">to</span> access</div></pre></td></tr></table></figure></p>
-<p>那可能也是由于sh调用的问题，需要把所有sh脚本里面的<code>sh</code>替换成<code>bash</code>，我这里用<code>sed</code>命令来替换:<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">sed</span> -i <span class="string">'s/`sh /`bash /g'</span> <span class="regexp">*.sh</span></div></pre></td></tr></table></figure></p>
-<p>这样就把所有的替换了，并且替换结果也直接写回文件了.然后运行环境检测脚本<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./check-<span class="keyword">env</span>.sh</div></pre></td></tr></table></figure></p>
-<p>如果没报什么错误，就可以正式运行了，记得先把hadoop hbase服务启动<br>然后再启动kylin<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./kylin<span class="selector-class">.sh</span> start</div></pre></td></tr></table></figure></p>
-<p>然后访问<a href="127.0.0.1:7070/kylin" target="_blank" rel="external">127.0.0.1:7070/kylin</a><br>第一次会有点儿慢，需要在hbase中创建表，稍微等大概10s就会弹出登陆界面<br>ADMIN/KYLIN登陆就可以了</p>
-<h3 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h3><p>官方也提供了官方测试例子，如果你可以顺利登入系统，那么在<code>${KYLIN_HOME}/bin</code>下面有个测试脚本<code>sample.sh</code>,运行这个脚本<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> <span class="variable">$&#123;KYLIN_HOME&#125;</span>/bin</div><div class="line">./<span class="keyword">sample</span>.<span class="keyword">sh</span></div><div class="line">./kylin.<span class="keyword">sh</span> stop</div><div class="line">./kylin.<span class="keyword">sh</span> start</div></pre></td></tr></table></figure></p>
-<p>一次执行上面三个命令，运行成功之后重新进入系统或者刷新即可，会有一个<code>learn_kylin</code>工程，你只需要在<code>Model</code>里面<code>Actions</code>里面<code>Build</code>这个Cube即可，然后在Monitor里面可以看编译的进度，只有到100%才说明你编译成功，双击可以查看每一步的编译具体步骤，可以查看具体的日志，如果你编译失败了，可以查看具体的日志，直到编译成功为止，然后在Insight里面可以写sql查询:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> part_dt,<span class="keyword">sum</span>(price) <span class="keyword">from</span> kylin_sales <span class="keyword">group</span> <span class="keyword">by</span> part_dt;</div></pre></td></tr></table></figure></p>
-<p>可以看看这句，这个放到hive里面起码要30s,但是这个在Kylin里面基本就秒出结果了,Kylin提供的是sql接口,下一节讲一讲怎么集成上层的多维分析工具。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/大数据/">大数据</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -847,7 +850,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -916,7 +919,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -940,11 +943,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -956,7 +959,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -964,11 +967,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

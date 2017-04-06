@@ -81,6 +81,71 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/05/Hive-get-json-object用法/" title="Hive get_json_object用法" itemprop="url">Hive get_json_object用法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-05T10:14:09.000Z" itemprop="datePublished"> 发表于 2015-11-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>数据库中存放的json串,有时候需要对某个元素判断来查询结果,非常笨的一个方法就是直接把查询结果的字符串做模糊查询,即<code>like &#39;%str%&#39;</code>,当一个json串非常长的时候,本来效率就很慢,况且是在hadoop海量数据里查找,其实我们并不需要那些其他的字符串,只是需要某个元素的值而已,这个时候就需要用到Hive的字符函数<code>get_json_object()</code>函数.</p>
+<h3 id="get-json-object-函数"><a href="#get-json-object-函数" class="headerlink" title="get_json_object()函数"></a>get_json_object()函数</h3><p>函数用法:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">get_json_object</span><span class="params">(string json_string, string path)</span></span></div></pre></td></tr></table></figure></p>
+<p>具体看一个例子,数据库test定义如下:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">id</span>                  	int                 	自增<span class="built_in">id</span></div><div class="line">content                	<span class="built_in">string</span>              	内容</div></pre></td></tr></table></figure></p>
+<p>其中content是个json串,内容如下:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"status"</span>: &#123;</div><div class="line">     <span class="attr">"person"</span>: &#123;</div><div class="line">        <span class="attr">"name"</span>: <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>查询一下看看结果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">select get_json_object(content,<span class="string">'$.status'</span>) from <span class="built_in">test</span> <span class="built_in">limit</span> 1;</div><div class="line">OK</div><div class="line">&#123;<span class="string">"person"</span>:&#123;<span class="string">"name"</span>:<span class="literal">false</span>&#125;&#125;</div><div class="line">Time taken: 0.066 seconds, Fetched: 1 row(s)</div><div class="line"></div><div class="line">select get_json_object(content,<span class="string">'$.status.person'</span>) from <span class="built_in">test</span> <span class="built_in">limit</span> 1;</div><div class="line">OK</div><div class="line">&#123;<span class="string">"name"</span>:<span class="literal">false</span>&#125;</div><div class="line">Time taken: 0.081 seconds, Fetched: 1 row(s)</div><div class="line"></div><div class="line">select get_json_object(content,<span class="string">'$.status.person.name'</span>) from <span class="built_in">test</span> <span class="built_in">limit</span> 1;</div><div class="line">OK</div><div class="line"><span class="literal">false</span></div><div class="line">Time taken: 0.077 seconds, Fetched: 1 row(s)</div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>如果要判断<code>name</code>的值,这个值并不是布尔型,而是一个string,所以需要加上<code>&#39;&#39;</code>,像下面这样:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">select id,content from <span class="built_in">test</span> <span class="built_in">where</span> get_json_object(content,<span class="string">'$.status.person.name'</span>)=<span class="string">'false'</span> <span class="built_in">limit</span> 2;</div><div class="line">OK</div><div class="line">7	&#123;.status<span class="string">":&#123;"</span>person<span class="string">":&#123;"</span>name<span class="string">":false&#125;&#125;&#125;</span></div><div class="line">31	&#123;.status":&#123;<span class="string">"person"</span>:&#123;<span class="string">"name"</span>:<span class="literal">false</span>&#125;&#125;&#125;</div><div class="line">Time taken: 0.085 seco	nds, Fetched: 2 row(s)</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/05/Hive-逻辑运算-函数/" title="Hive 逻辑运算,函数" itemprop="url">Hive 逻辑运算,函数</a>
   </h1>
   <p class="article-author">By
@@ -450,7 +515,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a><a href="/tags/大数据/">大数据</a>
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a><a href="/tags/大数据/">大数据</a>
   </div>
 
 </div>
@@ -736,7 +801,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a><a href="/tags/开发工具/">开发工具</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Vim/">Vim</a>
   </div>
 
 </div>
@@ -1046,87 +1111,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/25/Ubuntu-14-04-使用VPN/" title="Ubuntu 14.04 使用VPN" itemprop="url">Ubuntu 14.04 使用VPN</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-25T12:10:03.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Linux下使用VPN十分简单，只需要安装一软件即可。</p>
-<ul>
-<li>安装网络挂件<code>vpnc</code></li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vpnc</div></pre></td></tr></table></figure>
-<ul>
-<li>找到公司的默认配置文件<code>qunar_common.pcf</code>,使用命令将其转化成对应的配置文件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pcf2vpnc Documents/qunar_common.pcf default.conf</div></pre></td></tr></table></figure>
-<ul>
-<li>替换配置文件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod 777 /etc/vpnc </div><div class="line">sudo cp default.conf /etc/vpnc</div></pre></td></tr></table></figure>
-<ul>
-<li>更改配置文件中的账户Xauth username</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/vpnc/default.conf</div></pre></td></tr></table></figure>
-<ul>
-<li>连接VPN</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vpnc-connect</div></pre></td></tr></table></figure>
-<p><strong>备注:</strong> 关闭连接用<code>sudo vpnc-disconnect</code>。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/9/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/">Next<span></span></a>
@@ -1168,7 +1152,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1237,7 +1221,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -1261,11 +1245,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -1277,7 +1261,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -1285,11 +1269,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

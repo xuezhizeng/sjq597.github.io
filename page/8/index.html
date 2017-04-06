@@ -81,6 +81,104 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/12/01/关联算法之-Apriori/" title="关联算法之-Apriori" itemprop="url">关联算法之-Apriori</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-01T15:49:54.000Z" itemprop="datePublished"> 发表于 2015-12-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>简单介绍一下什么是Apriori算法： Apriori算法是一种挖掘关联规则的频繁项集算法，其核心思想是通过候选集生成和情节的向下封闭检测两个阶段来挖掘频繁项集。 Apriori（先验的，推测的）算法应用广泛，可用于消费市场价格分析，猜测顾客的消费习惯；网络安全领域中的入侵检测技术；可用在用于高校管理中，根据挖掘规则可以有效地辅助学校管理部门有针对性的开展贫困助学工作；也可用在移动通信领域中，指导运营商的业务运营和辅助业务提供商的决策制定。</p>
+<h3 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h3><p>关联规则做数据挖掘一般的步骤可以分为两大类：</p>
+<ol>
+<li>依据支持度找出所有频繁项集(频度)</li>
+<li>依据置信度产生关联规则</li>
+</ol>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>上面提到了两个概念：支持度和置信度。其实数据挖掘里面的概念很多，这里简单介绍几个最基本的术语，后面的变量和集合都会用到。</p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ol>
+<li><p>资料库(transaction database):存储着二维结构的记录集，定义为<code>D</code><br><strong>备注:</strong>这个可以理解为数据库里面的交易记录，每一条交易为一条记录，所有这些需要挖掘的数据构成了一个记录集。</p>
+</li>
+<li><p>所有项集(items):所有项目的集合，定义为I.<br><strong>备注:</strong>这个可以理解为，把资料库里的每一条记录拆分成最小单位，最后构成的一个集合</p>
+</li>
+<li><p>记录(transaction):在资料库的一笔记录。定义为T,T∈D</p>
+</li>
+<li><p>项集(itemset):同时出现项的集合。定义为：k-itemset(k项集)<br><strong>备注:</strong>同时出现项的集合意思是所有项集里面的单个项或者多个项组合成的一条记录<br><strong>解释:</strong><code>[[1, 3, 4], [2, 3, 5], [1, 2, 3, 5], [2, 5]]</code>就是资料库<code>D</code>，里面有4条记录，所有项集<code>I</code>为<code>[[1],[2],[3],[4],[5]]</code>,有5项；<code>[1,3,4]</code>为其中一条记录<code>T</code>;<code>[2,5]</code>称为2项集，<code>[2,3,5]</code>称为3项集。</p>
+</li>
+<li><p>支持度(support):定义为<br>$supp(X)=\frac{occur(X)}{count(D)}=P(X)$.<br><strong>备注:</strong>支持度可以简单理解为投票，选举这种，在总人数(资料库),有多少人是选择支持你的，即X出现的次数(频度),即X出现的概率</p>
+</li>
+<li><p>置信度(confidence/strength):定义为<br>$conf(X-&gt;Y)=\frac{supp(X∪Y)}{supp(X)}$<br>即下面的意思$P(Y|X)=\frac{P(XY)}{P(X)}$<br><strong>备注:</strong>这个公式可以这么理解，买了<code>X</code>的人有多少人会同时会买<code>Y</code>，这就是<code>X</code>对<code>Y</code>的推荐度，概率论中的解释就是<code>P(Y|X)=P(XY)/P(X)</code>。看一个例子：<br> 例子：[支持度:3%,置信度:40%]<br> 支持度3%：意味着3%顾客同时购买牛奶和面包<br> 置信度40%：意味着购买牛奶的顾客40%也购买面包</p>
+</li>
+<li><p>候选集(Candidate itemset):通过合并得出的项集,有<code>k</code>个元素的候选集记为<code>C[k]</code>.</p>
+</li>
+<li><p>频繁集(Frequent itemset):支持度&gt;=特定的最小支持度(Minimum Support/minsup)的项集,表示为<code>L[k]</code>.<br><strong>注意:</strong>频繁集的子集一定是频繁集,这个也好理解,假设子集都不满足最小支持度,那么与他组合的概率必然是只会比这个概率更小,参见概率论里面的联合概率.</p>
+</li>
+<li><p>提升比率(提升度Lift):<br>$lift(X-&gt;Y)=lift(Y-&gt;X)<br>=\frac{conf(X-&gt;Y)}{supp(Y)}=\frac{conf(Y-&gt;X)}{supp(X)}<br>=\frac{P(XY)}{P(X)P(Y)}$<br>经过关联规则分析后,针对某些人推销(根据某规则)比盲目推销(一般来说是整个数据)的比例,这个比率越高越好,我们称这个为强规则,这个可以理解为:假设买了X的人多半会买Y,那么我们就对买了X的人推销Y.</p>
+</li>
+</ol>
+<h3 id="Apriori原理"><a href="#Apriori原理" class="headerlink" title="Apriori原理"></a>Apriori原理</h3><h4 id="Apriori例子"><a href="#Apriori例子" class="headerlink" title="Apriori例子"></a>Apriori例子</h4><p>先来个简单的例子,最初这个例子来源于零售商,我们假设有4个商品,编号为<code>0,1,2,3</code>,那么能够被一起购买的商品组合为:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/关联算法之-Apriori01.png" alt="集合{0,1,2,3}中所有可能项集的组合"><br>我们的目标是找到经常一起购买的商品,这里就可以使用集合的支持度来衡量一个组合出现的频率.即某个组合出现的概率占总交易量的比例就是其支持度.这个理解起来很简单,但是计算起来计算量可不小,这里才4种物品,我们需要计算$2^n-1$种情况,正常应用场景绝不可能才4种商品,这个时候就要提到<code>Apriori</code>原理,可以大大减少频繁项集的数目<br><strong>Apriori</strong>原理:如果某个项集是频繁项集,那么它所有的子集也是频繁的.举个例子就是如果<code>{0,1}</code>是频繁的,那么<code>{0},{1}</code>也一定是频繁的,上面介绍过了,这里就不再细说了.正着看没什么用,但是反过来,即一个项集(例如{0},{1})是非频繁项集,则他的超集({0,1})也是非频繁的:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/关联算法之-Apriori02.png" alt="图中给出了所有可能的项集,其中蓝色表示非频繁项集,由于{0,1}非频繁,因此,它们的超集也是非频繁的,他们的支持度可以直接忽略,俗称减枝"></p>
+<h4 id="使用Apriori返回目录"><a href="#使用Apriori返回目录" class="headerlink" title="使用Apriori返回目录"></a>使用Apriori返回目录</h4><p>关联分析的两个目标:发现频繁项集和发现关联规则.首先要找到频繁项集,然后根据频繁项集找到关联规则.<br>Apriori寻找频繁项集的一般步骤是:</p>
+<ol>
+<li>首先生成所有单个物品的项集列表</li>
+<li>扫描交易记录查看哪些项集满足最小支持度要求,去掉那些不满足的项集</li>
+<li>对剩下的项集进行组合生成包含两个元素的项集</li>
+<li>重复2~3,直到所有项集都被去掉</li>
+</ol>
+<p>下面看看Python代码实现:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">()</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    创建一个用于测试的简单的数据集</div><div class="line">    如果需要从其他地方加载产生数据,只需要重写这个方法即可</div><div class="line">    """</div><div class="line">    <span class="keyword">return</span> [[<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>], [<span class="number">2</span>, <span class="number">5</span>]]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">createC1</span><span class="params">(dataSet)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    构建初始候选项集(Candidate)的列表，即所有候选项集只包含一个元素，</div><div class="line">    C1是大小为1的所有候选项集的集合</div><div class="line">    """</div><div class="line">    C1 = []</div><div class="line">    <span class="keyword">for</span> transaction <span class="keyword">in</span> dataSet:</div><div class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> transaction:</div><div class="line">            <span class="keyword">if</span> [item] <span class="keyword">not</span> <span class="keyword">in</span> C1:</div><div class="line">                C1.append([item])</div><div class="line">    C1.sort()</div><div class="line">    <span class="keyword">return</span> map(frozenset, C1)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">scanD</span><span class="params">(D, Ck, minSupport)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    计算Ck中的项集在数据集合D(记录或者transactions)中的支持度,</div><div class="line">    返回满足最小支持度的项集的集合，和所有项集支持度信息的字典。</div><div class="line">    """</div><div class="line">    ssCnt = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> tid <span class="keyword">in</span> D:</div><div class="line">        <span class="comment"># 对于每一条transaction</span></div><div class="line">        <span class="keyword">for</span> can <span class="keyword">in</span> Ck:</div><div class="line">            <span class="comment"># 对于每一个候选项集can，检查是否是transaction的一部分</span></div><div class="line">            <span class="comment"># 即该候选can是否得到transaction的支持</span></div><div class="line">            <span class="keyword">if</span> can.issubset(tid):</div><div class="line">                <span class="keyword">if</span> <span class="keyword">not</span> ssCnt.has_key(can):</div><div class="line">                    ssCnt[can] = <span class="number">1</span></div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    ssCnt[can] += <span class="number">1</span></div><div class="line">    numItems = float(len(D))</div><div class="line">    retList = []</div><div class="line">    supportData = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> ssCnt:</div><div class="line">        <span class="comment"># 每个项集的支持度</span></div><div class="line">        support = ssCnt[key] / numItems</div><div class="line"></div><div class="line">        <span class="comment"># 将满足最小支持度的项集，加入retList</span></div><div class="line">        <span class="keyword">if</span> support &gt;= minSupport:</div><div class="line">            retList.insert(<span class="number">0</span>, key)</div><div class="line"></div><div class="line">        <span class="comment"># 汇总支持度数据</span></div><div class="line">        supportData[key] = support</div><div class="line">    <span class="keyword">return</span> retList, supportData</div></pre></td></tr></table></figure></p>
+<p>上面代码中 “frozenset”，是为了冻结集合，使集合由“可变”变为 “不可变”，这样，这些集合就可以作为字典的键值.测试一下上面的代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment"># 导入数据集</span></div><div class="line">    myDat = loadDataSet()</div><div class="line">    <span class="comment"># 构建第一个候选项集列表C1</span></div><div class="line">    C1 = createC1(myDat)</div><div class="line"></div><div class="line">    <span class="comment"># 构建集合表示的数据集 D</span></div><div class="line">    D = map(set, myDat)</div><div class="line">    <span class="comment"># 选择出支持度不小于0.5 的项集作为频繁项集</span></div><div class="line">    L, suppData = scanD(D, C1, <span class="number">0.5</span>)</div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="string">u"频繁项集L："</span>, L</div><div class="line">    <span class="keyword">print</span> <span class="string">u"所有候选项集的支持度信息："</span>, suppData</div></pre></td></tr></table></figure></p>
+<p>看看运行出来的结果:<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">频繁项集L： <span class="comment">[frozenset(<span class="comment">[1]</span>), frozenset(<span class="comment">[3]</span>), frozenset(<span class="comment">[2]</span>), frozenset(<span class="comment">[5]</span>)]</span></div><div class="line">所有候选项集的支持度信息： &#123;frozenset(<span class="comment">[4]</span>): 0.25, frozenset(<span class="comment">[5]</span>): 0.75, frozenset(<span class="comment">[2]</span>): 0.75, frozenset(<span class="comment">[3]</span>): 0.75, frozenset(<span class="comment">[1]</span>): 0.5&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看出，只有支持度不小于<code>0.5</code>的项集被选中到<code>L</code>中作为频繁项集，根据不同的需求，我们可以设定最小支持度的值，从而得到我们想要的频繁项集.<br>上面我们找出了只含有一个元素的频繁项集,下面需要整合一下代码,一次选择</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/数据挖掘/">数据挖掘</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/机器学习/">机器学习</a><a href="/tags/算法/">算法</a><a href="/tags/数据挖掘/">数据挖掘</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/26/Linux-作业管理/" title="Linux 作业管理" itemprop="url">Linux 作业管理</a>
   </h1>
   <p class="article-author">By
@@ -315,7 +413,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/Hive/">Hive</a><a href="/tags/Java/">Java</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/Hive/">Hive</a>
   </div>
 
 </div>
@@ -648,7 +746,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a>
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a>
   </div>
 
 </div>
@@ -739,76 +837,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/11/Hive-SemanticException-Error-10025-Line-1-7-Expression-not-in-GROUP-BY-key/" title="Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key" itemprop="url">Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-10T16:46:26.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在Hive表里同时用<code>group by</code>和<code>order by</code>的时候，出现了错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FAILED: SemanticException [Error 10025]: Line 1:7 Expression not <span class="keyword">in</span> GROUP BY key <span class="string">'sys_code'</span></div></pre></td></tr></table></figure></p>
-<p>具体的SQL语句如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> sys_code,<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure></p>
-<p>后来上网查了一下，这个主要问题还是，<code>sys_code</code>也有多个种类，如果只是对<code>status</code>进行<code>group by</code>。那么<code>sys_code</code>没有办法分类，不知道该如何排序，所以解决办法有两种：</p>
-<ul>
-<li>既然按某一个字段分类，那么其他字段也只能有一种情况，所以可以使用集合，针对上面的这个语句就是：<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> collect_set(sys_code),<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>或者可以只取一个值：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> collect_set(sys_code)[<span class="number">0</span>],<span class="keyword">status</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> total <span class="keyword">from</span> ap_user_order_his</div><div class="line"><span class="keyword">where</span> link_end_date=<span class="string">'2099-12-31'</span> <span class="keyword">and</span> sys_code <span class="keyword">in</span> (<span class="number">1000</span>,<span class="number">1001</span>,<span class="number">1003</span>,<span class="number">1004</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">status</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> total <span class="keyword">desc</span>;</div></pre></td></tr></table></figure></p>
-<ul>
-<li>第二种就比较简单了，直接报错的字段也加到<code>GROUP BY</code>选项里即可。</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Hive/">Hive</a><a href="/tags/SQL/">SQL</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/7/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/">Next<span></span></a>
@@ -850,7 +878,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -919,7 +947,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -943,11 +971,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -959,7 +987,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -967,11 +995,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

@@ -81,6 +81,87 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/10/25/Ubuntu-14-04-使用VPN/" title="Ubuntu 14.04 使用VPN" itemprop="url">Ubuntu 14.04 使用VPN</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-25T12:10:03.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Linux下使用VPN十分简单，只需要安装一软件即可。</p>
+<ul>
+<li>安装网络挂件<code>vpnc</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vpnc</div></pre></td></tr></table></figure>
+<ul>
+<li>找到公司的默认配置文件<code>qunar_common.pcf</code>,使用命令将其转化成对应的配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pcf2vpnc Documents/qunar_common.pcf default.conf</div></pre></td></tr></table></figure>
+<ul>
+<li>替换配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo chmod 777 /etc/vpnc </div><div class="line">sudo cp default.conf /etc/vpnc</div></pre></td></tr></table></figure>
+<ul>
+<li>更改配置文件中的账户Xauth username</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/vpnc/default.conf</div></pre></td></tr></table></figure>
+<ul>
+<li>连接VPN</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vpnc-connect</div></pre></td></tr></table></figure>
+<p><strong>备注:</strong> 关闭连接用<code>sudo vpnc-disconnect</code>。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/10/25/Ubuntu-14-04-更改源/" title="Ubuntu 14.04 更改源" itemprop="url">Ubuntu 14.04 更改源</a>
   </h1>
   <p class="article-author">By
@@ -449,7 +530,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Vim/">Vim</a><a href="/tags/开发工具/">开发工具</a>
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/Vim/">Vim</a>
   </div>
 
 </div>
@@ -819,100 +900,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/10/Python-默认参数陷阱/" title="Python 默认参数陷阱" itemprop="url">Python 默认参数陷阱</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-10T10:08:53.000Z" itemprop="datePublished"> 发表于 2015-10-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Python的函数定义提供了默认参数这个选择，使得函数的定义和使用更加的灵活，但是也会带来一些坑，例如之前的一个例子：<br>函数定义：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_end</span><span class="params">(L=[])</span>:</span></div><div class="line">    L.append(<span class="string">'END'</span>)</div><div class="line">    <span class="keyword">return</span> L</div></pre></td></tr></table></figure></p>
-<p>调用函数的结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; add_end([1, 2, 3])</div><div class="line">[1, 2, 3, <span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end([<span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>])</div><div class="line">[<span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>, <span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end()</div><div class="line">[<span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end()</div><div class="line">[<span class="string">'END'</span>, <span class="string">'END'</span>]</div><div class="line">&gt;&gt;&gt; add_end()</div><div class="line">[<span class="string">'END'</span>, <span class="string">'END'</span>, <span class="string">'END'</span>]</div></pre></td></tr></table></figure></p>
-<p>很明显这个与函数的定义初衷不符，用一句话解释就是：</p>
-<blockquote>
-<p>Default values are computed once, then re-used.</p>
-</blockquote>
-<p>为了深入研究这个问题，我们来看看另一个例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"a executed"</span></div><div class="line">    <span class="keyword">return</span> []</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">b</span><span class="params">(x=a<span class="params">()</span>)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"id(x):"</span>, id(x)</div><div class="line">    x.append(<span class="number">5</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">"x:"</span>, x</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</div><div class="line">    <span class="keyword">print</span> <span class="string">"不带参数调用，使用默认参数"</span></div><div class="line">    b()</div><div class="line">    <span class="keyword">print</span> b.__defaults__</div><div class="line">    <span class="keyword">print</span> <span class="string">"id(b.__defaults__[0]):"</span>, id(b.__defaults__[<span class="number">0</span>])</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</div><div class="line">    <span class="keyword">print</span> <span class="string">"带参数调用，传入一个list"</span></div><div class="line">    b(list())</div><div class="line">    <span class="keyword">print</span> b.__defaults__</div><div class="line">    <span class="keyword">print</span> <span class="string">"id(b.__defaults__[0]):"</span>, id(b.__defaults__[<span class="number">0</span>])</div></pre></td></tr></table></figure></p>
-<p><strong>NOTE:</strong>稍微解释一下，所有默认值都存储在函数对象的<code>__defaults__</code>属性中，这是一个列表，每一个元素均为一个默认参数值。<br>来看看输出结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">a executed</div><div class="line">不带参数调用，使用默认参数</div><div class="line">id(x): 140038854650552</div><div class="line">x: [5]</div><div class="line">([5],)</div><div class="line">id(b.__defaults__[0]): 140038854650552</div><div class="line">不带参数调用，使用默认参数</div><div class="line">id(x): 140038854650552</div><div class="line">x: [5, 5]</div><div class="line">([5, 5],)</div><div class="line">id(b.__defaults__[0]): 140038854650552</div><div class="line">带参数调用，传入一个list</div><div class="line">id(x): 140038854732400</div><div class="line">x: [5]</div><div class="line">([5, 5],)</div><div class="line">id(b.__defaults__[0]): 140038854650552</div><div class="line">带参数调用，传入一个list</div><div class="line">id(x): 140038854732472</div><div class="line">x: [5]</div><div class="line">([5, 5],)</div><div class="line">id(b.__defaults__[0]): 140038854650552</div></pre></td></tr></table></figure></p>
-<p>简单分析一下输出结果：</p>
-<ul>
-<li><p>第1行<br>在定义函数<code>b()</code>，即执行<code>def</code>语句，代码第7行<code>def b(x=a()):</code>的时候，这句话使用了默认参数，所以在定义的时候会计算默认参数<code>x</code>的值，这个时候会调用<code>a()</code>，所以打印出了<code>a executed</code>。</p>
-</li>
-<li><p>第2~6行<br>第一次执行循环，代码第14行调用<code>b()</code>没有传递参数，使用默认参数，此时<code>x=[]</code>，所以调用一次之后</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> b.__defaults__</div></pre></td></tr></table></figure>
-<p>输出结果为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">([5],)</div></pre></td></tr></table></figure>
-</li>
-<li><p>第7~11行<br>第二次循环，代码第14行调用<code>b()</code>没有传递参数，使用默认参数。<br><strong>注意：</strong><code>默认参数只会计算一次，也就是说那个内存区域就固定了，但是这个地址所指向的是一个list，内容可以改变</code>，此时由于上一次调用<code>x: [5]</code>，所以</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> b.__defaults__</div></pre></td></tr></table></figure>
-<p>输出结果为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">([5, 5],)</div></pre></td></tr></table></figure>
-</li>
-<li><p>第12~16行<br>第二个循环语句，第一次循环，代码第20行传入一个空的<code>list</code>,所以不使用默认参数，此时<code>x=[]</code>，所以</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> b.__defaults__</div></pre></td></tr></table></figure>
-<p>输出结果为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">([5],)</div></pre></td></tr></table></figure>
-</li>
-<li><p>第18~21行<br>第二个循环语句，第二次循环，代码第20行传入一个空的<code>list</code>,所以也不使用默认参数，此时仍然是<code>x=[]</code>，所以</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> b.__defaults__</div></pre></td></tr></table></figure>
-<p>输出结果依然为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">([5],)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>函数也是对象，因此定义的时候就被执行，默认参数是函数的属性，它的值可能会随着函数被调用而改变。其他对象不都是如此吗？<br><strong>牢记:</strong> 默认参数必须指向不变对象！代码改一下如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding=utf-8</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"a executed"</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">None</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">b</span><span class="params">(x=a<span class="params">()</span>)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"id(x):"</span>, id(x)</div><div class="line">    <span class="keyword">if</span> x <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        x = []</div><div class="line">    x.append(<span class="number">5</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">"x:"</span>, x</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</div><div class="line">    <span class="keyword">print</span> <span class="string">"不带参数调用，使用默认参数"</span></div><div class="line">    b()</div><div class="line">    <span class="keyword">print</span> b.__defaults__</div><div class="line">    <span class="keyword">print</span> <span class="string">"id(b.__defaults__[0]):"</span>, id(b.__defaults__[<span class="number">0</span>])</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</div><div class="line">    <span class="keyword">print</span> <span class="string">"带参数调用，传入一个list"</span></div><div class="line">    b(list())</div><div class="line">    <span class="keyword">print</span> b.__defaults__</div><div class="line">    <span class="keyword">print</span> <span class="string">"id(b.__defaults__[0]):"</span>, id(b.__defaults__[<span class="number">0</span>])</div></pre></td></tr></table></figure></p>
-<p> 此时的输出结果看看是什么：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">a executed</div><div class="line">不带参数调用，使用默认参数</div><div class="line">id(x): 9568656</div><div class="line">x: [5]</div><div class="line">(None,)</div><div class="line">id(b.__defaults__[0]): 9568656</div><div class="line">不带参数调用，使用默认参数</div><div class="line">id(x): 9568656</div><div class="line">x: [5]</div><div class="line">(None,)</div><div class="line">id(b.__defaults__[0]): 9568656</div><div class="line">带参数调用，传入一个list</div><div class="line">id(x): 140725126699632</div><div class="line">x: [5]</div><div class="line">(None,)</div><div class="line">id(b.__defaults__[0]): 9568656</div><div class="line">带参数调用，传入一个list</div><div class="line">id(x): 140725126699704</div><div class="line">x: [5]</div><div class="line">(None,)</div><div class="line">id(b.__defaults__[0]): 9568656</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Python/">Python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/10/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/">Next<span></span></a>
@@ -954,7 +941,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>1</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1023,7 +1010,7 @@
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>12</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
 			
 		
 			
@@ -1047,11 +1034,11 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
+				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Flask/" title="Flask">Flask<sup>5</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>5</sup></a></li>
 			
 		
 			
@@ -1063,7 +1050,7 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
@@ -1071,11 +1058,11 @@
 			
 		
 			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
+				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
