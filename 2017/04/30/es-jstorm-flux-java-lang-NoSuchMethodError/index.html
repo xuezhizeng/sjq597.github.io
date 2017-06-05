@@ -4,29 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>IDEA 激活服务器搭建 | LittleQ</title>
+    <title>es jstorm flux java.lang.NoSuchMethodError | LittleQ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="LittleQ">
     
 
     
-    <meta name="description" content="记一下,老是忘记了，之前的激活服务器搭建在公司的机器上，所以必须得等vpn才能正常启动，打算在自己的vps上搭建一个，记录一下:
-首先下载激活软件,这放一个下载地址百度盘IDEA激活服务器下载地址,密码:uh36.然后把这个下载的软件上传到你的vps上就行了:1scp IntelliJIDEALicenseServer_linux_amd64 your_name@you_vps_id:~
-然后登录">
+    <meta name="description" content="最近在研究怎么通过Flux来解析日志，前前后后踩了很多坑,毕竟貌似网上也没人这么干过，写一个通用化的代码，只通过配置文件来定义流计算任务．基本上写好了代码,以后再有新的任务都不用再写java代码,然后打包上传提交任务了．开始集群上的jstorm是2.1.1的,并不支持flux方式的提交任务，所有升级了一下到2.2.1版本,最后跑了一下官方的word-countdemo成功了.然后开发好了通用的ja">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IDEA 激活服务器搭建">
-<meta property="og:url" content="http://sjq597.github.io/2017/03/19/IDEA-激活服务器搭建/index.html">
+<meta property="og:title" content="es jstorm flux java.lang.NoSuchMethodError">
+<meta property="og:url" content="http://sjq597.github.io/2017/04/30/es-jstorm-flux-java-lang-NoSuchMethodError/index.html">
 <meta property="og:site_name" content="LittleQ">
-<meta property="og:description" content="记一下,老是忘记了，之前的激活服务器搭建在公司的机器上，所以必须得等vpn才能正常启动，打算在自己的vps上搭建一个，记录一下:
-首先下载激活软件,这放一个下载地址百度盘IDEA激活服务器下载地址,密码:uh36.然后把这个下载的软件上传到你的vps上就行了:1scp IntelliJIDEALicenseServer_linux_amd64 your_name@you_vps_id:~
-然后登录">
-<meta property="og:updated_time" content="2017-03-22T02:22:06.363Z">
+<meta property="og:description" content="最近在研究怎么通过Flux来解析日志，前前后后踩了很多坑,毕竟貌似网上也没人这么干过，写一个通用化的代码，只通过配置文件来定义流计算任务．基本上写好了代码,以后再有新的任务都不用再写java代码,然后打包上传提交任务了．开始集群上的jstorm是2.1.1的,并不支持flux方式的提交任务，所有升级了一下到2.2.1版本,最后跑了一下官方的word-countdemo成功了.然后开发好了通用的ja">
+<meta property="og:updated_time" content="2017-04-30T04:07:38.304Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IDEA 激活服务器搭建">
-<meta name="twitter:description" content="记一下,老是忘记了，之前的激活服务器搭建在公司的机器上，所以必须得等vpn才能正常启动，打算在自己的vps上搭建一个，记录一下:
-首先下载激活软件,这放一个下载地址百度盘IDEA激活服务器下载地址,密码:uh36.然后把这个下载的软件上传到你的vps上就行了:1scp IntelliJIDEALicenseServer_linux_amd64 your_name@you_vps_id:~
-然后登录">
+<meta name="twitter:title" content="es jstorm flux java.lang.NoSuchMethodError">
+<meta name="twitter:description" content="最近在研究怎么通过Flux来解析日志，前前后后踩了很多坑,毕竟貌似网上也没人这么干过，写一个通用化的代码，只通过配置文件来定义流计算任务．基本上写好了代码,以后再有新的任务都不用再写java代码,然后打包上传提交任务了．开始集群上的jstorm是2.1.1的,并不支持flux方式的提交任务，所有升级了一下到2.2.1版本,最后跑了一下官方的word-countdemo成功了.然后开发好了通用的ja">
 
     
     <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
@@ -86,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/19/IDEA-激活服务器搭建/" title="IDEA 激活服务器搭建" itemprop="url">IDEA 激活服务器搭建</a>
+      <a href="/2017/04/30/es-jstorm-flux-java-lang-NoSuchMethodError/" title="es jstorm flux java.lang.NoSuchMethodError" itemprop="url">es jstorm flux java.lang.NoSuchMethodError</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-19T04:45:07.000Z" itemprop="datePublished"> 发表于 2017-03-19</time>
+    <time datetime="2017-04-30T02:51:09.000Z" itemprop="datePublished"> 发表于 2017-04-30</time>
     
   </p>
 </header>
@@ -106,13 +100,22 @@
 		
 		</div>
 		
-		<p>记一下,老是忘记了，之前的激活服务器搭建在公司的机器上，所以必须得等vpn才能正常启动，打算在自己的vps上搭建一个，记录一下:</p>
-<p>首先下载激活软件,这放一个下载地址<a href="https://pan.baidu.com/s/1c2pFhIS" target="_blank" rel="external">百度盘IDEA激活服务器下载地址</a>,密码:uh36.<br>然后把这个下载的软件上传到你的vps上就行了:<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp IntelliJIDEALicenseServer_linux_amd64 your_name<span class="variable">@you_vps_id</span><span class="symbol">:~</span></div></pre></td></tr></table></figure></p>
-<p>然后登录到你的vps上，找到当前目录，执行:<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod +x I<span class="symbol">ntelliJIDEALicenseServer_linux_amd64</span></div><div class="line">./I<span class="symbol">ntelliJIDEALicenseServer_linux_amd64</span> &amp;</div></pre></td></tr></table></figure></p>
-<p>然后在你的IDEA激活那选<code>License Server</code>,地址填:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//&lt;your_vps_id&gt;:1017</span></div></pre></td></tr></table></figure></p>
-<p>有了这个还不够,有时候vps访问并不是那么流畅，或者没联网，这可能会影响我们的idea启动速度,所以可以把激活服务器搭建在本机，然后设置开机启动即可,假设你的文件放在<code>/workspace/dev/IntelliJIDEALicenseServer_linux_amd64</code>,那么可以修改<code>/etc/rc.local</code>,添加:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="regexp">/workspace/</span>dev<span class="regexp">/IntelliJIDEALicenseServer_linux_amd64 &amp;</span></div></pre></td></tr></table></figure></p>
-<p>然后激活服务器可以填:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//127.0.0.1:1017</span></div></pre></td></tr></table></figure></p>
-<p>然后就可以每次不用管是不是联网了。</p>
+		<p>最近在研究怎么通过Flux来解析日志，前前后后踩了很多坑,毕竟貌似网上也没人这么干过，写一个通用化的代码，只通过配置文件来定义流计算任务．基本上写好了代码,以后再有新的任务都不用再写java代码,然后打包上传提交任务了．<br>开始集群上的jstorm是2.1.1的,并不支持flux方式的提交任务，所有升级了一下到2.2.1版本,最后跑了一下官方的<code>word-count</code>demo成功了.<br>然后开发好了通用的jar包来解析日志，简单来说就是:</p>
+<ul>
+<li><p>CommonKafkaSpout<br>给构造函数传入指定topic来从kafka读取日志数据</p>
+</li>
+<li><p>CommonBolt<br>传入解析规则，基本上就是正则表达式,细节不多说了,解析出<code>&lt;key,value&gt;</code></p>
+</li>
+<li><p>Write2ESBolt<br>把上游的内容写入到es中，构造函数也需要传入es的配置，基本上就是index,type这些</p>
+</li>
+</ul>
+<p>所有的基本走通了之后,开始测试的时候Topology是用java代码写的,在集群上测试之后没啥问题，然后改用<code>yaml</code>文件来定义jstorm任务,结果提交到集群就有问题了,十分的奇怪,照理说<code>word-count</code>demo跑通了应该没啥问题了，但是涉及到真正的实战需要连接kafka,es就出问题了，报错:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">java<span class="selector-class">.lang</span><span class="selector-class">.NoSuchMethodError</span>: com<span class="selector-class">.google</span><span class="selector-class">.common</span><span class="selector-class">.util</span><span class="selector-class">.concurrent</span><span class="selector-class">.MoreExecutors</span><span class="selector-class">.sameThreadExecutor</span></div><div class="line">类似的还有</div><div class="line">NoSuchMethodError: com<span class="selector-class">.google</span><span class="selector-class">.common</span><span class="selector-class">.util</span><span class="selector-class">.concurrent</span><span class="selector-class">.MoreExecutors</span><span class="selector-class">.directExecutor</span> conflits on Elastic Search jar</div></pre></td></tr></table></figure></p>
+<p>然后google了很久，发现这个并不是es的问题，是guava的问题,原文在</p>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/20791351/java-lang-nosuchmethoderror-com-google-common-util-concurrent-moreexecutors-sam" target="_blank" rel="external">http://stackoverflow.com/questions/20791351/java-lang-nosuchmethoderror-com-google-common-util-concurrent-moreexecutors-sam</a></p>
+</blockquote>
+<p>Check your classpath and see what version of guava is being used by your WAR. The error suggests that the version of guava jar being found at runtime does not match the version that was used at compile time.</p>
+<p>简单一句话总结就是,jstorm集群上的guava版本和我们写的公共jar包里面的guava版本不一致.然后我去集群上的lib包上看了一下,发现jstorm 2.1.1用的guava是16.01版本的，于是我把集群上所有的机器里面的guava换成了20.0的，然后重启了集群,然后重新提交任务，果然就好使了,从kafka读取日志以及写入es也没问题了，任务终于不报错了.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,13 +123,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+  <a class="article-category-link" href="/categories/Java笔记/">Java笔记</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Linux/">Linux</a>
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/ES/">ES</a><a href="/tags/Jstorm/">Jstorm</a>
   </div>
 
 </div>
@@ -135,7 +138,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://sjq597.github.io/2017/03/19/IDEA-激活服务器搭建/" data-title="IDEA 激活服务器搭建 | LittleQ" data-tsina="null" class="share clearfix">
+	  <div data-url="http://sjq597.github.io/2017/04/30/es-jstorm-flux-java-lang-NoSuchMethodError/" data-title="es jstorm flux java.lang.NoSuchMethodError | LittleQ" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -149,18 +152,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/06/Error-creating-beans-and-Injection-of-autowired-dependencies-failed/" title="Error creating beans and Injection of autowired dependencies failed">
+ <a href="/2017/04/30/ubuntu-scrapy-openssl-opensslv-h/" title="ubuntu scrapy openssl/opensslv.h">
   <strong>上一篇：</strong><br/>
   <span>
-  Error creating beans and Injection of autowired dependencies failed</span>
+  ubuntu scrapy openssl/opensslv.h</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/03/17/IDEA编译报错unescaped-at-end-of-component/"  title="IDEA编译报错unescaped  at end of component">
+<a href="/2017/04/09/springmvc-400错误/"  title="springmvc 400错误">
  <strong>下一篇：</strong><br/> 
- <span>IDEA编译报错unescaped  at end of component
+ <span>springmvc 400错误
 </span>
 </a>
 </div>
@@ -212,7 +215,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -224,7 +227,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -240,7 +243,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -261,11 +264,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -273,11 +276,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -313,6 +316,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -321,15 +328,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

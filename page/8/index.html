@@ -81,6 +81,250 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/12/16/Python-Socket-文件传输实现/" title="Python Socket 文件传输实现" itemprop="url">Python Socket 文件传输实现</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-16T04:37:34.000Z" itemprop="datePublished"> 发表于 2015-12-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>经常需要把文件上传到服务器,最开始是用<code>scp</code>命令具体参见<a href="../../../10/27/Linux-本地和服务器互传文件命令-scp">Linux 本地和服务器互传文件命令:scp</a>,但是公司登陆服务器需要先登陆跳板机,所以需要先把文件scp到跳板机上,然后再scp到服务器上,很麻烦.所以后来想到了用公司的git服务器,先把文件push到git服务器上,然后再在服务器上直接pull下来,用完了再删掉数据commit更新就行了.这样其实也基本满足了需求,但是还是觉得麻烦,特别是每次还需要进行一系列git操作,还要一直留着这个仓库.<br>当然,从服务器上下载需要的文件也很简单,不用scp这么几次,直接在服务器上需要下载文件的目录执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 当前目录为服务器根目录,端口为8000</span></div><div class="line">python -m SimpleHTTPServer 8000</div></pre></td></tr></table></figure></p>
+<p>本地机器执行打开浏览器,输入:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//server_ip:8000</span></div></pre></td></tr></table></figure></p>
+<p>就可以直接下载了</p>
+<p>正好这几天看了一下python的socket,直接写个小型的服务端和客户端,直接传文件即可.</p>
+<h3 id="Socket发送消息"><a href="#Socket发送消息" class="headerlink" title="Socket发送消息"></a>Socket发送消息</h3>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/网络编程/">网络编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/07/MySQL-按周-月-年统计数据/" title="MySQL 按周,月,年统计数据" itemprop="url">MySQL 按周,月,年统计数据</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-07T14:14:27.000Z" itemprop="datePublished"> 发表于 2015-12-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>通常对于一个标准的时间,例如<code>2015-12-05 12:34:40</code>,如果想获取它的年月日,我们可以采取取字串的形式,即:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">substr(create_time,<span class="number">1</span>,<span class="number">10</span>)	# 取<span class="number">2015</span><span class="number">-12</span><span class="number">-05</span></div><div class="line">substr(create_time,<span class="number">1</span>,<span class="number">7</span>)		# 取<span class="number">2015</span><span class="number">-12</span></div><div class="line">substr(create_time,<span class="number">1</span>,<span class="number">4</span>)		# 取<span class="number">2015</span></div></pre></td></tr></table></figure></p>
+<p>也确实,对于一般的需求这么处理也够用了,但是有一个问题,如果要按周来统计,这个取字串就无法做到了,这个时候就需要用到<code>mysql</code>内置函数:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">date_format</span><span class="params">(date,format)</span></span></div></pre></td></tr></table></figure></p>
+<p>如果要按星期,天,月份来统计数据,可以这么来写,假设时间字段是<code>create_time</code>.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SELECT date_format(create_time,'%y%u') week,count(id) FROM table GROUP BY week;		# 按星期统计</div><div class="line">SELECT date_format(create_time,'%y%m%d') day,count(id) FROM table GROUP BY day;		# 按天统计</div><div class="line">select date_format(create_time,'%y%m') month,count(id) FROM table GROUP BY month;	# 按月统计</div></pre></td></tr></table></figure></p>
+<p>详细参数:<br>根据<code>format</code>字符串格式化代<code>date</code>的值.具体的格式取值有:</p>
+<table>
+<thead>
+<tr>
+<th>format 取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%M</td>
+<td>月名字(January…December)</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>星期名字(Sunday…Saturday)</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>有英语前缀的月份的日期(1st, 2nd, 3rd, 等等。）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>年, 数字,4 位(2013,2014,2015)</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>年, 数字, 2 位(13,14,15)</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>缩写的星期名字(Sun…Sat)</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月份中的天数, 数字(00…31)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>月份中的天数, 数字(0…31)</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月, 数字(01…12)</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>月, 数字(1…12)</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>缩写的月份名字(Jan…Dec)</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>一年中的天数(001…366)</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>小时(00…23)</td>
+</tr>
+<tr>
+<td>%k</td>
+<td>小时(0…23)</td>
+</tr>
+<tr>
+<td>%h</td>
+<td>小时(01…12)</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>小时(01…12)</td>
+</tr>
+<tr>
+<td>%l</td>
+<td>小时(1…12)</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>分钟, 数字(00…59)</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>时间,12 小时(hh:mm:ss [AP]M)</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>时间,24 小时(hh:mm:ss)</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒(00…59)</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>秒(00…59)</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM或PM</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>一个星期中的天数(0=Sunday…6=Saturday ）</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>星期(0…52), 这里星期天是星期的第一天</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>星期(0…52), 这里星期一是星期的第一天</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>一个文字“%”。</td>
+</tr>
+</tbody>
+</table>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/12/01/关联算法之-Apriori/" title="关联算法之-Apriori" itemprop="url">关联算法之-Apriori</a>
   </h1>
   <p class="article-author">By
@@ -704,139 +948,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/17/Hive-cannot-recognize-input-near-EOF-EOF-EOF/" title="Hive cannot recognize input near &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39;" itemprop="url">Hive cannot recognize input near &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39;</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-17T04:07:10.000Z" itemprop="datePublished"> 发表于 2015-11-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在Hive中复制表数据,把一个表的查询结果存储起来放到一个完整的表中,用到了<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name <span class="keyword">as</span> <span class="keyword">select</span> filed1[,field2][,field3...] <span class="keyword">from</span> table2_name;</div></pre></td></tr></table></figure></p>
-<p>根据上面的语法,我想直接把一个表的查询结果作为<code>table2_name</code>,看看我的写法:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">as</span> <span class="keyword">day</span>,<span class="keyword">count</span>(user_name) <span class="keyword">as</span> empty_user</div><div class="line"><span class="keyword">from</span> table2_name</div><div class="line"><span class="keyword">where</span> user_name=<span class="string">''</span> <span class="keyword">or</span> user_name <span class="keyword">is</span> <span class="literal">null</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>));</div></pre></td></tr></table></figure></p>
-<p><strong>备注:</strong><code>table2_name</code>表存放的是每天有登陆记录的用户,上面的语句其实是想统计每天用户名为空或者没有用户名的用户.<br>出现了报错信息:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FAILED: ParseException line <span class="number">6</span>:<span class="number">34</span> cannot recognize <span class="selector-tag">input</span> near <span class="string">'&lt;EOF&gt;'</span> <span class="string">'&lt;EOF&gt;'</span> <span class="string">'&lt;EOF&gt;'</span> <span class="keyword">in</span> subquery source</div></pre></td></tr></table></figure></p>
-<p>意思是子查询的语法不对,语句的结尾不正确,后来仔细想了一下,想到别名这个sql里常用的语法,虽然表的别名本身并没有什么大用,但是在子查询中经常用到,而且没有别名没有时还会报错,于是把后面加了一个表别名,改为如下:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">as</span> <span class="keyword">day</span>,<span class="keyword">count</span>(user_name) <span class="keyword">as</span> empty_user</div><div class="line"><span class="keyword">from</span> table2_name</div><div class="line"><span class="keyword">where</span> user_name=<span class="string">''</span> <span class="keyword">or</span> user_name <span class="keyword">is</span> <span class="literal">null</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>)) p1;</div></pre></td></tr></table></figure></p>
-<p>然后就好了.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/15/Ubuntu-14-04-安装vim-gnome失败解决办法/" title="Ubuntu 14.04 安装vim-gnome失败解决办法" itemprop="url">Ubuntu 14.04 安装vim-gnome失败解决办法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-15T12:54:00.000Z" itemprop="datePublished"> 发表于 2015-11-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>每次想拷贝Vim里的内容到其他地方,开始都是用鼠标的,但是后来发现,如果要复制大片内容,终端里没有显示出来就没辙了,所以网上搜了怎么把Vim里的内容复制到剪贴板.<br>网上搜了一下如何把Vim里的内容复制到系统剪贴板,大部分都是建议安装<code>vim-gnome</code>这个插件,仅针对于<code>Ubuntu</code>桌面环境,其他的我没有测试过:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gnome</div></pre></td></tr></table></figure></p>
-<p>结果报错了,报错信息如下:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Some packages could not <span class="keyword">be</span> installed. This may mean that you have</div><div class="line">requested <span class="keyword">an</span> impossible situation <span class="built_in">or</span> <span class="keyword">if</span> you are using the unstable</div><div class="line">distribution that some required packages have not yet been created</div><div class="line"><span class="built_in">or</span> been moved out of Incoming.</div><div class="line">The following information may <span class="keyword">help</span> <span class="keyword">to</span> <span class="built_in">resolve</span> the situation:</div><div class="line"></div><div class="line">The following packages have unmet dependencie<span class="variable">s:</span></div><div class="line"> <span class="keyword">vim</span>-gnome : Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">gui</span>-common (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but it <span class="keyword">is</span> not going <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">             Depend<span class="variable">s:</span> <span class="keyword">vim</span>-common (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">             Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">runtime</span> (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">E: Unable <span class="keyword">to</span> correct problems, you have held broken packages.</div></pre></td></tr></table></figure></p>
-<p>看上面的意思是这个插件依赖的几个库没有安装,手动安装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gui-common</div></pre></td></tr></table></figure></p>
-<p>然后再试试可不可以安装<code>vim-gnome</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gnome</div></pre></td></tr></table></figure></p>
-<p>果不其然又报错了:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">The following packages have unmet dependencie<span class="variable">s:</span></div><div class="line"> <span class="keyword">vim</span>-gnome : Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">runtime</span> (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div></pre></td></tr></table></figure></p>
-<p>这个意思就是说依赖的<code>vim-runtime</code>是一个老的版本,但是安装的是一个更加新的版本.那我们来手动装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-runtime</div></pre></td></tr></table></figure></p>
-<p>看看提示信息:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vim</span>-<span class="keyword">runtime</span> <span class="keyword">is</span> already the newest <span class="keyword">version</span>.</div><div class="line">The following packages were automatically installed <span class="built_in">and</span> are <span class="keyword">no</span> longer required:</div><div class="line">  g++-<span class="number">4.8</span> libstdc++-<span class="number">4.8</span>-dev linux-headers-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span></div><div class="line">  linux-headers-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic linux-image-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic</div><div class="line">  linux-image-extra-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic</div><div class="line">Use <span class="string">'apt-get autoremove'</span> <span class="keyword">to</span> <span class="built_in">remove</span> them.</div><div class="line"><span class="number">0</span> upgraded, <span class="number">0</span> newly installed, <span class="number">0</span> <span class="keyword">to</span> <span class="built_in">remove</span> <span class="built_in">and</span> <span class="number">16</span> not upgraded.</div></pre></td></tr></table></figure></p>
-<p>好了,找到问题的关键所在了,我之前升级了<code>gcc 4.9.2</code>,我们需要把这些老的包移除掉,不要漏掉了,也可以逐一卸载:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get autoremove g++-4.8 libstdc++-4.8-dev linux-headers-3.13.0-32 linux-headers-3.13.0-32-generic linux-image-extra-3.13.0-32-generic</div></pre></td></tr></table></figure></p>
-<p>然后强制安装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-runtime</div></pre></td></tr></table></figure></p>
-<p>好了,然后在Vim里的非<code>INSERT</code>模式下使用<code>&quot;+y</code>就可以把Vim里的内容复制到系统剪贴板了,注意记得重启Vim才能生效.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Vim/">Vim</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/7/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/">Next<span></span></a>
@@ -878,7 +989,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -890,7 +1001,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -906,7 +1017,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -927,11 +1038,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -939,11 +1050,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -979,6 +1090,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -987,15 +1102,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

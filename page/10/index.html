@@ -81,6 +81,147 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/06/Shell-反引号，单引号，双引号/" title="Shell 反引号，单引号，双引号" itemprop="url">Shell 反引号，单引号，双引号</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-06T05:22:53.000Z" itemprop="datePublished"> 发表于 2015-11-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近碰到个坑,在写shell脚本查询Hive数据的时候,有一个脚本在Shell里怎么都执行不出结果,但是拷贝到Hive界面里却能正常执行出结果,因为Hive表是按日期分区的,有两种格式:<br>一种是<code>%Y%m%d</code>,另一种是<code>%Y-%m-%d</code>.dw_source的表是第一种格式,而dw_transform层的表是第二种格式:</p>
+<h3 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># sql用单引号 执行成功,可以返回正常结果</span></div><div class="line">sql1=<span class="string">'select uid,first_ip,first_date from dw_source.user_ext where dt='</span>20151104<span class="string">';'</span></div><div class="line">sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql1</span>"</span> &gt; source.txt</div><div class="line"></div><div class="line"><span class="comment"># sql用单引号 执行成功,但是没有返回值</span></div><div class="line">sql2=<span class="string">'select uid,first_ip,first_date from dw_transform.user_ext where dt='</span>2015-11-04<span class="string">';'</span></div><div class="line">sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql2</span>"</span> &gt; transform.txt</div></pre></td></tr></table></figure>
+<p>我们可以用<code>echo</code>命令来看看具体执行的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sql1=<span class="string">'select uid,first_ip,first_date from dw_source.user_ext where dt='</span>20151104<span class="string">';'</span></div><div class="line">sql2=<span class="string">'select uid,first_ip,first_date from dw_transform.user_ext where dt='</span>2015-11-04<span class="string">';'</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql1</span>"</span></div><div class="line"><span class="built_in">echo</span> sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql2</span>"</span></div></pre></td></tr></table></figure></p>
+<p>看看返回结果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo -uhive_user hive <span class="_">-e</span> select uid,first_ip,first_date from dw_source.user_ext <span class="built_in">where</span> dt=20151104;</div><div class="line">sudo -uhive_user hive <span class="_">-e</span> select uid,first_ip,first_date from dw_transform.user_ext <span class="built_in">where</span> dt=2015-11-04;</div></pre></td></tr></table></figure></p>
+<p>看到这里发现了一个问题,本来在日期上应该有的单引号消失了,因为第一种时间格式没有分隔符,可以被正常的识别,但是第二种就比较悲催了,应该是被<code>-</code>分隔了,导致日期不对,解决办法就是最外面用双引号,即改成如下内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sql1=<span class="string">"select uid,first_ip,first_date from dw_source.user_ext where dt='20151104';"</span></div><div class="line">sql2=<span class="string">"select uid,first_ip,first_date from dw_transform.user_ext where dt='2015-11-04';"</span></div></pre></td></tr></table></figure></p>
+<h3 id="反引号-双引号-单引号用法"><a href="#反引号-双引号-单引号用法" class="headerlink" title="反引号 双引号 单引号用法"></a>反引号 双引号 单引号用法</h3><p>这几个符号长得比较像，但是功能还是有很大区别的。</p>
+<h4 id="反引号"><a href="#反引号" class="headerlink" title="反引号(`)"></a>反引号(`)</h4><p>起着命令替换的作用。命令替换是指shell能够将一个命令的标准输出插在一个命令行中任何位置。,举个简单的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  <span class="built_in">echo</span> The date is `date`</div><div class="line">The date is 2015年 11月 06日 星期五 16:27:46 CST</div></pre></td></tr></table></figure></p>
+<h4 id="双引号-“"><a href="#双引号-“" class="headerlink" title="双引号(“)"></a>双引号(“)</h4><p>双引号是字符串的界定符,而不是字符的界定符,取消除[`,$,”,]以外,其他的都变成字符串的内容了.双引号是弱引用，引号里的值若再包含变量，那在赋值的时候，所有这些变量就被立即替换了。<br>用双引号的时候:<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$加变量名可以取变量的值</div><div class="line">反引号仍表示命令替换</div><div class="line">\$表示$的字面值</div><div class="line">\<span class="string">`表示`</span>的字面值</div><div class="line">\<span class="string">"表示"</span>的字面值</div><div class="line">\\表示\的字面值</div></pre></td></tr></table></figure></p>
+<p>看个简单的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  ~  name=World</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="variable">$name</span></div><div class="line">World</div><div class="line">➜  ~  sayHello=<span class="string">"Hello <span class="variable">$name</span>"</span></div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="variable">$sayHello</span></div><div class="line">Hello World</div></pre></td></tr></table></figure></p>
+<h4 id="单引号-‘"><a href="#单引号-‘" class="headerlink" title="单引号(‘)"></a>单引号(‘)</h4><p>单引号告诉shell忽略所有特殊字符,保持引号内所有字符的字面值，即使引号内的\和回车也不例外,单引号是强引用,但是字符串中不能出现单引号。之前的问题就是犯了这个错,两个单引号嵌套了.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">"`date`"</span></div><div class="line">2015年 11月 06日 星期五 16:42:29 CST</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">'`date`'</span></div><div class="line">`date`</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">"'`date`'"</span></div><div class="line"><span class="string">'2015年 11月 06日 星期五 16:42:29 CST'</span></div><div class="line">➜  ~</div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong>如果<code>&#39;</code>出现在<code>&quot;</code>里面，<code>&#39;</code>就退化为一个单纯的字符了，而不再有强引用一说。换句话说，只有最外层的<code>&#39;</code>才具有强引用效果。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>这个对我们有啥影响呢？基本在我们使用Shell的时候都会碰到这个坑，尤其是正则表达式，有时候匹配数字用<code>\d</code>就可以了，但是像Hive这种用Java写的，内部会有转义，所以需要传入两个<code>\\</code>的时候，就容易踩坑，以Hive中的正则为例,看下面:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">reg_str1</span>=<span class="string">'.*id=(\\d).*'</span></div><div class="line"><span class="attr">reg_str2</span>=<span class="string">".*id=(\\\\d).*"</span></div></pre></td></tr></table></figure></p>
+<p>这两种写法都是正确的写法，效果是一样的，其他的写法都是不对的</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Shell/">Shell</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/05/Vim-常用配置技巧/" title="Vim 常用配置技巧" itemprop="url">Vim 常用配置技巧</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-05T12:44:29.000Z" itemprop="datePublished"> 发表于 2015-11-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Vim虽然很好用,但是平时有时候还不够好,需要自己配置一下,比如说,每次粘贴到vim里一大片内容,可能就会被弄乱,常用的vim配置设置都在<code>~/.vimrc</code>里.</p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>基本配置就是平时的一些简单的配置,会经常用到的,下面都是我从平时工作中需要用到的配置中慢慢总结出来的,下面讲的如果没有特殊说明,都是默认配置在<code>~/.vimrc</code>文件中.</p>
+<h4 id="设置table的宽度"><a href="#设置table的宽度" class="headerlink" title="设置table的宽度"></a>设置table的宽度</h4><p>写shell的时候,经常会在<code>if</code>的下一行给我空出两个制表符,每个制表符都是8个字符宽度,看着很别扭,<code>ts</code>是一个制表符显示宽度,<code>sw</code>是制表符实际占宽度.<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> <span class="keyword">ts</span>=<span class="number">4</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">sw</span>=<span class="number">4</span></div></pre></td></tr></table></figure></p>
+<h4 id="设置粘贴不自动缩进"><a href="#设置粘贴不自动缩进" class="headerlink" title="设置粘贴不自动缩进"></a>设置粘贴不自动缩进</h4><p>粘贴之前在vim编辑器里先:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:<span class="built_in">set</span> paste</div></pre></td></tr></table></figure></p>
+<p>然后再<code>insert</code>,把内容粘贴到vim里即可,粘贴完还需要关闭:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:<span class="built_in">set</span> nopaste</div></pre></td></tr></table></figure></p>
+<p>相信你也觉得好麻烦,其实这个有个开关模式,只要选择打开开关,关闭开关就能达到我们要的效果,所以利用键盘映射到这个开关,在配置文件里加上:<br>前两行是为了提示的,这样你在粘贴的时候就可以区分<code>paste</code>模式和<code>nopaste</code>模式.<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">nnoremap</span> <span class="symbol">&lt;F2&gt;</span> :<span class="keyword">set</span> invpaste paste?<span class="symbol">&lt;CR&gt;</span></div><div class="line"><span class="keyword">imap</span> <span class="symbol">&lt;F2&gt;</span> <span class="symbol">&lt;C-O&gt;</span>:<span class="keyword">set</span> invpaste paste?<span class="symbol">&lt;CR&gt;</span></div><div class="line"><span class="keyword">set</span> pastetoggle=<span class="symbol">&lt;F2&gt;</span></div></pre></td></tr></table></figure></p>
+<h4 id="更改Esc映射"><a href="#更改Esc映射" class="headerlink" title="更改Esc映射"></a>更改Esc映射</h4><p><code>Vim</code>里使用<code>Esc</code>的频率很高,但是一般的键盘设计使得按<code>Esc</code>很不方便,而且在Vim里,<code>Caps Lock</code>就是多余的,为什么这么说?因为有快捷键可以直接将小写转大写,单个的大写就使用<code>Shift</code>即可.<br>在终端里面执行下面命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xmodmap <span class="_">-e</span> <span class="string">'clear Lock'</span> <span class="_">-e</span> <span class="string">'keycode 0x42 = Escape'</span></div></pre></td></tr></table></figure></p>
+<p>这样你的建就被映射了,但是每次你重启之后,还得重新做映射,而且我们只想这个功能在Vim里是这样的,当我们退出Vim,键盘的按键恢复正常,可以在<code>.vimrc</code>文件里加上下面的内容:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">" 当进入vim的时候将Esc映射成大写键,退出的时候将大写键映射回来</span></div><div class="line"><span class="keyword">au</span> VimEnter * !xmodmap -<span class="keyword">e</span> <span class="string">'clear Lock'</span> -<span class="keyword">e</span> <span class="string">'keycode 0x42 = Escape'</span></div><div class="line"><span class="keyword">au</span> VimLeave * !xmodmap -<span class="keyword">e</span> <span class="string">'clear Lock'</span> -<span class="keyword">e</span> <span class="string">'keycode 0x42 = Caps_Lock'</span></div></pre></td></tr></table></figure></p>
+<p>为了使用更加友好,还可以在<code>.vimrc</code>文件里加上下面这句:<br>在insert模式下,按<ctrl+u>将光标所在单词变大写,记得要重启vim才会生效.<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">inoremap</span> <span class="symbol">&lt;C-u&gt;</span> <span class="symbol">&lt;esc&gt;</span>gUiwea</div></pre></td></tr></table></figure></ctrl+u></p>
+<p>这个需要安装<code>xorg-xmodmap</code>安装包.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/05/Hive-get-json-object用法/" title="Hive get_json_object用法" itemprop="url">Hive get_json_object用法</a>
   </h1>
   <p class="article-author">By
@@ -964,153 +1105,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/27/Linux-本地和服务器互传文件命令-scp/" title="Linux 本地和服务器互传文件命令:scp" itemprop="url">Linux 本地和服务器互传文件命令:scp</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-27T10:58:07.000Z" itemprop="datePublished"> 发表于 2015-10-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在日常工作开发中,都是登陆跳板机然后再登陆开发机或者在线服务器,有时候需要把一个本地文件上传到服务器,例如服务器缺少某个字体,通常是本地机下载字体然后上传到服务器.也有时候需要把服务器上的某个文件拷贝到本地,例如某个日志或者结果等.这个时候<code>scp</code>命令登场了.</p>
-<h3 id="scp命令使用"><a href="#scp命令使用" class="headerlink" title="scp命令使用"></a>scp命令使用</h3><h4 id="准备条件"><a href="#准备条件" class="headerlink" title="准备条件"></a>准备条件</h4><blockquote>
-<p>假设你的用户名是zhang.san<br>跳板机地址:redirector.machine.com<br>目标机器地址:target.machine.com<br>本机文件:/home/zhang.san/1.txt<br>目标机器文件:/home/dev/www/log/test.log</p>
-</blockquote>
-<p><strong>注意:</strong> 由于是跳板机,所以会有很多人登陆,每个人在跳板机上都有一个以自己名字命名的目录,例如<code>/home/zhang.san/</code></p>
-<h4 id="本地上传到服务器"><a href="#本地上传到服务器" class="headerlink" title="本地上传到服务器"></a>本地上传到服务器</h4><ul>
-<li>上传文件到跳板机</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  ~  scp 1.txt zhang.san@redirector.machine.com:~</div><div class="line">Enter PASSCODE:<span class="string">"此处可能要输入密码"</span></div><div class="line">1.txt                                              100%   10     0.0KB/s   00:00</div></pre></td></tr></table></figure>
-<ul>
-<li>登陆跳板机查看</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ssh zhang.san@redirector.machine.com</div><div class="line">Enter PASSCODE:<span class="string">"输入密码处"</span></div><div class="line">Last login: Tue Oct 27 19:16:47 2015 from 10.86.108.97</div><div class="line">[zhang.san@redirector.machine.com ~]$ ls</div><div class="line">1.txt</div></pre></td></tr></table></figure>
-<p> 再在跳板机上进行同样的操作上传到服务器即可.</p>
-<h4 id="服务器下载到本地"><a href="#服务器下载到本地" class="headerlink" title="服务器下载到本地"></a>服务器下载到本地</h4><p>在本地机器上执行下面命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp zhang.san@redirector.machine.com:1.txt ./</div></pre></td></tr></table></figure></p>
-<p>注意这个命令不是在跳板机,而是在本地机器上执行.</p>
-<p>其实前面的是比较复杂的，如果单纯的只是想从服务器上上传东西，可以使用一个简单的命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -m SimpleHTTPServer 端口号</div></pre></td></tr></table></figure></p>
-<p>这个命令可以把执行这个命令的目录变成一个服务器的目录，可以直接用http下载,pythons服务器上一般是安装了的，没有的话就不能这么用了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux使用/">Linux使用</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/Web/">Web</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/25/Ubuntu-14-04-IntelliJ-IDEA-乱码/" title="Ubuntu 14.04下 IntelliJ IDEA 乱码" itemprop="url">Ubuntu 14.04下 IntelliJ IDEA 乱码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-25T14:46:23.000Z" itemprop="datePublished"> 发表于 2015-10-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在Ubuntu下，由于缺少宋体，导致中文路径出现乱码，解决办法是先下载字体，然后在IDEA中设置使用宋体即可。<br>乱码有几种情况，</p>
-<h3 id="编辑器以及调试信息乱码"><a href="#编辑器以及调试信息乱码" class="headerlink" title="编辑器以及调试信息乱码"></a>编辑器以及调试信息乱码</h3><p>解决方案，选择<code>File--&gt;settings--&gt;Editor--&gt;File Encoding</code><br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04下%20IntelliJ%20IDEA%20乱码01.png" alt="IDEA 中设置默认字符编码"><br>如上图所示，两个编码都选择<code>UTF-8</code>，这样可以保证以后新建的文件编码方式，防止乱码。</p>
-<h3 id="IDEA-其他窗口乱码"><a href="#IDEA-其他窗口乱码" class="headerlink" title="IDEA 其他窗口乱码"></a>IDEA 其他窗口乱码</h3><p>如下图所示：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04下%20IntelliJ%20IDEA%20乱码02.png" alt="IDEA 中窗口乱码"><br>出现这样的原因是linux系统提供的字体不支持中文的显示，在idea中，默认的是ubuntu字体，该字体并不支持中文显示。因此，还需要自己下载一个支持中文显示的字体。</p>
-<ul>
-<li>下载simsun字体，<a href="http://pan.baidu.com/s/1pJ06y2B" target="_blank" rel="external">百度盘下载地址</a></li>
-<li>将下载好的字体添加到系统字体库中</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo cp Downloads/simsun.ttf /usr/share/fonts</div></pre></td></tr></table></figure>
-<ul>
-<li>重启IDEA，设置字体<br>重启idea，然后选择<code>File-&gt;settings-&gt;Appearance &amp; Behavior-&gt;Appearance</code>.如下所示：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/Ubuntu%2014.04下%20IntelliJ%20IDEA%20乱码03.png" alt="IDEA中设置simsun字体"><br>在右边勾选上<code>Override default fonts by(....)</code>,并在<code>Name</code>选项中选择刚刚添加的SimSun字体。</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/开发工具/">开发工具</a><a href="/tags/IDEA/">IDEA</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/9/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/">Next<span></span></a>
@@ -1152,7 +1146,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -1164,7 +1158,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -1180,7 +1174,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -1201,11 +1195,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -1213,11 +1207,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -1253,6 +1247,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -1261,15 +1259,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

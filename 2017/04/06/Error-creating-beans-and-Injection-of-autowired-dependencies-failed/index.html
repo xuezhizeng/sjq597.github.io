@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="LittleQ">
 <meta property="og:description" content="Spring中需要用到spring的事务回滚,注解方式是最简单易用的，一开始发现spring的事务没有起作用，最后查了很多资料,最后发现是配置文件中没有添加事务注解的配置,所以在spring的配置文件里面加了下面这行:1&amp;lt;tx:annotation-driven  transaction-manager=&quot;transactionManager&quot; /&amp;gt;
 结果发现之前可以运行的项目突然不能">
-<meta property="og:updated_time" content="2017-04-06T12:43:39.315Z">
+<meta property="og:updated_time" content="2017-04-09T03:40:03.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Error creating beans and Injection of autowired dependencies failed">
 <meta name="twitter:description" content="Spring中需要用到spring的事务回滚,注解方式是最简单易用的，一开始发现spring的事务没有起作用，最后查了很多资料,最后发现是配置文件中没有添加事务注解的配置,所以在spring的配置文件里面加了下面这行:1&amp;lt;tx:annotation-driven  transaction-manager=&quot;transactionManager&quot; /&amp;gt;
@@ -122,7 +122,10 @@
 <blockquote>
 <p><a href="http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be" target="_blank" rel="external">http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be</a></p>
 </blockquote>
-<p>摘一段Spring官方的文档:<br><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Applies <span class="keyword">to</span> proxy mode only. Controls what type <span class="keyword">of</span> transactional proxies are created <span class="keyword">for</span> classes annotated <span class="keyword">with</span> the @Transactional annotation. <span class="keyword">If</span> <span class="string">"proxy-target-class"</span> attribute <span class="keyword">is</span> <span class="keyword">set</span> <span class="keyword">to</span> <span class="string">"true"</span>, <span class="keyword">then</span> <span class="keyword">class</span>-based proxies will be created. <span class="keyword">If</span> <span class="string">"proxy-target-class"</span> <span class="keyword">is</span> <span class="string">"false"</span> <span class="keyword">or</span> <span class="keyword">if</span> the attribute <span class="keyword">is</span> omitted, <span class="keyword">then</span> standard JDK <span class="keyword">interface</span>-based proxies will be created. (See the section entitled Section <span class="number">6.6</span>, “Proxying mechanisms” <span class="keyword">for</span> a detailed examination <span class="keyword">of</span> the different proxy types.)</div></pre></td></tr></table></figure></p>
+<p>摘一段Spring官方的文档:</p>
+<blockquote>
+<p>Applies to proxy mode only. Controls what type of transactional proxies are created for classes annotated with the @Transactional annotation. If “proxy-target-class” attribute is set to “true”, then class-based proxies will be created. If “proxy-target-class” is “false” or if the attribute is omitted, then standard JDK interface-based proxies will be created. (See the section entitled Section 6.6, “Proxying mechanisms” for a detailed examination of the different proxy types.)</p>
+</blockquote>
 <p>大概翻译一下就是:是否只采用代理模式来做事务管理,并且有个关键字<code>class-based proxies</code>,这样就不会有类型不匹配的了.<br>而且这个作者的这个问题也是由于他使用的事务注解而导致的,和我的这个问题非常相像，核心意思是这个注解默认是使用系统的代理模式,即<code>com.sun.proxy</code>这个里面的类,但是一般<code>spring</code>的项目都是使用的<code>cglib,aspectj</code>这类的库来做代理的默认实现,所以导致了以上的这种问题,那么解决方法就是将最开始的配置改为:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> proxy-target-<span class="built_in">class</span>=<span class="string">"true"</span>/&gt;</div></pre></td></tr></table></figure></p>
   
 	</div>
@@ -159,11 +162,19 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/04/09/springmvc-400错误/" title="springmvc 400错误">
+  <strong>上一篇：</strong><br/>
+  <span>
+  springmvc 400错误</span>
+</a>
+</div>
+
 
 <div class="next">
-<a href="/2017/03/19/IDEA-激活服务器搭建/"  title="IDEA 激活服务器搭建">
+<a href="/2017/03/17/IDEA编译报错unescaped-at-end-of-component/"  title="IDEA编译报错unescaped  at end of component">
  <strong>下一篇：</strong><br/> 
- <span>IDEA 激活服务器搭建
+ <span>IDEA编译报错unescaped  at end of component
 </span>
 </a>
 </div>
@@ -215,7 +226,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -227,7 +238,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -243,7 +254,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -264,11 +275,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -276,11 +287,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -316,6 +327,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -324,15 +339,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

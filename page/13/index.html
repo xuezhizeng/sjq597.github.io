@@ -81,6 +81,166 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/10/06/Hexo-使用七牛图床/" title="Hexo 使用七牛图床" itemprop="url">Hexo 使用七牛图床</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-06T09:56:42.000Z" itemprop="datePublished"> 发表于 2015-10-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="搭建博客"><a href="#搭建博客" class="headerlink" title="搭建博客"></a>搭建博客</h3><p>本来图片放在本地的文件夹里也可以，但是<code>github</code>还是有存储空间限制的，而且这样也慢，所以用云存储商的云服务来作图床还可以加速，图片也不会丢。<br>假设你已经搭建好了博客了，如果没有，参照之前的文章来看。</p>
+<h3 id="使用七牛运存储"><a href="#使用七牛运存储" class="headerlink" title="使用七牛运存储"></a>使用七牛运存储</h3><p>没有账号可以去注册，实名认证之后就可以使用云存储服务了。</p>
+<ul>
+<li><p>新建空间<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Hexo%20使用七牛图床01.png" alt="新建一个存储空间"><br><strong>注意：</strong> 一定要选公开空间，不然别人访问不到，开始一直没找到外链的链接在哪里，最后发现是自己开始把空间设置成私有空间了。</p>
+</li>
+<li><p>引用图片<br>把图片链接地址放到你想加载图片的地方，图片的地址是：<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Hexo%20使用七牛图床02.png" alt="图片外链地址"></p>
+</li>
+</ul>
+<h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3><p>虽然这样可以显示了，但是在我的博客里显示的时候，图片特别小，有点儿看不清，后来才发现是七牛的默认设置图片显示尺寸太小，去七牛的控制台里设置自己的样式。<br>在<code>数据处理-&gt;图片处理里</code>，点<code>新建图片样式</code>，我把图片的宽度设的很大，这样就基本可以保持很清晰的图片样式了。<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/note_Hexo%20使用七牛图床03.png" alt="新建图片样式"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/博客搭建/">博客搭建</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hexo/">Hexo</a><a href="/tags/图床/">图床</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/06/Ubuntu-14-04-配置JDK/" title="Ubuntu 14.04 配置JDK" itemprop="url">Ubuntu 14.04 配置JDK</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-06T09:45:00.000Z" itemprop="datePublished"> 发表于 2015-10-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="Ubuntu-14-04-安装jdk"><a href="#Ubuntu-14-04-安装jdk" class="headerlink" title="Ubuntu 14.04 安装jdk"></a>Ubuntu 14.04 安装<code>jdk</code></h3><p>根据自己的系统下载对应的压缩包，我的是<code>Ubuntu 14.04</code>，需要下载的是<code>jdk-7u40-linux-x64.tar.gz</code>。具体地址去<code>oracle</code>官网。</p>
+<ul>
+<li>解压压缩包：</li>
+</ul>
+<blockquote>
+<p>tar -xvf jdk-7u40-linux-x64.tar.gz</p>
+</blockquote>
+<p>新建一个目录，将解压的文件移动到该目录中</p>
+<blockquote>
+<p>mkdir /usr/java<br>sudo cp -a jdk1.7.0_40/ /usr/java/</p>
+</blockquote>
+<p>进入vi编辑器，编辑环境变量</p>
+<blockquote>
+<p>vi ~/.bashrc</p>
+</blockquote>
+<p><strong>NOTE:</strong>如果你还装了其他的<code>shell</code>，比如我装的是<code>oh-my-zsh</code>，那么需要修改对应的文件而不再是<code>.bashrc</code>，而是<code>.zshrc</code>。</p>
+<p>在最后加入以下内容</p>
+<blockquote>
+<p>export JAVA_HOME=/usr/java/jdk1.7.0_40<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
+</blockquote>
+<p><strong>注意：</strong> 等号之间不要有空格，否则会出错<br>最后还需要更新一下</p>
+<blockquote>
+<p>source ~/.bashrc</p>
+</blockquote>
+<p>好了，在终端中可以测试一下jdk是否安装成功了</p>
+<blockquote>
+<p>java -version</p>
+</blockquote>
+<p>输出结果为</p>
+<blockquote>
+<p>java version “1.7.0_40”<br>Java(TM) SE Runtime Environment (build 1.7.0_40-b43)<br>Java HotSpot(TM) 64-Bit Server VM (build 24.0-b56, mixed mode)</p>
+</blockquote>
+<p>至此，<code>jdk</code>就安装好了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/开发工具/">开发工具</a><a href="/tags/开发环境/">开发环境</a><a href="/tags/jdk/">jdk</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/10/06/Ubuntu-14-04-Git-配置/" title="Ubuntu 14.04 Git 配置" itemprop="url">Ubuntu 14.04 Git 配置</a>
   </h1>
   <p class="article-author">By
@@ -786,7 +946,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -798,7 +958,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -814,7 +974,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -835,11 +995,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -847,11 +1007,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -887,6 +1047,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -895,15 +1059,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

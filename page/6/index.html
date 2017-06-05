@@ -81,6 +81,146 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/02/24/slice-indices-must-be-integers-or-None-or-have-an-index-method/" title="slice indices must be integers or None or have an __index__ method" itemprop="url">slice indices must be integers or None or have an __index__ method</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-24T12:30:51.000Z" itemprop="datePublished"> 发表于 2016-02-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>写了个脚本读取指定文件的某一行到某一行，然后利用行数据做一些匹配提取，在终端中调用方式为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python run.py file_name beg_line end_line</div></pre></td></tr></table></figure></p>
+<p>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    file_name = sys.argv[<span class="number">1</span>]</div><div class="line">    beg_line = sys.argv[<span class="number">2</span>]</div><div class="line">    end_line = sys.argv[<span class="number">3</span>]</div><div class="line"></div><div class="line">    <span class="keyword">with</span> open(file_name, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</div><div class="line">        <span class="keyword">for</span> val <span class="keyword">in</span> f.readlines()[beg_line:end_line]:</div><div class="line">            <span class="keyword">print</span> val.strip()</div></pre></td></tr></table></figure></p>
+<p>当我在终端中输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python run.py 12 20</div></pre></td></tr></table></figure></p>
+<p>时，报错：</p>
+<blockquote>
+<p>TypeError: slice indices must be integers or None or have an <strong>index</strong> method</p>
+</blockquote>
+<p>解决办法，python作为一个解释型语言，对类型没有强制检查，我们虽然输入的是两个数字，但是实际上<strong>beg_line</strong>,<strong>end_line</strong>是<code>str</code>类型,所以传入切片的类型不对，就会报上面的错。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/20/命令行建github仓库/" title="命令行建github仓库" itemprop="url">命令行建github仓库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-20T10:39:22.000Z" itemprop="datePublished"> 发表于 2016-02-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>经常使用github的人应该不陌生，大多数人使用都是先在github的网站上建一个仓库，然后拷贝ssh或者http的地址，然后使用<code>git clone</code>命令来初始化项目，这样比较麻烦，其实可以直接通过命令行的方式来在github上建立一个仓库，然后直接把本地项目推送到github上的。</p>
+<h3 id="命令行建立仓库"><a href="#命令行建立仓库" class="headerlink" title="命令行建立仓库"></a>命令行建立仓库</h3><ol>
+<li><p>认证用户发一个POST就可以新建，于是使用curl构造POST，没有的自己安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -u <span class="string">'username'</span> https://api.github.com/user/repos <span class="_">-d</span> <span class="string">'&#123;"name":"RepoName"&#125;'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>然后把刚才建的仓库的地址加到git配置里</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote add origin git@github.com:username/RepoName.git</div></pre></td></tr></table></figure>
+</li>
+<li><p>推送到github</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push -u origin master</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>注意:</strong>username换成你在github上的注册名,RepoName就是你打算在github上建立的仓库名，注意不要替换user</p>
+<p>通过这几步就可以在命令行里完成所有的操作。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Git/">Git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Git/">Git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/02/20/Python-包-模块之间引用/" title="Python 包 模块之间引用" itemprop="url">Python 包 模块之间引用</a>
   </h1>
   <p class="article-author">By
@@ -657,168 +797,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/01/14/服务器安装pip工具/" title="服务器安装pip工具" itemprop="url">服务器安装pip工具</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-01-14T07:03:17.000Z" itemprop="datePublished"> 发表于 2016-01-14</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>系统版本:CentOS release 6.4 (Final)<br>Python版本:2.6.6</p>
-<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><ol>
-<li><p>先下载安装setuptools</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py</div><div class="line">sudo python ez_setup.py --insecure</div></pre></td></tr></table></figure>
-</li>
-<li><p>然后下载安装pip</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo wget --no-check-certificate https://pypi.python.org/packages/<span class="built_in">source</span>/p/pip/pip-7.1.2.tar.gz</div><div class="line">sudo tar -xvf pip-7.1.2.tar.gz</div><div class="line"><span class="built_in">cd</span> pip-7.1.2</div><div class="line">sudo python setup.py install</div></pre></td></tr></table></figure>
-</li>
-<li><p>pip使用方法</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo pip install module_name</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="安装python"><a href="#安装python" class="headerlink" title="安装python"></a>安装python</h3><p>有时候用pip安装,会提示:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SystemError: Cannot compile <span class="string">'Python.h'</span>. Perhaps you need <span class="keyword">to</span> install <span class="keyword">python</span>-dev|<span class="keyword">python</span>-devel</div></pre></td></tr></table></figure></p>
-<p>这时候不能像Ubuntu上安装<code>python-dev</code>,在CentOS上,名字变了,像如下安装:<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo yum <span class="keyword">install</span> python-devel</div></pre></td></tr></table></figure></p>
-<p><strong>备注:</strong>如果是Ubuntu安装报错<code>mysql_config</code>:<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">    libs = mysql_config(<span class="string">"libs_r"</span>)</div><div class="line">  <span class="keyword">File</span> <span class="string">"/tmp/pip-build-a7IbwK/MySQL-python/setup_posix.py"</span>, <span class="literal">line</span> <span class="number">25</span>, <span class="keyword">in</span> mysql_config</div><div class="line">    raise EnvironmentError(<span class="string">"%s not found"</span> % (mysql_config.path,))</div><div class="line">EnvironmentError: mysql_config <span class="keyword">not</span> found</div></pre></td></tr></table></figure></p>
-<p>解决方案为:<br><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install libmysqlclient-<span class="built_in">dev</span></div></pre></td></tr></table></figure></p>
-<p>还需要升级python2.6.6至2.7.x<br>查看python2.7安装位置，假设在<code>/usr/bin/q-python2.7</code>,建立软连接<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 加-b 参数是为了覆盖之前的软链接</span></div><div class="line">sudo ln -sb /usr/bin/q-python2.7 /usr/bin/python</div></pre></td></tr></table></figure></p>
-<p>这会导致yum无法使用，修复办法,编辑<code>/usr/bin/yum</code><br>将头部的python改为python2.6</p>
-<p>有时候由于国内某些你懂的原因，安装包经常连不上，需要设置pip的国内镜像CentOS修改<code>~/.pip/pip.conf</code>文件，内容如下：<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">trusted-host</span>=mirrors.aliyun.com</div><div class="line"><span class="attr">index-url</span>=http://mirrors.aliyun.com/pypi/simple/</div></pre></td></tr></table></figure></p>
-<p>对应的如果是Windows,则需要在对应用户目录下修改，例如<code>C:\Users\zhangsan\pip\pip.ini</code>，内容如上。</p>
-<p>指定url安装包可以这样, 以<code>Flask</code>为例:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install -<span class="selector-tag">i</span> http:<span class="comment">//mirrors.aliyun.com/pypi/simple/ Flask</span></div></pre></td></tr></table></figure></p>
-<p>项目依赖打包以及环境快速恢复:<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># 依赖导出</span></div><div class="line">pip freeze &gt; requirements.txt</div><div class="line"></div><div class="line"><span class="meta"># 安装文件中所有依赖</span></div><div class="line">pip install -r requirements.txt</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Python/">Python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/01/07/Django-笔记04/" title="Django 笔记04" itemprop="url">Django 笔记04</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-01-07T06:15:22.000Z" itemprop="datePublished"> 发表于 2016-01-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>通过第三篇笔记我们也基本知道怎么处理Web的视图和数据库及链接和模板,这次主要讲一讲表单,因为Web免不了要提交数据给服务器,表单作为一种非常常见和基本的提交数据的方式,在Web开发中是很重要的一种方法.</p>
-<h3 id="一个简单的表单"><a href="#一个简单的表单" class="headerlink" title="一个简单的表单"></a>一个简单的表单</h3><p>更新我们的模板文件,编辑<code>polls/detail.html</code>,改成如下内容:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;h1&gt;&#123;&#123; question.question_text &#125;&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">&#123;% if error_message %&#125;&lt;p&gt;&lt;strong&gt;&#123;&#123; error_message &#125;&#125;&lt;/strong&gt;&lt;/p&gt;&lt;% endif %&#125;</div><div class="line"></div><div class="line">&lt;form action="&#123;% url 'polls:vote' question.id %&#125;" method="post"&gt;</div><div class="line">    &#123;% csrf_token %&#125;</div><div class="line">    &#123;% for choice in question.choice_set.all %&#125;</div><div class="line">        &lt;input type="radio" name="choice" id="choice&#123;&#123;forloop.counter&#125;&#125;" value="&#123;&#123; choice.id&#125;&#125;"/&gt;</div><div class="line">        &lt;label for="choice&#123;&#123;forloop.counter&#125;&#125;"&gt;&#123;&#123; choice.choice_text &#125;&#125;&lt;/label&gt;&lt;br/&gt;</div><div class="line">    &lt;% endfor %&#125;</div><div class="line"></div><div class="line">    &lt;input type="submit" value="Vote" /&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>上面的是一个简单的单选按钮的模板，每一个投票选项是一个单选按钮，然后这个单选按钮的值就是关联的问题选项的<code>id</code>。每个单选按钮的名字都一样，是<code>choice</code>，也就是如果你选了某个选项，那么POST的数据就是<code>choice=#id</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url(<span class="string">r'^(?P&lt;question_id&gt;[0-9]+)/vote/$'</span>, views.vote, name=<span class="string">'vote'</span>),</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>forloop.counter</strong>暗示了有多少个选项，其实就是外层循环次数。</p>
-</li>
-<li><code> {% csrf_token %} </code>是个防止跨域攻击的标签，只需要知道这么用就行了。</li>
-</ul>
-<p>这回我们可以来完善一下我们的<code>vote</code>视图，让它有一些功能，编辑<code>polls/views.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.core.urlresolvers <span class="keyword">import</span> reverse</div><div class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse, HttpResponseRedirect</div><div class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render, get_object_or_404</div><div class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Question, Choice</div><div class="line"><span class="comment"># 省略其他视图</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">vote</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    question = get_object_or_404(Question, pk=question_id)</div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        select_choice = question.choice_set.get(pk=request.POST[<span class="string">'choice'</span>])</div><div class="line">    <span class="keyword">except</span> (KeyError, Choice.DoesNotExist):</div><div class="line">        <span class="comment"># 重新展示问题的投票按钮</span></div><div class="line">        <span class="keyword">return</span> render(request, <span class="string">'polls/detail.html'</span>, &#123;</div><div class="line">            <span class="string">'question'</span>: question,</div><div class="line">            <span class="string">'error_message'</span>: <span class="string">"You didn't select a choice."</span></div><div class="line">        &#125;)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        select_choice.votes += <span class="number">1</span></div><div class="line">        select_choice.save()</div><div class="line"></div><div class="line">        <span class="comment"># 投票成功之后要重定向到一个结果网页</span></div><div class="line">        <span class="keyword">return</span> HttpResponseRedirect(reverse(<span class="string">'polls:results'</span>, args=(question.id,)))</div></pre></td></tr></table></figure></p>
-<p>有一些代码需要解释一下，好多前面并没有介绍过：</p>
-<ul>
-<li><strong>request.POST</strong>就像一个字典一样，你可以通过key来访问表单提交的数据，<code>request.POST[&#39;choice&#39;]</code>返回的是选项的<code>id</code>，不过返回的是个字符串形式，因为它返回的始终是字符串形式。</li>
-<li><strong>request.POST[‘choice’]</strong>会抛出一个<code>KeyError</code>当这个值没有提供的时候，这里我们的处理是没提供就返回到提交投票的表单并且给出一个信息提示。</li>
-<li>当投票成功之后，代码中返回了一个<code>HttpResponseRedirect</code>而不是普通的<code>HttpResponse</code>,这个函数还可以带参数，可以重定向到我们想访问的网址,建议当我们成功处理的一个POST请求的时候都可以这么做。<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/polls/</span><span class="number">3</span><span class="regexp">/results/</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这个3就是参数中带的<code>question.id</code>的值。<br>当某个人对这个问题投票的时候，<code>vote()</code>视图将会重定向到结果页面，还需要增加一个<code>results()</code>视图，编辑<code>polls/views.py</code>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">results</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    question = get_object_or_404(Question, pk=question_id)</div><div class="line">    <span class="keyword">return</span> render(request, <span class="string">'polls/results.html'</span>, &#123;<span class="string">'question'</span>: question&#125;)</div></pre></td></tr></table></figure></p>
-<p>这个和之前的<code>detail()</code>视图非常相似，用到了<code>results.html</code>模板，新建<code>template/polls/results.html</code>文件:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;h1&gt;&#123;&#123; question.question_text &#125;&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">&lt;ul&gt;</div><div class="line">    &#123;% for choice in question.choice_set.all %&#125;</div><div class="line">        &lt;li&gt;&#123;&#123; choice.choice_text &#125;&#125; -- &#123;&#123; choice.votes &#125;&#125; vote &#123;&#123; choice.votes | pluralize &#125;&#125;&lt;/li&gt;</div><div class="line">    &lt;% endfor %&#125;</div><div class="line">&lt;/ul&gt;</div><div class="line"></div><div class="line">&lt;a href="&#123;% url 'polls:detail' question.id %&#125;"&gt;Vote again?&lt;/a&gt;</div></pre></td></tr></table></figure></p>
-<p>此时如果你直接运行，访问<code>polls/1/</code>这个链接里面是空的，因为你的数据库里没有<code>Choice</code>,你可以直接在命令行中运行插入，或者一个简单的，直接按照前面讲的，把<code>choice</code>模块注册到<code>admin</code>模块中管理，就可以在网页上直接操作了，加入注册模块也很简单，修改<code>polls/admin.py</code>文件，内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</div><div class="line"></div><div class="line"><span class="comment"># Register your models here.</span></div><div class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Question, Choice</div><div class="line"></div><div class="line">admin.site.register(Question)</div><div class="line">admin.site.register(Choice)</div></pre></td></tr></table></figure></p>
-<p>然后就去管理员后台直接添加几个选项和问题吧。添加完毕然后再访问，就会出现一个问题和对应的投票选项，就像我们做选择题一样，一个题有几个选项。假设我们什么都不选，然后点提交。会得到一个错误信息，就显示在选项上面<strong>You didn’t select a choice.</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Django/">Django</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Python/">Python</a><a href="/tags/Web/">Web</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/">Next<span></span></a>
@@ -860,7 +838,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -872,7 +850,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -888,7 +866,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -909,11 +887,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -921,11 +899,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -961,6 +939,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -969,15 +951,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

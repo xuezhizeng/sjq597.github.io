@@ -81,40 +81,168 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/06/Error-creating-beans-and-Injection-of-autowired-dependencies-failed/" title="Error creating beans and Injection of autowired dependencies failed" itemprop="url">Error creating beans and Injection of autowired dependencies failed</a>
+      <a href="/2017/04/30/ubuntu-scrapy-openssl-opensslv-h/" title="ubuntu scrapy openssl/opensslv.h" itemprop="url">ubuntu scrapy openssl/opensslv.h</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-06T12:03:45.000Z" itemprop="datePublished"> 发表于 2017-04-06</time>
+    <time datetime="2017-04-30T04:53:08.000Z" itemprop="datePublished"> 发表于 2017-04-30</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>Spring中需要用到spring的事务回滚,注解方式是最简单易用的，一开始发现spring的事务没有起作用，最后查了很多资料,最后发现是配置文件中没有添加事务注解的配置,所以在spring的配置文件里面加了下面这行:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> /&gt;</div></pre></td></tr></table></figure></p>
-<p>结果发现之前可以运行的项目突然不能运行了,涉及到事务注解的service全部无法注入</p>
-<p>一般出现这个问题都会去网上查查是不是自己用的注入方式不对,有一些人还建议使用<code>@Resource</code>注解替换<code>@Autowried</code>,我试过时候发现还是不行．后来网上查了一下，其实很多人这么说都是人云亦云，很多人都不知道为什么，就知道<code>@Resource</code>是java自带的注解，所以比<code>@Autowried</code>靠谱,真的是这样吗?其实这个通过查资料就很容易知道并不是这样的:</p>
-<ul>
-<li>@Autowire </li>
-</ul>
-<p>默认按照类型装配，默认情况下它要求依赖对象必须存在如果允许为null，可以设置它required属性为false，如果我们想使用按照名称装配，可 以结合@Qualifier注解一起使用;</p>
-<ul>
-<li>@Resource</li>
-</ul>
-<p>默认按照名称装配，当找不到与名称匹配的bean才会按照类型装配，可以通过name属性指定，如果没有指定name属 性，当注解标注在字段上，即默认取字段的名称作为bean名称寻找依赖对象，当注解标注在属性的setter方法上，即默认取属性名作为bean名称寻找 依赖对象.</p>
-<p>所以说,正常情况下你可以理解为没啥区别,如果非要说后者比前者的优势,那就是减少外部依赖,因为<code>@Autowried</code>是spring提供的.</p>
-<p>但是我还是照着网上说的,既然注入失败,那肯定是bean的名字还有类型找不到,所以我尝试强制指定<code>Service</code>的名字:<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service(<span class="meta-string">"serviceName"</span>)</span></div></pre></td></tr></table></figure></p>
-<p>然后在<code>Controller</code>里面注入的时候使用<code>@Resource</code>注解指定名字:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">Resource</span>(<span class="keyword">name</span> = <span class="string">"serviceName"</span>)</div></pre></td></tr></table></figure></p>
-<p>结果奇迹出现了,还是报错,不过这个错误和之前不一样了,关键信息如下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">but was actually of type [com<span class="selector-class">.sun</span><span class="selector-class">.proxy</span>.<span class="variable">$Proxy17</span></div></pre></td></tr></table></figure></p>
-<p>这句话什么意思呢?意思是bean的名字是找到了，但是这个类型不符合,所以注入依然失败,总而言之就是我们要注入的<code>Service</code>的类型变成了<code>com.sun.proxy.$Proxy17</code>这个类型了,这是个啥类型？然后我网上查了很久,最后终于在stackoverflow上找到了答案,原来很多人都碰到了这个问题,原帖地址</p>
+        <p>搞一下爬虫,装了一下scrapy报错:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">build/temp<span class="selector-class">.linux-x86_64-2</span>.<span class="number">7</span>/_openssl<span class="selector-class">.c</span>:<span class="number">434</span>:<span class="number">30</span>: fatal error: openssl/opensslv<span class="selector-class">.h</span>: No such file or di</div><div class="line">rectory</div><div class="line">  compilation terminated.</div><div class="line">  error: command <span class="string">'x86_64-linux-gnu-gcc'</span> failed with exit status <span class="number">1</span></div><div class="line">  </div><div class="line">  ----------------------------------------</div><div class="line">  Failed building wheel <span class="keyword">for</span> cryptography</div><div class="line">  Running setup<span class="selector-class">.py</span> clean <span class="keyword">for</span> cryptography</div></pre></td></tr></table></figure></p>
+<p>具体报错就是上面那个:</p>
 <blockquote>
-<p><a href="http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be" target="_blank" rel="external">http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be</a></p>
+<p>fatal error: openssl/opensslv.h</p>
 </blockquote>
-<p>摘一段Spring官方的文档:<br><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Applies <span class="keyword">to</span> proxy mode only. Controls what type <span class="keyword">of</span> transactional proxies are created <span class="keyword">for</span> classes annotated <span class="keyword">with</span> the @Transactional annotation. <span class="keyword">If</span> <span class="string">"proxy-target-class"</span> attribute <span class="keyword">is</span> <span class="keyword">set</span> <span class="keyword">to</span> <span class="string">"true"</span>, <span class="keyword">then</span> <span class="keyword">class</span>-based proxies will be created. <span class="keyword">If</span> <span class="string">"proxy-target-class"</span> <span class="keyword">is</span> <span class="string">"false"</span> <span class="keyword">or</span> <span class="keyword">if</span> the attribute <span class="keyword">is</span> omitted, <span class="keyword">then</span> standard JDK <span class="keyword">interface</span>-based proxies will be created. (See the section entitled Section <span class="number">6.6</span>, “Proxying mechanisms” <span class="keyword">for</span> a detailed examination <span class="keyword">of</span> the different proxy types.)</div></pre></td></tr></table></figure></p>
-<p>大概翻译一下就是:是否只采用代理模式来做事务管理,并且有个关键字<code>class-based proxies</code>,这样就不会有类型不匹配的了.<br>而且这个作者的这个问题也是由于他使用的事务注解而导致的,和我的这个问题非常相像，核心意思是这个注解默认是使用系统的代理模式,即<code>com.sun.proxy</code>这个里面的类,但是一般<code>spring</code>的项目都是使用的<code>cglib,aspectj</code>这类的库来做代理的默认实现,所以导致了以上的这种问题,那么解决方法就是将最开始的配置改为:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> proxy-target-<span class="built_in">class</span>=<span class="string">"true"</span>/&gt;</div></pre></td></tr></table></figure></p>
+<p>解决方法很简单:<br><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install libssl-<span class="built_in">dev</span></div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python笔记/">Python笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/30/es-jstorm-flux-java-lang-NoSuchMethodError/" title="es jstorm flux java.lang.NoSuchMethodError" itemprop="url">es jstorm flux java.lang.NoSuchMethodError</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-30T02:51:09.000Z" itemprop="datePublished"> 发表于 2017-04-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在研究怎么通过Flux来解析日志，前前后后踩了很多坑,毕竟貌似网上也没人这么干过，写一个通用化的代码，只通过配置文件来定义流计算任务．基本上写好了代码,以后再有新的任务都不用再写java代码,然后打包上传提交任务了．<br>开始集群上的jstorm是2.1.1的,并不支持flux方式的提交任务，所有升级了一下到2.2.1版本,最后跑了一下官方的<code>word-count</code>demo成功了.<br>然后开发好了通用的jar包来解析日志，简单来说就是:</p>
+<ul>
+<li><p>CommonKafkaSpout<br>给构造函数传入指定topic来从kafka读取日志数据</p>
+</li>
+<li><p>CommonBolt<br>传入解析规则，基本上就是正则表达式,细节不多说了,解析出<code>&lt;key,value&gt;</code></p>
+</li>
+<li><p>Write2ESBolt<br>把上游的内容写入到es中，构造函数也需要传入es的配置，基本上就是index,type这些</p>
+</li>
+</ul>
+<p>所有的基本走通了之后,开始测试的时候Topology是用java代码写的,在集群上测试之后没啥问题，然后改用<code>yaml</code>文件来定义jstorm任务,结果提交到集群就有问题了,十分的奇怪,照理说<code>word-count</code>demo跑通了应该没啥问题了，但是涉及到真正的实战需要连接kafka,es就出问题了，报错:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">java<span class="selector-class">.lang</span><span class="selector-class">.NoSuchMethodError</span>: com<span class="selector-class">.google</span><span class="selector-class">.common</span><span class="selector-class">.util</span><span class="selector-class">.concurrent</span><span class="selector-class">.MoreExecutors</span><span class="selector-class">.sameThreadExecutor</span></div><div class="line">类似的还有</div><div class="line">NoSuchMethodError: com<span class="selector-class">.google</span><span class="selector-class">.common</span><span class="selector-class">.util</span><span class="selector-class">.concurrent</span><span class="selector-class">.MoreExecutors</span><span class="selector-class">.directExecutor</span> conflits on Elastic Search jar</div></pre></td></tr></table></figure></p>
+<p>然后google了很久，发现这个并不是es的问题，是guava的问题,原文在</p>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/20791351/java-lang-nosuchmethoderror-com-google-common-util-concurrent-moreexecutors-sam" target="_blank" rel="external">http://stackoverflow.com/questions/20791351/java-lang-nosuchmethoderror-com-google-common-util-concurrent-moreexecutors-sam</a></p>
+</blockquote>
+<p>Check your classpath and see what version of guava is being used by your WAR. The error suggests that the version of guava jar being found at runtime does not match the version that was used at compile time.</p>
+<p>简单一句话总结就是,jstorm集群上的guava版本和我们写的公共jar包里面的guava版本不一致.然后我去集群上的lib包上看了一下,发现jstorm 2.1.1用的guava是16.01版本的，于是我把集群上所有的机器里面的guava换成了20.0的，然后重启了集群,然后重新提交任务，果然就好使了,从kafka读取日志以及写入es也没问题了，任务终于不报错了.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java笔记/">Java笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/ES/">ES</a><a href="/tags/Jstorm/">Jstorm</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/09/springmvc-400错误/" title="springmvc 400错误" itemprop="url">springmvc 400错误</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-09T03:43:11.000Z" itemprop="datePublished"> 发表于 2017-04-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>前后端交互数据的时候，经常需要前端把数据提交给后端，前端一般就用ajax提交数据，就像下面这样:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">        <span class="attr">type</span>: <span class="string">"post"</span>,</div><div class="line">        <span class="attr">url</span>: <span class="string">"pos_url.do"</span>,</div><div class="line">        <span class="attr">contentType</span>: <span class="string">"application/json"</span>,</div><div class="line">        <span class="attr">data</span>: <span class="built_in">JSON</span>.stringify(params),</div><div class="line">        <span class="attr">success</span>: <span class="function"><span class="keyword">function</span> (<span class="params">resp</span>) </span>&#123;</div><div class="line">	    xxxx;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">error</span>: <span class="function"><span class="keyword">function</span> (<span class="params">resp</span>) </span>&#123;</div><div class="line">            xxxx;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure></p>
+<p>然后后端采用spring的代码如下:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@RequestMapping</span>(value = <span class="string">"post_url"</span>, method = RequestMethod.POST)</div><div class="line"><span class="variable">@ResponseBody</span></div><div class="line">public String postURL(<span class="string">@RequestBody JsonParam[] params</span>) &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后就是<code>JsonParam</code>这个类的定义:<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsonParam</span> <span class="keyword"><span class="keyword">implements</span> <span class="type">Serializable</span></span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">String</span> value;</div></pre></td></tr></table></figure></p>
+<p>这样的话是可以从后端接受参数的，但是后来觉得这个<code>JsonParam</code>定义的不是很好，所以就把<code>name</code>改成了<code>key</code>,结果就报错了<code>400 bad request</code>,不知道为啥，连请求都报错了，更别说参数的接收和解析了，网上查资料，找到一个答案提示了我:</p>
+<blockquote>
+<p>Verify the following things:<br>Whether the name of JSON matches the User class’s field name.<br>Also check whether JSON value is supported by the corresponding field name datatype in User class.<br>Do try it, I have faced the same issue numerous times.</p>
+</blockquote>
+<p>然后我才明白，之前我自定义的Json类的两个属性就是<code>name,value</code>，然后改成<code>key,value</code>就报错了,所以错误的根源应该就是前端传过来的数据是<code>name=xxx,value=xxx</code>的数据格式,然后后端想按<code>key=xxx,value=xxx</code>这样来接收解析，然后就报<code>400 bad request</code>这个错误了,如果直接使用request来接收应该就没有这个问题了，但是参数和参数的值就得自己解析了.</p>
+<p>具体的详细策略可以看spring源码,大概就是需要实现一些转化器来实现<code>http--&gt;bean</code>之间的互转</p>
 
         
         
@@ -161,26 +289,43 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/19/IDEA-激活服务器搭建/" title="IDEA 激活服务器搭建" itemprop="url">IDEA 激活服务器搭建</a>
+      <a href="/2017/04/06/Error-creating-beans-and-Injection-of-autowired-dependencies-failed/" title="Error creating beans and Injection of autowired dependencies failed" itemprop="url">Error creating beans and Injection of autowired dependencies failed</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-19T04:45:07.000Z" itemprop="datePublished"> 发表于 2017-03-19</time>
+    <time datetime="2017-04-06T12:03:45.000Z" itemprop="datePublished"> 发表于 2017-04-06</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>记一下,老是忘记了，之前的激活服务器搭建在公司的机器上，所以必须得等vpn才能正常启动，打算在自己的vps上搭建一个，记录一下:</p>
-<p>首先下载激活软件,这放一个下载地址<a href="https://pan.baidu.com/s/1c2pFhIS" target="_blank" rel="external">百度盘IDEA激活服务器下载地址</a>,密码:uh36.<br>然后把这个下载的软件上传到你的vps上就行了:<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp IntelliJIDEALicenseServer_linux_amd64 your_name<span class="variable">@you_vps_id</span><span class="symbol">:~</span></div></pre></td></tr></table></figure></p>
-<p>然后登录到你的vps上，找到当前目录，执行:<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod +x I<span class="symbol">ntelliJIDEALicenseServer_linux_amd64</span></div><div class="line">./I<span class="symbol">ntelliJIDEALicenseServer_linux_amd64</span> &amp;</div></pre></td></tr></table></figure></p>
-<p>然后在你的IDEA激活那选<code>License Server</code>,地址填:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//&lt;your_vps_id&gt;:1017</span></div></pre></td></tr></table></figure></p>
-<p>有了这个还不够,有时候vps访问并不是那么流畅，或者没联网，这可能会影响我们的idea启动速度,所以可以把激活服务器搭建在本机，然后设置开机启动即可,假设你的文件放在<code>/workspace/dev/IntelliJIDEALicenseServer_linux_amd64</code>,那么可以修改<code>/etc/rc.local</code>,添加:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="regexp">/workspace/</span>dev<span class="regexp">/IntelliJIDEALicenseServer_linux_amd64 &amp;</span></div></pre></td></tr></table></figure></p>
-<p>然后激活服务器可以填:<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">http:</span><span class="comment">//127.0.0.1:1017</span></div></pre></td></tr></table></figure></p>
-<p>然后就可以每次不用管是不是联网了。</p>
+        <p>Spring中需要用到spring的事务回滚,注解方式是最简单易用的，一开始发现spring的事务没有起作用，最后查了很多资料,最后发现是配置文件中没有添加事务注解的配置,所以在spring的配置文件里面加了下面这行:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<p>结果发现之前可以运行的项目突然不能运行了,涉及到事务注解的service全部无法注入</p>
+<p>一般出现这个问题都会去网上查查是不是自己用的注入方式不对,有一些人还建议使用<code>@Resource</code>注解替换<code>@Autowried</code>,我试过时候发现还是不行．后来网上查了一下，其实很多人这么说都是人云亦云，很多人都不知道为什么，就知道<code>@Resource</code>是java自带的注解，所以比<code>@Autowried</code>靠谱,真的是这样吗?其实这个通过查资料就很容易知道并不是这样的:</p>
+<ul>
+<li>@Autowire </li>
+</ul>
+<p>默认按照类型装配，默认情况下它要求依赖对象必须存在如果允许为null，可以设置它required属性为false，如果我们想使用按照名称装配，可 以结合@Qualifier注解一起使用;</p>
+<ul>
+<li>@Resource</li>
+</ul>
+<p>默认按照名称装配，当找不到与名称匹配的bean才会按照类型装配，可以通过name属性指定，如果没有指定name属 性，当注解标注在字段上，即默认取字段的名称作为bean名称寻找依赖对象，当注解标注在属性的setter方法上，即默认取属性名作为bean名称寻找 依赖对象.</p>
+<p>所以说,正常情况下你可以理解为没啥区别,如果非要说后者比前者的优势,那就是减少外部依赖,因为<code>@Autowried</code>是spring提供的.</p>
+<p>但是我还是照着网上说的,既然注入失败,那肯定是bean的名字还有类型找不到,所以我尝试强制指定<code>Service</code>的名字:<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service(<span class="meta-string">"serviceName"</span>)</span></div></pre></td></tr></table></figure></p>
+<p>然后在<code>Controller</code>里面注入的时候使用<code>@Resource</code>注解指定名字:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">Resource</span>(<span class="keyword">name</span> = <span class="string">"serviceName"</span>)</div></pre></td></tr></table></figure></p>
+<p>结果奇迹出现了,还是报错,不过这个错误和之前不一样了,关键信息如下:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">but was actually of type [com<span class="selector-class">.sun</span><span class="selector-class">.proxy</span>.<span class="variable">$Proxy17</span></div></pre></td></tr></table></figure></p>
+<p>这句话什么意思呢?意思是bean的名字是找到了，但是这个类型不符合,所以注入依然失败,总而言之就是我们要注入的<code>Service</code>的类型变成了<code>com.sun.proxy.$Proxy17</code>这个类型了,这是个啥类型？然后我网上查了很久,最后终于在stackoverflow上找到了答案,原来很多人都碰到了这个问题,原帖地址</p>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be" target="_blank" rel="external">http://stackoverflow.com/questions/841231/fixing-beannotofrequiredtypeexception-on-spring-proxy-cast-on-a-non-singleton-be</a></p>
+</blockquote>
+<p>摘一段Spring官方的文档:</p>
+<blockquote>
+<p>Applies to proxy mode only. Controls what type of transactional proxies are created for classes annotated with the @Transactional annotation. If “proxy-target-class” attribute is set to “true”, then class-based proxies will be created. If “proxy-target-class” is “false” or if the attribute is omitted, then standard JDK interface-based proxies will be created. (See the section entitled Section 6.6, “Proxying mechanisms” for a detailed examination of the different proxy types.)</p>
+</blockquote>
+<p>大概翻译一下就是:是否只采用代理模式来做事务管理,并且有个关键字<code>class-based proxies</code>,这样就不会有类型不匹配的了.<br>而且这个作者的这个问题也是由于他使用的事务注解而导致的,和我的这个问题非常相像，核心意思是这个注解默认是使用系统的代理模式,即<code>com.sun.proxy</code>这个里面的类,但是一般<code>spring</code>的项目都是使用的<code>cglib,aspectj</code>这类的库来做代理的默认实现,所以导致了以上的这种问题,那么解决方法就是将最开始的配置改为:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tx:annotation-driven  <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> proxy-target-<span class="built_in">class</span>=<span class="string">"true"</span>/&gt;</div></pre></td></tr></table></figure></p>
 
         
         
@@ -193,13 +338,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/开发环境/">开发环境</a>
+  <a class="article-category-link" href="/categories/Java笔记/">Java笔记</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Linux/">Linux</a>
+  <span></span> <a href="/tags/Web/">Web</a><a href="/tags/Java/">Java</a>
   </div>
 
 </div>
@@ -390,7 +535,7 @@
     <div class="article-content">
         
         <p>熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。</p>
-<h3 id="merage错了分支"><a href="#merage错了分支" class="headerlink" title="merage错了分支"></a>merage错了分支</h3><p>有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作的时候不小心把master先merge到了分支A,如果再去merge分支B，那按照正常的流程，只能先把第一次的merge冲突解完了然后才能去merge分支B,然后再解冲突。这样就完全乱了，如何撤销某次merge呢,即让各个分支回到merge之前的状态?</p>
+<h3 id="merge错了分支"><a href="#merge错了分支" class="headerlink" title="merge错了分支"></a>merge错了分支</h3><p>有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作的时候不小心把master先merge到了分支A,如果再去merge分支B，那按照正常的流程，只能先把第一次的merge冲突解完了然后才能去merge分支B,然后再解冲突。这样就完全乱了，如何撤销某次merge呢,即让各个分支回到merge之前的状态?</p>
 <ul>
 <li>reset直接重置到merge之前的版本号</li>
 </ul>
@@ -416,6 +561,11 @@
 </ul>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_rsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_rsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_dsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_dsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ecdsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ecdsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ed25519 type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ed25519-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> Enabling compatibility mode <span class="keyword">for</span> protocol <span class="number">2.0</span></div></pre></td></tr></table></figure>
 <p>不同权限加载的文件是不一样的，所以为了知道问题出在哪，首先你得知道在和git仓库同步代码的时候加载的是哪个地方的秘钥文件.<br>知道了加载哪个地方的文件之后，还有一个很重要的问题需要知道,秘钥文件的权限必须是<code>`600</code>,很多时候可能关键的问题还是因为秘钥文件的权限不对</p>
+<h1 id="切换相关"><a href="#切换相关" class="headerlink" title="切换相关"></a>切换相关</h1><p>切换有很多，主要是分支切换，版本切换以及文件的切换</p>
+<ul>
+<li>不同分支间文件切换</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout <span class="tag">&lt;<span class="name">branch_name</span>&gt;</span> -- <span class="tag">&lt;<span class="name">paths</span>&gt;</span></div></pre></td></tr></table></figure>
 
         
         
@@ -659,156 +809,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/21/Hive-控制mapper-reducer个数/" title="Hive 控制生成文件个数" itemprop="url">Hive 控制生成文件个数</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-21T09:02:51.000Z" itemprop="datePublished"> 发表于 2016-11-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在有些时候，想要控制hql执行的mapper,reducer个数,reducer设置过少，会导致每个reducer要处理的数据过多，这样可能会导致OOM异常，如果reducer设置过多，则会导致产生很多小文件，这样对任务的执行以及集群都不太好.通常情况下这两个参数都不需要手动设置，Hive会根据文件的大小和任务的情况自动计算,但是某些特殊情况下可能需要进行调优，下面列举两个常用的调优场景看看这两个参数在调优的时候都是怎么用的:</p>
-<h3 id="设置reducer个数"><a href="#设置reducer个数" class="headerlink" title="设置reducer个数"></a>设置reducer个数</h3><p>reducer个数最直接的影响是hql执行完之后生成的文件个数，假设你的任务有n个reducer,那么最后可能会生成的文件肯定至少有n个,前提是你没有设置合并小文件，这个有什么用处呢？最简单的一个用处是我们在hive里面经常会调第三方接口来获取数据，例如解密之内的，假设接口不限速，我们在udf里面调接口的时候会发现特别慢，感觉直接select很快，但是把查询结果insert到一个表保存就很慢，这个原因就在于数据请求线程太少了。<br>在hadoop里面，一个文件至少会起一个mapper,如果你的文件很小(默认1G起一个mapper),那就完了，整个任务就一直是一个个来请求接口的，所以非常的慢。那如果想加快接口的调用呢？其实也简单，把文件分成几个小文件，假设分成了10个小文件，那么再次调接口就会快很多了，10线程和单线程的差别还是非常大的。<br>具体的语句也就两句话，记住，划分小文件还得保证每个文件尽量大小一样。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapred.reduce.tasks=<span class="number">50</span>;</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> xxx</div><div class="line"><span class="keyword">select</span></div><div class="line">  *</div><div class="line"><span class="keyword">from</span></div><div class="line"> xxx</div><div class="line"><span class="keyword">distribute</span> <span class="keyword">by</span> <span class="keyword">rand</span>();</div></pre></td></tr></table></figure></p>
-<p><strong>备注:</strong>第一个set设置的就是最后你要生成的文件个数，后面的<code>distribute by rand()</code>保证了记录随机分配到50个文件，不管里数据量有多小，最后这50个文件的大小应该是一致的.</p>
-<h3 id="动态分区产生小文件"><a href="#动态分区产生小文件" class="headerlink" title="动态分区产生小文件"></a>动态分区产生小文件</h3><p>有些场景会产生大量的文件，比如动态分区插入，或者两个比较大的表做join，对于大表做join，我没有细测，但是我发现我用一个很小的表(大概70M),去join一个很大的表(大概400G),由于Hive在处理小表join大表的时候会做优化,左边的表会都加载到内存里面，然后分发到各个节点和大表做join,这样最后就会在大表所在的节点产生最终的结果，后果就是会原来大表的那些文件现在都变成小文件了,小文件太多其实对性能还是有影响的,这个其实可以最后用一个reducer来合并小文件。<br>主要说一下动态分区产生小文件问题,这是个很有意思的问题，动态分区好用，但是为啥会产生这么多小文件。原因就在于，假设动态分区初始有N个mapper,那么最后生成了m个分区，最终会有多少个文件生成呢？答案是<code>N*m</code>,是的，每一个mapper会生成m个文件，就是每个分区都会对应一个文件，这样的话你算一下。所以小文件就会成倍的产生。怎么解决这个问题，通常处理方式也是像上面那样，让数据尽量聚到一个reducer里面,因为有时候虽然动态分区不会产生reducer,但是也就意味着最后没有进行文件合并,我们也可以用<code>distribute by rand()</code>这句来保证数据聚类到相同的reducer。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Hadoop/">Hadoop</a><a href="/tags/Hive/">Hive</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/04/DataTables-改变列渲染/" title="DataTables 常用操作" itemprop="url">DataTables 常用操作</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-04T09:12:34.000Z" itemprop="datePublished"> 发表于 2016-11-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>DataTables这个插件功能非常强大，也很灵活，所以这里介绍一下几个项目里用到的常用操作,基本使用可以参考上一篇<a href="2016/10/01/DataTables使用样例">DataTables使用样例</a></p>
-<h3 id="改变列渲染方式"><a href="#改变列渲染方式" class="headerlink" title="改变列渲染方式"></a>改变列渲染方式</h3><p>有时候需要给某些列单独渲染，或者在已有基础上增加一点特效，类似于状态之类的，比如:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/DataTables%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C01.png" alt="改变列渲染模式"><br>像这种可能状态列可能就是个0,1,2枚举值，需要根据不同的枚举值显示不同的效果，普通情况下当然就是显示数字了，现在假设状态列返回<code>True/False</code>代表激活/未激活，实现效果的部分具体代码为:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myTable = $(<span class="string">'#dynamic-table'</span>).DataTable(&#123;</div><div class="line">                <span class="string">"bDestroy"</span>: <span class="literal">true</span>,</div><div class="line">                <span class="comment">//"bProcessing": true,</span></div><div class="line">                <span class="string">"bServerSide"</span>: <span class="literal">true</span>,</div><div class="line">                <span class="string">"sAjaxSource"</span>: <span class="string">"xxxxx"</span>,</div><div class="line">                <span class="string">"fnServerData"</span>: <span class="function"><span class="keyword">function</span> (<span class="params">sSource, aoData, fnCallback</span>) </span>&#123;</div><div class="line">                    $.ajax(&#123;</div><div class="line">                        <span class="string">'dataType'</span>: <span class="string">'json'</span>,</div><div class="line">                        <span class="string">'type'</span>: <span class="string">'POST'</span>,</div><div class="line">                        <span class="string">'url'</span>: sSource,</div><div class="line">                        <span class="string">'data'</span>: aoData,</div><div class="line">                        <span class="string">'success'</span>: fnCallback</div><div class="line">                    &#125;);</div><div class="line">                &#125;,</div><div class="line">                <span class="string">"columnDefs"</span>: [</div><div class="line">                    &#123;</div><div class="line">                        <span class="string">"render"</span>: <span class="function"><span class="keyword">function</span> (<span class="params">data, type, row</span>) </span>&#123;</div><div class="line">                            <span class="keyword">if</span> (data == <span class="literal">true</span>) &#123;</div><div class="line">                                <span class="keyword">return</span> <span class="string">'&lt;span class="label label-sm label-success"&gt;激活&lt;/span&gt;'</span></div><div class="line">                            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                                <span class="keyword">return</span> <span class="string">'&lt;span class="label label-sm label-inverse"&gt;未激活&lt;/span&gt;'</span></div><div class="line">                            &#125;</div><div class="line">                        &#125;,</div><div class="line">                        <span class="string">"targets"</span>: <span class="number">2</span></div><div class="line">                    &#125;</div><div class="line">                ],</div></pre></td></tr></table></figure></p>
-<p>参数解释:</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>data</td>
-<td>单元格的实际值，这里为0/1,即True/False</td>
-</tr>
-<tr>
-<td>targets</td>
-<td>指定的是哪一列，下标从0开始,即你指定了哪一列，data就是那一列的值了</td>
-</tr>
-<tr>
-<td>row</td>
-<td>表格一行的值</td>
-</tr>
-</tbody>
-</table>
-<p>最后的效果就像上面那样了。</p>
-<h3 id="单元格填充控件"><a href="#单元格填充控件" class="headerlink" title="单元格填充控件"></a>单元格填充控件</h3><p>有时候表格的元素是控件而不是简单的字符串填充，并且这个控件还必须有对应的事件监听，这个时候也可以使用上面的方法同样来实现，现在假设我要给表格的最后一列添加两个按钮，这两个按钮可以操作这行的元素:<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> edit_str =</div><div class="line">       '&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"hidden-sm hidden-xs btn-group"</span>&gt;' +</div><div class="line">       '&lt;button id=<span class="string">"edit"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-xs btn-success"</span>&gt;' +</div><div class="line">       '&lt;i <span class="class"><span class="keyword">class</span></span>=<span class="string">"ace-icon fa fa-pencil-square-o bigger-120"</span>&gt;&lt;/i&gt;' +</div><div class="line">       '&lt;/button&gt;' +</div><div class="line">       '&lt;button id=<span class="string">"delete"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-xs btn-danger"</span>&gt;' +</div><div class="line">       '&lt;i <span class="class"><span class="keyword">class</span></span>=<span class="string">"ace-icon fa fa-trash-o bigger-120"</span>&gt;&lt;/i&gt;' +</div><div class="line">       '&lt;/button&gt;' +</div><div class="line">       '&lt;/div&gt;'</div><div class="line"></div><div class="line">    <span class="comment">//initiate dataTables plugin</span></div><div class="line">    <span class="keyword">var</span> myTable = $('#dynamic-table').<span class="type">DataTable</span>(&#123;</div><div class="line">        bAutoWidth: <span class="literal">false</span>,</div><div class="line">        <span class="string">"columnDefs"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="string">"render"</span>: function (data, <span class="class"><span class="keyword">type</span>, <span class="title">row</span>) </span>&#123;</div><div class="line">                    row.edit = edit_str <span class="comment">// 往每一行最后一列添加一个属性,即一列</span></div><div class="line">                    <span class="keyword">if</span> (data == <span class="literal">true</span>) &#123;</div><div class="line">                        <span class="keyword">return</span> '&lt;span <span class="class"><span class="keyword">class</span></span>=<span class="string">"label label-sm label-success"</span>&gt;激活&lt;/span&gt;'</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        <span class="keyword">return</span> '&lt;span <span class="class"><span class="keyword">class</span></span>=<span class="string">"label label-sm label-inverse"</span>&gt;未激活&lt;/span&gt;'</div><div class="line">                    &#125;</div><div class="line">                &#125;,</div><div class="line">                <span class="string">"targets"</span>: <span class="number">2</span></div><div class="line">            &#125;</div><div class="line">        ],</div></pre></td></tr></table></figure></p>
-<p>看一下最后的显示效果:<br><img src="http://7xn9y9.com1.z0.glb.clouddn.com/DataTables%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C02.png" alt="单元格填充控件"><br>进一步需要给这两个按钮添加操作，例如编辑按钮可以编辑状态，删除按钮会删除这一行,注意我们添加的两个按钮的id分别为<code>edit</code>,<code>delete</code>,表格的id为<code>dynamic-table</code>:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#dynamic-table tbody'</span>).on(<span class="string">'click'</span>, <span class="string">'button#edit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> data = myTable.row($(<span class="keyword">this</span>).parents(<span class="string">'tr'</span>)).data();</div><div class="line"></div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">url</span>: <span class="string">"xxx"</span>,</div><div class="line">        <span class="attr">type</span>: <span class="string">"POST"</span>,</div><div class="line">        <span class="attr">dataType</span>: <span class="string">"json"</span>,</div><div class="line">        <span class="attr">data</span>: data</div><div class="line">    &#125;).done(<span class="function"><span class="keyword">function</span> (<span class="params">resp</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (resp.ret == <span class="literal">true</span>) &#123;</div><div class="line">            myTable.ajax.reload();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            alert(<span class="string">"编辑失败!"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;).fail(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        alert(<span class="string">"网络错误！"</span>)</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line">$(<span class="string">'#dynamic-table tbody'</span>).on(<span class="string">'click'</span>, <span class="string">'button#delete'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> data = myTable.row($(<span class="keyword">this</span>).parents(<span class="string">'tr'</span>)).data();</div><div class="line"></div><div class="line">    <span class="keyword">var</span> title_msg;</div><div class="line">    <span class="keyword">var</span> text_msg;</div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">type</span>: <span class="string">"post"</span>,</div><div class="line">        <span class="attr">url</span>: <span class="string">"xxxx"</span>,</div><div class="line">        <span class="attr">dataType</span>: <span class="string">"json"</span>,</div><div class="line">        <span class="attr">data</span>: data,</div><div class="line">        <span class="attr">success</span>: <span class="function"><span class="keyword">function</span> (<span class="params">resp</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (resp.ret) &#123;</div><div class="line">                    alert(<span class="string">"成功删除!"</span>);</div><div class="line">                    myTable.ajax.reload();</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                alert(<span class="string">"删除失败!"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JScript/">JScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Js/">Js</a><a href="/tags/datatables/">datatables</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -850,7 +850,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -862,7 +862,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -878,7 +878,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -899,11 +899,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -911,11 +911,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -951,6 +951,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -959,15 +963,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

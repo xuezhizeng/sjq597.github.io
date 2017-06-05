@@ -12,18 +12,18 @@
 
     
     <meta name="description" content="熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。
-merage错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操">
+merge错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git 常用场景即解决方案">
 <meta property="og:url" content="http://sjq597.github.io/2017/02/22/git-常用场景即解决方案/index.html">
 <meta property="og:site_name" content="LittleQ">
 <meta property="og:description" content="熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。
-merage错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操">
-<meta property="og:updated_time" content="2017-03-13T06:44:33.070Z">
+merge错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作">
+<meta property="og:updated_time" content="2017-05-08T07:34:49.437Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 常用场景即解决方案">
 <meta name="twitter:description" content="熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。
-merage错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操">
+merge错了分支有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作">
 
     
     <link rel="alternative" href="/atom.xml" title="LittleQ" type="application/atom+xml">
@@ -99,12 +99,12 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merage错了分支"><span class="toc-number">1.</span> <span class="toc-text">merage错了分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git仓库无权限"><span class="toc-number">2.</span> <span class="toc-text">Git仓库无权限</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merge错了分支"><span class="toc-number">1.</span> <span class="toc-text">merge错了分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git仓库无权限"><span class="toc-number">2.</span> <span class="toc-text">Git仓库无权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#切换相关"><span class="toc-number"></span> <span class="toc-text">切换相关</span></a>
 		
 		</div>
 		
 		<p>熟悉了怎么使用git,在基本了解了git的原理的基础上，要解决一些办法其实是知道一些方案的，只是有时候我们对git的众多命令记得不是那么熟。其实常用的一些场景也就那么几个，出了问题也一般就那些，记录一下，方便日后查找。</p>
-<h3 id="merage错了分支"><a href="#merage错了分支" class="headerlink" title="merage错了分支"></a>merage错了分支</h3><p>有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作的时候不小心把master先merge到了分支A,如果再去merge分支B，那按照正常的流程，只能先把第一次的merge冲突解完了然后才能去merge分支B,然后再解冲突。这样就完全乱了，如何撤销某次merge呢,即让各个分支回到merge之前的状态?</p>
+<h3 id="merge错了分支"><a href="#merge错了分支" class="headerlink" title="merge错了分支"></a>merge错了分支</h3><p>有时候我们在自己的分支A上开发了一段时间，然后我们想把B分支merge到我们的分支A上，然后测试完没啥问题就把此次的结果一起merge到master上。但是在操作的时候不小心把master先merge到了分支A,如果再去merge分支B，那按照正常的流程，只能先把第一次的merge冲突解完了然后才能去merge分支B,然后再解冲突。这样就完全乱了，如何撤销某次merge呢,即让各个分支回到merge之前的状态?</p>
 <ul>
 <li>reset直接重置到merge之前的版本号</li>
 </ul>
@@ -130,6 +130,11 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 </ul>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_rsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_rsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_dsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_dsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ecdsa type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ecdsa-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ed25519 type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> <span class="string">key_load_public:</span> No such file or directory</div><div class="line"><span class="string">debug1:</span> identity file <span class="regexp">/root/</span>.ssh/id_ed25519-cert type <span class="number">-1</span></div><div class="line"><span class="string">debug1:</span> Enabling compatibility mode <span class="keyword">for</span> protocol <span class="number">2.0</span></div></pre></td></tr></table></figure>
 <p>不同权限加载的文件是不一样的，所以为了知道问题出在哪，首先你得知道在和git仓库同步代码的时候加载的是哪个地方的秘钥文件.<br>知道了加载哪个地方的文件之后，还有一个很重要的问题需要知道,秘钥文件的权限必须是<code>`600</code>,很多时候可能关键的问题还是因为秘钥文件的权限不对</p>
+<h1 id="切换相关"><a href="#切换相关" class="headerlink" title="切换相关"></a>切换相关</h1><p>切换有很多，主要是分支切换，版本切换以及文件的切换</p>
+<ul>
+<li>不同分支间文件切换</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout <span class="tag">&lt;<span class="name">branch_name</span>&gt;</span> -- <span class="tag">&lt;<span class="name">paths</span>&gt;</span></div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -192,7 +197,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merage错了分支"><span class="toc-number">1.</span> <span class="toc-text">merage错了分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git仓库无权限"><span class="toc-number">2.</span> <span class="toc-text">Git仓库无权限</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merge错了分支"><span class="toc-number">1.</span> <span class="toc-text">merge错了分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git仓库无权限"><span class="toc-number">2.</span> <span class="toc-text">Git仓库无权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#切换相关"><span class="toc-number"></span> <span class="toc-text">切换相关</span></a>
  
   </div>
 
@@ -229,7 +234,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -241,7 +246,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -257,7 +262,7 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -278,11 +283,11 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -290,11 +295,11 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -330,6 +335,10 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -338,15 +347,11 @@ merage错了分支有时候我们在自己的分支A上开发了一段时间，�
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			

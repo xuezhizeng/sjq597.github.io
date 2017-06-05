@@ -81,6 +81,139 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/17/Hive-cannot-recognize-input-near-EOF-EOF-EOF/" title="Hive cannot recognize input near &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39;" itemprop="url">Hive cannot recognize input near &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39; &#39;&lt;EOF&gt;&#39;</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-17T04:07:10.000Z" itemprop="datePublished"> 发表于 2015-11-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Hive中复制表数据,把一个表的查询结果存储起来放到一个完整的表中,用到了<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name <span class="keyword">as</span> <span class="keyword">select</span> filed1[,field2][,field3...] <span class="keyword">from</span> table2_name;</div></pre></td></tr></table></figure></p>
+<p>根据上面的语法,我想直接把一个表的查询结果作为<code>table2_name</code>,看看我的写法:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">as</span> <span class="keyword">day</span>,<span class="keyword">count</span>(user_name) <span class="keyword">as</span> empty_user</div><div class="line"><span class="keyword">from</span> table2_name</div><div class="line"><span class="keyword">where</span> user_name=<span class="string">''</span> <span class="keyword">or</span> user_name <span class="keyword">is</span> <span class="literal">null</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>));</div></pre></td></tr></table></figure></p>
+<p><strong>备注:</strong><code>table2_name</code>表存放的是每天有登陆记录的用户,上面的语句其实是想统计每天用户名为空或者没有用户名的用户.<br>出现了报错信息:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FAILED: ParseException line <span class="number">6</span>:<span class="number">34</span> cannot recognize <span class="selector-tag">input</span> near <span class="string">'&lt;EOF&gt;'</span> <span class="string">'&lt;EOF&gt;'</span> <span class="string">'&lt;EOF&gt;'</span> <span class="keyword">in</span> subquery source</div></pre></td></tr></table></figure></p>
+<p>意思是子查询的语法不对,语句的结尾不正确,后来仔细想了一下,想到别名这个sql里常用的语法,虽然表的别名本身并没有什么大用,但是在子查询中经常用到,而且没有别名没有时还会报错,于是把后面加了一个表别名,改为如下:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table1_name</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (</div><div class="line"><span class="keyword">select</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">as</span> <span class="keyword">day</span>,<span class="keyword">count</span>(user_name) <span class="keyword">as</span> empty_user</div><div class="line"><span class="keyword">from</span> table2_name</div><div class="line"><span class="keyword">where</span> user_name=<span class="string">''</span> <span class="keyword">or</span> user_name <span class="keyword">is</span> <span class="literal">null</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">substr</span>(login_time,<span class="number">0</span>,<span class="number">10</span>)) p1;</div></pre></td></tr></table></figure></p>
+<p>然后就好了.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hive笔记/">Hive笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SQL/">SQL</a><a href="/tags/Hive/">Hive</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/15/Ubuntu-14-04-安装vim-gnome失败解决办法/" title="Ubuntu 14.04 安装vim-gnome失败解决办法" itemprop="url">Ubuntu 14.04 安装vim-gnome失败解决办法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-15T12:54:00.000Z" itemprop="datePublished"> 发表于 2015-11-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>每次想拷贝Vim里的内容到其他地方,开始都是用鼠标的,但是后来发现,如果要复制大片内容,终端里没有显示出来就没辙了,所以网上搜了怎么把Vim里的内容复制到剪贴板.<br>网上搜了一下如何把Vim里的内容复制到系统剪贴板,大部分都是建议安装<code>vim-gnome</code>这个插件,仅针对于<code>Ubuntu</code>桌面环境,其他的我没有测试过:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gnome</div></pre></td></tr></table></figure></p>
+<p>结果报错了,报错信息如下:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Some packages could not <span class="keyword">be</span> installed. This may mean that you have</div><div class="line">requested <span class="keyword">an</span> impossible situation <span class="built_in">or</span> <span class="keyword">if</span> you are using the unstable</div><div class="line">distribution that some required packages have not yet been created</div><div class="line"><span class="built_in">or</span> been moved out of Incoming.</div><div class="line">The following information may <span class="keyword">help</span> <span class="keyword">to</span> <span class="built_in">resolve</span> the situation:</div><div class="line"></div><div class="line">The following packages have unmet dependencie<span class="variable">s:</span></div><div class="line"> <span class="keyword">vim</span>-gnome : Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">gui</span>-common (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but it <span class="keyword">is</span> not going <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">             Depend<span class="variable">s:</span> <span class="keyword">vim</span>-common (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">             Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">runtime</span> (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div><div class="line">E: Unable <span class="keyword">to</span> correct problems, you have held broken packages.</div></pre></td></tr></table></figure></p>
+<p>看上面的意思是这个插件依赖的几个库没有安装,手动安装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gui-common</div></pre></td></tr></table></figure></p>
+<p>然后再试试可不可以安装<code>vim-gnome</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-gnome</div></pre></td></tr></table></figure></p>
+<p>果不其然又报错了:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">The following packages have unmet dependencie<span class="variable">s:</span></div><div class="line"> <span class="keyword">vim</span>-gnome : Depend<span class="variable">s:</span> <span class="keyword">vim</span>-<span class="keyword">runtime</span> (= <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">052</span>-<span class="number">1</span>ubuntu3) but <span class="number">2</span>:<span class="number">7.4</span>.<span class="number">826</span>-<span class="number">1</span> <span class="keyword">is</span> <span class="keyword">to</span> <span class="keyword">be</span> installed</div></pre></td></tr></table></figure></p>
+<p>这个意思就是说依赖的<code>vim-runtime</code>是一个老的版本,但是安装的是一个更加新的版本.那我们来手动装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-runtime</div></pre></td></tr></table></figure></p>
+<p>看看提示信息:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vim</span>-<span class="keyword">runtime</span> <span class="keyword">is</span> already the newest <span class="keyword">version</span>.</div><div class="line">The following packages were automatically installed <span class="built_in">and</span> are <span class="keyword">no</span> longer required:</div><div class="line">  g++-<span class="number">4.8</span> libstdc++-<span class="number">4.8</span>-dev linux-headers-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span></div><div class="line">  linux-headers-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic linux-image-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic</div><div class="line">  linux-image-extra-<span class="number">3.13</span>.<span class="number">0</span>-<span class="number">32</span>-generic</div><div class="line">Use <span class="string">'apt-get autoremove'</span> <span class="keyword">to</span> <span class="built_in">remove</span> them.</div><div class="line"><span class="number">0</span> upgraded, <span class="number">0</span> newly installed, <span class="number">0</span> <span class="keyword">to</span> <span class="built_in">remove</span> <span class="built_in">and</span> <span class="number">16</span> not upgraded.</div></pre></td></tr></table></figure></p>
+<p>好了,找到问题的关键所在了,我之前升级了<code>gcc 4.9.2</code>,我们需要把这些老的包移除掉,不要漏掉了,也可以逐一卸载:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get autoremove g++-4.8 libstdc++-4.8-dev linux-headers-3.13.0-32 linux-headers-3.13.0-32-generic linux-image-extra-3.13.0-32-generic</div></pre></td></tr></table></figure></p>
+<p>然后强制安装一下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vim-runtime</div></pre></td></tr></table></figure></p>
+<p>好了,然后在Vim里的非<code>INSERT</code>模式下使用<code>&quot;+y</code>就可以把Vim里的内容复制到系统剪贴板了,注意记得重启Vim才能生效.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Vim/">Vim</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/11/Hive-SemanticException-Error-10025-Line-1-7-Expression-not-in-GROUP-BY-key/" title="Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key" itemprop="url">Hive:SemanticException [Error 10025]: Line 1:7 Expression not in GROUP BY key</a>
   </h1>
   <p class="article-author">By
@@ -688,147 +821,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/06/Shell-反引号，单引号，双引号/" title="Shell 反引号，单引号，双引号" itemprop="url">Shell 反引号，单引号，双引号</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-06T05:22:53.000Z" itemprop="datePublished"> 发表于 2015-11-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>最近碰到个坑,在写shell脚本查询Hive数据的时候,有一个脚本在Shell里怎么都执行不出结果,但是拷贝到Hive界面里却能正常执行出结果,因为Hive表是按日期分区的,有两种格式:<br>一种是<code>%Y%m%d</code>,另一种是<code>%Y-%m-%d</code>.dw_source的表是第一种格式,而dw_transform层的表是第二种格式:</p>
-<h3 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># sql用单引号 执行成功,可以返回正常结果</span></div><div class="line">sql1=<span class="string">'select uid,first_ip,first_date from dw_source.user_ext where dt='</span>20151104<span class="string">';'</span></div><div class="line">sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql1</span>"</span> &gt; source.txt</div><div class="line"></div><div class="line"><span class="comment"># sql用单引号 执行成功,但是没有返回值</span></div><div class="line">sql2=<span class="string">'select uid,first_ip,first_date from dw_transform.user_ext where dt='</span>2015-11-04<span class="string">';'</span></div><div class="line">sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql2</span>"</span> &gt; transform.txt</div></pre></td></tr></table></figure>
-<p>我们可以用<code>echo</code>命令来看看具体执行的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sql1=<span class="string">'select uid,first_ip,first_date from dw_source.user_ext where dt='</span>20151104<span class="string">';'</span></div><div class="line">sql2=<span class="string">'select uid,first_ip,first_date from dw_transform.user_ext where dt='</span>2015-11-04<span class="string">';'</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql1</span>"</span></div><div class="line"><span class="built_in">echo</span> sudo -uhive_user hive <span class="_">-e</span> <span class="string">"<span class="variable">$sql2</span>"</span></div></pre></td></tr></table></figure></p>
-<p>看看返回结果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo -uhive_user hive <span class="_">-e</span> select uid,first_ip,first_date from dw_source.user_ext <span class="built_in">where</span> dt=20151104;</div><div class="line">sudo -uhive_user hive <span class="_">-e</span> select uid,first_ip,first_date from dw_transform.user_ext <span class="built_in">where</span> dt=2015-11-04;</div></pre></td></tr></table></figure></p>
-<p>看到这里发现了一个问题,本来在日期上应该有的单引号消失了,因为第一种时间格式没有分隔符,可以被正常的识别,但是第二种就比较悲催了,应该是被<code>-</code>分隔了,导致日期不对,解决办法就是最外面用双引号,即改成如下内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sql1=<span class="string">"select uid,first_ip,first_date from dw_source.user_ext where dt='20151104';"</span></div><div class="line">sql2=<span class="string">"select uid,first_ip,first_date from dw_transform.user_ext where dt='2015-11-04';"</span></div></pre></td></tr></table></figure></p>
-<h3 id="反引号-双引号-单引号用法"><a href="#反引号-双引号-单引号用法" class="headerlink" title="反引号 双引号 单引号用法"></a>反引号 双引号 单引号用法</h3><p>这几个符号长得比较像，但是功能还是有很大区别的。</p>
-<h4 id="反引号"><a href="#反引号" class="headerlink" title="反引号(`)"></a>反引号(`)</h4><p>起着命令替换的作用。命令替换是指shell能够将一个命令的标准输出插在一个命令行中任何位置。,举个简单的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~  <span class="built_in">echo</span> The date is `date`</div><div class="line">The date is 2015年 11月 06日 星期五 16:27:46 CST</div></pre></td></tr></table></figure></p>
-<h4 id="双引号-“"><a href="#双引号-“" class="headerlink" title="双引号(“)"></a>双引号(“)</h4><p>双引号是字符串的界定符,而不是字符的界定符,取消除[`,$,”,]以外,其他的都变成字符串的内容了.双引号是弱引用，引号里的值若再包含变量，那在赋值的时候，所有这些变量就被立即替换了。<br>用双引号的时候:<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$加变量名可以取变量的值</div><div class="line">反引号仍表示命令替换</div><div class="line">\$表示$的字面值</div><div class="line">\<span class="string">`表示`</span>的字面值</div><div class="line">\<span class="string">"表示"</span>的字面值</div><div class="line">\\表示\的字面值</div></pre></td></tr></table></figure></p>
-<p>看个简单的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  ~  name=World</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="variable">$name</span></div><div class="line">World</div><div class="line">➜  ~  sayHello=<span class="string">"Hello <span class="variable">$name</span>"</span></div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="variable">$sayHello</span></div><div class="line">Hello World</div></pre></td></tr></table></figure></p>
-<h4 id="单引号-‘"><a href="#单引号-‘" class="headerlink" title="单引号(‘)"></a>单引号(‘)</h4><p>单引号告诉shell忽略所有特殊字符,保持引号内所有字符的字面值，即使引号内的\和回车也不例外,单引号是强引用,但是字符串中不能出现单引号。之前的问题就是犯了这个错,两个单引号嵌套了.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">"`date`"</span></div><div class="line">2015年 11月 06日 星期五 16:42:29 CST</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">'`date`'</span></div><div class="line">`date`</div><div class="line">➜  ~  <span class="built_in">echo</span> <span class="string">"'`date`'"</span></div><div class="line"><span class="string">'2015年 11月 06日 星期五 16:42:29 CST'</span></div><div class="line">➜  ~</div></pre></td></tr></table></figure></p>
-<p><strong>注意:</strong>如果<code>&#39;</code>出现在<code>&quot;</code>里面，<code>&#39;</code>就退化为一个单纯的字符了，而不再有强引用一说。换句话说，只有最外层的<code>&#39;</code>才具有强引用效果。</p>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>这个对我们有啥影响呢？基本在我们使用Shell的时候都会碰到这个坑，尤其是正则表达式，有时候匹配数字用<code>\d</code>就可以了，但是像Hive这种用Java写的，内部会有转义，所以需要传入两个<code>\\</code>的时候，就容易踩坑，以Hive中的正则为例,看下面:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">reg_str1</span>=<span class="string">'.*id=(\\d).*'</span></div><div class="line"><span class="attr">reg_str2</span>=<span class="string">".*id=(\\\\d).*"</span></div></pre></td></tr></table></figure></p>
-<p>这两种写法都是正确的写法，效果是一样的，其他的写法都是不对的</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Shell/">Shell</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Shell/">Shell</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/05/Vim-常用配置技巧/" title="Vim 常用配置技巧" itemprop="url">Vim 常用配置技巧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="LittleQ" target="_blank" itemprop="author">LittleQ</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-05T12:44:29.000Z" itemprop="datePublished"> 发表于 2015-11-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Vim虽然很好用,但是平时有时候还不够好,需要自己配置一下,比如说,每次粘贴到vim里一大片内容,可能就会被弄乱,常用的vim配置设置都在<code>~/.vimrc</code>里.</p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>基本配置就是平时的一些简单的配置,会经常用到的,下面都是我从平时工作中需要用到的配置中慢慢总结出来的,下面讲的如果没有特殊说明,都是默认配置在<code>~/.vimrc</code>文件中.</p>
-<h4 id="设置table的宽度"><a href="#设置table的宽度" class="headerlink" title="设置table的宽度"></a>设置table的宽度</h4><p>写shell的时候,经常会在<code>if</code>的下一行给我空出两个制表符,每个制表符都是8个字符宽度,看着很别扭,<code>ts</code>是一个制表符显示宽度,<code>sw</code>是制表符实际占宽度.<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> <span class="keyword">ts</span>=<span class="number">4</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">sw</span>=<span class="number">4</span></div></pre></td></tr></table></figure></p>
-<h4 id="设置粘贴不自动缩进"><a href="#设置粘贴不自动缩进" class="headerlink" title="设置粘贴不自动缩进"></a>设置粘贴不自动缩进</h4><p>粘贴之前在vim编辑器里先:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:<span class="built_in">set</span> paste</div></pre></td></tr></table></figure></p>
-<p>然后再<code>insert</code>,把内容粘贴到vim里即可,粘贴完还需要关闭:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:<span class="built_in">set</span> nopaste</div></pre></td></tr></table></figure></p>
-<p>相信你也觉得好麻烦,其实这个有个开关模式,只要选择打开开关,关闭开关就能达到我们要的效果,所以利用键盘映射到这个开关,在配置文件里加上:<br>前两行是为了提示的,这样你在粘贴的时候就可以区分<code>paste</code>模式和<code>nopaste</code>模式.<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">nnoremap</span> <span class="symbol">&lt;F2&gt;</span> :<span class="keyword">set</span> invpaste paste?<span class="symbol">&lt;CR&gt;</span></div><div class="line"><span class="keyword">imap</span> <span class="symbol">&lt;F2&gt;</span> <span class="symbol">&lt;C-O&gt;</span>:<span class="keyword">set</span> invpaste paste?<span class="symbol">&lt;CR&gt;</span></div><div class="line"><span class="keyword">set</span> pastetoggle=<span class="symbol">&lt;F2&gt;</span></div></pre></td></tr></table></figure></p>
-<h4 id="更改Esc映射"><a href="#更改Esc映射" class="headerlink" title="更改Esc映射"></a>更改Esc映射</h4><p><code>Vim</code>里使用<code>Esc</code>的频率很高,但是一般的键盘设计使得按<code>Esc</code>很不方便,而且在Vim里,<code>Caps Lock</code>就是多余的,为什么这么说?因为有快捷键可以直接将小写转大写,单个的大写就使用<code>Shift</code>即可.<br>在终端里面执行下面命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xmodmap <span class="_">-e</span> <span class="string">'clear Lock'</span> <span class="_">-e</span> <span class="string">'keycode 0x42 = Escape'</span></div></pre></td></tr></table></figure></p>
-<p>这样你的建就被映射了,但是每次你重启之后,还得重新做映射,而且我们只想这个功能在Vim里是这样的,当我们退出Vim,键盘的按键恢复正常,可以在<code>.vimrc</code>文件里加上下面的内容:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">" 当进入vim的时候将Esc映射成大写键,退出的时候将大写键映射回来</span></div><div class="line"><span class="keyword">au</span> VimEnter * !xmodmap -<span class="keyword">e</span> <span class="string">'clear Lock'</span> -<span class="keyword">e</span> <span class="string">'keycode 0x42 = Escape'</span></div><div class="line"><span class="keyword">au</span> VimLeave * !xmodmap -<span class="keyword">e</span> <span class="string">'clear Lock'</span> -<span class="keyword">e</span> <span class="string">'keycode 0x42 = Caps_Lock'</span></div></pre></td></tr></table></figure></p>
-<p>为了使用更加友好,还可以在<code>.vimrc</code>文件里加上下面这句:<br>在insert模式下,按<ctrl+u>将光标所在单词变大写,记得要重启vim才会生效.<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">inoremap</span> <span class="symbol">&lt;C-u&gt;</span> <span class="symbol">&lt;esc&gt;</span>gUiwea</div></pre></td></tr></table></figure></ctrl+u></p>
-<p>这个需要安装<code>xorg-xmodmap</code>安装包.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Vim/">Vim</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Vim/">Vim</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/8/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/">Next<span></span></a>
@@ -870,7 +862,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>2</sup></a></li>
+			<li><a href="/categories/Java笔记/" title="Java笔记">Java笔记<sup>4</sup></a></li>
 		  
 		
 		  
@@ -882,7 +874,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>24</sup></a></li>
+			<li><a href="/categories/Python笔记/" title="Python笔记">Python笔记<sup>25</sup></a></li>
 		  
 		
 		  
@@ -898,7 +890,7 @@
 		  
 		
 		  
-			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>22</sup></a></li>
+			<li><a href="/categories/开发环境/" title="开发环境">开发环境<sup>21</sup></a></li>
 		  
 		
 		  
@@ -919,11 +911,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>65</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>64</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>41</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>42</sup></a></li>
 			
 		
 			
@@ -931,11 +923,11 @@
 			
 		
 			
-				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
+				<li><a href="/tags/Web/" title="Web">Web<sup>14</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Web/" title="Web">Web<sup>13</sup></a></li>
+				<li><a href="/tags/SQL/" title="SQL">SQL<sup>14</sup></a></li>
 			
 		
 			
@@ -971,6 +963,10 @@
 			
 		
 			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/IDEA/" title="IDEA">IDEA<sup>4</sup></a></li>
 			
 		
@@ -979,15 +975,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/JS/" title="JS">JS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Js/" title="Js">Js<sup>2</sup></a></li>
 			
 		
 			
